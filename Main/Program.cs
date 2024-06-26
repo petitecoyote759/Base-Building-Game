@@ -11,11 +11,14 @@ namespace Base_Building_Game
         static void Main()
         {
             LoadSettings();
+            debugger.AddLog("not Started");
             LoadImages();
+            debugger.AddLog("quarter Started");
 
             World.CreateWorld();
-
+            debugger.AddLog("half Started");
             renderer.Start();
+            debugger.AddLog("Started");
 
             while (Running)
             {

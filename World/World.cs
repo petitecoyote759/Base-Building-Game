@@ -33,6 +33,18 @@ namespace Base_Building_Game
 
 
 
+            /// <summary>
+            /// Very important function blahg blach blah
+            /// </summary>
+            /// <returns></returns>
+            public Tile GetTile(int x, int y)
+            {
+                if (0 < x || x <= SectorSize) { return new Tile(); }
+                if (0 < y || y <= SectorSize) { return new Tile(); }
+
+                return ActiveSector[x, y];
+            }
+
 
 
 

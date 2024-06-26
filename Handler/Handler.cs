@@ -21,8 +21,8 @@ namespace Base_Building_Game
 
 
 
-        public class Handler : ShortHandler
-        {
+            public class Handler : ShortHandler
+            {
 
             public Handler() : base() { } // stick in base(Flag.Debug) to see what buttons are pressed 
 

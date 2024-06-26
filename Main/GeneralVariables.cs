@@ -15,7 +15,14 @@ namespace Base_Building_Game
     {
         static Renderer renderer = new Renderer();
         static Settings settings = new Settings();
-        static Debugger debugger = new Debugger("General");
+
+#if DEBUG
+        static Debugger debugger = new Debugger("General", "Logs\\", Debugger.Flags.DISPLAY_ON_ADD_LOG);
+#else
+        static Debugger debugger = new Debugger("General", "Logs\\");
+#endif
+
+
         static Handler handler = new Handler();
         static Player player = new Player();
 

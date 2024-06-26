@@ -13,6 +13,7 @@ namespace Base_Building_Game
         public class Player
         {
             public IVect pos = new IVect();
+            public IVect camPos = new IVect();
             public IVect SectorPos = new IVect((SectorSize + 1) / 2, (SectorSize + 1) / 2);
 
             public Player()

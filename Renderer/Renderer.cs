@@ -4,6 +4,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using static Short_Tools.General;
+
+
+
+
 
 namespace Base_Building_Game
 {
@@ -21,20 +26,26 @@ namespace Base_Building_Game
             public int halfscreenwidth = 960;
             public int halfscreenheight = 540;
 
-
-            public Renderer() : base("Logs\\") 
+#if DEBUG
+            public Renderer() : base("Logs\\", Flag.Debug)
+#else
+            public Renderer() : base("Logs\\")
+#endif
             { halfscreenwidth = screenwidth / 2; halfscreenheight = screenheight / 2; }
 
             public override void Render()
             {
+                RenderClear();
+
                 if (!InGame)
                 {
-                    RenderClear();
+                    //RenderClear();
 
                     Draw(0, 0, screenwidth, screenheight, "Short Studios Logo");
                 }
                 else
                 {
+                    Print(DateTimeOffset.Now.ToUnixTimeMilliseconds());
                     DrawTiles();
                 }
 
@@ -68,9 +79,11 @@ namespace Base_Building_Game
                 {
                     for (int y = 0; y < Top; y++)
                     {
-                        if (TileImages.ContainsKey(ActiveSector[x, y].ID))
+                        Tile tile = world.GetTile(x, y);
+
+                        if (TileImages.ContainsKey(tile.ID))
                         {
-                            DrawBP();
+                            DrawBP(x, y, TileImages[tile.ID]);
                         }
                     }
                 }
@@ -84,10 +97,24 @@ namespace Base_Building_Game
 
 
 
-
-            public void DrawBP()
+            public void DrawBP(int x, int y, string image)
             {
-                // TODO:
+                DrawBP(x, y, images[image]);
+            }
+            public void DrawBP(int x, int y, IntPtr image)
+            {
+                Draw(GetPx(x), GetPy(y), zoom, zoom, image);
+            }
+
+
+
+            public int GetPx(int x)
+            {
+                return zoom * (x - player.camPos.x) + halfscreenwidth;
+            }
+            public int GetPy(int y)
+            {
+                return zoom * (y - player.camPos.y) + halfscreenheight;
             }
         }
     }
