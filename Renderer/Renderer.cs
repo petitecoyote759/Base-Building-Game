@@ -11,6 +11,14 @@ namespace Base_Building_Game
     {
         public class Renderer : ShortRenderer
         {
+            public Renderer() : base("Logs\\") { }
+
+            public override void Render()
+            {
+                RenderClear();
+
+                RenderDraw();
+            }
         }
     }
 }

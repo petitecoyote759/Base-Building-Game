@@ -11,6 +11,23 @@ namespace Base_Building_Game
     {
         public class Settings : ShortSettings
         {
+            public bool Debugging { get; set; } = false;
+            public bool Cheats { get; set; } = false;
+
+
+
+
+
+
+
+
+
+
+
+            public override string ToString()
+            {
+                return Short_Tools.General.GetDisplayString(this);
+            }
         }
     }
 }
