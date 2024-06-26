@@ -8,7 +8,7 @@ namespace Base_Building_Game
 {
     public static partial class General
     {
-        public static void Main()
+        static void Main()
         {
             LoadSettings();
             LoadImages();
