@@ -20,10 +20,18 @@ namespace Base_Building_Game
 
 
 
-
+        // THE WIDTH OF A TILE IS 32!!!!!!!!!
         public class Tile
         {
             public short ID;
+            public Building? building;
+
+
+            public Tile()
+            {
+                ID = (short)TileID.Grass;
+                building = null;
+            }
         }
     }
 }

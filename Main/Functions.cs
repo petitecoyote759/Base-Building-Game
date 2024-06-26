@@ -74,14 +74,39 @@ namespace Base_Building_Game
                 path = "Images\\";
             }
 
-            Dictionary<string, string> images = new Dictionary<string, string>()
-            {
-                { "Short Studios Logo", "SSLogo.png" }
-            };
+
             foreach (var pair in images) { images[pair.Key] = path + pair.Value; }
 
             renderer.Load_Images(images);
+
+            UpdateDictionaries();
         }
+
+
+
+
+
+
+
+
+
+
+        static void UpdateDictionaries()
+        {
+            renderer.TileImages = new Dictionary<short, IntPtr>()
+            {
+                { (short)TileID.Grass, renderer.images["grass"] }
+            };
+        }
+
+
+
+
+
+
+
+
+
 
 
 
@@ -105,5 +130,13 @@ namespace Base_Building_Game
                 settings.SaveINI<Settings>(GetPathOfGame() + "Settings.ini");
             }
         }
+
+
+
+
+
+
+
+
     }
 }

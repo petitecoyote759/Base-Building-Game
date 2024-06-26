@@ -17,7 +17,11 @@ namespace Base_Building_Game
         static Settings settings = new Settings();
         static Debugger debugger = new Debugger("General");
         static Handler handler = new Handler();
+        static Player player = new Player();
 
+        static World world = new World();
+
+        static Sector ActiveSector;
 
 
 
@@ -30,5 +34,11 @@ namespace Base_Building_Game
         /// State of the game, if turned to false, the main function loop will stop, and so will the program
         /// </summary>
         static bool Running = true;
+
+
+
+
+
+        const int SectorSize = 2048;
     }
 }

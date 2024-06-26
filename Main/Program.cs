@@ -13,6 +13,8 @@ namespace Base_Building_Game
             LoadSettings();
             LoadImages();
 
+            World.CreateWorld();
+
             renderer.Start();
 
             while (Running)

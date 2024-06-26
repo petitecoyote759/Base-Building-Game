@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Base_Building_Game.World
+namespace Base_Building_Game
 {
     public static partial class General
     {

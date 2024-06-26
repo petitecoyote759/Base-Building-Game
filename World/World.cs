@@ -10,9 +10,39 @@ namespace Base_Building_Game
     {
         public class World
         {
-            // tile array? pretty sure
-            // want sectors -> see whiteboard SECTORS section for more.
+            public Sector[,] sectors;
+            public static int size = 9; // how many sectors x and y the map is
 
+
+
+            public Sector this[int x, int y] => sectors[x, y];
+
+
+
+            public World()
+            {
+                sectors = new Sector[size, size];
+                for (int x = 0; x < size; x++)
+                {
+                    for (int y = 0; y < size; y++)
+                    {
+                        sectors[x, y] = new Sector();
+                    }
+                }
+            }
+
+
+
+
+
+
+
+
+            public static void CreateWorld(string path = "")
+            {
+                world = new World();
+                ActiveSector = world[(size + 1) / 2, (size + 1) / 2];
+            }
         }
     }
 }
