@@ -12,10 +12,24 @@ namespace Base_Building_Game
 {
     public static partial class General
     {
-        public static string GetPath([CallerFilePath] string file = "") => file;
+        static string GetPath([CallerFilePath] string file = "") => file;
+        static string GetPathOfGame()
+        {
+            string[] stuff = GetPath().Split('\\');
+            string path = "";
+            for (int i = 0; i < stuff.Length - 2; i++)
+            {
+                path += stuff[i] + "\\";
+            }
+            return path;
+        }
 
 
-        public static void LoadSettings()
+
+
+
+
+        static void LoadSettings()
         {
             #if DEBUG
             settings.Debugging = true;
@@ -28,12 +42,8 @@ namespace Base_Building_Game
             }
             else
             {
-                string[] stuff = GetPath().Split('\\');
-                string path = "";
-                for (int i = 0; i < stuff.Length - 2; i++)
-                {
-                    path += stuff[i] + "\\";
-                }
+                string path = GetPathOfGame();
+
                 if (File.Exists(path + "Settings.ini"))
                 {
                     // If the files are idk, like how the fings work
@@ -43,6 +53,56 @@ namespace Base_Building_Game
                 {
                     debugger.AddLog("Settings did not load properly");
                 }
+            }
+        }
+
+
+
+
+
+
+        static void LoadImages()
+        {
+            string path;
+
+            if (Directory.Exists(GetPathOfGame() + "Images"))
+            {
+                path = GetPathOfGame() + "Images\\";
+            }
+            else
+            {
+                path = "Images\\";
+            }
+
+            Dictionary<string, string> images = new Dictionary<string, string>()
+            {
+                { "Short Studios Logo", "SSLogo.png" }
+            };
+            foreach (var pair in images) { images[pair.Key] = path + pair.Value; }
+
+            renderer.Load_Images(images);
+        }
+
+
+
+
+
+        /// <summary>
+        /// Runs on closing of the game, ensure that everything is saved and nice and tidy ;)
+        /// </summary>
+        static void Cleanup()
+        {
+            debugger.CleanFiles(5);
+            renderer.Stop();
+
+
+            if (File.Exists("Settings.ini"))
+            {
+                settings.SaveINI<Settings>("Settings.ini");
+            }
+            else if (File.Exists(GetPathOfGame() + "Settings.ini"))
+            {
+                settings.SaveINI<Settings>(GetPathOfGame() + "Settings.ini");
             }
         }
     }

@@ -6,11 +6,29 @@ using System.Text;
 using System.Threading.Tasks;
 using Debugger = Short_Tools.ShortDebugger;
 
+
+
+
 namespace Base_Building_Game
 {
     public static partial class General
     {
-        public static Settings settings = new Settings();
-        public static Debugger debugger = new Debugger("General");
+        static Renderer renderer = new Renderer();
+        static Settings settings = new Settings();
+        static Debugger debugger = new Debugger("General");
+        static Handler handler = new Handler();
+
+
+
+
+        /// <summary>
+        /// Bool representing if the player is currently in a game (online or offline)
+        /// </summary>
+        static bool InGame = false;
+
+        /// <summary>
+        /// State of the game, if turned to false, the main function loop will stop, and so will the program
+        /// </summary>
+        static bool Running = true;
     }
 }

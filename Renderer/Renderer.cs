@@ -17,6 +17,13 @@ namespace Base_Building_Game
             {
                 RenderClear();
 
+                if (!InGame)
+                {
+                    Draw(0, 0, screenwidth, screenheight, "Short Studios Logo");
+                }
+
+
+
                 RenderDraw();
             }
         }

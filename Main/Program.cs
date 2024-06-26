@@ -11,10 +11,18 @@ namespace Base_Building_Game
         public static void Main()
         {
             LoadSettings();
+            LoadImages();
 
-            Print("Test");
+            renderer.Start();
 
-            Console.ReadLine();
+            while (Running)
+            {
+                handler.HandleInputs(ref Running);
+
+                Thread.Sleep(50);
+            }
+
+            Cleanup();
         }
     }
 }

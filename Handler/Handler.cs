@@ -11,6 +11,7 @@ namespace Base_Building_Game
     {
         public class Handler : ShortHandler
         {
+            public Handler() : base() { }
         }
     }
 }
