@@ -8,23 +8,28 @@ namespace Base_Building_Game
 {
     public static partial class General
     {
+        static long dt = 0;
+        static long LFT = DateTimeOffset.Now.ToUnixTimeMilliseconds(); // last frame time
         static void Main()
         {
             LoadSettings();
-            debugger.AddLog("not Started");
+
             LoadImages();
-            debugger.AddLog("quarter Started");
+
 
             World.CreateWorld();
-            debugger.AddLog("half Started");
+
             renderer.Start();
-            debugger.AddLog("Started");
+
 
             while (Running)
             {
                 handler.HandleInputs(ref Running);
+                player.Move((int)dt);
 
-                Thread.Sleep(50);
+                //Thread.Sleep(10);
+
+                dt = GetDt(ref LFT);
             }
 
             Cleanup();

@@ -31,11 +31,10 @@ namespace Base_Building_Game
 
         static void LoadSettings()
         {
-            Print("Test0", ConsoleColor.Red);
             #if DEBUG
             settings.Debugging = true;
             #endif
-            Print("Test", ConsoleColor.Red);
+
             if (File.Exists("Settings.ini"))
             {
                 // if the executable is in the same area as settings
@@ -43,18 +42,15 @@ namespace Base_Building_Game
             }
             else
             {
-                Print("Test2", ConsoleColor.Red);
                 string path = GetPathOfGame();
 
                 if (File.Exists(path + "Settings.ini"))
                 {
-                    Print("Test3", ConsoleColor.Red);
                     // If the files are idk, like how the fings work
                     settings.LoadINI<Settings>(path + "Settings.ini");
                 }
                 else
                 {
-                    Print("Test4", ConsoleColor.Red);
                     debugger.AddLog("Settings did not load properly");
                 }
             }

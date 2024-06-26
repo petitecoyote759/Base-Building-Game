@@ -10,22 +10,29 @@ namespace Base_Building_Game
     {
         public class Sector
         {
-            public Tile[,] map;
+            public Tile[,]? map;
 
 
-            public Tile this[int x, int y] => map[x, y];
+            public Tile? this[int x, int y] => map is null ? null : map[x, y];
 
 
 
-            public Sector()
+            public Sector(bool loaded = false)
             {
-                map = new Tile[SectorSize, SectorSize];
-                for (int x = 0; x < SectorSize; x++)
+                if (loaded)
                 {
-                    for (int y = 0; y < SectorSize; y++)
+                    map = new Tile[SectorSize, SectorSize];
+                    for (int x = 0; x < SectorSize; x++)
                     {
-                        map[x, y] = new Tile();
+                        for (int y = 0; y < SectorSize; y++)
+                        {
+                            map[x, y] = new Tile();
+                        }
                     }
+                }
+                else
+                {
+                    map = null;
                 }
             }
         }

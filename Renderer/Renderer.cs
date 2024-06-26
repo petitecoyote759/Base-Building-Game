@@ -45,7 +45,6 @@ namespace Base_Building_Game
                 }
                 else
                 {
-                    Print(DateTimeOffset.Now.ToUnixTimeMilliseconds());
                     DrawTiles();
                 }
 
@@ -72,12 +71,12 @@ namespace Base_Building_Game
                 //   
 
                 int Left = (player.pos.x / 32) - (halfscreenwidth / zoom);
-                int Top = (player.pos.y / 32) - (halfscreenheight / zoom);
+                int Top = (player.pos.y / 32) - (halfscreenheight / zoom) - 1;
                 // OPTIMISE: make it so it doesnt recalc every time 
 
-                for (int x = 0; x < Left; x++)
+                for (int x = Left; x < Left + screenwidth / zoom; x++)
                 {
-                    for (int y = 0; y < Top; y++)
+                    for (int y = Top; y < Top + screenheight / zoom + 2; y++)
                     {
                         Tile tile = world.GetTile(x, y);
 
@@ -108,13 +107,13 @@ namespace Base_Building_Game
 
 
 
-            public int GetPx(int x)
+            public int GetPx(int x) // TODO: Fix this !!! not working
             {
-                return zoom * (x - player.camPos.x) + halfscreenwidth;
+                return zoom * (x - player.camPos.x) / 32 + halfscreenwidth;
             }
             public int GetPy(int y)
             {
-                return zoom * (y - player.camPos.y) + halfscreenheight;
+                return zoom * (y - player.camPos.y) / 32 + halfscreenheight;
             }
         }
     }

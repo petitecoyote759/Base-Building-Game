@@ -3,6 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using IVect = Short_Tools.General.ShortIntVector2;
+
+
+
 
 namespace Base_Building_Game
 {
@@ -26,7 +30,14 @@ namespace Base_Building_Game
                 {
                     for (int y = 0; y < size; y++)
                     {
-                        sectors[x, y] = new Sector();
+                        if (x == (size + 1) / 2 && y == (size + 1) / 2)
+                        {
+                            sectors[x, y] = new Sector(true);
+                        }
+                        else
+                        {
+                            sectors[x, y] = new Sector(false);
+                        }
                     }
                 }
             }
@@ -44,6 +55,24 @@ namespace Base_Building_Game
 
                 return ActiveSector[x, y];
             }
+
+
+
+            public bool Walkable(Tile tile)
+            {
+                if (settings.Cheats) { return true; } 
+
+                return true;
+            }
+            public bool Walkable(int x, int y)
+            {
+                return Walkable(GetTile(x, y));
+            }
+            public bool Walkable(IVect pos)
+            {
+                return Walkable(pos.x, pos.y);
+            }
+
 
 
 
