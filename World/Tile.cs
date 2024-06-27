@@ -32,7 +32,6 @@ namespace Base_Building_Game
             public short ID;
             public Building? building;
 
-
             public Tile(bool random = false)
             {
                 if (random)
@@ -54,6 +53,23 @@ namespace Base_Building_Game
             {
                 this.ID = ID;
             }
+        }
+
+        // ~~~ TILE FORMAT ~~~
+        // Friendly? BuildingID
+        //        ↑  <------->
+        // 0000 0000 0000 0000
+        // <-----> ↓
+        // TileID  Floating?
+
+        public static char ConvertTileToCharacter (Tile tile)
+        {
+            ushort Data = 0;
+            Data += (ushort)(tile.building is not null ? tile.building.ID : 0);
+            Data += (ushort)(0 << 8); // Change to tile.floating at later point
+            Data += (ushort)(0 << 9); // Change to tile.friendly at later point
+            Data += (ushort)(tile.ID << 10);
+            return 'a';
         }
     }
 }
