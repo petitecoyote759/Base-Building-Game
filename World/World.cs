@@ -72,18 +72,6 @@ namespace Base_Building_Game
             {
                 return Walkable(pos.x, pos.y);
             }
-
-
-
-
-
-
-
-            public static void CreateWorld(string path = "")
-            {
-                world = new World();
-                ActiveSector = world[(size + 1) / 2, (size + 1) / 2];
-            }
         }
     }
 }

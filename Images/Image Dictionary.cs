@@ -11,7 +11,8 @@ namespace Base_Building_Game
         public static Dictionary<string, string> images = new Dictionary<string, string>()
         {
             { "Short Studios Logo", "SSLogo.png" },
-            { "grass", "Tiles\\grass.png" }
+            { "grass", "Tiles\\grass.png" },
+            { "Background", "Background\\Background.png" },
         };
     }
 }

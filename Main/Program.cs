@@ -17,7 +17,7 @@ namespace Base_Building_Game
             LoadImages();
 
 
-            World.CreateWorld();
+            CreateWorld();
 
             renderer.Start();
 

@@ -110,13 +110,13 @@ namespace Base_Building_Game
 
             public int GetPx(int x) // TODO: Fix this !!! not working
             {
-                return (zoom * (x - player.camPos.x) + halfscreenwidth);
+                return (zoom * (x - player.camPos.x / 32) + halfscreenwidth);
                 //(player.pos.x / 32) - (halfscreenwidth / zoom);
 
             }
             public int GetPy(int y)
             {
-                return (zoom * (y - player.camPos.y) + halfscreenheight);
+                return (zoom * (y - player.camPos.y / 32) + halfscreenheight);
             }
         }
     }
