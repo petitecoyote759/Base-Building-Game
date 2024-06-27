@@ -47,6 +47,7 @@ namespace Base_Building_Game
                 else
                 {
                     DrawTiles();
+                    DrawPlayer();
                 }
 
 
