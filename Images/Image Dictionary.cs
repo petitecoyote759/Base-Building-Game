@@ -25,7 +25,11 @@ namespace Base_Building_Game
             { "Sand", "Tiles\\sand.png" },
             { "Stone", "Tiles\\stone.png" },
             { "Ocean", "Tiles\\water.png" },
-            { "Wood", "Tiles\\wood.png" }
+            { "Wood", "Tiles\\wood.png" },
+            
+            
+            // entities
+            { "Player", "Entities\\Body.png" }
         };
     }
 }
