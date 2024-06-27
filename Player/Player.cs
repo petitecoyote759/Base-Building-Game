@@ -20,7 +20,7 @@ namespace Base_Building_Game
             public IVect SectorPos = new IVect((SectorSize + 1) / 2, (SectorSize + 1) / 2);
 
             public int speed = 1;
-            public int camspeed = 100;
+            public int camspeed = 1;
 
             public int x { get => pos.x; set => pos.x = value; }
             public int y { get => pos.y; set => pos.y = value; }
@@ -95,18 +95,33 @@ namespace Base_Building_Game
                 }
 
 
-                camPos = pos;
-                //if (Math.Abs(camPos.X - pos.x) < 3 && Math.Abs(camPos.Y - pos.y) < 3 &&
-                //ActiveKeys["w"] == ActiveKeys["s"] &&
-                //ActiveKeys["a"] == ActiveKeys["d"]) { camPos = pos; }
-                //else
-                //{
-                //    //float ratio = camspeed * (float)(Math.ReciprocalSqrtEstimate(Math.Pow((x - campos.X), 2) + Math.Pow((y - campos.Y), 2))) * dt / 1000f;
-                //    float ratio = camspeed * ((MathI.Pow((pos.x - camPos.X + 16), 2) + MathI.Pow((pos.y - camPos.Y + 16), 2))) * dt / 5000;
+                //camPos = pos;
+
+                //float ratio = camspeed * (float)(Math.ReciprocalSqrtEstimate(Math.Pow((x - campos.X), 2) + Math.Pow((y - campos.Y), 2))) * dt / 1000f;
+                float ratio = (dt * (MathF.Pow((x - camPos.x) / 8, 2) + MathF.Pow((y - camPos.y) / 8, 2)) / 10000f);
+                //Print(ratio + " , " + pos + " : " + camPos);
+
+                camPos.x = (int)((x - camPos.x) * ratio) + camPos.x;
+                camPos.y = (int)((y - camPos.y) * ratio) + camPos.y;
+
+                //float ratio = (
+                //    MathI.Pow(pos.x - camPos.X, 2) + 
+                //    MathI.Pow(pos.y - camPos.Y, 2)) / 1024
+                //    * dt;
+                //
+                //Print(ratio);
                 //
                 //
-                //    camPos = new Vector2(ratio * (pos.x - camPos.X) + camPos.X, ratio * (pos.y - camPos.Y) + camPos.Y);
-                //}
+                //camPos = new IVect(
+                //    (MathI.Pow(pos.x - camPos.X, 2) +
+                //    MathI.Pow(pos.y - camPos.Y, 2)) / 1024
+                //    * dt * 
+                //    (pos.x - camPos.X) + camPos.X,
+                //
+                //    (MathI.Pow(pos.x - camPos.X, 2) +
+                //    MathI.Pow(pos.y - camPos.Y, 2)) / 1024
+                //    * dt * 
+                //    (pos.y - camPos.Y) + camPos.Y);
             }
         }
     }
