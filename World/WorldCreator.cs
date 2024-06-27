@@ -12,6 +12,11 @@ namespace Base_Building_Game
         public static void CreateWorld()
         {
             world = new World();
+
+            int size = World.size;
+
+            world.sectors[(size + 1) / 2, (size + 1) / 2] = new Sector(true);
+
             ActiveSector = world[(World.size + 1) / 2, (World.size + 1) / 2];
         }
     }

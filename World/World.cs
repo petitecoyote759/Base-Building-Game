@@ -27,18 +27,12 @@ namespace Base_Building_Game
             public World()
             {
                 sectors = new Sector[size, size];
+
                 for (int x = 0; x < size; x++)
                 {
                     for (int y = 0; y < size; y++)
                     {
-                        if (x == (size + 1) / 2 && y == (size + 1) / 2)
-                        {
-                            sectors[x, y] = new Sector(true);
-                        }
-                        else
-                        {
-                            sectors[x, y] = new Sector(false);
-                        }
+                        world.sectors[x, y] = new Sector(false);
                     }
                 }
             }
@@ -62,6 +56,10 @@ namespace Base_Building_Game
             public bool Walkable(Tile tile)
             {
                 if (settings.Cheats) { return true; } 
+
+                if (tile.ID == (short)TileID.DeepOcean ||
+                    tile.ID == (short)TileID.Ocean) 
+                { return false; }
 
                 return true;
             }
