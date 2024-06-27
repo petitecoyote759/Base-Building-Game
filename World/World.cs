@@ -32,7 +32,7 @@ namespace Base_Building_Game
                 {
                     for (int y = 0; y < size; y++)
                     {
-                        world.sectors[x, y] = new Sector(false);
+                        sectors[x, y] = new Sector(false);
                     }
                 }
             }
