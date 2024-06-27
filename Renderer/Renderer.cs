@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using static Base_Building_Game.General;
 using static Short_Tools.General;
 
 
@@ -109,11 +110,13 @@ namespace Base_Building_Game
 
             public int GetPx(int x) // TODO: Fix this !!! not working
             {
-                return zoom * (x - player.camPos.x) / 32 + halfscreenwidth;
+                return (zoom * (x - player.camPos.x) + halfscreenwidth);
+                //(player.pos.x / 32) - (halfscreenwidth / zoom);
+
             }
             public int GetPy(int y)
             {
-                return zoom * (y - player.camPos.y) / 32 + halfscreenheight;
+                return (zoom * (y - player.camPos.y) + halfscreenheight);
             }
         }
     }
