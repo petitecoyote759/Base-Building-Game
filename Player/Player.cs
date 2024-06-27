@@ -41,41 +41,42 @@ namespace Base_Building_Game
 
             public void Move(int dt)
             {
+                dt = dt * 3 / 5;
                 Func<int, int, bool> Walkable = world.Walkable;
 
 
                 if (ActiveKeys["w"])
                 {
-                    if (ActiveKeys["a"] ^ ActiveKeys["d"]) { y -= speed * dt * 10 / 14; }
+                    if (ActiveKeys["a"] ^ ActiveKeys["d"]) { y -= speed * dt * 5 / 7; }
                     else { y -= speed * dt; }
 
                     if (!Walkable(x, y))
                     {
-                        if (ActiveKeys["a"] ^ ActiveKeys["d"]) { y += speed * dt * 10 / 14; }
+                        if (ActiveKeys["a"] ^ ActiveKeys["d"]) { y += speed * dt * 5 / 7; }
                         else { y += speed * dt; } // move back to the original place
                     }
 
                 }
                 if (ActiveKeys["s"])
                 {
-                    if (ActiveKeys["a"] ^ ActiveKeys["d"]) { y += speed * dt * 10 / 14; }
+                    if (ActiveKeys["a"] ^ ActiveKeys["d"]) { y += speed * dt * 5 / 7; }
                     else { y += speed * dt; }
 
                     if (!Walkable(x, y))
                     {
-                        if (ActiveKeys["a"] ^ ActiveKeys["d"]) { y -= speed * dt * 10 / 14; }
+                        if (ActiveKeys["a"] ^ ActiveKeys["d"]) { y -= speed * dt * 5 / 7; }
                         else { y -= speed * dt; }
                     }
 
                 }
                 if (ActiveKeys["a"])
                 {
-                    if (ActiveKeys["w"] ^ ActiveKeys["s"]) { x -= speed * dt * 10 / 14; }
+                    if (ActiveKeys["w"] ^ ActiveKeys["s"]) { x -= speed * dt * 5 / 7; }
                     else { x -= speed * dt; }
 
                     if (!Walkable(x, y))
                     {
-                        if (ActiveKeys["w"] ^ ActiveKeys["s"]) { x += speed * dt * 10 / 14; }
+                        if (ActiveKeys["w"] ^ ActiveKeys["s"]) { x += speed * dt * 5 / 7; }
                         else { x += speed * dt; }
                     }
                 }
@@ -83,12 +84,12 @@ namespace Base_Building_Game
 
                 if (ActiveKeys["d"])
                 {
-                    if (ActiveKeys["w"] ^ ActiveKeys["s"]) { x += speed * dt * 10 / 14; }
+                    if (ActiveKeys["w"] ^ ActiveKeys["s"]) { x += speed * dt * 5 / 7; }
                     else { x += speed * dt; }
 
                     if (!Walkable(x, y))
                     {
-                        if (ActiveKeys["w"] ^ ActiveKeys["s"]) { x -= speed * dt * 10 / 14; }
+                        if (ActiveKeys["w"] ^ ActiveKeys["s"]) { x -= speed * dt * 5 / 7; }
                         else { x -= speed * dt; }
                     }
                 }
