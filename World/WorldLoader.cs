@@ -8,7 +8,7 @@ namespace Base_Building_Game
 {
     public static partial class General
     {
-        public static void CreateWorld(string path)
+        public static void LoadWorld(string path)
         {
 
         }
