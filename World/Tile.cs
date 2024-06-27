@@ -69,7 +69,19 @@ namespace Base_Building_Game
             Data += (ushort)(0 << 8); // Change to tile.floating at later point
             Data += (ushort)(0 << 9); // Change to tile.friendly at later point
             Data += (ushort)(tile.ID << 10);
-            return 'a';
+            return (char)Data;
+        }
+
+        public static Tile ConvertCharacterToTile(char character)
+        {
+            Tile NewTile = new Tile();
+
+            short BuildingID = (short)(character & 0b0000_0000_1111_1111);
+            bool Floating = ((character & 0b0000_0001_0000_0000) >> 8) == 1;
+            bool Friendly = ((character & 0b0000_0010_0000_0000) >> 9) == 1;
+            NewTile.ID = (short)((character & 0b1111_1100_0000_0000) >> 10);
+
+            return NewTile;
         }
     }
 }
