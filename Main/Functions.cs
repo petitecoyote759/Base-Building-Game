@@ -91,16 +91,6 @@ namespace Base_Building_Game
 
 
 
-        static void UpdateDictionaries()
-        {
-            renderer.TileImages = new Dictionary<short, IntPtr>()
-            {
-                { (short)TileID.Grass, renderer.images["grass"] }
-            };
-        }
-
-
-
 
 
 

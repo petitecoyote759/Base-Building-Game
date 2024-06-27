@@ -27,7 +27,7 @@ namespace Base_Building_Game
                 handler.HandleInputs(ref Running);
                 player.Move((int)dt);
 
-                //Thread.Sleep(10);
+                Thread.Sleep(10);
 
                 dt = GetDt(ref LFT);
             }

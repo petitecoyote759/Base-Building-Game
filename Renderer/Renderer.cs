@@ -70,20 +70,23 @@ namespace Base_Building_Game
                 // players pos is at the centre of the screen, - zoom / 2
                 // so in terms of blocks, for x that is 
                 //   
+                int zoom = renderer.zoom;
+                int px = player.camPos.x;
+                int py = player.camPos.y;
 
-                int Left = (player.pos.x / 32) - (halfscreenwidth / zoom);
-                int Top = (player.pos.y / 32) - (halfscreenheight / zoom) - 1;
+                int Left = (px / 32) - (halfscreenwidth / zoom) - 1;
+                int Top = (py / 32) - (halfscreenheight / zoom) - 2;
                 // OPTIMISE: make it so it doesnt recalc every time 
 
-                for (int x = Left; x < Left + screenwidth / zoom; x++)
+                for (int x = Left; x < Left + screenwidth / zoom + 2; x++)
                 {
-                    for (int y = Top; y < Top + screenheight / zoom + 2; y++)
+                    for (int y = Top; y < Top + screenheight / zoom + 4; y++)
                     {
                         Tile tile = world.GetTile(x, y);
 
                         if (TileImages.ContainsKey(tile.ID))
                         {
-                            DrawBP(x, y, TileImages[tile.ID]);
+                            DrawBP(x, px, y, py, TileImages[tile.ID]);
                         }
                     }
                 }
@@ -105,18 +108,38 @@ namespace Base_Building_Game
             {
                 Draw(GetPx(x), GetPy(y), zoom, zoom, image);
             }
-
-
-
-            public int GetPx(int x) // TODO: Fix this !!! not working
+            public void DrawBP(int x, int px, int y, int py, string image)
             {
-                return (zoom * (x - player.camPos.x / 32) + halfscreenwidth);
-                //(player.pos.x / 32) - (halfscreenwidth / zoom);
-
+                DrawBP(x, px, y, py, images[image]);
             }
+            public void DrawBP(int x, int px, int y, int py, IntPtr image)
+            {
+                Draw(GetPx(x, px), GetPy(y, py), zoom, zoom, image);
+            }
+
+
+
+
+
+
+
+            public int GetPx(int x)
+            {
+                return (zoom * x) - (zoom * player.camPos.x / 32) + halfscreenwidth;
+            }
+            public int GetPx(int x, int px)
+            {
+                return (zoom * x) - (zoom * px / 32) + halfscreenwidth;
+            }
+
+
             public int GetPy(int y)
             {
-                return (zoom * (y - player.camPos.y / 32) + halfscreenheight);
+                return (zoom * y) - (zoom * player.camPos.y / 32) + halfscreenheight;
+            }
+            public int GetPy(int y, int py)
+            {
+                return (zoom * y) - (zoom * py / 32) + halfscreenheight;
             }
         }
     }

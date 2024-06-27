@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using static Short_Tools.General;
 
 namespace Base_Building_Game
 {
@@ -26,7 +27,7 @@ namespace Base_Building_Game
                     {
                         for (int y = 0; y < SectorSize; y++)
                         {
-                            map[x, y] = new Tile();
+                            map[x, y] = new Tile(true);
                         }
                     }
                 }

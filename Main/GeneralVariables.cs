@@ -13,6 +13,8 @@ namespace Base_Building_Game
 {
     public static partial class General
     {
+        static Random randy = new Random();
+
         static Renderer renderer = new Renderer();
         static Settings settings = new Settings();
 
@@ -26,10 +28,9 @@ namespace Base_Building_Game
         static Handler handler = new Handler();
         static Player player = new Player();
 
-        static World world = new World();
+        static World world;
 
         static Sector ActiveSector;
-
 
 
         /// <summary>

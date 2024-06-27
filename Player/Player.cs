@@ -46,50 +46,50 @@ namespace Base_Building_Game
 
                 if (ActiveKeys["w"])
                 {
-                    if (ActiveKeys["a"] ^ ActiveKeys["d"]) { y -= speed * dt * 1414 / 1000 * 50 / 100; }
-                    else { y -= speed * dt * 50 / 100; }
+                    if (ActiveKeys["a"] ^ ActiveKeys["d"]) { y -= speed * dt * 10 / 14; }
+                    else { y -= speed * dt; }
 
                     if (!Walkable(x, y))
                     {
-                        if (ActiveKeys["a"] ^ ActiveKeys["d"]) { y += speed * dt * 1414 / 1000 * 50 / 100; }
-                        else { y += speed * dt * 50 / 100; } // move back to the original place
+                        if (ActiveKeys["a"] ^ ActiveKeys["d"]) { y += speed * dt * 10 / 14; }
+                        else { y += speed * dt; } // move back to the original place
                     }
 
                 }
                 if (ActiveKeys["s"])
                 {
-                    if (ActiveKeys["a"] ^ ActiveKeys["d"]) { y += speed * dt * 1414 / 1000 * 50 / 100; }
-                    else { y += speed * dt * 50 / 100; }
+                    if (ActiveKeys["a"] ^ ActiveKeys["d"]) { y += speed * dt * 10 / 14; }
+                    else { y += speed * dt; }
 
                     if (!Walkable(x, y))
                     {
-                        if (ActiveKeys["a"] ^ ActiveKeys["d"]) { y -= speed * dt * 1414 / 1000 * 50 / 100; }
-                        else { y -= speed * dt * 50 / 100; }
+                        if (ActiveKeys["a"] ^ ActiveKeys["d"]) { y -= speed * dt * 10 / 14; }
+                        else { y -= speed * dt; }
                     }
 
                 }
                 if (ActiveKeys["a"])
                 {
-                    if (ActiveKeys["w"] ^ ActiveKeys["s"]) { x -= speed * dt * 1414 / 1000 * 50 / 100; }
-                    else { x -= speed * dt * 50 / 100; }
+                    if (ActiveKeys["w"] ^ ActiveKeys["s"]) { x -= speed * dt * 10 / 14; }
+                    else { x -= speed * dt; }
 
                     if (!Walkable(x, y))
                     {
-                        if (ActiveKeys["w"] ^ ActiveKeys["s"]) { x += speed * dt * 1414 / 1000 * 50 / 100; }
-                        else { x += speed * dt * 50 / 100; }
+                        if (ActiveKeys["w"] ^ ActiveKeys["s"]) { x += speed * dt * 10 / 14; }
+                        else { x += speed * dt; }
                     }
                 }
 
 
                 if (ActiveKeys["d"])
                 {
-                    if (ActiveKeys["w"] ^ ActiveKeys["s"]) { x += speed * dt * 1414 / 1000 * 50 / 100; }
-                    else { x += speed * dt * 50 / 100; }
+                    if (ActiveKeys["w"] ^ ActiveKeys["s"]) { x += speed * dt * 10 / 14; }
+                    else { x += speed * dt; }
 
                     if (!Walkable(x, y))
                     {
-                        if (ActiveKeys["w"] ^ ActiveKeys["s"]) { x -= speed * dt * 1414 / 1000 * 50 / 100; }
-                        else { x -= speed * dt * 50 / 100; }
+                        if (ActiveKeys["w"] ^ ActiveKeys["s"]) { x -= speed * dt * 10 / 14; }
+                        else { x -= speed * dt; }
                     }
                 }
 

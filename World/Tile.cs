@@ -14,6 +14,12 @@ namespace Base_Building_Game
             Ocean,
             Grass,
             Sand,
+            Iron,
+            Oil,
+            Stone,
+            Wood,
+            Diamond,
+
 
             Error = short.MaxValue
         }
@@ -27,10 +33,26 @@ namespace Base_Building_Game
             public Building? building;
 
 
-            public Tile()
+            public Tile(bool random = false)
             {
-                ID = (short)TileID.Grass;
+                if (random)
+                {
+                    ID = (short)randy.Next(0,4);
+                }
+                else
+                {
+                    ID = (short)TileID.Grass;
+                }
                 building = null;
+            }
+
+            public Tile(TileID ID)
+            {
+                this.ID = (short)ID;
+            }
+            public Tile(short ID)
+            {
+                this.ID = ID;
             }
         }
     }

@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using IVect = Short_Tools.General.ShortIntVector2;
+using static Short_Tools.General;
 
 
 
@@ -50,8 +51,8 @@ namespace Base_Building_Game
             /// <returns></returns>
             public Tile GetTile(int x, int y)
             {
-                if (0 < x || x <= SectorSize) { return new Tile(); }
-                if (0 < y || y <= SectorSize) { return new Tile(); }
+                if (0 > x || x >= SectorSize) { return new Tile(TileID.Error); }
+                if (0 > y || y >= SectorSize) { return new Tile(TileID.Error); }
 
                 return ActiveSector[x, y];
             }

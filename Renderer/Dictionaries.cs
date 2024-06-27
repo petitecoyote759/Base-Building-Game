@@ -13,5 +13,28 @@ namespace Base_Building_Game
         {
             public Dictionary<short, IntPtr> TileImages;
         }
+
+
+
+
+
+
+        static void UpdateDictionaries()
+        {
+            renderer.TileImages = new Dictionary<short, IntPtr>()
+            {
+                { (short)TileID.Grass,     renderer.images["Grass"] },
+                { (short)TileID.DeepOcean, renderer.images["Deep Ocean"] },
+                { (short)TileID.Ocean,     renderer.images["Ocean"] },
+                { (short)TileID.Sand,      renderer.images["Sand"] },
+                { (short)TileID.Iron,      renderer.images["Iron"] },
+                { (short)TileID.Oil,       renderer.images["Oil"] },
+                { (short)TileID.Stone,     renderer.images["Stone"] },
+                { (short)TileID.Wood,      renderer.images["Wood"] },
+                { (short)TileID.Diamond,   renderer.images["Diamond"] },
+
+                { (short)TileID.Error, renderer.images["Error"] }
+            };
+        }
     }
 }
