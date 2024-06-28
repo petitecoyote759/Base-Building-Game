@@ -104,24 +104,7 @@ namespace Base_Building_Game
                 camPos.x = (int)((x - camPos.x) * ratio) + camPos.x;
                 camPos.y = (int)((y - camPos.y) * ratio) + camPos.y;
 
-                //float ratio = (
-                //    MathI.Pow(pos.x - camPos.X, 2) + 
-                //    MathI.Pow(pos.y - camPos.Y, 2)) / 1024
-                //    * dt;
-                //
-                //Print(ratio);
-                //
-                //
-                //camPos = new IVect(
-                //    (MathI.Pow(pos.x - camPos.X, 2) +
-                //    MathI.Pow(pos.y - camPos.Y, 2)) / 1024
-                //    * dt * 
-                //    (pos.x - camPos.X) + camPos.X,
-                //
-                //    (MathI.Pow(pos.x - camPos.X, 2) +
-                //    MathI.Pow(pos.y - camPos.Y, 2)) / 1024
-                //    * dt * 
-                //    (pos.y - camPos.Y) + camPos.Y);
+                // OPTIMISE: remove these ugly ass floats
             }
         }
     }

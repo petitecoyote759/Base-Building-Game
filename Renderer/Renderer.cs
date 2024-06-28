@@ -100,7 +100,12 @@ namespace Base_Building_Game
 
 
 
-
+            /// <summary>
+            /// Draws based on block position.
+            /// </summary>
+            /// <param name="x"></param>
+            /// <param name="y"></param>
+            /// <param name="image"></param>
             public void DrawBP(int x, int y, string image)
             {
                 DrawBP(x, y, images[image]);
@@ -123,7 +128,11 @@ namespace Base_Building_Game
 
 
 
-
+            /// <summary>
+            /// Gets the pixil x position of an object. 
+            /// </summary>
+            /// <param name="x"></param>
+            /// <returns></returns>
             public int GetPx(int x)
             {
                 return (zoom * x) - (zoom * player.camPos.x / 32) + halfscreenwidth;
@@ -134,6 +143,11 @@ namespace Base_Building_Game
             }
 
 
+            /// <summary>
+            /// Gets the pixil y position of an object. 
+            /// </summary>
+            /// <param name="y"></param>
+            /// <returns></returns>
             public int GetPy(int y)
             {
                 return (zoom * y) - (zoom * player.camPos.y / 32) + halfscreenheight;
