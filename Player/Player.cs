@@ -95,14 +95,14 @@ namespace Base_Building_Game
                 }
 
 
-                //camPos = pos;
+                camPos = pos;
 
                 //float ratio = camspeed * (float)(Math.ReciprocalSqrtEstimate(Math.Pow((x - campos.X), 2) + Math.Pow((y - campos.Y), 2))) * dt / 1000f;
-                float ratio = (dt * (128 + MathF.Pow((x - camPos.x) / 8, 2) + MathF.Pow((y - camPos.y) / 8, 2)) / 10000f);
-                //Print(ratio + " , " + pos + " : " + camPos);
-
-                camPos.x = (int)((x - camPos.x) * ratio) + camPos.x;
-                camPos.y = (int)((y - camPos.y) * ratio) + camPos.y;
+                //float ratio = (dt * (128 + MathF.Pow((x - camPos.x) / 8, 2) + MathF.Pow((y - camPos.y) / 8, 2)) / 10000f);
+                ////Print(ratio + " , " + pos + " : " + camPos);
+                //
+                //camPos.x = (int)((x - camPos.x) * ratio) + camPos.x;
+                //camPos.y = (int)((y - camPos.y) * ratio) + camPos.y;
 
                 // OPTIMISE: remove these ugly ass floats
             }
