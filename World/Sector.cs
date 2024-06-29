@@ -14,7 +14,11 @@ namespace Base_Building_Game
             public Tile[,]? map;
 
 
-            public Tile? this[int x, int y] => map is null ? null : map[x, y];
+            public Tile? this[int x, int y] 
+            { 
+                get => map is null ? null : map [x, y];
+                set => map[x, y] = value;
+            }
 
 
 
