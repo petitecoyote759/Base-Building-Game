@@ -156,9 +156,9 @@ namespace Base_Building_Game
         {
             int MidDistance = (pos - new IVect(SectorSize / 2, SectorSize / 2)).Mag();
             int IslandDist = (pos - tested).Mag();
-            float Expo = (IslandDist / 2) - (2.5f * (2 + (MidDistance / SectorSize)));
+            float Expo = (IslandDist / 4) - (2f * (2 + (2 * MidDistance / SectorSize)));
 
-            return randy.Next(0, 10000) < 10000f / (1 + MathF.Pow(2, Expo) - 1);
+            return randy.Next(0, 10000) < (int)(25000f / (1 + MathF.Pow(2, Expo)) - 1);
         }
 
 
