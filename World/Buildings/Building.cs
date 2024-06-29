@@ -10,16 +10,40 @@ namespace Base_Building_Game
     {
         public enum BuildingID : short
         {
-            None
+            None,
+
+
+            Bridge,
+            Wall,
+            Extractor,
+            WorkCamp,
+            DropPod,
+            ResearchLab,
         }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
         public interface Building
         {
             public int CurrentHealth { get; set; }
-            public short ID { get; set; }
+            public short ID { get; }
             public Inventory? inventory { get; set; }
+            public int xSize { get; }
+            public int ySize { get; }
         }
 
 
