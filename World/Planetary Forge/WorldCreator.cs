@@ -68,7 +68,7 @@ namespace Base_Building_Game
 
                     Seeds.Add(Seed);
 
-                    GrowIslandSeed(Seed, sector, true);
+                    //GrowIslandSeed(Seed, sector, true);
                     continue;
                 }
 
@@ -95,12 +95,16 @@ namespace Base_Building_Game
 
                 Seeds.Add(Seed);
 
-                GrowIslandSeed(Seed, sector);
+                //GrowIslandSeed(Seed, sector);
             }
 
             StringBuilder SeedPos = new StringBuilder();
             foreach (IVect DSeed in Seeds) { SeedPos.Append(DSeed.ToString() + ", "); }
             debugger.AddLog(SeedPos.ToString(), Short_Tools.ShortDebugger.Priority.DEBUG);
+
+
+            CreateLand(Seeds.ToArray(), sector);
+
 
 
             return sector;
