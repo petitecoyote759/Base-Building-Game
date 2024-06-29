@@ -15,7 +15,7 @@ namespace Base_Building_Game
     {
         const int SeedCount = 64;
         const int PushItterations = 8;
-        const int DefForce = 1_000;
+        const int DefForce = 100;
 
 
 
@@ -74,7 +74,7 @@ namespace Base_Building_Game
                     foreach (IVect OtherSeed in Seeds)
                     {
                         ResultantForce += (Seed - OtherSeed) * DefForce * 
-                            Math.Min(DefForce / ((Seed - OtherSeed).MagSquared() + 1), 100 * DefForce);
+                            DefForce / ((Seed - OtherSeed).MagSquared() + 1);
                         // other islands sum
 
                         ResultantForce += new IVect(GetXForce(Seed.x), GetYForce(Seed.y));
@@ -129,13 +129,27 @@ namespace Base_Building_Game
 
             sector.map[Seed.x, Seed.y] = new Tile(TileID.Grass);
 
-            for (int x = Seed.x - 5; x < Seed.x + 5; x++)
+            for (int x = Seed.x - 30; x < Seed.x + 30; x++)
             {
-                for (int y = Seed.y - 5; y < Seed.y + 5; y++)
+                for (int y = Seed.y - 30; y < Seed.y + 30; y++)
                 {
-                    sector.map[x, y] = new Tile(TileID.Grass);
+                    if (ChanceFunction(Seed, new IVect(x, y)))
+                    {
+                        sector.map[x, y] = new Tile(TileID.Grass);
+                    }
                 }
             }
+        }
+
+
+
+        static bool ChanceFunction(IVect pos, IVect tested)
+        {
+            int MidDistance = (pos - new IVect(SectorSize / 2, SectorSize / 2)).Mag();
+            int IslandDist = (pos - tested).Mag();
+            float Expo = (IslandDist / 2) - (2.5f * (2 + (MidDistance / SectorSize)));
+
+            return randy.Next(0, 10000) < 10000f / (1 + MathF.Pow(2, Expo));
         }
     }
 }
