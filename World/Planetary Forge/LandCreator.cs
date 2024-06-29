@@ -73,8 +73,8 @@ namespace Base_Building_Game
 
         public static void GenResources(Sector sector)
         {
-            GenResourceNode(sector, 8, 1.6f, TileID.Diamond, 1500);
-            GenResourceNode(sector, 8, 1.4f, TileID.Iron, 500);
+            GenResourceNode(sector, 8, 1.6f, TileID.Diamond, 600);
+            GenResourceNode(sector, 8, 1.4f, TileID.Iron, 300);
             GenResourceNode(sector, 8, 1.3f, TileID.Stone, 0);
             GenResourceNode(sector, 16, 1.2f, TileID.Wood, 0);
         }
