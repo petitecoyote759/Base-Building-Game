@@ -93,7 +93,11 @@ namespace Base_Building_Game
                     Seed.y = Math.Min(Math.Max(Seed.y + ResultantForce.y, SectorSize / 10), SectorSize * 9 / 10);
                 }
 
-                Seeds.Add(Seed);
+                if (!((Seed.x == SectorSize / 10 || Seed.x == SectorSize * 9 / 10) &&
+                      (Seed.y == SectorSize / 10 || Seed.y == SectorSize * 9 / 10)))
+                {
+                    Seeds.Add(Seed);
+                }
 
                 //GrowIslandSeed(Seed, sector);
             }
