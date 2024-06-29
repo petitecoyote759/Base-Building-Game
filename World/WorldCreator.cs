@@ -13,9 +13,9 @@ namespace Base_Building_Game
 {
     public static partial class General
     {
-        const int SeedCount = 16;
-        const int PushItterations = 16;
-        const int DefForce = 50_000;
+        const int SeedCount = 64;
+        const int PushItterations = 8;
+        const int DefForce = 1_000;
 
 
 
@@ -51,16 +51,23 @@ namespace Base_Building_Game
                     GetCentralisedValue()
                     );
 
+
+
+                if (Seeds.Count == 0)
+                {
+                    Seed = new IVect(SectorSize / 2, SectorSize / 2);
+
+                    Seeds.Add(Seed);
+
+                    GrowIslandSeed(Seed, sector, true);
+                    continue;
+                }
+
+
+
+
                 for (int i = 0; i < PushItterations; i++)
                 {
-                    if (Seeds.Count == 0)
-                    {
-                        Seed = new IVect(SectorSize / 2, SectorSize / 2);
-
-                        Seeds.Add(Seed);
-
-                        GrowIslandSeed(Seed, sector, true);
-                    }
 
 
                     IVect ResultantForce = new IVect();
@@ -75,12 +82,16 @@ namespace Base_Building_Game
 
                     Seed.x = Math.Min(Math.Max(Seed.x + ResultantForce.x, SectorSize / 10), SectorSize * 9 / 10);
                     Seed.y = Math.Min(Math.Max(Seed.y + ResultantForce.y, SectorSize / 10), SectorSize * 9 / 10);
-
-                    Seeds.Add(Seed);
-
-                    GrowIslandSeed(Seed, sector);
                 }
+
+                Seeds.Add(Seed);
+
+                GrowIslandSeed(Seed, sector);
             }
+
+            StringBuilder SeedPos = new StringBuilder();
+            foreach (IVect DSeed in Seeds) { SeedPos.Append(DSeed.ToString() + ", "); }
+            debugger.AddLog(SeedPos.ToString(), Short_Tools.ShortDebugger.Priority.DEBUG);
 
 
             return sector;
@@ -95,14 +106,14 @@ namespace Base_Building_Game
         static int GetXForce(int x)
         {
             return 
-                DefForce * SectorSize / ((x + 1) * 1000) +
-                DefForce * SectorSize / ((SectorSize - x + 1) * 1000);
+                DefForce * SectorSize / ((x + 1) * 500) +
+                DefForce * SectorSize / ((SectorSize - x + 1) * 500);
         }
         static int GetYForce(int y)
         {
             return
-                DefForce * SectorSize / ((y + 1) * 1000) +
-                DefForce * SectorSize / ((SectorSize - y + 1) * 1000);
+                DefForce * SectorSize / ((y + 1) * 500) +
+                DefForce * SectorSize / ((SectorSize - y + 1) * 500);
         }
 
 
@@ -122,7 +133,7 @@ namespace Base_Building_Game
             {
                 for (int y = Seed.y - 5; y < Seed.y + 5; y++)
                 {
-                    sector.map[Seed.x, Seed.y] = new Tile(TileID.Grass);
+                    sector.map[x, y] = new Tile(TileID.Grass);
                 }
             }
         }
