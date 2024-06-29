@@ -48,6 +48,7 @@ namespace Base_Building_Game
                 {
                     DrawTiles();
                     DrawPlayer();
+                    DrawUI();
                 }
 
 

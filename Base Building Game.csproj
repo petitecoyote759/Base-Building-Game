@@ -10,7 +10,11 @@
 
   <ItemGroup>
     <PackageReference Include="Sayers.SDL2.Core" Version="1.0.11" />
-    <PackageReference Include="Short_Tools" Version="1.0.17" />
+    <PackageReference Include="Short_Tools" Version="1.0.17.1" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Images\Text\" />
   </ItemGroup>
 
 </Project>
