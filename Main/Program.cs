@@ -10,6 +10,8 @@ namespace Base_Building_Game
     {
         static long dt = 0;
         static long LFT = DateTimeOffset.Now.ToUnixTimeMilliseconds(); // last frame time
+
+        //Bayley was here
         static void Main()
         {
 #if DEBUG
