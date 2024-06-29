@@ -47,6 +47,7 @@ namespace Base_Building_Game
                         vectors[x, y] = VectorPosibilities[randy.Next(0, 4)];
                     }
                 }
+                AddLog("Perlin Vectors Generated", ShortDebugger.Priority.DEBUG);
             }
 
 
