@@ -40,6 +40,8 @@ namespace Base_Building_Game
                 dt = GetDt(ref LFT);
             }
 
+            SaveWorld(world, "test");
+
             Cleanup();
         }
     }
