@@ -53,9 +53,9 @@ namespace Base_Building_Game
 
 
 
-            public bool Walkable(Tile tile)
+            public bool Walkable(Tile tile, bool player = false)
             {
-                if (settings.Cheats) { return true; } 
+                if (settings.Cheats && player) { return true; } 
 
                 if (tile.ID == (short)TileID.DeepOcean ||
                     tile.ID == (short)TileID.Ocean) 
@@ -63,13 +63,13 @@ namespace Base_Building_Game
 
                 return true;
             }
-            public bool Walkable(int x, int y)
+            public bool Walkable(int x, int y, bool player = false)
             {
-                return Walkable(GetTile(x, y));
+                return Walkable(GetTile(x, y), player);
             }
-            public bool Walkable(IVect pos)
+            public bool Walkable(IVect pos, bool player = false)
             {
-                return Walkable(pos.x, pos.y);
+                return Walkable(pos.x, pos.y, player);
             }
         }
     }
