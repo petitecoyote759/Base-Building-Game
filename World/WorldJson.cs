@@ -1,0 +1,28 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace Base_Building_Game
+{
+    public static partial class General
+    {
+        public class WorldJson
+        {
+            public int PlayerX { get; set; }
+            public int PlayerY { get; set; }
+            public string Name { get; set; }
+            public SectorJson[,] Sectors { get; set; }
+            public int SectorX { get; set; }
+            public int SectorY { get; set; }
+            public string Research { get; set; }
+        }
+
+        public class SectorJson
+        {
+            public string MapData { get; set; }
+            public string ExtraInfo { get; set; }
+        }
+    }
+}
