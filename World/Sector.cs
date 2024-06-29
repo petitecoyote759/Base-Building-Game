@@ -31,7 +31,7 @@ namespace Base_Building_Game
                     {
                         for (int y = 0; y < SectorSize; y++)
                         {
-                            map[x, y] = new Tile(true);
+                            map[x, y] = new Tile(TileID.Error);
                         }
                     }
                 }
