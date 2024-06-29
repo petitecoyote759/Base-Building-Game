@@ -18,7 +18,6 @@ namespace Base_Building_Game
             foreach (Sector S in world.sectors)
             {
                 i++;
-                Console.WriteLine($"Sector {i}/{World.size * World.size} - {i/World.size}, {i%World.size}");
                 if (S.map is null)
                 {
                     SectorData[i / World.size, i % World.size] = new SectorJson() // Empty Tile
