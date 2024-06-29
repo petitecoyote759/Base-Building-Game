@@ -13,6 +13,7 @@ namespace Base_Building_Game
         {
             public bool Debugging { get; set; } = false;
             public bool Cheats { get; set; } = false;
+            public int PlayerSpeed { get; set; } = 1;
 
 
 
