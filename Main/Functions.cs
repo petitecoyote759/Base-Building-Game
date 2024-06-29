@@ -5,6 +5,8 @@ using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 using static Short_Tools.General;
+using IVect = Short_Tools.General.ShortIntVector2;
+using Prio = Short_Tools.ShortDebugger.Priority;
 
 
 
@@ -106,7 +108,10 @@ namespace Base_Building_Game
 
 
 
-
+        public static void AddLog(string message, Prio priority = Prio.INFO)
+        {
+            debugger.AddLog(message, priority);
+        }
 
 
 
