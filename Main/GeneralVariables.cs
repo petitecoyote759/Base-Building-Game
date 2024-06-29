@@ -30,7 +30,7 @@ namespace Base_Building_Game
 
         static World world;
 
-        static Sector ActiveSector;
+        static Sector ActiveSector = new Sector(false);
 
 
         /// <summary>
