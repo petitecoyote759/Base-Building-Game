@@ -25,11 +25,12 @@ namespace Base_Building_Game
                 for (int y = 0; y < SectorSize; y++)
                 {
                     float value = 2 * map.GetValue(x, y) / PerlinMap.PerlinWidth;
-
-                    //foreach (IVect seed in seeds)
-                    //{
-                    //    value += 1f / (1 + MathF.Pow(2, (seed - new IVect(x, y)).MagSquared()));
-                    //}
+                    ;
+                    foreach (IVect seed in seeds)
+                    {
+                        float add = 2f / (1 + MathF.Pow(2, RoughSum(seed, new IVect(x, y)) / 10));
+                        value += add;
+                    }
 
 
 
@@ -37,11 +38,11 @@ namespace Base_Building_Game
                     {
                         sector[x, y] = new Tile(TileID.DeepOcean);
                     }
-                    else if (value < 0.8f)
+                    else if (value < 1.2f)
                     {
                         sector[x, y] = new Tile(TileID.Ocean);
                     }
-                    else if (value < 1f)
+                    else if (value < 1.4f)
                     {
                         sector[x, y] = new Tile(TileID.Sand);
                     }
@@ -53,6 +54,13 @@ namespace Base_Building_Game
             }
 
 
+        }
+
+
+
+        public static int RoughSum(IVect left, IVect right)
+        {
+            return Math.Abs(left.x - right.x) + Math.Abs(left.y - right.y);
         }
     }
 }
