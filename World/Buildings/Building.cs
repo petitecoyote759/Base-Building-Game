@@ -17,8 +17,9 @@ namespace Base_Building_Game
 
         public interface Building
         {
+            public int CurrentHealth { get; set; }
             public short ID { get; set; }
-
+            public Inventory? inventory { get; set; }
         }
 
 
