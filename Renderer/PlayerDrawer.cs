@@ -17,7 +17,7 @@ namespace Base_Building_Game
                 Draw(
                     (player.x - player.camPos.x) * zoom / 32 + halfscreenwidth,
                     (player.y - player.camPos.y) * zoom / 32 + halfscreenheight, 
-                    zoom, zoom, "Player");
+                    zoom, zoom, "Player", player.angle);
             }
         }
     }

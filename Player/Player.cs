@@ -25,6 +25,7 @@ namespace Base_Building_Game
             public int x { get => pos.x; set => pos.x = value; }
             public int y { get => pos.y; set => pos.y = value; }
 
+            public double angle = 0d; // ik this is bad but you need it for SDL rotating
 
             public Player()
             {
@@ -42,7 +43,7 @@ namespace Base_Building_Game
             public void Move(int dt)
             {
                 dt = dt * 3 / 5;
-                Func<int, int, bool> Walkable = world.Walkable;
+                Func<int, int, bool, bool> Walkable = world.Walkable;
 
 
                 if (ActiveKeys["w"])
@@ -50,7 +51,7 @@ namespace Base_Building_Game
                     if (ActiveKeys["a"] ^ ActiveKeys["d"]) { y -= speed * dt * 5 / 7; }
                     else { y -= speed * dt; }
 
-                    if (!Walkable(x, y))
+                    if (!Walkable(x, y, true))
                     {
                         if (ActiveKeys["a"] ^ ActiveKeys["d"]) { y += speed * dt * 5 / 7; }
                         else { y += speed * dt; } // move back to the original place
@@ -62,7 +63,7 @@ namespace Base_Building_Game
                     if (ActiveKeys["a"] ^ ActiveKeys["d"]) { y += speed * dt * 5 / 7; }
                     else { y += speed * dt; }
 
-                    if (!Walkable(x, y))
+                    if (!Walkable(x, y, true))
                     {
                         if (ActiveKeys["a"] ^ ActiveKeys["d"]) { y -= speed * dt * 5 / 7; }
                         else { y -= speed * dt; }
@@ -74,7 +75,7 @@ namespace Base_Building_Game
                     if (ActiveKeys["w"] ^ ActiveKeys["s"]) { x -= speed * dt * 5 / 7; }
                     else { x -= speed * dt; }
 
-                    if (!Walkable(x, y))
+                    if (!Walkable(x, y, true))
                     {
                         if (ActiveKeys["w"] ^ ActiveKeys["s"]) { x += speed * dt * 5 / 7; }
                         else { x += speed * dt; }
@@ -87,7 +88,7 @@ namespace Base_Building_Game
                     if (ActiveKeys["w"] ^ ActiveKeys["s"]) { x += speed * dt * 5 / 7; }
                     else { x += speed * dt; }
 
-                    if (!Walkable(x, y))
+                    if (!Walkable(x, y, true))
                     {
                         if (ActiveKeys["w"] ^ ActiveKeys["s"]) { x -= speed * dt * 5 / 7; }
                         else { x -= speed * dt; }
@@ -96,6 +97,8 @@ namespace Base_Building_Game
 
 
                 camPos = pos;
+
+                angle = (Math.PI / 2d + Math.Atan2((getMousePos().y - (renderer.GetPy(y / 32, camPos.Y))), (getMousePos().x - (renderer.GetPx(x / 32, camPos.X))))) * 180d / Math.PI;
 
                 //float ratio = camspeed * (float)(Math.ReciprocalSqrtEstimate(Math.Pow((x - campos.X), 2) + Math.Pow((y - campos.Y), 2))) * dt / 1000f;
                 //float ratio = (dt * (128 + MathF.Pow((x - camPos.x) / 8, 2) + MathF.Pow((y - camPos.y) / 8, 2)) / 10000f);
