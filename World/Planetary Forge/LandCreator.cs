@@ -28,13 +28,17 @@ namespace Base_Building_Game
                     ;
                     foreach (IVect seed in seeds)
                     {
-                        float add = 2f / (1 + MathF.Pow(2, RoughSum(seed, new IVect(x, y)) / 10));
-                        value += add;
+                        float dist = RoughSum(seed, new IVect(x, y));
+                        if (dist < 100)
+                        {
+                            float add = 5f / (1 + MathF.Pow(2, dist / 30));
+                            value += add;
+                        }
                     }
 
 
 
-                    if (value < -0.5f)
+                    if (value < -0.2f)
                     {
                         sector[x, y] = new Tile(TileID.DeepOcean);
                     }
