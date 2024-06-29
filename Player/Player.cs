@@ -100,7 +100,7 @@ namespace Base_Building_Game
 
                 camPos = pos;
 
-                angle = (Math.PI / 2d + Math.Atan2((getMousePos().y - (renderer.GetPy(y / 32, camPos.Y))), (getMousePos().x - (renderer.GetPx(x / 32, camPos.X))))) * 180d / Math.PI;
+                angle = (Math.PI / 2d + Math.Atan2((getMousePos().y - (renderer.GetPy(y / 32))), (getMousePos().x - (renderer.GetPx(x / 32))))) * 180d / Math.PI;
 
                 //float ratio = camspeed * (float)(Math.ReciprocalSqrtEstimate(Math.Pow((x - campos.X), 2) + Math.Pow((y - campos.Y), 2))) * dt / 1000f;
                 //float ratio = (dt * (128 + MathF.Pow((x - camPos.x) / 8, 2) + MathF.Pow((y - camPos.y) / 8, 2)) / 10000f);
