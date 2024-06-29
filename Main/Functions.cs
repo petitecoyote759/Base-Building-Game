@@ -84,6 +84,26 @@ namespace Base_Building_Game
 
 
 
+        static void LoadText()
+        {
+            string path;
+
+            if (Directory.Exists(GetPathOfGame() + "Images\\Text"))
+            {
+                path = GetPathOfGame() + "Images\\Text\\";
+            }
+            else
+            {
+                path = "Images\\Text\\";
+            }
+
+            renderer.SetupText(path + "Aller_Bd.ttf");
+
+            // C:\Users\Matt\OneDrive\The Game\Base Building Game\Text\Aller_Bd.ttf
+        }
+
+
+
 
 
 

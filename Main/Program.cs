@@ -12,10 +12,16 @@ namespace Base_Building_Game
         static long LFT = DateTimeOffset.Now.ToUnixTimeMilliseconds(); // last frame time
         static void Main()
         {
+#if DEBUG
+            debugger.ChangeDisplayPriority(Debugger.Priority.DEBUG);
+#else
+            debugger.ChangeDisplayPriority(Debugger.Priority.ERROR);
+#endif
+
             LoadSettings();
 
             LoadImages();
-
+            LoadText();
 
             CreateWorld();
 
