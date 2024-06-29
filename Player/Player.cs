@@ -23,7 +23,9 @@ namespace Base_Building_Game
             public int camspeed = 1;
 
             public int x { get => pos.x; set => pos.x = value; }
+            public int blockX { get => pos.x / 32; }
             public int y { get => pos.y; set => pos.y = value; }
+            public int blockY { get => pos.y / 32; }
 
             public double angle = 0d; // ik this is bad but you need it for SDL rotating
 
@@ -51,7 +53,7 @@ namespace Base_Building_Game
                     if (ActiveKeys["a"] ^ ActiveKeys["d"]) { y -= speed * dt * 5 / 7; }
                     else { y -= speed * dt; }
 
-                    if (!Walkable(x, y, true))
+                    if (!Walkable(blockX, blockY, true))
                     {
                         if (ActiveKeys["a"] ^ ActiveKeys["d"]) { y += speed * dt * 5 / 7; }
                         else { y += speed * dt; } // move back to the original place
@@ -63,7 +65,7 @@ namespace Base_Building_Game
                     if (ActiveKeys["a"] ^ ActiveKeys["d"]) { y += speed * dt * 5 / 7; }
                     else { y += speed * dt; }
 
-                    if (!Walkable(x, y, true))
+                    if (!Walkable(blockX, blockY, true))
                     {
                         if (ActiveKeys["a"] ^ ActiveKeys["d"]) { y -= speed * dt * 5 / 7; }
                         else { y -= speed * dt; }
@@ -75,7 +77,7 @@ namespace Base_Building_Game
                     if (ActiveKeys["w"] ^ ActiveKeys["s"]) { x -= speed * dt * 5 / 7; }
                     else { x -= speed * dt; }
 
-                    if (!Walkable(x, y, true))
+                    if (!Walkable(blockX, blockY, true))
                     {
                         if (ActiveKeys["w"] ^ ActiveKeys["s"]) { x += speed * dt * 5 / 7; }
                         else { x += speed * dt; }
@@ -88,7 +90,7 @@ namespace Base_Building_Game
                     if (ActiveKeys["w"] ^ ActiveKeys["s"]) { x += speed * dt * 5 / 7; }
                     else { x += speed * dt; }
 
-                    if (!Walkable(x, y, true))
+                    if (!Walkable(blockX, blockY, true))
                     {
                         if (ActiveKeys["w"] ^ ActiveKeys["s"]) { x -= speed * dt * 5 / 7; }
                         else { x -= speed * dt; }
