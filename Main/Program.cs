@@ -25,11 +25,21 @@ namespace Base_Building_Game
             LoadImages();
             LoadText();
 
-            CreateWorld();
+
+
+            if (!File.Exists("Test.SWrld"))
+            {
+                CreateWorld();
+                SaveWorld(world, "Test.SWrld");
+            }
+            else
+            {
+                LoadWorld($"./Saves/Test.SWrld");
+            }
+
 
             renderer.Start();
-            SaveWorld(world, "Test.SWrld");
-            LoadWorld($"./Saves/Test.SWrld");
+
             while (Running)
             {
                 handler.HandleInputs(ref Running); 
