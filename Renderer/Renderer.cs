@@ -164,14 +164,23 @@ namespace Base_Building_Game
             {
                 DrawBP(x, y, images[image]);
             }
+            /// <summary>
+            /// Draws based on block position.
+            /// </summary>
             public void DrawBP(int x, int y, IntPtr image)
             {
                 Draw(GetPx(x), GetPy(y), zoom, zoom, image);
             }
+            /// <summary>
+            /// Draws based on block position.
+            /// </summary>
             public void DrawBP(int x, int px, int y, int py, string image)
             {
                 DrawBP(x, px, y, py, images[image]);
             }
+            /// <summary>
+            /// Draws based on block position.
+            /// </summary>
             public void DrawBP(int x, int px, int y, int py, IntPtr image)
             {
                 Draw(GetPx(x, px), GetPy(y, py), zoom, zoom, image);
