@@ -101,6 +101,7 @@ namespace Base_Building_Game
                                 foreach (IVect tempLinker in tempLinkers)
                                 {
                                     ActiveSector[tempLinker.x, tempLinker.y].building = null;
+                                    return;
                                 }
                             }
                         }
