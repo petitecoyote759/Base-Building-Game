@@ -19,6 +19,7 @@ namespace Base_Building_Game
             { "s", false },
             { "d", false },
             { "Mouse", false },
+            { "BACKSPACE", false },
         }; // the keys currently being pressed
 
 
