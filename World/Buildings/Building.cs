@@ -3,6 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Short_Tools;
+using static Short_Tools.General;
+using IVect = Short_Tools.General.ShortIntVector2;
+
 
 namespace Base_Building_Game
 {
@@ -59,6 +63,7 @@ namespace Base_Building_Game
             public Inventory? inventory { get; set; }
             public int xSize { get; }
             public int ySize { get; }
+            public IVect pos { get; set; }
         }
 
 

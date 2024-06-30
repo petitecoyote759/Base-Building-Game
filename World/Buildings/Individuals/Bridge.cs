@@ -26,6 +26,13 @@ namespace Base_Building_Game
 
             public int xSize { get; } = 1;
             public int ySize { get; } = 1;
+
+            public IVect pos { get; set; }
+
+            public Bridge(IVect pos)
+            {
+                this.pos = pos;
+            }
         }
     }
 }
