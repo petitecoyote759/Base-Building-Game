@@ -10,7 +10,7 @@ namespace Base_Building_Game
     {
         public enum TileID : short
         {
-            DeepOcean,
+            DeepOcean = 1,
             Ocean,
             Grass,
             Sand,
