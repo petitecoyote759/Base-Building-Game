@@ -106,7 +106,7 @@ namespace Base_Building_Game
                 List<IEntity> entitiesToRender =
                     (from entity in LoadedEntities
                     where GetPx(entity.pos.x) >= 0 && GetPx(entity.pos.x) <= screenwidth && GetPy(entity.pos.y) >= 0 && GetPy(entity.pos.y) <= screenheight
-                    //orderby (player.pos - entity.pos).Mag() ascending
+                    orderby (player.pos - entity.pos).Mag() ascending
                     select entity).ToList();
                 
                 foreach (IEntity entity in entitiesToRender)
