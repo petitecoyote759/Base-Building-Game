@@ -113,15 +113,18 @@ namespace Base_Building_Game
                      select entity).ToArray();
 
 
+                //Iterating through all of the onscreen entities.
                 foreach (IEntity entity in entitiesToRender)
                 {
+                    //If its an item, then we render using the itemImages dictionary.
                     if (entity.GetType() == typeof(Item))
                     {
                         
                         Item item = (Item)entity;
                         DrawBP(entity.pos.x / 32, entity.pos.y / 32, ItemImages[(short)item.ID]);
                     }
-                    
+                    //When new entities are added, add them here:
+                    //
                 }
             }
             public void DrawBuildings()

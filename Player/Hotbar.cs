@@ -4,6 +4,7 @@ using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
+using IVect = Short_Tools.General.ShortIntVector2;
 
 namespace Base_Building_Game
 {
@@ -63,14 +64,50 @@ namespace Base_Building_Game
                 }; // Add new buildings here ^^^^^^
 
 
-
+                
 
                 if (ActiveSector[x, y].building is null) { return; }
+
+                //If the building needs linkers:
+
+                if (ActiveSector[x, y].building.xSize > 1 || ActiveSector[x, y].building.ySize > 1)
+                {
+                    List<IVect> tempLinkers = new List<IVect>
+                    {
+                        new IVect(x, y)
+                    };
+
+                    for (int i = 0; i < ActiveSector[x, y].building.xSize; i++)
+                    {
+                        for (int j = 0; j < ActiveSector[x, y].building.ySize; j++)
+                        {
+                            if (i == 0 && j == 0)
+                            {
+                                continue;
+                            }
+                            if (ActiveSector[x, y].building.ValidTiles(world.GetTile(x + i, y + j)))
+                            {
+                                tempLinkers.Add(new IVect(x + i, y + j));
+                                ActiveSector[x + i, y + j].building = new Linker(new IVect(x + i, y + j), ActiveSector[x, y].building);
+                            }
+                            else
+                            {
+                                foreach (IVect tempLinker in tempLinkers)
+                                {
+                                    ActiveSector[tempLinker.x, tempLinker.y].building = null;
+                                }
+                                return;
+                            }
+                        }
+                    }
+                    return;
+                }
 
                 if (!ActiveSector[x, y].building.ValidTiles(world.GetTile(x, y)))
                 {
                     ActiveSector[x, y].building = null;
                 }
+                
             }
         }
     }
