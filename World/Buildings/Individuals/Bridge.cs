@@ -16,7 +16,7 @@ namespace Base_Building_Game
     {
         public class Bridge : Building
         {
-            public Func<Tile, bool> ValidTiles { get; } = (Tile tile) => tile.ID == (short)TileID.Grass; 
+            public Func<Tile, bool> ValidTiles { get; } = (Tile tile) => tile.ID == (short)TileID.Ocean; 
 
 
 
