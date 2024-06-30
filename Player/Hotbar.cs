@@ -48,6 +48,8 @@ namespace Base_Building_Game
 
             public void BuildBuilding(int pos, int x, int y)
             {
+                if (ActiveSector[x, y].building is not null) { return; }
+
                 ActiveSector[x, y].building = items[pos] switch
                 {
                     (byte)BuildingID.Bridge => new Bridge(),
@@ -55,6 +57,13 @@ namespace Base_Building_Game
 
                     _ => null
                 };
+
+                if (ActiveSector[x, y].building is null) { return; }
+
+                if (!ActiveSector[x, y].building.ValidTiles(world.GetTile(x, y)))
+                {
+                    ActiveSector[x, y].building = null;
+                }
             }
         }
     }

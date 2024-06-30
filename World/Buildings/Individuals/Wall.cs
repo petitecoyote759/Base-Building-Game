@@ -10,6 +10,10 @@ namespace Base_Building_Game
     {
         public class Wall : Building
         {
+            public Func<Tile, bool> ValidTiles { get; } = (Tile tile) => tile.ID == (short)TileID.Grass;
+
+
+
             public short ID { get; } = (short)BuildingID.Wall;
             public Inventory? inventory { get; set; }
             public int CurrentHealth { get; set; }

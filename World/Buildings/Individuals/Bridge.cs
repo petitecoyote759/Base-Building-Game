@@ -16,6 +16,10 @@ namespace Base_Building_Game
     {
         public class Bridge : Building
         {
+            public Func<Tile, bool> ValidTiles { get; } = (Tile tile) => tile.ID == (short)TileID.Grass; 
+
+
+
             public short ID { get; } = (short)BuildingID.Bridge;
             public Inventory? inventory { get; set; } 
             public int CurrentHealth { get; set; }

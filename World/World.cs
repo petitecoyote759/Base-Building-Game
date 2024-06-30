@@ -61,6 +61,11 @@ namespace Base_Building_Game
                     tile.ID == (short)TileID.Ocean) 
                 { return false; }
 
+                if (tile.building is not null)
+                {
+                    if (tile.building.ID == (short)BuildingID.Wall) { return false; }
+                }
+
                 return true;
             }
             public bool Walkable(int x, int y, bool player = false)
