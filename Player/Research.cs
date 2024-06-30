@@ -8,6 +8,21 @@ namespace Base_Building_Game
 {
     public static partial class General
     {
+        public enum ResearchLevel : byte
+        {
+            Wood,
+            Advanced,
+            Modern,
+            HighTek,
+            DragonsBreath
+        }
+
+
+
+
+
+
+
         public static Dictionary<short, byte> Research = DefaultResearch();
 
         public static Dictionary<short, byte> DefaultResearch()
@@ -16,7 +31,7 @@ namespace Base_Building_Game
 
             foreach (short id in Enum.GetValues<BuildingID>())
             {
-                Temp.Add(id, 0);
+                Temp.Add(id, (byte)ResearchLevel.Wood);
             }
 
             return Temp;
