@@ -50,6 +50,8 @@ namespace Base_Building_Game
                 handler.HandleInputs(ref Running); 
                 player.Move((int)dt);
 
+                Tick((int)dt);
+
                 Thread.Sleep(10);
 
                 dt = GetDt(ref LFT);
