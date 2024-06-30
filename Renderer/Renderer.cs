@@ -47,6 +47,7 @@ namespace Base_Building_Game
                 else
                 {
                     DrawTiles();
+                    DrawBuildings();
                     DrawPlayer();
                     DrawUI();
                 }
@@ -89,6 +90,35 @@ namespace Base_Building_Game
                         if (TileImages.ContainsKey(tile.ID))
                         {
                             DrawBP(x, px, y, py, TileImages[tile.ID]);
+                        }
+                    }
+                }
+            }
+
+
+            public void DrawBuildings()
+            {
+                int zoom = renderer.zoom;
+                int px = player.camPos.x;
+                int py = player.camPos.y;
+
+                int Left = (px / 32) - (halfscreenwidth / zoom) - 1;
+                int Top = (py / 32) - (halfscreenheight / zoom) - 2;
+
+
+
+
+                for (int x = Left; x < Left + screenwidth / zoom + 2; x++)
+                {
+                    for (int y = Top; y < Top + screenheight / zoom + 4; y++)
+                    {
+                        Tile tile = world.GetTile(x, y);
+
+                        if (tile.building is null) { continue; }    
+
+                        if (BuildingImages.ContainsKey(tile.building.ID))
+                        {
+                            DrawBP(x, px, y, py, BuildingImages[tile.building.ID][Research[tile.building.ID]]);
                         }
                     }
                 }
