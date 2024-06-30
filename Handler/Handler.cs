@@ -6,6 +6,7 @@ using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 using static Short_Tools.General;
+using IVect = Short_Tools.General.ShortIntVector2;
 
 namespace Base_Building_Game
 {
@@ -17,6 +18,7 @@ namespace Base_Building_Game
             { "a", false },
             { "s", false },
             { "d", false },
+            { "Mouse", false },
         }; // the keys currently being pressed
 
 
