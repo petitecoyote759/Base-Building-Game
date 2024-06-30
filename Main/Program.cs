@@ -37,6 +37,11 @@ namespace Base_Building_Game
                 LoadWorld($"./Saves/Test.SWrld");
             }
 
+            hotbar.SetBuilding(BuildingID.Wall);
+            hotbar.SetBuilding(BuildingID.Wall);
+            hotbar.SetBuilding(BuildingID.Wall);
+            hotbar.SetBuilding(BuildingID.Wall);
+
 
             renderer.Start();
 
