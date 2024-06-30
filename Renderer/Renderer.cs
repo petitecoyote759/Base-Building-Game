@@ -105,7 +105,7 @@ namespace Base_Building_Game
                 //This returns all of the entities which are on the screen using LINQ. It orders them by distance from the player in order to give them rendering priority if there are too many entities.
                 List<IEntity> entitiesToRender =
                     (from entity in LoadedEntities
-                    where GetPx(entity.pos.x) >= 0 && GetPx(entity.pos.x) <= screenwidth && GetPy(entity.pos.y) >= 0 && GetPy(entity.pos.y) <= screenheight
+                    where GetPx(entity.pos.x / 32) >= 0 && GetPx(entity.pos.x / 32) <= screenwidth && GetPy(entity.pos.y / 32) >= 0 && GetPy(entity.pos.y / 32) <= screenheight
                     //orderby (player.pos - entity.pos).Mag() ascending
                     select entity).ToList();
                 
@@ -114,7 +114,7 @@ namespace Base_Building_Game
                     if (entity.GetType() == typeof(Item))
                     {
                         Item item = (Item)entity;
-                        DrawBP(px, py, ItemImages[(short)item.ID]);
+                        DrawBP(entity.pos.x, px, entity.pos.y, py, ItemImages[(short)item.ID]);
                     }
                     
                 }
