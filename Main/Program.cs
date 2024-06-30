@@ -28,8 +28,8 @@ namespace Base_Building_Game
             CreateWorld();
 
             renderer.Start();
-            SaveWorld(world, "test");
-            LoadWorld($"./Saves/test");
+            SaveWorld(world, "Test.SWrld");
+            LoadWorld($"./Saves/Test.SWrld");
             while (Running)
             {
                 handler.HandleInputs(ref Running); 
