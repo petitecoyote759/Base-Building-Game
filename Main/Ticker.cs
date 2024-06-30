@@ -33,6 +33,26 @@ namespace Base_Building_Game
                 }
             }
 
+
+
+            if (ActiveKeys["BACKSPACE"])
+            {
+                if (InGame)
+                {
+                    if (player.selectedTile is not null)
+                    {
+                        ActiveSector[player.selectedTile.Value.x, player.selectedTile.Value.y].building = null; // TODO: Add refund
+                    }
+                }
+            }
+
+
+
+
+
+
+
+
             FBuilding[] buildings = FBuildings.ToArray();
 
             foreach (FBuilding building in buildings)
