@@ -48,17 +48,12 @@ namespace Base_Building_Game
             //Creating the sector we are going to load, and pulling the data from the JSON.
             Sector loadedSector = new Sector(true);
             SectorJson sectorData = worldJson.Sectors[activeSectorX, activeSectorY];
-            
-            //This will fill up the sector with the tile data from the bit structure.
-            for (int x = 0; x < SectorSize; x++)
-            {
-                for (int y = 0; y < SectorSize; y++)
-                {
-                    //Converts the character stored in the JSON into a Tile.
-                    loadedSector[x, y] = ConvertCharacterToTile(sectorData.MapData[x + y]);
-                }
-            }
 
+            //This will fill up the sector with the tile data from the bit structure.
+            for (int i = 0; i < SectorSize * SectorSize; i++)
+            {
+                loadedSector[i / SectorSize, i % SectorSize] = ConvertCharacterToTile(sectorData.MapData[i]);
+            }
             world.sectors[activeSectorX,activeSectorY] = loadedSector;
             ActiveSector = loadedSector;
             
