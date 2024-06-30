@@ -27,6 +27,7 @@ namespace Base_Building_Game
 
         static Handler handler = new Handler();
         static Player player = new Player();
+        static Hotbar hotbar = new Hotbar();
 
         static World world;
 

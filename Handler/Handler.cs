@@ -32,13 +32,26 @@ namespace Base_Building_Game
             {
                 if (ActiveKeys.ContainsKey(inp)) { ActiveKeys[inp] = down; }
 
-
+                if (int.TryParse(inp, out int result)) // if it is a number
+                {
+                    HotbarSelected = result;
+                }
 
                 switch (inp)
                 {
+                    case "ESCAPE":
+
+                        if (down)
+                        {
+                            HotbarSelected = -1;
+                        }
+
+                        break;
+
+
                     case "SPACE":
 
-                        if (!InGame) { InGame = true; }
+                        if (!InGame) { InGame = true; }  // TODO: change this when the menu is added
 
                         break;
 
@@ -54,6 +67,15 @@ namespace Base_Building_Game
                         {
                             renderer.zoom = renderer.zoom * 9 / 10;
                             if (renderer.zoom < 10) { renderer.zoom = 10; }
+                        }
+
+                        break;
+
+                    case "F1":
+
+                        if (down)
+                        {
+                            settings.Debugging = !settings.Debugging;
                         }
 
                         break;
