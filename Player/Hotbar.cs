@@ -54,7 +54,7 @@ namespace Base_Building_Game
             {
                 if (ActiveSector[x, y].building is not null) { return; }
 
-
+                
 
 
                 ActiveSector[x, y].building = items[pos] switch
@@ -76,6 +76,37 @@ namespace Base_Building_Game
                     ActiveSector[x, y].building = null;
                     return;
                 }
+
+                if (ActiveSector[x, y].building.xSize > 1 || ActiveSector[x, y].building.ySize > 1)
+                {
+                    List<IVect> tempLinkers = new List<IVect>()
+                    {
+                        new IVect(x,y)
+                    };
+                    for (int i = 0; i < ActiveSector[x, y].building.xSize; i++)
+                    {
+                        for (int j = 0; j < ActiveSector[x, y].building.ySize; j++)
+                        {
+                            if (i == 0 && j == 0)
+                            {
+                                continue;
+                            }
+                            if (ActiveSector[x, y].building.ValidTiles(world.GetTile(x + i, y + j)))
+                            {
+                                tempLinkers.Add(new IVect(x + i, y + j));
+                                ActiveSector[x+i,y+j].building = new Linker(new IVect(x+i, y + j), ActiveSector[x,y].building);
+                            }
+                            else
+                            {
+                                foreach (IVect tempLinker in tempLinkers)
+                                {
+                                    ActiveSector[tempLinker.x, tempLinker.y].building = null;
+                                }
+                            }
+                        }
+                    }
+                }
+
 
                 if (ActiveSector[x, y].building is FBuilding)
                 {
