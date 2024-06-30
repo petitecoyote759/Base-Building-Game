@@ -48,9 +48,9 @@ namespace Base_Building_Game
                 {
                     DrawTiles();
                     DrawBuildings();
+                    DrawEntities();
                     DrawPlayer();
                     DrawUI();
-                    DrawEntities();
                 }
 
 
