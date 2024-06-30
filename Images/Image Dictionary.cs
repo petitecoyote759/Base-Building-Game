@@ -35,6 +35,8 @@ namespace Base_Building_Game
 
             { "WallNode0", "Buildings\\wall node0.png" },
 
+            { "Extractor0", "Buildings\\extractor.png" },
+
 
 
             
