@@ -12,6 +12,7 @@ namespace Base_Building_Game
         public partial class Renderer : ShortRenderer
         {
             public Dictionary<short, IntPtr> TileImages;
+            public Dictionary<short, IntPtr[]> BuildingImages;
         }
 
 
@@ -34,6 +35,33 @@ namespace Base_Building_Game
                 { (short)TileID.Diamond,   renderer.images["Diamond"] },
 
                 { (short)TileID.Error, renderer.images["Error"] }
+            };
+
+
+
+            renderer.BuildingImages = new Dictionary<short, IntPtr[]>()
+            {
+                { 
+                    (short)BuildingID.Bridge, new IntPtr[] 
+                    { 
+                        renderer.images["BridgeNode0"],
+                        renderer.images["BridgeNode0"],
+                        renderer.images["BridgeNode0"],
+                        renderer.images["BridgeNode0"],
+                        renderer.images["BridgeNode0"],
+                    } 
+                },
+
+                {
+                    (short)BuildingID.Wall, new IntPtr[]
+                    {
+                        renderer.images["WallNode0"],
+                        renderer.images["WallNode0"],
+                        renderer.images["WallNode0"],
+                        renderer.images["WallNode0"],
+                        renderer.images["WallNode0"],
+                    }
+                },
             };
         }
     }
