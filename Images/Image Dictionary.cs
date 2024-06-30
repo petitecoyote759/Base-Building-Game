@@ -29,7 +29,17 @@ namespace Base_Building_Game
             
             
             // entities
-            { "Player", "Entities\\Body.png" }
+            { "Player", "Entities\\Body.png" },
+
+
+
+            //
+            { "MouseBox", "UI\\box.png" },
+            { "Hotbar", "UI\\hotbar.png" },
+            { "SelectBox", "UI\\selectBox.png" },
+
+            { "CollectBox", "UI\\collect box.png" }, // for men
+            { "DeliverBox", "UI\\deliver box.png" },
         };
     }
 }
