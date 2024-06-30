@@ -36,7 +36,11 @@ namespace Base_Building_Game
 
                 if (int.TryParse(inp, out int result)) // if it is a number
                 {
-                    HotbarSelected = result;
+                    HotbarSelected = result - 1;
+                    if (result == 0)
+                    {
+                        HotbarSelected = 9;
+                    }
                 }
 
                 switch (inp)
