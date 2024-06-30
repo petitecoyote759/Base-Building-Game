@@ -19,6 +19,11 @@ namespace Base_Building_Game
             {
                 IVect MPos = getMousePos();
                 DrawBP(GetBlockx(MPos.x), GetBlocky(MPos.y), "MouseBox");
+
+                if (player.selectedTile is not null)
+                {
+                    DrawBP(player.selectedTile.Value.x, player.selectedTile.Value.y, "SelectBox");
+                }
                 // MouseBox   return (zoom * x) - (zoom * player.camPos.x / 32) + halfscreenwidth;
 
 

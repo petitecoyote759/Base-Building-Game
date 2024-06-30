@@ -24,6 +24,12 @@ namespace Base_Building_Game
 
                         hotbar.BuildBuilding(HotbarSelected, renderer.GetBlockx(pos.x), renderer.GetBlocky(pos.y));
                     }
+                    else
+                    {
+                        IVect pos = getMousePos();
+
+                        player.selectedTile = new IVect(renderer.GetBlockx(pos.x), renderer.GetBlocky(pos.y));
+                    }
                 }
             }
 

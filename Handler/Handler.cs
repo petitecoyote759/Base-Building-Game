@@ -50,6 +50,7 @@ namespace Base_Building_Game
                         if (down)
                         {
                             HotbarSelected = -1;
+                            player.selectedTile = null;
                         }
 
                         break;
@@ -58,10 +59,7 @@ namespace Base_Building_Game
                     case "SPACE":
 
                         if (!InGame) { InGame = true; }  // TODO: change this when the menu is added
-                        else
-                        {
-                            Item item = new Item(ItemID.Wood, player.pos);
-                        }
+
                         break;
 
                     case "MouseWheel":

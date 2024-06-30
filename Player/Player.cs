@@ -19,6 +19,8 @@ namespace Base_Building_Game
             public IVect camPos = new IVect();
             public IVect SectorPos = new IVect((World.size + 1) / 2, (World.size + 1) / 2);
 
+            public IVect? selectedTile = null;
+
             public int speed { get => settings.PlayerSpeed; }
             public int camspeed = 1;
 
