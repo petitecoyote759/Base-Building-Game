@@ -15,8 +15,8 @@ namespace Base_Building_Game
             public void DrawPlayer()
             {
                 Draw(
-                    (player.x - player.camPos.x) * zoom / 32 + halfscreenwidth,
-                    (player.y - player.camPos.y) * zoom / 32 + halfscreenheight, 
+                    (player.x - player.camPos.x - 16) * zoom / 32 + halfscreenwidth,
+                    (player.y - player.camPos.y  -16) * zoom / 32 + halfscreenheight, 
                     zoom, zoom, "Player", player.angle);
             }
         }

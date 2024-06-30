@@ -16,9 +16,9 @@ namespace Base_Building_Game
     {
         public class PerlinMap
         {
-            public const int PerlinWidth = 32;
+            public int PerlinWidth;
 
-            public IVect[,] vectors = new IVect[SectorSize / PerlinWidth + 1, SectorSize / PerlinWidth + 1];
+            public IVect[,] vectors;
 
             public IVect this[int x, int y] => vectors[x, y];
             public IVect this[IVect pos] => vectors[pos.x, pos.y];
@@ -30,8 +30,11 @@ namespace Base_Building_Game
 
 
 
-            public PerlinMap()
+            public PerlinMap(int PerlinWidth = 32)
             {
+                this.PerlinWidth = PerlinWidth;
+                vectors = new IVect[SectorSize / PerlinWidth + 1, SectorSize / PerlinWidth + 1];
+
                 GenVectors();
             }
 

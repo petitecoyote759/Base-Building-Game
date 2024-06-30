@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Short_Tools;
+using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
@@ -102,14 +103,16 @@ namespace Base_Building_Game
                 //GrowIslandSeed(Seed, sector);
             }
 
-            StringBuilder SeedPos = new StringBuilder();
-            foreach (IVect DSeed in Seeds) { SeedPos.Append(DSeed.ToString() + ", "); }
-            debugger.AddLog(SeedPos.ToString(), Short_Tools.ShortDebugger.Priority.DEBUG);
+            //StringBuilder SeedPos = new StringBuilder();
+            //foreach (IVect DSeed in Seeds) { SeedPos.Append(DSeed.ToString() + ", "); }
+            //debugger.AddLog(SeedPos.ToString(), Short_Tools.ShortDebugger.Priority.DEBUG);
+            
+            AddLog($"{Seeds.Count} seeds created", ShortDebugger.Priority.DEBUG);
 
 
             CreateLand(Seeds.ToArray(), sector);
 
-
+            AddLog("Completed land generation", ShortDebugger.Priority.DEBUG);
 
             return sector;
         }

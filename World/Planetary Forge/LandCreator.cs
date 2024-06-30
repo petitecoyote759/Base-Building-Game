@@ -24,15 +24,14 @@ namespace Base_Building_Game
             {
                 for (int y = 0; y < SectorSize; y++)
                 {
-                    float value = 2 * map.GetValue(x, y) / PerlinMap.PerlinWidth;
-                    ;
+                    float value = 2 * map.GetValue(x, y) / map.PerlinWidth;
+                    
                     foreach (IVect seed in seeds)
                     {
                         float dist = RoughSum(seed, new IVect(x, y));
                         if (dist < 100)
                         {
-                            float add = 5f / (1 + MathF.Pow(2, dist / 30));
-                            value += add;
+                            value += 5f / (1 + MathF.Pow(2, dist / 30));
                         }
                     }
 
@@ -56,8 +55,9 @@ namespace Base_Building_Game
                     }
                 }
             }
-
-
+            AddLog("Terrain Generated", ShortDebugger.Priority.DEBUG);
+            GenResources(sector);
+            AddLog("Resources Generated", ShortDebugger.Priority.DEBUG);
         }
 
 
@@ -65,6 +65,40 @@ namespace Base_Building_Game
         public static int RoughSum(IVect left, IVect right)
         {
             return Math.Abs(left.x - right.x) + Math.Abs(left.y - right.y);
+        }
+
+
+
+
+
+        public static void GenResources(Sector sector)
+        {
+            GenResourceNode(sector, 8, 1.6f, TileID.Diamond, 600);
+            GenResourceNode(sector, 8, 1.4f, TileID.Iron, 300);
+            GenResourceNode(sector, 8, 1.3f, TileID.Stone, 0);
+            GenResourceNode(sector, 16, 1.2f, TileID.Wood, 0);
+        }
+
+
+        public static void GenResourceNode(Sector sector, int size, float scale, TileID target, int mindistance)
+        {
+            PerlinMap Map = new PerlinMap(size);
+
+            for (int x = 0; x < SectorSize; x++)
+            {
+                for (int y = 0; y < SectorSize; y++)
+                {
+                    float value = 2 * Map.GetValue(x, y) / Map.PerlinWidth;
+
+                    if (value > scale && sector[x, y].ID == (short)TileID.Grass)
+                    {
+                        if (new IVect(x - SectorSize / 2, y - SectorSize / 2).Mag() > mindistance)
+                        {
+                            sector[x, y] = new Tile(target);
+                        }
+                    }
+                }
+            }
         }
     }
 }
