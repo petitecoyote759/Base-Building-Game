@@ -39,6 +39,8 @@ namespace Base_Building_Game
 
             { "DropPod0", "Buildings\\DropPod0.png" },
 
+            { "SmallPort0", "Buildings\\port up.png" },
+
 
 
             

@@ -19,7 +19,7 @@ namespace Base_Building_Game
 
 
             public short ID { get; } = (short)BuildingID.DropPod;
-            public Inventory? inventory { get; set; }
+            public Inventory? inventory { get; set; } = new Inventory();
             public int CurrentHealth { get; set; }
 
             public int xSize { get; } = 3;
@@ -28,6 +28,7 @@ namespace Base_Building_Game
             public IVect pos { get; set; }
 
             public int rotation { get; set; } = 0;
+            public bool rotatable { get; } = false;
 
             public DropPod(IVect pos)
             {

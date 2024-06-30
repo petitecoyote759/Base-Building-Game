@@ -57,9 +57,20 @@ namespace Base_Building_Game
             {
                 if (settings.Cheats && player) { return true; } 
 
-                if (tile.ID == (short)TileID.DeepOcean ||
-                    tile.ID == (short)TileID.Ocean) 
-                { return false; }
+                if (tile.ID == (short)TileID.DeepOcean) { return false; }
+                if (tile.ID == (short)TileID.Ocean) 
+                { 
+                    if (tile.building is null) { return false; }
+
+                    if (tile.building.ID == (short)BuildingID.Bridge || 
+                        tile.building.ID == (short)BuildingID.SmallPort ||
+                        tile.building.ID == (short)BuildingID.MedPort ||
+                        tile.building.ID == (short)BuildingID.LargePort)
+                    {
+                        return true;
+                    }
+                    return false; 
+                }
 
                 if (tile.building is not null)
                 {

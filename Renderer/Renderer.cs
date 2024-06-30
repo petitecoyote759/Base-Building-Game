@@ -78,11 +78,11 @@ namespace Base_Building_Game
                 int px = player.camPos.x;
                 int py = player.camPos.y;
 
-                int Left = (px / 32) - (halfscreenwidth / zoom) - 1;
+                int Left = (px / 32) - (halfscreenwidth / zoom) - 2;
                 int Top = (py / 32) - (halfscreenheight / zoom) - 2;
                 // OPTIMISE: make it so it doesnt recalc every time 
 
-                for (int x = Left; x < Left + screenwidth / zoom + 2; x++)
+                for (int x = Left; x < Left + screenwidth / zoom + 4; x++)
                 {
                     for (int y = Top; y < Top + screenheight / zoom + 4; y++)
                     {
@@ -134,15 +134,15 @@ namespace Base_Building_Game
                 int px = player.camPos.x;
                 int py = player.camPos.y;
 
-                int Left = (px / 32) - (halfscreenwidth / zoom) - 1;
-                int Top = (py / 32) - (halfscreenheight / zoom) - 2;
+                int Left = (px / 32) - (halfscreenwidth / zoom) - 4;
+                int Top = (py / 32) - (halfscreenheight / zoom) - 4;
 
 
 
 
-                for (int x = Left; x < Left + screenwidth / zoom + 2; x++)
+                for (int x = Left; x < Left + screenwidth / zoom + 8; x++)
                 {
-                    for (int y = Top; y < Top + screenheight / zoom + 4; y++)
+                    for (int y = Top; y < Top + screenheight / zoom + 8; y++)
                     {
                         Tile tile = world.GetTile(x, y);
 
@@ -153,7 +153,8 @@ namespace Base_Building_Game
                             DrawBP(x, y, 
                                 BuildingImages[tile.building.ID][Research[tile.building.ID]],
                                 zoom * tile.building.xSize,
-                                zoom * tile.building.ySize
+                                zoom * tile.building.ySize,
+                                tile.building.rotation * 90d
                                 );
                         }
                     }
@@ -173,16 +174,16 @@ namespace Base_Building_Game
             /// <param name="x"></param>
             /// <param name="y"></param>
             /// <param name="image"></param>
-            public void DrawBP(int x, int y, string image)
+            public void DrawBP(int x, int y, string image, double angle = 0)
             {
-                DrawBP(x, y, images[image]);
+                DrawBP(x, y, images[image], angle);
             }
             /// <summary>
             /// Draws based on block position.
             /// </summary>
-            public void DrawBP(int x, int y, IntPtr image)
+            public void DrawBP(int x, int y, IntPtr image, double angle = 0)
             {
-                Draw(GetPx(x), GetPy(y), zoom, zoom, image);
+                Draw(GetPx(x), GetPy(y), zoom, zoom, image, angle);
             }
             /// <summary>
             /// Draws based on block position.

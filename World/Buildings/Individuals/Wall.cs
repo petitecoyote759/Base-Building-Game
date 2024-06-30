@@ -19,7 +19,7 @@ namespace Base_Building_Game
 
 
             public short ID { get; } = (short)BuildingID.Wall;
-            public Inventory? inventory { get; set; }
+            public Inventory? inventory { get; set; } = null;
             public int CurrentHealth { get; set; }
             // maybe save connections?
 
@@ -28,6 +28,7 @@ namespace Base_Building_Game
 
             public IVect pos { get; set; }
             public int rotation { get; set; } = 0;
+            public bool rotatable { get; } = false;
 
 
             public Wall(IVect pos)

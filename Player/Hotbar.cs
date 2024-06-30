@@ -62,7 +62,9 @@ namespace Base_Building_Game
                     (byte)BuildingID.Bridge    => new Bridge(new IVect(x, y)),
                     (byte)BuildingID.Wall      => new Wall(new IVect(x, y)),
                     (byte)BuildingID.Extractor => new Extractor(new IVect(x, y)),
-                    (byte)BuildingID.DropPod => new DropPod(new IVect(x,y)),
+                    (byte)BuildingID.DropPod   => new DropPod(new IVect(x, y)),
+                    (byte)BuildingID.SmallPort => new SmallPort(new IVect(x, y)),
+
                     _ => null
                 }; // Add new buildings here ^^^^^^
 

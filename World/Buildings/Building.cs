@@ -46,6 +46,10 @@ namespace Base_Building_Game
             OilRig,
             ConveyorBelt,
             Constructor,
+
+            SmallPort,
+            MedPort,
+            LargePort,
         }
 
 
@@ -73,6 +77,8 @@ namespace Base_Building_Game
             /// Rotation of the building, 0 is up, 1 is right, and so on.
             /// </summary>
             public int rotation { get; set; }
+
+            public bool rotatable { get; }
         }
 
 

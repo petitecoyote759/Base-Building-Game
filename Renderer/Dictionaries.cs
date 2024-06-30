@@ -78,6 +78,8 @@ namespace Base_Building_Game
                         renderer.images["Extractor0"],
                     }
                 },
+
+
                  {
                     (short)BuildingID.DropPod, new IntPtr[]
                     {
@@ -88,7 +90,24 @@ namespace Base_Building_Game
                         renderer.images["DropPod0"],
                     }
                 },
+
+
+                 {
+                    (short)BuildingID.SmallPort, new IntPtr[]
+                    {
+                        renderer.images["SmallPort0"],
+                        renderer.images["SmallPort0"],
+                        renderer.images["SmallPort0"],
+                        renderer.images["SmallPort0"],
+                        renderer.images["SmallPort0"],
+                    }
+                },
             };
+
+
+
+
+
 
             renderer.ItemImages = new Dictionary<short, IntPtr>()
             {

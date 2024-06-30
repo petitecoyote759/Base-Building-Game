@@ -9,19 +9,18 @@ using IVect = Short_Tools.General.ShortIntVector2;
 
 
 
-
 namespace Base_Building_Game
 {
     public static partial class General
     {
-        public class Bridge : Building
+        public class SmallPort : Building
         {
-            public Func<Tile, bool> ValidTiles { get; } = (Tile tile) => tile.ID == (short)TileID.Ocean; 
+            public Func<Tile, bool> ValidTiles { get; } = (Tile tile) => tile.ID == (short)TileID.Ocean;
 
 
 
-            public short ID { get; } = (short)BuildingID.Bridge;
-            public Inventory? inventory { get; set; } = null;
+            public short ID { get; } = (short)BuildingID.SmallPort;
+            public Inventory? inventory { get; set; } = new Inventory();
             public int CurrentHealth { get; set; }
 
             public int xSize { get; } = 1;
@@ -29,11 +28,12 @@ namespace Base_Building_Game
 
             public IVect pos { get; set; }
             public int rotation { get; set; } = 0;
-            public bool rotatable { get; } = false;
+            public bool rotatable { get; } = true;
 
-            public Bridge(IVect pos)
+            public SmallPort(IVect pos)
             {
                 this.pos = pos;
+
             }
         }
     }

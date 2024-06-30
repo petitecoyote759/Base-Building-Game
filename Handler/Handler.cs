@@ -26,8 +26,8 @@ namespace Base_Building_Game
 
 
 
-            public class Handler : ShortHandler
-            {
+        public class Handler : ShortHandler
+        {
 
             public Handler() : base() { } // stick in base(Flag.Debug) to see what buttons are pressed 
 
@@ -65,15 +65,22 @@ namespace Base_Building_Game
 
                     case "MouseWheel":
 
-                        if (down)
+                        if (HotbarSelected == -1)
                         {
-                            renderer.zoom = renderer.zoom * 11 / 10;
-                            if (renderer.zoom > 200) { renderer.zoom = 200; }
+                            if (down)
+                            {
+                                renderer.zoom = renderer.zoom * 11 / 10;
+                                if (renderer.zoom > 200) { renderer.zoom = 200; }
+                            }
+                            else
+                            {
+                                renderer.zoom = renderer.zoom * 9 / 10;
+                                if (renderer.zoom < 10) { renderer.zoom = 10; }
+                            }
                         }
                         else
                         {
-                            renderer.zoom = renderer.zoom * 9 / 10;
-                            if (renderer.zoom < 10) { renderer.zoom = 10; }
+                            player.CurrrentRotation = (player.CurrrentRotation + (down ? 1 : -1)) % 4;
                         }
 
                         break;

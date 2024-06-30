@@ -52,6 +52,7 @@ namespace Base_Building_Game
 
             public int ySize  { get; } = 1;
             public int rotation { get; set; } = 0;
+            public bool rotatable { get; } = false;
 
             public Building connectedBuilding;
 

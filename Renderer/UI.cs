@@ -34,7 +34,7 @@ namespace Base_Building_Game
                     {
                         if (BuildingImages.ContainsKey(ID))
                         {
-                            DrawBP(GetBlockx(MPos.x), GetBlocky(MPos.y), BuildingImages[ID][Research[ID]]);
+                            DrawBP(GetBlockx(MPos.x), GetBlocky(MPos.y), BuildingImages[ID][Research[ID]], 90d * player.CurrrentRotation);
                         }
                     }
                 }

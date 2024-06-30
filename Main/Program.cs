@@ -41,6 +41,7 @@ namespace Base_Building_Game
             hotbar.SetBuilding(BuildingID.Bridge);
             hotbar.SetBuilding(BuildingID.Extractor);
             hotbar.SetBuilding(BuildingID.DropPod);
+            hotbar.SetBuilding(BuildingID.SmallPort);
 
             hotbar.BuildBuilding(2, player.x / 32, player.y / 32);
            
