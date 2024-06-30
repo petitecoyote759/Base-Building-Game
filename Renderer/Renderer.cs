@@ -121,7 +121,8 @@ namespace Base_Building_Game
                     {
                         
                         Item item = (Item)entity;
-                        DrawBP(entity.pos.x / 32, entity.pos.y / 32, ItemImages[(short)item.ID]);
+                        //DrawBP(entity.pos.x / 32, entity.pos.y / 32, ItemImages[(short)item.ID]);
+                        DrawPP(entity.pos.x, entity.pos.y, ItemImages[(short)item.ID]);
                     }
                     //When new entities are added, add them here:
                     //
@@ -149,7 +150,11 @@ namespace Base_Building_Game
 
                         if (BuildingImages.ContainsKey(tile.building.ID))
                         {
-                            DrawBP(x, px, y, py, BuildingImages[tile.building.ID][Research[tile.building.ID]]);
+                            DrawBP(x, y, 
+                                BuildingImages[tile.building.ID][Research[tile.building.ID]],
+                                zoom * tile.building.xSize,
+                                zoom * tile.building.ySize
+                                );
                         }
                     }
                 }
@@ -192,6 +197,43 @@ namespace Base_Building_Game
             public void DrawBP(int x, int px, int y, int py, IntPtr image)
             {
                 Draw(GetPx(x, px), GetPy(y, py), zoom, zoom, image);
+            }
+
+            /// <summary>
+            /// Draws based on block position
+            /// </summary>
+            public void DrawBP(int x, int y, IntPtr image, int sizex, int sizey, double angle = 0d)
+            {
+                Draw(GetPx(x), GetPy(y), sizex, sizey, image);
+            }
+            /// <summary>
+            /// Draws based on block position
+            /// </summary>
+            public void DrawBP(int x, int y, string image, int sizex, int sizey, double angle = 0d)
+            {
+                DrawBP(x, y, images[image], sizex, sizey, angle);
+            }
+
+
+
+
+
+            /// <summary>
+            /// Draws based on the player position (anything scaled up by 32)
+            /// </summary>
+            public void DrawPP(int x, int y, IntPtr image, double angle = 0)
+            {
+                Draw(
+                    (x - player.camPos.x - 16) * zoom / 32 + halfscreenwidth,
+                    (y - player.camPos.y - 16) * zoom / 32 + halfscreenheight,
+                    zoom, zoom, image, angle);
+            }
+            /// <summary>
+            /// Draws based on the player position (anything scaled up by 32)
+            /// </summary>
+            public void DrawPP(int x, int y, string image, double angle = 0)
+            {
+                DrawPP(x, y, images[image], angle);
             }
 
 

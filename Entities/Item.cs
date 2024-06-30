@@ -21,6 +21,8 @@ namespace Base_Building_Game
         {
             public ItemID ID;
             public IVect pos { get; set; }
+            public bool Targeted = false;
+            public bool InExtractor = false;
 
             public Item(ItemID id,IVect pos)
             {
