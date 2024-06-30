@@ -13,6 +13,7 @@ namespace Base_Building_Game
         {
             public Dictionary<short, IntPtr> TileImages;
             public Dictionary<short, IntPtr[]> BuildingImages;
+            public Dictionary<short, IntPtr> ItemImages;
         }
 
 
@@ -62,6 +63,11 @@ namespace Base_Building_Game
                         renderer.images["WallNode0"],
                     }
                 },
+            };
+
+            renderer.ItemImages = new Dictionary<short, IntPtr>()
+            {
+                {(short)ItemID.Wood, renderer.images["woodItem"] }
             };
         }
     }

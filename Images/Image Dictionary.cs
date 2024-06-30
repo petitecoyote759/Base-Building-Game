@@ -41,6 +41,7 @@ namespace Base_Building_Game
             
             // entities
             { "Player", "Entities\\Body.png" },
+            {"woodItem", "Entities\\woodItem.png" },
 
 
 

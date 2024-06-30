@@ -50,6 +50,7 @@ namespace Base_Building_Game
                     DrawBuildings();
                     DrawPlayer();
                     DrawUI();
+                    DrawEntities();
                 }
 
 
@@ -95,7 +96,29 @@ namespace Base_Building_Game
                 }
             }
 
+            public void DrawEntities()
+            {
+                int zoom = renderer.zoom;
+                int px = player.camPos.x;
+                int py = player.camPos.Y;
 
+                //This returns all of the entities which are on the screen using LINQ. It orders them by distance from the player in order to give them rendering priority if there are too many entities.
+                List<IEntity> entitiesToRender =
+                    (from entity in LoadedEntities
+                    where GetPx(entity.pos.x) >= 0 && GetPx(entity.pos.x) <= screenwidth && GetPy(entity.pos.y) >= 0 && GetPy(entity.pos.y) <= screenheight
+                    //orderby (player.pos - entity.pos).Mag() ascending
+                    select entity).ToList();
+                
+                foreach (IEntity entity in entitiesToRender)
+                {
+                    if (entity.GetType() == typeof(Item))
+                    {
+                        Item item = (Item)entity;
+                        DrawBP(px, py, ItemImages[(short)item.ID]);
+                    }
+                    
+                }
+            }
             public void DrawBuildings()
             {
                 int zoom = renderer.zoom;
