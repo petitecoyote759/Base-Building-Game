@@ -26,6 +26,13 @@ namespace Base_Building_Game
                     }
                 }
             }
+
+            FBuilding[] buildings = FBuildings.ToArray();
+
+            foreach (FBuilding building in buildings)
+            {
+                building.Action(dt);
+            }
         }
     }
 }

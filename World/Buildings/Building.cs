@@ -8,6 +8,22 @@ namespace Base_Building_Game
 {
     public static partial class General
     {
+        // 1. Add to enum
+        // 2. Make the class (inherit from Building or FBuilding if it is functional)
+        // 3. Add to building images (add image if neccessary) (Renderer\Dictionaries.cs)
+        // 4. Add building to the Hotbar switch statement in Player\Hotbar.cs\BuildBuildings()
+
+
+
+
+
+
+
+
+
+
+
+
         public enum BuildingID : short
         {
             None,
@@ -51,7 +67,7 @@ namespace Base_Building_Game
 
         public interface FBuilding : Building
         {
-            public void Action(long dt);
+            public void Action(int dt);
         }
     }
 }

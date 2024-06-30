@@ -50,13 +50,20 @@ namespace Base_Building_Game
             {
                 if (ActiveSector[x, y].building is not null) { return; }
 
+
+
+
                 ActiveSector[x, y].building = items[pos] switch
                 {
-                    (byte)BuildingID.Bridge => new Bridge(),
-                    (byte)BuildingID.Wall   => new Wall(),
+                    (byte)BuildingID.Bridge    => new Bridge(),
+                    (byte)BuildingID.Wall      => new Wall(),
+                    (byte)BuildingID.Extractor => new Extractor(),
 
                     _ => null
-                };
+                }; // Add new buildings here ^^^^^^
+
+
+
 
                 if (ActiveSector[x, y].building is null) { return; }
 

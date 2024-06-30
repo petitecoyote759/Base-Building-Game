@@ -40,6 +40,8 @@ namespace Base_Building_Game
 
 
 
+
+
             renderer.BuildingImages = new Dictionary<short, IntPtr[]>()
             {
                 { 
@@ -53,6 +55,7 @@ namespace Base_Building_Game
                     } 
                 },
 
+
                 {
                     (short)BuildingID.Wall, new IntPtr[]
                     {
@@ -61,6 +64,18 @@ namespace Base_Building_Game
                         renderer.images["WallNode0"],
                         renderer.images["WallNode0"],
                         renderer.images["WallNode0"],
+                    }
+                },
+
+
+                {
+                    (short)BuildingID.Extractor, new IntPtr[]
+                    {
+                        renderer.images["Extractor0"],
+                        renderer.images["Extractor0"],
+                        renderer.images["Extractor0"],
+                        renderer.images["Extractor0"],
+                        renderer.images["Extractor0"],
                     }
                 },
             };

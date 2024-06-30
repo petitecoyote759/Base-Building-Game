@@ -34,6 +34,9 @@ namespace Base_Building_Game
         static Sector ActiveSector = new Sector(false);
 
 
+        static List<FBuilding> FBuildings = new List<FBuilding>();
+
+
         /// <summary>
         /// Bool representing if the player is currently in a game (online or offline)
         /// </summary>
