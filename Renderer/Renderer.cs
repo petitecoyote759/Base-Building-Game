@@ -103,17 +103,14 @@ namespace Base_Building_Game
                 int py = player.camPos.Y;
 
 
+
+                IEntity[] entities = LoadedEntities.ToArray();
                 //This returns all of the entities which are on the screen using LINQ. It orders them by distance from the player in order to give them rendering priority if there are too many entities.
-                List<IEntity> entitiesToRender =
-                    (from entity in LoadedEntities
-<<<<<<< HEAD
-                    where GetPx(entity.pos.x) >= 0 && GetPx(entity.pos.x) <= screenwidth && GetPy(entity.pos.y) >= 0 && GetPy(entity.pos.y) <= screenheight
-                    orderby (player.pos - entity.pos).Mag() ascending
-=======
-                    where GetPx(entity.pos.x / 32) >= 0 && GetPx(entity.pos.x / 32) <= screenwidth && GetPy(entity.pos.y / 32) >= 0 && GetPy(entity.pos.y / 32) <= screenheight
-                    //orderby (player.pos - entity.pos).Mag() ascending
->>>>>>> 667099fd1dd2f5fb92826862a03fad8c8cb084a4
-                    select entity).ToList();
+                IEntity[] entitiesToRender =
+                    (from entity in entities
+                     where GetPx(entity.pos.x / 32) >= -zoom && GetPx(entity.pos.x / 32) <= screenwidth && GetPy(entity.pos.y / 32) >= -zoom && GetPy(entity.pos.y / 32) <= screenheight
+                     orderby (player.pos - entity.pos).Mag() ascending
+                     select entity).ToArray();
 
 
                 foreach (IEntity entity in entitiesToRender)
