@@ -19,9 +19,10 @@ namespace Base_Building_Game
         /// <param name="path">The location of the JSON file containing the world data.</param>
         public static void LoadWorld(string path)
         {
-           //Loads the world from the json file.
-
-            WorldJson? worldJson = JsonConvert.DeserializeObject<WorldJson>(path);
+            //Loads the world from the json file.
+            StreamReader reader = new StreamReader(path);
+            string jsonString = reader.ReadToEnd();
+            WorldJson? worldJson = JsonConvert.DeserializeObject<WorldJson>(jsonString);
             if (worldJson is null)
             {
                 //Uh oh! Kind of an issue.
@@ -34,6 +35,8 @@ namespace Base_Building_Game
             //Setting the position of the player.
             player.x = worldJson.PlayerX;
             player.y = worldJson.PlayerY;
+            
+
 
             //Initializing the world.
             world = new World();
@@ -57,6 +60,7 @@ namespace Base_Building_Game
             }
 
             world.sectors[activeSectorX,activeSectorY] = loadedSector;
+            ActiveSector = loadedSector;
             
         }
     }

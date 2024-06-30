@@ -39,7 +39,7 @@ namespace Base_Building_Game
                     }
                 }
 
-                SectorData[i / World.size, i % World.size] = new SectorJson() // Not an empty tile 👏
+                 SectorData[i / World.size, i % World.size] = new SectorJson() // Not an empty tile 👏
                 {
                     MapData = ThisMapData.ToString(),
                     ExtraInfo = ThisExtraInfo

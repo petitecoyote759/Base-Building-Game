@@ -17,7 +17,7 @@ namespace Base_Building_Game
         {
             public IVect pos = new IVect();
             public IVect camPos = new IVect();
-            public IVect SectorPos = new IVect((SectorSize + 1) / 2, (SectorSize + 1) / 2);
+            public IVect SectorPos = new IVect((World.size + 1) / 2, (World.size + 1) / 2);
 
             public int speed { get => settings.PlayerSpeed; }
             public int camspeed = 1;

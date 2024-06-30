@@ -28,11 +28,11 @@ namespace Base_Building_Game
             CreateWorld();
 
             renderer.Start();
-
-
+            SaveWorld(world, "test");
+            LoadWorld($"./Saves/test");
             while (Running)
             {
-                handler.HandleInputs(ref Running);
+                handler.HandleInputs(ref Running); 
                 player.Move((int)dt);
 
                 Thread.Sleep(10);
@@ -40,7 +40,7 @@ namespace Base_Building_Game
                 dt = GetDt(ref LFT);
             }
 
-            SaveWorld(world, "test");
+            
 
             Cleanup();
         }
