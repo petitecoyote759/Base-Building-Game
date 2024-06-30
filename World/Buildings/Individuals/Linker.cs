@@ -60,6 +60,17 @@ namespace Base_Building_Game
                 this.pos = pos;
                 this.connectedBuilding = connectedBuilding;
             }
+            public static void ClearLinkers(IVect pos, int xSize, int ySize)
+            {
+                IVect topLeft = pos;
+                for (int x = 0; x < xSize; x++)
+                {
+                    for (int y = 0; y < ySize; y++)
+                    {
+                        ActiveSector[topLeft.x + x, topLeft.y + y].building = null;
+                    }
+                }
+            }
         }
     }
 

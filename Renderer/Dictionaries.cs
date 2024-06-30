@@ -78,6 +78,16 @@ namespace Base_Building_Game
                         renderer.images["Extractor0"],
                     }
                 },
+                 {
+                    (short)BuildingID.DropPod, new IntPtr[]
+                    {
+                        renderer.images["DropPod0"],
+                        renderer.images["DropPod0"],
+                        renderer.images["DropPod0"],
+                        renderer.images["DropPod0"],
+                        renderer.images["DropPod0"],
+                    }
+                },
             };
 
             renderer.ItemImages = new Dictionary<short, IntPtr>()

@@ -148,7 +148,7 @@ namespace Base_Building_Game
 
                         if (tile.building is null) { continue; }    
 
-                        if (BuildingImages.ContainsKey(tile.building.ID))
+                        if (BuildingImages.ContainsKey(tile.building.ID) && tile.building.GetType() != typeof(Linker))
                         {
                             DrawBP(x, y, 
                                 BuildingImages[tile.building.ID][Research[tile.building.ID]],

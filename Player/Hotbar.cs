@@ -62,7 +62,7 @@ namespace Base_Building_Game
                     (byte)BuildingID.Bridge    => new Bridge(new IVect(x, y)),
                     (byte)BuildingID.Wall      => new Wall(new IVect(x, y)),
                     (byte)BuildingID.Extractor => new Extractor(new IVect(x, y)),
-
+                    (byte)BuildingID.DropPod => new DropPod(new IVect(x,y)),
                     _ => null
                 }; // Add new buildings here ^^^^^^
 
@@ -91,7 +91,7 @@ namespace Base_Building_Game
                             {
                                 continue;
                             }
-                            if (ActiveSector[x, y].building.ValidTiles(world.GetTile(x + i, y + j)))
+                            if (ActiveSector[x, y].building.ValidTiles(world.GetTile(x + i, y + j)) && ActiveSector[x+i,y+j].building is null)
                             {
                                 tempLinkers.Add(new IVect(x + i, y + j));
                                 ActiveSector[x+i,y+j].building = new Linker(new IVect(x+i, y + j), ActiveSector[x,y].building);
@@ -100,12 +100,14 @@ namespace Base_Building_Game
                             {
                                 foreach (IVect tempLinker in tempLinkers)
                                 {
-                                    ActiveSector[tempLinker.x, tempLinker.y].building = null;
-                                    return;
+                                    ActiveSector[tempLinker.x, tempLinker.y].building = null;  
+                                    
                                 }
+                                return;
                             }
                         }
                     }
+
                 }
 
 

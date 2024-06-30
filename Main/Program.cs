@@ -42,6 +42,8 @@ namespace Base_Building_Game
             hotbar.SetBuilding(BuildingID.Extractor);
             hotbar.SetBuilding(BuildingID.DropPod);
 
+            hotbar.BuildBuilding(2, player.x / 32, player.y / 32);
+           
 
             renderer.Start();
 

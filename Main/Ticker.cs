@@ -41,7 +41,23 @@ namespace Base_Building_Game
                 {
                     if (player.selectedTile is not null)
                     {
-                        ActiveSector[player.selectedTile.Value.x, player.selectedTile.Value.y].building = null; // TODO: Add refund
+                        int x = player.selectedTile.Value.x;
+                        int y = player.selectedTile.Value.y;
+                        if ((ActiveSector[x,y].building is not null && (ActiveSector[x,y].building.GetType() == typeof(Linker))))
+                        {
+                            Linker selectedLinker = (Linker)ActiveSector[x,y].building;
+                            IVect topLeft = selectedLinker.connectedBuilding.pos;
+                            Linker.ClearLinkers(topLeft,selectedLinker.connectedBuilding.xSize,selectedLinker.connectedBuilding.ySize);     
+                        }
+                        else if (ActiveSector[x,y].building is not null && (ActiveSector[x, y].building.xSize >= 1 || ActiveSector[x, y].building.ySize >= 1))
+                        {
+                            Linker.ClearLinkers(new IVect(player.selectedTile.Value.x, player.selectedTile.Value.y), ActiveSector[x, y].building.xSize, ActiveSector[x, y].building.ySize);
+                        }
+                        else
+                        {
+                            ActiveSector[x, y].building = null; // TODO: Add refund
+                        }
+
                     }
                 }
             }
