@@ -27,6 +27,8 @@ namespace Base_Building_Game
 
             public IVect pos { get; set; }
 
+            public int rotation { get; set; } = 0;
+
             public DropPod(IVect pos)
             {
                 this.pos = pos;

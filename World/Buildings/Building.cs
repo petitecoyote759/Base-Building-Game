@@ -57,6 +57,9 @@ namespace Base_Building_Game
 
         public interface Building
         {
+            /// <summary>
+            /// A function that determins what tiles it is valid to be placed on
+            /// </summary>
             public Func<Tile, bool> ValidTiles { get; }
             public int CurrentHealth { get; set; }
             public short ID { get; }
@@ -64,6 +67,12 @@ namespace Base_Building_Game
             public int xSize { get; }
             public int ySize { get; }
             public IVect pos { get; set; }
+
+
+            /// <summary>
+            /// Rotation of the building, 0 is up, 1 is right, and so on.
+            /// </summary>
+            public int rotation { get; set; }
         }
 
 

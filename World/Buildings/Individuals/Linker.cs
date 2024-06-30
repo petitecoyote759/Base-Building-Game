@@ -51,6 +51,7 @@ namespace Base_Building_Game
             public int xSize { get; } = 1;
 
             public int ySize  { get; } = 1;
+            public int rotation { get; set; } = 0;
 
             public Building connectedBuilding;
 

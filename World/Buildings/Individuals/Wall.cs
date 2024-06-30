@@ -27,7 +27,7 @@ namespace Base_Building_Game
             public int ySize { get; } = 1;
 
             public IVect pos { get; set; }
-
+            public int rotation { get; set; } = 0;
 
 
             public Wall(IVect pos)

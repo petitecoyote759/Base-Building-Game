@@ -42,6 +42,7 @@ namespace Base_Building_Game
             Item? LastItem;
 
             public IVect pos { get; set; }
+            public int rotation { get; set; } = 0;
 
 
             public void Action(int dt)
