@@ -20,6 +20,11 @@ namespace Base_Building_Game
                 DrawBP(GetBlockx(MPos.x), GetBlocky(MPos.y), "MouseBox");
                 // MouseBox   return (zoom * x) - (zoom * player.camPos.x / 32) + halfscreenwidth;
 
+
+                // 356 x 38 def size, scaled upp to 712 x 76
+                Draw((screenwidth / 2) - (712 / 2), screenheight - 76, 712, 76, "Hotbar");
+
+
                 Write(0, 0, 50, 50, (player.pos / 32).ToString());
             }
 
