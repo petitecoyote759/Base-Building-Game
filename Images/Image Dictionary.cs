@@ -37,6 +37,8 @@ namespace Base_Building_Game
 
             { "Extractor0", "Buildings\\extractor.png" },
 
+            { "DropPod0", "Buildings\\DropPod0.png" },
+
 
 
             
