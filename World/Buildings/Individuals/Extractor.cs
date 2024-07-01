@@ -80,7 +80,10 @@ namespace Base_Building_Game
             {
                 this.pos = pos;
                 OnTileID = world.GetTile(pos.x, pos.y).ID;
-                ItemDropID = TileIDToItem[OnTileID];
+                if (TileIDToItem.ContainsKey(OnTileID))
+                {
+                    ItemDropID = TileIDToItem[OnTileID];
+                }
             }
         }
     }

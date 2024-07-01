@@ -111,7 +111,10 @@ namespace Base_Building_Game
 
             renderer.ItemImages = new Dictionary<short, IntPtr>()
             {
-                {(short)ItemID.Wood, renderer.images["woodItem"] }
+                { (short)ItemID.Wood,    renderer.images["woodItem"] },
+                { (short)ItemID.Stone,   renderer.images["StoneItem"] },
+                { (short)ItemID.Iron,    renderer.images["IronItem"] },
+                { (short)ItemID.Diamond, renderer.images["DiamondItem"] },
             };
         }
     }
