@@ -90,7 +90,7 @@ namespace Base_Building_Game
 
                         if (TileImages.ContainsKey(tile.ID))
                         {
-                            DrawBP(x, px, y, py, TileImages[tile.ID]);
+                            DrawBP(x, px, y, py, TileImages[tile.ID], zoom, zoom);
                         }
                     }
                 }
@@ -148,7 +148,7 @@ namespace Base_Building_Game
 
                         if (tile.building is null) { continue; }    
 
-                        if (BuildingImages.ContainsKey(tile.building.ID) && tile.building.GetType() != typeof(Linker))
+                        if (BuildingImages.ContainsKey(tile.building.ID) && tile.building is not Linker)
                         {
                             DrawBP(x, y, 
                                 BuildingImages[tile.building.ID][Research[tile.building.ID]],
@@ -214,6 +214,14 @@ namespace Base_Building_Game
             {
                 DrawBP(x, y, images[image], sizex, sizey, angle);
             }
+            /// <summary>
+            /// Draws based on block position
+            /// </summary>
+            public void DrawBP(int x, int px, int y, int py, IntPtr image, int sizex, int sizey, double angle = 0d)
+            {
+                Draw(GetPx(x, px), GetPy(y, py), sizex, sizey, image, angle);
+            }
+
 
 
 

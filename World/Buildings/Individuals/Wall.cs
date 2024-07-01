@@ -14,7 +14,10 @@ namespace Base_Building_Game
     {
         public class Wall : Building
         {
-            public Func<Tile, bool> ValidTiles { get; } = (Tile tile) => tile.ID == (short)TileID.Grass;
+            public Func<Tile, bool> ValidTiles { get; } = (Tile tile) => 
+            {
+                return tile.ID == (short)TileID.Grass || tile.ID == (short)TileID.Sand; // use a array to make more effic
+            };
 
 
 

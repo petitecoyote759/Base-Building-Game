@@ -44,6 +44,8 @@ namespace Base_Building_Game
             public IVect pos { get; set; }
             public int rotation { get; set; } = 0;
             public bool rotatable { get; } = false;
+            short OnTileID = 0;
+            short ItemDropID = 0;
 
             public void Action(int dt)
             {
@@ -53,7 +55,7 @@ namespace Base_Building_Game
                 {
                     if (LastItem is null)
                     {
-                        LastItem = new Item(ItemID.Wood, (pos * 32) + new IVect(16, 16));
+                        LastItem = new Item(ItemDropID, (pos * 32) + new IVect(16, 16));
                     }
                     else
                     {
@@ -61,7 +63,7 @@ namespace Base_Building_Game
                             LastItem.pos.y < pos.y * 32 || LastItem.pos.y + 32 < pos.y * 32)
                         {
                             LastItem.InExtractor = false;
-                            LastItem = new Item(ItemID.Wood, (pos * 32) + new IVect(16, 16));
+                            LastItem = new Item(ItemDropID, (pos * 32) + new IVect(16, 16));
                         }
                     }
                     TimeSpent = MaxTime - (TimePerTier * tier) - TimeSpent;
@@ -77,6 +79,8 @@ namespace Base_Building_Game
             public Extractor(IVect pos)
             {
                 this.pos = pos;
+                OnTileID = world.GetTile(pos.x, pos.y).ID;
+                ItemDropID = TileIDToItem[OnTileID];
             }
         }
     }
