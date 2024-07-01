@@ -63,7 +63,7 @@ namespace Base_Building_Game
 
                 int Squarex = x / PerlinWidth;
                 int Squarey = y / PerlinWidth;
-
+                
                 float northwest = Vector2.Dot(vectors[x / PerlinWidth, y / PerlinWidth], 
                     new Vector2((Squarex * PerlinWidth) - x, Squarey * PerlinWidth - y)) + 0.5f;
 

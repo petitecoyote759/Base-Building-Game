@@ -16,6 +16,14 @@ namespace Base_Building_Game
 {
     public static partial class General
     {
+        const float OuterWidth = 50;
+        const float FallOff = 20;
+
+
+
+
+
+
         public static void CreateLand(IVect[] seeds, Sector sector)
         {
             PerlinMap map = new PerlinMap();
@@ -29,11 +37,35 @@ namespace Base_Building_Game
                     foreach (IVect seed in seeds)
                     {
                         float dist = RoughSum(seed, new IVect(x, y));
-                        if (dist < 100)
+                        if (dist < 500)
                         {
                             value += 5f / (1 + MathF.Pow(2, dist / 30));
                         }
                     }
+
+
+
+                    if (x < OuterWidth)
+                    {
+                        value -= (x - OuterWidth) * (x - OuterWidth) / (FallOff * FallOff); 
+                    }
+                    else if (x > SectorSize - OuterWidth)
+                    {
+                        value -= (SectorSize - (x + OuterWidth)) * (SectorSize - (x + OuterWidth)) / (FallOff * FallOff);
+                    }
+
+                    if (y < OuterWidth)
+                    {
+                        value -= (y - OuterWidth) * (y - OuterWidth) / (FallOff * FallOff);
+                    }
+                    else if (y > SectorSize - OuterWidth)
+                    {
+                        value -= (SectorSize - (y + OuterWidth)) * (SectorSize - (y + OuterWidth)) / (FallOff * FallOff);
+                    }
+
+
+
+
 
 
 

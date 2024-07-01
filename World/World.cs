@@ -45,8 +45,8 @@ namespace Base_Building_Game
             /// <returns></returns>
             public Tile GetTile(int x, int y)
             {
-                if (0 > x || x >= SectorSize) { return new Tile(TileID.Error); }
-                if (0 > y || y >= SectorSize) { return new Tile(TileID.Error); }
+                if (0 > x || x >= SectorSize) { return new Tile(TileID.DeepOcean); }
+                if (0 > y || y >= SectorSize) { return new Tile(TileID.DeepOcean); }
 
                 return ActiveSector[x, y];
             }
