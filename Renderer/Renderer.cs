@@ -205,7 +205,7 @@ namespace Base_Building_Game
             /// </summary>
             public void DrawBP(int x, int y, IntPtr image, int sizex, int sizey, double angle = 0d)
             {
-                Draw(GetPx(x), GetPy(y), sizex, sizey, image);
+                Draw(GetPx(x), GetPy(y), sizex, sizey, image, angle);
             }
             /// <summary>
             /// Draws based on block position

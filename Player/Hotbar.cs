@@ -63,7 +63,7 @@ namespace Base_Building_Game
                     (byte)BuildingID.Wall      => new Wall(new IVect(x, y)),
                     (byte)BuildingID.Extractor => new Extractor(new IVect(x, y)),
                     (byte)BuildingID.DropPod   => new DropPod(new IVect(x, y)),
-                    (byte)BuildingID.SmallPort => new SmallPort(new IVect(x, y)),
+                    (byte)BuildingID.SmallPort => new SmallPort(new IVect(x, y), player.CurrrentRotation),
 
                     _ => null
                 }; // Add new buildings here ^^^^^^
