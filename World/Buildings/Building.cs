@@ -9,6 +9,11 @@ using static Short_Tools.General;
 using IVect = Short_Tools.General.ShortIntVector2;
 
 
+
+#pragma warning disable CS8603
+
+
+
 namespace Base_Building_Game
 {
     public static partial class General
@@ -96,11 +101,12 @@ namespace Base_Building_Game
         {
             return building switch
             {
-                BuildingID.Bridge => new Bridge(pos),
-                BuildingID.Wall => new Wall(pos),
+                BuildingID.Bridge    => new Bridge(pos),
+                BuildingID.Wall      => new Wall(pos),
                 BuildingID.Extractor => new Extractor(pos),
-                BuildingID.DropPod => new DropPod(pos),
+                BuildingID.DropPod   => new DropPod(pos),
                 BuildingID.SmallPort => new SmallPort(pos, player.CurrrentRotation),
+                BuildingID.MedPort   => new MediumPort(pos, player.CurrrentRotation),
 
                 _ => null
             }; // Add new buildings here ^^^^^^

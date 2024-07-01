@@ -19,7 +19,7 @@ namespace Base_Building_Game
 
             static bool PrivateValidTiles(Tile tile)
             {
-                //if (tile.ID != (short)TileID.Ocean) { return false; }
+                if (tile.ID != (short)TileID.Ocean) { return false; }
 
                 //if (tile.building is MediumPort port)
                 //{

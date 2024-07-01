@@ -34,7 +34,15 @@ namespace Base_Building_Game
                     {
                         if (BuildingImages.ContainsKey(ID))
                         {
-                            DrawBP(GetBlockx(MPos.x), GetBlocky(MPos.y), BuildingImages[ID][Research[ID]], 90d * player.CurrrentRotation);
+                            Building building = BuildingIDToBuilding((BuildingID)ID, new IVect(int.MinValue, int.MinValue));
+
+                            DrawBP(
+                                GetBlockx(MPos.x), 
+                                GetBlocky(MPos.y), 
+                                BuildingImages[ID][Research[ID]], 
+                                zoom * building.xSize,
+                                zoom * building.ySize,
+                                90d * player.CurrrentRotation);
                         }
                     }
                 }
