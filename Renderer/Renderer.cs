@@ -15,7 +15,7 @@ namespace Base_Building_Game
 {
     public static partial class General
     {
-        public partial class Renderer : ShortRenderer
+        public partial class Renderer : XXShortRenderer
         {
             /// <summary>
             /// The size of tiles in pixils, used by the Renderer class.

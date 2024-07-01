@@ -9,7 +9,7 @@ namespace Base_Building_Game
 {
     public static partial class General
     {
-        public partial class Renderer : ShortRenderer
+        public partial class Renderer 
         {
             public Dictionary<short, IntPtr> TileImages;
             public Dictionary<short, IntPtr[]> BuildingImages;
