@@ -102,6 +102,18 @@ namespace Base_Building_Game
                         renderer.images["SmallPort0"],
                     }
                 },
+
+
+                 {
+                    (short)BuildingID.MedPort, new IntPtr[]
+                    {
+                        renderer.images["MediumPort0"],
+                        renderer.images["MediumPort0"],
+                        renderer.images["MediumPort0"],
+                        renderer.images["MediumPort0"],
+                        renderer.images["MediumPort0"],
+                    }
+                },
             };
 
 

@@ -41,6 +41,8 @@ namespace Base_Building_Game
 
             { "SmallPort0", "Buildings\\port up.png" },
 
+            { "MediumPort0", "Buildings\\Medium Port.png" },
+
 
 
             
