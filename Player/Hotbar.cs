@@ -50,24 +50,14 @@ namespace Base_Building_Game
             }
 
 
-            public void BuildBuilding(int pos, int x, int y)
+            public void BuildBuilding(BuildingID id, int x, int y)
             {
                 if (ActiveSector[x, y].building is not null) { return; }
 
-                
 
 
-                ActiveSector[x, y].building = items[pos] switch
-                {
-                    (byte)BuildingID.Bridge    => new Bridge(new IVect(x, y)),
-                    (byte)BuildingID.Wall      => new Wall(new IVect(x, y)),
-                    (byte)BuildingID.Extractor => new Extractor(new IVect(x, y)),
-                    (byte)BuildingID.DropPod   => new DropPod(new IVect(x, y)),
-                    (byte)BuildingID.SmallPort => new SmallPort(new IVect(x, y), player.CurrrentRotation),
 
-                    _ => null
-                }; // Add new buildings here ^^^^^^
-
+                ActiveSector[x, y].building = BuildingIDToBuilding(id,new IVect(x,y));
 
 
 

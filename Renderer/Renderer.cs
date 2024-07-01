@@ -145,18 +145,21 @@ namespace Base_Building_Game
                     for (int y = Top; y < Top + screenheight / zoom + 8; y++)
                     {
                         Tile tile = world.GetTile(x, y);
-
-                        if (tile.building is null) { continue; }    
-
-                        if (BuildingImages.ContainsKey(tile.building.ID) && tile.building is not Linker)
+                        lock(tile)
                         {
-                            DrawBP(x, y, 
-                                BuildingImages[tile.building.ID][Research[tile.building.ID]],
-                                zoom * tile.building.xSize,
-                                zoom * tile.building.ySize,
-                                tile.building.rotation * 90d
-                                );
+                            if (tile.building is null) { continue; }
+
+                            if (BuildingImages.ContainsKey(tile.building.ID) && tile.building is not Linker)
+                            {
+                                DrawBP(x, y,
+                                    BuildingImages[tile.building.ID][Research[tile.building.ID]],
+                                    zoom * tile.building.xSize,
+                                    zoom * tile.building.ySize,
+                                    tile.building.rotation * 90d
+                                    );
+                            }
                         }
+                        
                     }
                 }
             }

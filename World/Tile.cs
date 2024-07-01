@@ -65,7 +65,7 @@ namespace Base_Building_Game
         public static char ConvertTileToCharacter (Tile tile)
         {
             ushort Data = 0;
-            Data += (ushort)(tile.building is not null ? tile.building.ID : 0);
+            Data += (ushort)((tile.building is null or Linker) ? 0 : tile.building.ID);
             Data += (ushort)(0 << 8); // Change to tile.floating at later point
             Data += (ushort)(0 << 9); // Change to tile.friendly at later point
             Data += (ushort)(tile.ID << 10);
@@ -80,6 +80,19 @@ namespace Base_Building_Game
             bool Floating = ((character & 0b0000_0001_0000_0000) >> 8) == 1;
             bool Friendly = ((character & 0b0000_0010_0000_0000) >> 9) == 1;
             NewTile.ID = (short)((character & 0b1111_1100_0000_0000) >> 10);
+            
+
+            return NewTile;
+        }
+        public static Tile ConvertCharacterToTile(char character,out BuildingID ID)
+        {
+            Tile NewTile = new Tile();
+
+            short BuildingID = (short)(character & 0b0000_0000_1111_1111);
+            bool Floating = ((character & 0b0000_0001_0000_0000) >> 8) == 1;
+            bool Friendly = ((character & 0b0000_0010_0000_0000) >> 9) == 1;
+            NewTile.ID = (short)((character & 0b1111_1100_0000_0000) >> 10);
+            ID = (BuildingID)BuildingID;
 
             return NewTile;
         }

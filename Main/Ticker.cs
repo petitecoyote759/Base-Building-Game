@@ -22,7 +22,7 @@ namespace Base_Building_Game
                     {
                         IVect pos = getMousePos();
 
-                        hotbar.BuildBuilding(HotbarSelected, renderer.GetBlockx(pos.x), renderer.GetBlocky(pos.y));
+                        hotbar.BuildBuilding((BuildingID)hotbar[HotbarSelected], renderer.GetBlockx(pos.x), renderer.GetBlocky(pos.y));
                     }
                     else
                     {

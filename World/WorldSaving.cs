@@ -36,6 +36,7 @@ namespace Base_Building_Game
                     for (int y = 0; y < S.map.GetLength(1); y++)
                     {
                         ThisMapData.Append(ConvertTileToCharacter(S.map[x,y]));
+                       
                     }
                 }
 

@@ -8,6 +8,7 @@ using System.Text.Json;
 using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
+using static Base_Building_Game.General;
 
 namespace Base_Building_Game
 {
@@ -22,6 +23,7 @@ namespace Base_Building_Game
             //Loads the world from the json file.
             StreamReader reader = new StreamReader(path);
             string jsonString = reader.ReadToEnd();
+            reader.Close();
             WorldJson? worldJson = JsonConvert.DeserializeObject<WorldJson>(jsonString);
             if (worldJson is null)
             {
@@ -52,11 +54,32 @@ namespace Base_Building_Game
             //This will fill up the sector with the tile data from the bit structure.
             for (int i = 0; i < SectorSize * SectorSize; i++)
             {
-                loadedSector[i / SectorSize, i % SectorSize] = ConvertCharacterToTile(sectorData.MapData[i]);
+                BuildingID buildingID;
+                Tile tile = ConvertCharacterToTile(sectorData.MapData[i]);
+                loadedSector[i / SectorSize, i % SectorSize] = tile;
+               
+                
+                
             }
-            world.sectors[activeSectorX,activeSectorY] = loadedSector;
+
+            world.sectors[activeSectorX, activeSectorY] = loadedSector;
             ActiveSector = loadedSector;
-            
+
+            for (int i = 0; i < SectorSize * SectorSize; i++)
+            {
+                BuildingID buildingID;
+                ConvertCharacterToTile(sectorData.MapData[i],out buildingID);
+                if (buildingID != 0)
+                {
+                    hotbar.BuildBuilding(buildingID, i / SectorSize, i % SectorSize);
+                }
+            }
+
+            world.sectors[activeSectorX, activeSectorY] = loadedSector;
+            ActiveSector = loadedSector;
+
+
+
         }
     }
 }
