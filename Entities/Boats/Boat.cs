@@ -72,7 +72,7 @@ namespace Base_Building_Game
 
             return
                 (-boat.Width * 32 <= MovedPos.x && MovedPos.x <= boat.Width * 0) &&
-                (-boat.Length * 32 <= MovedPos.y && MovedPos.y <= boat.Length * 0);
+                (-boat.Length * 32 + 16 <= MovedPos.y && MovedPos.y <= boat.Length * 0);
         }
     }
 }

@@ -125,6 +125,7 @@ namespace Base_Building_Game
                                         if (!HasResources) { break; }
 
                                         skiff = new Skiff(port.pos * 32);
+                                        skiff.pos = new IVect(skiff.pos.x, skiff.pos.y + 16);
                                         LoadedEntities.Add(skiff);
                                         
 
