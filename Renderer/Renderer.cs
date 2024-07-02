@@ -109,7 +109,15 @@ namespace Base_Building_Game
                 IEntity[] entitiesToRender =
                     (from entity in entities
                      where GetPx(entity.pos.x / 32) >= -zoom && GetPx(entity.pos.x / 32) <= screenwidth && GetPy(entity.pos.y / 32) >= -zoom && GetPy(entity.pos.y / 32) <= screenheight
-                     orderby (player.pos - entity.pos).Mag() ascending
+                     orderby (player.pos - entity.pos).MagSquared() ascending
+                     select entity).ToArray();
+
+                IActiveEntity[] activeEntities = LoadedActiveEntities.ToArray();
+                //This returns all of the entities which are on the screen using LINQ. It orders them by distance from the player in order to give them rendering priority if there are too many entities.
+                IEntity[] activeEntitiesToRender =
+                    (from entity in activeEntities
+                     where GetPx(entity.pos.x / 32) >= -zoom && GetPx(entity.pos.x / 32) <= screenwidth && GetPy(entity.pos.y / 32) >= -zoom && GetPy(entity.pos.y / 32) <= screenheight
+                     orderby (player.pos - entity.pos).MagSquared() ascending
                      select entity).ToArray();
 
 
@@ -117,15 +125,21 @@ namespace Base_Building_Game
                 foreach (IEntity entity in entitiesToRender)
                 {
                     //If its an item, then we render using the itemImages dictionary.
-                    if (entity.GetType() == typeof(Item))
+                    if (entity is Item)
                     {
                         
                         Item item = (Item)entity;
                         //DrawBP(entity.pos.x / 32, entity.pos.y / 32, ItemImages[(short)item.ID]);
                         DrawPP(entity.pos.x, entity.pos.y, ItemImages[(short)item.ID]);
                     }
-                    //When new entities are added, add them here:
-                    //
+                    
+                }
+                foreach (IActiveEntity activeEntity in activeEntitiesToRender)
+                {
+                    if (activeEntity is Men)
+                    {
+                        DrawPP(activeEntity.pos.x, activeEntity.pos.y, images["Man"]);
+                    }
                 }
             }
             public void DrawBuildings()

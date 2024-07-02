@@ -53,6 +53,7 @@ namespace Base_Building_Game
             { "StoneItem", "Entities\\rock.png" },
             { "IronItem", "Entities\\iron.png" },
             { "DiamondItem", "Entities\\diamond.png" },
+            {"Man","Entities\\man.png" },
 
 
 

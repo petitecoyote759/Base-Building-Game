@@ -60,7 +60,10 @@ namespace Base_Building_Game
                     case "SPACE":
 
                         if (!InGame) { InGame = true; }  // TODO: change this when the menu is added
-
+                        else
+                        {
+                            Men man = new Men(player.pos);
+                        }
                         break;
 
                     case "MouseWheel":
