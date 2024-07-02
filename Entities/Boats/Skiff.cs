@@ -35,6 +35,14 @@ namespace Base_Building_Game
             public int Width { get => 1; }
             public int Length { get => 2; }
 
+
+            public int Weight { get => 100; }
+
+            public void Action(int dt)
+            {
+
+            }
+
             public int MaxHealth { get => BaseHealth + (HealthPerTier * BoatResearch[ID]); }
             public int CurrentHealth { get; set; }
 

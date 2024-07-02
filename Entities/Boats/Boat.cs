@@ -16,7 +16,7 @@ namespace Base_Building_Game
 {
     public static partial class General
     {
-        public interface Boat : IEntity
+        public interface Boat : IActiveEntity
         {
             public double angle { get; set; }
             public int Thrust { get; }
@@ -27,6 +27,8 @@ namespace Base_Building_Game
             public int MaxHealth { get; }
             public int CurrentHealth { get; set; }
             public short ID { get; }
+
+            public int Weight { get; }
 
 
             public int Width { get; }

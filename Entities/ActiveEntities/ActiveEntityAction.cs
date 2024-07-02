@@ -10,15 +10,15 @@ namespace Base_Building_Game
     {
         public interface IActiveEntity : IEntity
         {
-            public void Action();
+            public void Action(int dt);
         }
 
         static List<IActiveEntity> LoadedActiveEntities = new List<IActiveEntity>();
-        public static void RunActiveEntities()
+        public static void RunActiveEntities(int dt)
         {
             foreach (IActiveEntity entity in LoadedActiveEntities)
             {
-                entity.Action();
+                entity.Action(dt);
             }
         }
     }

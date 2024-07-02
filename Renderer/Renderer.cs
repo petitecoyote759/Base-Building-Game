@@ -132,7 +132,6 @@ namespace Base_Building_Game
                         //DrawBP(entity.pos.x / 32, entity.pos.y / 32, ItemImages[(short)item.ID]);
                         DrawPP(entity.pos.x, entity.pos.y, ItemImages[item.ID]);
                     }
-<<<<<<< HEAD
                     
                 }
                 foreach (IActiveEntity activeEntity in activeEntitiesToRender)
@@ -140,17 +139,16 @@ namespace Base_Building_Game
                     if (activeEntity is Men)
                     {
                         DrawPP(activeEntity.pos.x, activeEntity.pos.y, images["Man"]);
-=======
+                    }
                     //When new entities are added, add them here:
                     //
-                    if (entity is Boat boat)
+                    if (activeEntity is Boat boat)
                     {
                         if (boat.ID == (short)BoatID.Skiff)
                         {
                             DrawPP(boat.pos.x - boat.Width * 16, boat.pos.y - boat.Length * 16, BoatImages[boat.ID][BoatResearch[boat.ID]], zoom * boat.Width, zoom * boat.Length, boat.angle);
                             DrawPP(boat.pos.x, boat.pos.y, "Short Studios Logo", zoom / 8, zoom / 8);
                         }
->>>>>>> 2b557ec589aee480209291925aabff40b2038589
                     }
                 }
             }

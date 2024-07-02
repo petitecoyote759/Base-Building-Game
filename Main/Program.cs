@@ -62,7 +62,7 @@ namespace Base_Building_Game
                 Thread.Sleep(10);
 
                 dt = GetDt(ref LFT);
-                RunActiveEntities();
+                RunActiveEntities((int)dt);
             }
             SaveWorld(world, "Test.SWrld");
 

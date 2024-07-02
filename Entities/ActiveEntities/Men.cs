@@ -24,7 +24,7 @@ namespace Base_Building_Game
                 LoadedActiveEntities.Add(this);
             }
 
-            public void Action()
+            public void Action(int dt)
             {
                 if (targetedItem is null)
                 {
