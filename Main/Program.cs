@@ -49,6 +49,9 @@ namespace Base_Building_Game
 
             renderer.Start();
 
+            SaveMapImage("uhhh.png");
+
+
             while (Running)
             {
                 handler.HandleInputs(ref Running); 

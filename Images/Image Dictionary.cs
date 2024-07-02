@@ -56,6 +56,13 @@ namespace Base_Building_Game
 
 
 
+            // boats
+            { "Skiff0", "Entities\\Skiff0.png" },
+
+
+
+
+
             //
             { "MouseBox", "UI\\box.png" },
             { "Hotbar", "UI\\hotbar.png" },
@@ -63,6 +70,15 @@ namespace Base_Building_Game
 
             { "CollectBox", "UI\\collect box.png" }, // for men
             { "DeliverBox", "UI\\deliver box.png" },
+
+            { "Port UI", "UI\\Port UI.png" },
+
+
+
+
+
+
+            { "Map", ".png" }
         };
     }
 }

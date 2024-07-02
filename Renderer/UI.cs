@@ -7,6 +7,9 @@ using IVect = Short_Tools.General.ShortIntVector2;
 using Short_Tools;
 using static Short_Tools.General;
 using static Base_Building_Game.General;
+using SDL2;
+using static SDL2.SDL;
+
 
 
 namespace Base_Building_Game
@@ -49,6 +52,39 @@ namespace Base_Building_Game
 
 
 
+
+
+
+
+
+
+                if (player.selectedTile is IVect pos)
+                {
+                    if (world.GetTile(pos.x, pos.y).building is Building building)
+                    {
+                        if (building.ID == (short)BuildingID.SmallPort)
+                        {
+                            DrawBP(building.pos.x - 1, building.pos.y - 2, "Port UI", zoom * 3, zoom * 2);
+                        }
+                        else if (building.ID == (short)BuildingID.MedPort)
+                        {
+                            DrawBP(building.pos.x - 2, building.pos.y - 4, "Port UI", zoom * 6, zoom * 4);
+                        }
+                    }
+                }
+
+
+
+
+
+
+
+
+
+
+
+
+
                 // 356 x 38 def size, scaled upp to 712 x 76
                 Draw((screenwidth / 2) - (712 / 2), screenheight - 76, 712, 76, "Hotbar");
                 for (int i = 0; i < 10; i++)
@@ -67,6 +103,26 @@ namespace Base_Building_Game
                     Write(0, 0, 50, 50, (player.pos / 32).ToString());
                     Write(0, 60, 50, 50, (player.SectorPos / 32).ToString());
                 }
+
+
+
+
+
+
+
+
+                SDL_Rect srcrect = new SDL_Rect()
+                {
+                    x = Math.Max(Math.Min(player.pos.x / 32 - screenwidth / 20, SectorSize - screenwidth / 10), 0),
+                    y = Math.Max(Math.Min(player.pos.y / 32 - screenwidth / 20, SectorSize - screenwidth / 10), 0),
+                    w = screenwidth / 10, h = screenwidth / 10
+                };
+
+                SDL_Rect dstrect = new SDL_Rect() { x = screenwidth * 9 / 10, y = 0, h = screenwidth / 10, w = screenwidth / 10 };
+
+                SDL_RenderCopy(SDLrenderer, images["Map"], ref srcrect, ref dstrect);
+
+                Draw(screenwidth * 19 / 20, screenwidth * 1 / 20, screenwidth / 100, screenwidth / 100, "Player", player.angle);
             }
 
 
