@@ -130,8 +130,9 @@ namespace Base_Building_Game
                         
                         Item item = (Item)entity;
                         //DrawBP(entity.pos.x / 32, entity.pos.y / 32, ItemImages[(short)item.ID]);
-                        DrawPP(entity.pos.x, entity.pos.y, ItemImages[(short)item.ID]);
+                        DrawPP(entity.pos.x, entity.pos.y, ItemImages[item.ID]);
                     }
+<<<<<<< HEAD
                     
                 }
                 foreach (IActiveEntity activeEntity in activeEntitiesToRender)
@@ -139,6 +140,17 @@ namespace Base_Building_Game
                     if (activeEntity is Men)
                     {
                         DrawPP(activeEntity.pos.x, activeEntity.pos.y, images["Man"]);
+=======
+                    //When new entities are added, add them here:
+                    //
+                    if (entity is Boat boat)
+                    {
+                        if (boat.ID == (short)BoatID.Skiff)
+                        {
+                            DrawPP(boat.pos.x - boat.Width * 16, boat.pos.y - boat.Length * 16, BoatImages[boat.ID][BoatResearch[boat.ID]], zoom * boat.Width, zoom * boat.Length, boat.angle);
+                            DrawPP(boat.pos.x, boat.pos.y, "Short Studios Logo", zoom / 8, zoom / 8);
+                        }
+>>>>>>> 2b557ec589aee480209291925aabff40b2038589
                     }
                 }
             }
@@ -262,17 +274,29 @@ namespace Base_Building_Game
                 DrawPP(x, y, images[image], angle);
             }
 
+            public void DrawPP(int x, int y, IntPtr image, int sizex, int sizey, double angle = 0)
+            {
+                Draw(
+                    (x - player.camPos.x - 16) * zoom / 32 + halfscreenwidth,
+                    (y - player.camPos.y - 16) * zoom / 32 + halfscreenheight,
+                    sizex, sizey, image, angle);
+            }
+            public void DrawPP(int x, int y, string image, int sizex, int sizey, double angle = 0)
+            {
+                DrawPP(x, y, images[image], sizex, sizey, angle);
+            }
 
 
 
 
 
-            /// <summary>
-            /// Gets the pixil x position of an object. 
-            /// </summary>
-            /// <param name="x"></param>
-            /// <returns></returns>
-            public int GetPx(int x)
+
+                /// <summary>
+                /// Gets the pixil x position of an object. 
+                /// </summary>
+                /// <param name="x"></param>
+                /// <returns></returns>
+                public int GetPx(int x)
             {
                 return (zoom * x) - (zoom * player.camPos.x / 32) + halfscreenwidth;
             }

@@ -19,6 +19,24 @@ namespace Base_Building_Game
 
 
 
+        public static Dictionary<short, byte> BoatResearch = DefaultBoatResearch();
+
+
+
+
+        public static Dictionary<short, byte> DefaultBoatResearch()
+        {
+            Dictionary<short, byte> Temp = new Dictionary<short, byte>();
+
+            foreach (short id in Enum.GetValues<BoatID>())
+            {
+                Temp.Add(id, (byte)ResearchLevel.Wood);
+            }
+
+            return Temp;
+        }
+
+
 
 
 

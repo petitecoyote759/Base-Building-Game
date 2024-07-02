@@ -96,6 +96,48 @@ namespace Base_Building_Game
                         }
 
                         break;
+
+
+
+
+
+                    case "b":
+
+                        if (player.selectedTile is IVect pos)
+                        {
+                            if (world.GetTile(pos.x, pos.y).building is Building building)
+                            {
+                                switch (building.ID)
+                                {
+                                    case (short)BuildingID.SmallPort:
+
+                                        SmallPort port = (SmallPort)building;
+
+                                        Skiff skiff = new Skiff();
+
+
+                                        bool HasResources = true;
+                                        foreach (var pair in skiff.ResourceCosts)
+                                        {
+                                            if (port.inventory[pair.Key] < pair.Value)
+                                            {
+                                                HasResources = false;
+                                                break; // TODO: add feature init
+                                            }
+                                        }
+                                        if (!HasResources) { break; }
+
+                                        skiff = new Skiff(port.pos * 32);
+                                        skiff.pos = new IVect(skiff.pos.x, skiff.pos.y + 16);
+                                        LoadedEntities.Add(skiff);
+                                        
+
+                                        break;
+                                }
+                            }
+                        }
+
+                        break;
                     
                 }
             }

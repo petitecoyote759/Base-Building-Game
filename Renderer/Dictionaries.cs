@@ -14,6 +14,8 @@ namespace Base_Building_Game
             public Dictionary<short, IntPtr> TileImages;
             public Dictionary<short, IntPtr[]> BuildingImages;
             public Dictionary<short, IntPtr> ItemImages;
+
+            public Dictionary<short, IntPtr[]> BoatImages;
         }
 
 
@@ -127,6 +129,31 @@ namespace Base_Building_Game
                 { (short)ItemID.Stone,   renderer.images["StoneItem"] },
                 { (short)ItemID.Iron,    renderer.images["IronItem"] },
                 { (short)ItemID.Diamond, renderer.images["DiamondItem"] },
+            };
+
+
+
+
+
+
+
+
+
+
+
+
+            renderer.BoatImages = new Dictionary<short, IntPtr[]>()
+            {
+                {
+                    (short)BuildingID.Bridge, new IntPtr[]
+                    {
+                        renderer.images["Skiff0"],
+                        renderer.images["Skiff0"],
+                        renderer.images["Skiff0"],
+                        renderer.images["Skiff0"],
+                        renderer.images["Skiff0"],
+                    }
+                },
             };
         }
     }
