@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Numerics;
 using System.Text;
 using System.Threading.Tasks;
 using Short_Tools;
@@ -16,13 +17,13 @@ namespace Base_Building_Game
     {
         public class Skiff : Boat
         {
-            public IVect pos { get; set; } 
+            public Vector2 pos { get; set; } 
 
             public double angle { get; set; } = 0d;
-            public int Thrust { get; } = 100;
+            public float Thrust { get; } = 0.2f;
             public int TurnSpeed { get; } = 10;
 
-            public int FrictionDivider { get; } = 5;
+            public float FrictionCoeffic { get; } = 0.4f;
             public bool ThrustActive { get; set; } = false;
             public bool HasPlayerPilot { get; set; } = false;
 
@@ -36,12 +37,12 @@ namespace Base_Building_Game
             public int Length { get => 2; }
 
 
-            public int Weight { get => 100; }
+            public int Weight { get => 20; }
 
-            public void Action(int dt)
-            {
+            public Vector2 velocity { get; set; } = new IVect();
 
-            }
+
+
 
             public int MaxHealth { get => BaseHealth + (HealthPerTier * BoatResearch[ID]); }
             public int CurrentHealth { get; set; }
@@ -62,6 +63,41 @@ namespace Base_Building_Game
             public Skiff()
             {
                 pos = new IVect(int.MinValue, int.MinValue);
+            }
+
+
+
+
+
+
+            public void Action(int dt)
+            {
+
+                if (ThrustActive)
+                {
+                    velocity -= new Vector2(
+                        (-Thrust * MathF.Sin(((float)angle) * MathF.PI / 180f)),
+                        (Thrust * MathF.Cos(((float)angle) * MathF.PI / 180f))
+                        ) * ((float)dt * 0.001f / Weight);
+                }
+
+                pos = pos + velocity * dt;
+
+
+                if (HasPlayerPilot)
+                {
+                    player.pos = pos - new Vector2(0, 0.5f);
+
+
+                    if (ActiveKeys["a"])
+                    {
+                        angle -= 4;
+                    }
+                    if (ActiveKeys["d"])
+                    {
+                        angle += 4;
+                    }
+                }
             }
         }
     }

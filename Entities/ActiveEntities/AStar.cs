@@ -32,12 +32,12 @@ namespace Base_Building_Game
             public Stack<IVect>? GetPath(int maxDist)
             {
                 bool found = false;
-                nodesToVisit.Enqueue(new AStar_Node(start / 32, 0),0);
+                nodesToVisit.Enqueue(new AStar_Node(start, 0),0);
                 while (nodesToVisit.Count > 0)
                 {
                     AStar_Node currentNode = nodesToVisit.Dequeue();
-                    int temp = currentNode.ComputeHeuristic(destination / 32);
-                    if (currentNode.ComputeHeuristic(destination / 32) + currentNode.distanceHere > maxDist)
+                    int temp = currentNode.ComputeHeuristic(destination);
+                    if (currentNode.ComputeHeuristic(destination) + currentNode.distanceHere > maxDist)
                     {
                         continue;
                     }
@@ -73,7 +73,7 @@ namespace Base_Building_Game
                                 {
                                     AStar_Node newNode = new AStar_Node(checkedPos, currentNode.distanceHere + 1);
                                     newNode.lastNode = currentNode;
-                                    nodesToVisit.Enqueue(newNode, newNode.distanceHere + newNode.ComputeHeuristic(destination / 32));
+                                    nodesToVisit.Enqueue(newNode, newNode.distanceHere + newNode.ComputeHeuristic(destination));
                                     visitedNodes.Add(newNode);
                                 }
 

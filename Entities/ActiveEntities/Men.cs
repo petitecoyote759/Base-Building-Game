@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Numerics;
 using System.Text;
 using System.Threading.Tasks;
 using IVect = Short_Tools.General.ShortIntVector2;
@@ -14,11 +15,11 @@ namespace Base_Building_Game
         /// </summary>
         public class Men : IActiveEntity
         {
-            public IVect pos { get; set; }
+            public Vector2 pos { get; set; }
             public Item? heldItem {get; set; } = null;
             public Item? targetedItem { get; set; } = null;
             public Stack<IVect>? path { get; set; } = null;
-            public Men(IVect pos)
+            public Men(Vector2 pos)
             {
                 this.pos = pos;
                 LoadedActiveEntities.Add(this);
@@ -36,7 +37,7 @@ namespace Base_Building_Game
                     if (path.Count != 0)
                     {
                         //TODO: Add bezier curves to smoothen out movement over a period of time.
-                        this.pos = path.Pop() * 32;
+                        pos = path.Pop();
                         return;
                     }
                     if (PickupItem())
@@ -56,7 +57,7 @@ namespace Base_Building_Game
                 //This should be fixed soon, I dont like the issue that I brought up with Maddie. 
                 IEntity[] items =  (from item in LoadedEntities
                                 where (item is Item && !((Item)item).Targeted)
-                                orderby (item.pos - this.pos).MagSquared() ascending
+                                orderby Vector2.Dot(item.pos - pos, item.pos - pos) ascending
                                 select item).ToArray();
                
                 //Whenever you want items to not be targeted, add the specification into this foreach loop. 
@@ -71,7 +72,7 @@ namespace Base_Building_Game
             }
             public bool PickupItem()
             {
-                if (targetedItem.pos / 32 == this.pos)
+                if (targetedItem.pos == pos)
                 {
                     heldItem = targetedItem;
                     targetedItem = null;

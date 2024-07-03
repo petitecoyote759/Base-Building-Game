@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Numerics;
 using System.Text;
 using System.Threading.Tasks;
 using System.Xml;
@@ -55,15 +56,15 @@ namespace Base_Building_Game
                 {
                     if (LastItem is null)
                     {
-                        LastItem = new Item(ItemDropID, (pos * 32) + new IVect(16, 16));
+                        LastItem = new Item(ItemDropID, (Vector2)(pos));
                     }
                     else
                     {
-                        if (LastItem.pos.x < pos.x * 32 || LastItem.pos.x + 32 < pos.x * 32 ||
-                            LastItem.pos.y < pos.y * 32 || LastItem.pos.y + 32 < pos.y * 32)
+                        if (LastItem.pos.X < pos.X || LastItem.pos.X + 1 < pos.X ||
+                            LastItem.pos.Y < pos.Y || LastItem.pos.Y + 1 < pos.Y)
                         {
                             LastItem.InExtractor = false;
-                            LastItem = new Item(ItemDropID, (pos * 32) + new IVect(16, 16));
+                            LastItem = new Item(ItemDropID, (Vector2)(pos));
                         }
                     }
                     TimeSpent = MaxTime - (TimePerTier * tier) - TimeSpent;

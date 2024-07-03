@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Numerics;
 using System.Text;
 using System.Threading.Tasks;
 using IVect = Short_Tools.General.ShortIntVector2;
@@ -26,11 +27,11 @@ namespace Base_Building_Game
         public class Item : IEntity 
         {
             public short ID;
-            public IVect pos { get; set; }
+            public Vector2 pos { get; set; }
             public bool Targeted { get; set; }
             public bool InExtractor = false;
 
-            public Item(short id,IVect pos)
+            public Item(short id, Vector2 pos)
             {
                 ID = id;
                 this.pos = pos;

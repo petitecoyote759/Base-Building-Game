@@ -44,7 +44,7 @@ namespace Base_Building_Game
             hotbar.SetBuilding(BuildingID.SmallPort);
             hotbar.SetBuilding(BuildingID.MedPort);
 
-            hotbar.BuildBuilding(BuildingID.DropPod, player.x / 32, player.y / 32);
+            hotbar.BuildBuilding(BuildingID.DropPod, player.blockX, player.blockY);
            
 
             renderer.Start();
@@ -64,6 +64,7 @@ namespace Base_Building_Game
                 dt = GetDt(ref LFT);
                 RunActiveEntities((int)dt);
             }
+
             SaveWorld(world, "Test.SWrld");
 
 

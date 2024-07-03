@@ -55,9 +55,31 @@ namespace Base_Building_Game
 
             public bool Walkable(Tile tile, bool player = false)
             {
+                General.player.boat = null;
                 if (settings.Cheats && player) { return true; } 
 
-                if (tile.ID == (short)TileID.DeepOcean) { return false; }
+
+
+
+                if (tile.ID == (short)TileID.DeepOcean) 
+                {
+                    foreach (Boat boat in (from entity in LoadedActiveEntities where entity is Boat select (Boat)entity).ToArray())
+                    {
+                        //if ((General.player.pos - boat.pos).MagSquared() > 200) { continue; }
+
+                        if (IsPlayerWithinHitbox(boat, General.player))
+                        {
+                            General.player.boat = boat;
+                            return true;
+                        }
+                    }
+                    return false;
+                }
+
+
+
+
+
                 if (tile.ID == (short)TileID.Ocean) 
                 {
                     if (tile.building is not null)
@@ -73,16 +95,17 @@ namespace Base_Building_Game
 
 
 
-                    foreach (Boat boat in (from entity in LoadedEntities where entity is Boat select (Boat)entity).ToArray())
+                    foreach (Boat boat in (from entity in LoadedActiveEntities where entity is Boat select (Boat)entity).ToArray())
                     {
                         //if ((General.player.pos - boat.pos).MagSquared() > 200) { continue; }
 
                         if (IsPlayerWithinHitbox(boat, General.player))
                         {
+                            General.player.boat = boat;
                             return true;
                         }
                     }
-
+                    General.player.boat = null;
 
                     return false; 
                 }

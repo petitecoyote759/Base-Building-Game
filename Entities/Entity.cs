@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Numerics;
 using System.Text;
 using System.Threading.Tasks;
 using IVect = Short_Tools.General.ShortIntVector2;
@@ -15,7 +16,7 @@ namespace Base_Building_Game
         /// </summary>
         public interface IEntity
         {
-            IVect pos { get; set; } 
+            Vector2 pos { get; set; } 
         }
     }
 

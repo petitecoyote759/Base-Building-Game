@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Numerics;
 using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
@@ -46,6 +47,26 @@ namespace Base_Building_Game
 
                 switch (inp)
                 {
+                    case "w":
+
+                        if (down && InGame && player.Piloting)
+                        {
+                            player.boat.ThrustActive = true;
+                        }
+                        break;
+
+                    case "s":
+
+                        if (down && InGame && player.Piloting)
+                        {
+                            player.boat.ThrustActive = false;
+                        }
+                        break;
+
+
+
+
+
                     case "ESCAPE":
 
                         if (down)
@@ -62,9 +83,30 @@ namespace Base_Building_Game
                         if (!InGame) { InGame = true; }  // TODO: change this when the menu is added
                         else
                         {
-                            Men man = new Men(player.pos);
+                            if (down)
+                            {
+                                if (player.boat is null)
+                                {
+                                    world.Walkable(player.pos);
+                                    if (player.boat is null) { break; }
+                                }
+                                if (player.Piloting)
+                                {
+                                    player.Piloting = false;
+                                    player.boat.HasPlayerPilot = false;
+                                }
+                                else
+                                {
+                                    player.Piloting = true;
+                                    player.boat.HasPlayerPilot = true;
+                                }
+                            }
                         }
                         break;
+
+
+
+
 
                     case "MouseWheel":
 
@@ -103,6 +145,8 @@ namespace Base_Building_Game
 
                     case "b":
 
+                        if (!down) { break; }
+
                         if (player.selectedTile is IVect pos)
                         {
                             if (world.GetTile(pos.x, pos.y).building is Building building)
@@ -127,9 +171,9 @@ namespace Base_Building_Game
                                         }
                                         if (!HasResources) { break; }
 
-                                        skiff = new Skiff(port.pos * 32);
-                                        skiff.pos = new IVect(skiff.pos.x, skiff.pos.y + 16);
-                                        LoadedEntities.Add(skiff);
+                                        skiff = new Skiff(port.pos);
+                                        skiff.pos = new Vector2(skiff.pos.X + 0.5f, skiff.pos.Y + 0.5f);
+                                        LoadedActiveEntities.Add(skiff);
                                         
 
                                         break;

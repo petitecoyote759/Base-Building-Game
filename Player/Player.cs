@@ -15,20 +15,23 @@ namespace Base_Building_Game
     {
         public class Player
         {
-            public IVect pos = new IVect();
-            public IVect camPos = new IVect();
+            public Vector2 pos = new Vector2();
+            public Vector2 camPos = new Vector2();
             public IVect SectorPos = new IVect((World.size + 1) / 2, (World.size + 1) / 2);
 
             public IVect? selectedTile = null;
             public int CurrrentRotation = 0;
 
-            public int speed { get => settings.PlayerSpeed; }
+            public Boat? boat;
+            public bool Piloting = false;
+
+            public float speed { get => settings.PlayerSpeed; }
             public int camspeed = 1;
 
-            public int x { get => pos.x; set => pos.x = value; }
-            public int blockX { get => pos.x / 32; }
-            public int y { get => pos.y; set => pos.y = value; }
-            public int blockY { get => pos.y / 32; }
+            public float x { get => pos.X; set => pos.X = value; }
+            public int blockX { get => (int)x; }
+            public float y { get => pos.Y; set => pos.Y = value; }
+            public int blockY { get => (int)y; }
 
             public double angle = 0d; // ik this is bad but you need it for SDL rotating
 
@@ -47,63 +50,71 @@ namespace Base_Building_Game
 
             public void Move(int dt)
             {
-                dt = dt * 3 / 5;
                 Func<int, int, bool, bool> Walkable = world.Walkable;
 
+                float speed = this.speed / 50f;
 
-                if (ActiveKeys["w"])
+
+                if (!Piloting)
                 {
-                    if (ActiveKeys["a"] ^ ActiveKeys["d"]) { y -= speed * dt * 5 / 7; }
-                    else { y -= speed * dt; }
 
-                    if (!Walkable(blockX, blockY, true))
-                    {
-                        if (ActiveKeys["a"] ^ ActiveKeys["d"]) { y += speed * dt * 5 / 7; }
-                        else { y += speed * dt; } // move back to the original place
-                    }
-
-                }
-                if (ActiveKeys["s"])
-                {
-                    if (ActiveKeys["a"] ^ ActiveKeys["d"]) { y += speed * dt * 5 / 7; }
-                    else { y += speed * dt; }
-
-                    if (!Walkable(blockX, blockY, true))
+                    if (ActiveKeys["w"])
                     {
                         if (ActiveKeys["a"] ^ ActiveKeys["d"]) { y -= speed * dt * 5 / 7; }
                         else { y -= speed * dt; }
+
+                        if (!Walkable(blockX, blockY, true))
+                        {
+                            if (ActiveKeys["a"] ^ ActiveKeys["d"]) { y += speed * dt * 5 / 7; }
+                            else { y += speed * dt; } // move back to the original place
+                        }
+
                     }
-
-                }
-                if (ActiveKeys["a"])
-                {
-                    if (ActiveKeys["w"] ^ ActiveKeys["s"]) { x -= speed * dt * 5 / 7; }
-                    else { x -= speed * dt; }
-
-                    if (!Walkable(blockX, blockY, true))
+                    if (ActiveKeys["s"])
                     {
-                        if (ActiveKeys["w"] ^ ActiveKeys["s"]) { x += speed * dt * 5 / 7; }
-                        else { x += speed * dt; }
+                        if (ActiveKeys["a"] ^ ActiveKeys["d"]) { y += speed * dt * 5 / 7; }
+                        else { y += speed * dt; }
+
+                        if (!Walkable(blockX, blockY, true))
+                        {
+                            if (ActiveKeys["a"] ^ ActiveKeys["d"]) { y -= speed * dt * 5 / 7; }
+                            else { y -= speed * dt; }
+                        }
+
                     }
-                }
-
-
-                if (ActiveKeys["d"])
-                {
-                    if (ActiveKeys["w"] ^ ActiveKeys["s"]) { x += speed * dt * 5 / 7; }
-                    else { x += speed * dt; }
-
-                    if (!Walkable(blockX, blockY, true))
+                    if (ActiveKeys["a"])
                     {
                         if (ActiveKeys["w"] ^ ActiveKeys["s"]) { x -= speed * dt * 5 / 7; }
                         else { x -= speed * dt; }
+
+                        if (!Walkable(blockX, blockY, true))
+                        {
+                            if (ActiveKeys["w"] ^ ActiveKeys["s"]) { x += speed * dt * 5 / 7; }
+                            else { x += speed * dt; }
+                        }
                     }
+
+
+                    if (ActiveKeys["d"])
+                    {
+                        if (ActiveKeys["w"] ^ ActiveKeys["s"]) { x += speed * dt * 5 / 7; }
+                        else { x += speed * dt; }
+
+                        if (!Walkable(blockX, blockY, true))
+                        {
+                            if (ActiveKeys["w"] ^ ActiveKeys["s"]) { x -= speed * dt * 5 / 7; }
+                            else { x -= speed * dt; }
+                        }
+                    }
+
+
+                    angle = (Math.PI / 2d + Math.Atan2((getMousePos().y - (renderer.GetPy(blockY))), (getMousePos().x - (renderer.GetPx(blockX))))) * 180d / Math.PI;
+
                 }
 
 
                 camPos = pos;
 
-                angle = (Math.PI / 2d + Math.Atan2((getMousePos().y - (renderer.GetPy(y / 32))), (getMousePos().x - (renderer.GetPx(x / 32))))) * 180d / Math.PI;
 
                 //float ratio = camspeed * (float)(Math.ReciprocalSqrtEstimate(Math.Pow((x - campos.X), 2) + Math.Pow((y - campos.Y), 2))) * dt / 1000f;
                 //float ratio = (dt * (128 + MathF.Pow((x - camPos.x) / 8, 2) + MathF.Pow((y - camPos.y) / 8, 2)) / 10000f);

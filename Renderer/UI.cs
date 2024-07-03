@@ -100,8 +100,8 @@ namespace Base_Building_Game
 
                 if (settings.Debugging)
                 {
-                    Write(0, 0, 50, 50, (player.pos / 32).ToString());
-                    Write(0, 60, 50, 50, (player.SectorPos / 32).ToString());
+                    Write(0, 0, 50, 50, $"({(int)player.pos.X}, {(int)player.pos.Y})");
+                    Write(0, 60, 50, 50, (player.SectorPos).ToString());
                 }
 
 
@@ -113,8 +113,8 @@ namespace Base_Building_Game
 
                 SDL_Rect srcrect = new SDL_Rect()
                 {
-                    x = Math.Max(Math.Min(player.pos.x / 32 - screenwidth / 20, SectorSize - screenwidth / 10), 0),
-                    y = Math.Max(Math.Min(player.pos.y / 32 - screenwidth / 20, SectorSize - screenwidth / 10), 0),
+                    x = Math.Max(Math.Min((int)player.pos.X - screenwidth / 20, SectorSize - screenwidth / 10), 0),
+                    y = Math.Max(Math.Min((int)player.pos.Y - screenwidth / 20, SectorSize - screenwidth / 10), 0),
                     w = screenwidth / 10, h = screenwidth / 10
                 };
 
@@ -131,11 +131,11 @@ namespace Base_Building_Game
 
             public int GetBlockx(int x)
             {
-                return (x - halfscreenwidth + (zoom * player.camPos.x / 32)) / zoom;
+                return (int)((x - halfscreenwidth + (zoom * player.camPos.X)) / zoom);
             }
             public int GetBlocky(int y)
             {
-                return (y - halfscreenheight + (zoom * player.camPos.y / 32)) / zoom;
+                return (int)((y - halfscreenheight + (zoom * player.camPos.Y)) / zoom);
             }
         }
     }
