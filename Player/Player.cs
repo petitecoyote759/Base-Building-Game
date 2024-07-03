@@ -108,7 +108,7 @@ namespace Base_Building_Game
                     }
 
 
-                    angle = (Math.PI / 2d + Math.Atan2((getMousePos().y - (renderer.GetPy(blockY))), (getMousePos().x - (renderer.GetPx(blockX))))) * 180d / Math.PI;
+                    angle = (Math.PI / 2d + Math.Atan2((getMousePos().y - (renderer.GetPy(y))), (getMousePos().x - (renderer.GetPx(x))))) * 180d / Math.PI;
 
                 }
 
