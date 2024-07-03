@@ -51,6 +51,8 @@ namespace Base_Building_Game
 
                         if (down && InGame && player.Piloting)
                         {
+                            if (player.boat is null) { world.Walkable(player.pos); }
+                            if (player.boat is null) { break; }
                             player.boat.ThrustActive = true;
                         }
                         break;
@@ -59,6 +61,8 @@ namespace Base_Building_Game
 
                         if (down && InGame && player.Piloting)
                         {
+                            if (player.boat is null) { world.Walkable(player.pos); }
+                            if (player.boat is null) { break; }
                             player.boat.ThrustActive = false;
                         }
                         break;

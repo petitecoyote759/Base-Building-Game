@@ -21,7 +21,7 @@ namespace Base_Building_Game
         {
             public double angle { get; set; }
             public float Thrust { get; }
-            public int TurnSpeed { get; }
+            public float TurnSpeed { get; }
             public float FrictionCoeffic { get; }
             public bool ThrustActive { get; set; }
 
@@ -70,14 +70,14 @@ namespace Base_Building_Game
         {
             Vector2 MovedPos = player.pos - boat.pos;
 
-            //IVect RotatedPos = new IVect(
-            //    Math.Cos(boat.angle) * MovedPos.x + Math.Sin(boat.angle) * MovedPos.y,
-            //    Math.Sin(boat.angle) * MovedPos.x + Math.Cos(boat.angle) * MovedPos.y
-            //    );
+            Vector2 RotatedPos = new Vector2(
+                MathF.Cos((float)boat.angle * MathF.PI / 180f) * MovedPos.X + MathF.Sin((float)boat.angle * MathF.PI / 180f) * MovedPos.Y,
+                -MathF.Sin((float)boat.angle * MathF.PI / 180f) * MovedPos.X + MathF.Cos((float)boat.angle * MathF.PI / 180f) * MovedPos.Y
+                );
 
             return
-                (-boat.Width / 2f <= MovedPos.X && MovedPos.X <= boat.Width / 2f) &&
-                (-boat.Length / 2f <= MovedPos.Y && MovedPos.Y <= boat.Length / 2f);
+                (-boat.Width / 2f <= RotatedPos.X && RotatedPos.X <= boat.Width / 2f) &&
+                (-boat.Length / 2f <= RotatedPos.Y && RotatedPos.Y <= boat.Length / 2f);
         }
     }
 }

@@ -77,7 +77,7 @@ namespace Base_Building_Game
                                     visitedNodes.Add(newNode);
                                 }
 
-                                if (checkedPos == destination / 32)
+                                if (checkedPos == destination)
                                 {
                                     found = true;
                                     break;

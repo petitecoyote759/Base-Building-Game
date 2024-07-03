@@ -20,10 +20,10 @@ namespace Base_Building_Game
             public Vector2 pos { get; set; } 
 
             public double angle { get; set; } = 0d;
-            public float Thrust { get; } = 0.2f;
-            public int TurnSpeed { get; } = 10;
+            public float Thrust { get; } = 0.0005f;
+            public float TurnSpeed { get; } = 3;
 
-            public float FrictionCoeffic { get; } = 0.4f;
+            public float FrictionCoeffic { get; } = 0.005f;
             public bool ThrustActive { get; set; } = false;
             public bool HasPlayerPilot { get; set; } = false;
 
@@ -37,7 +37,7 @@ namespace Base_Building_Game
             public int Length { get => 2; }
 
 
-            public int Weight { get => 20; }
+            public int Weight { get => 100; }
 
             public Vector2 velocity { get; set; } = new IVect();
 
@@ -72,20 +72,69 @@ namespace Base_Building_Game
 
             public void Action(int dt)
             {
+                Vector2 RForce = new Vector2();
+
+                
+                RForce -= new Vector2(
+                    SignOf(velocity.X) * MathF.Pow(velocity.X + (SignOf(velocity.X) / 10f), 2) * FrictionCoeffic,
+                    SignOf(velocity.Y) * MathF.Pow(velocity.Y + (SignOf(velocity.Y) / 10f), 2) * FrictionCoeffic
+                    );
+
+
 
                 if (ThrustActive)
                 {
-                    velocity -= new Vector2(
+                    RForce -= new Vector2(
                         (-Thrust * MathF.Sin(((float)angle) * MathF.PI / 180f)),
                         (Thrust * MathF.Cos(((float)angle) * MathF.PI / 180f))
-                        ) * ((float)dt * 0.001f / Weight);
-                }
-                else
-                {
-                    velocity = new Vector2();
+                        ) * ((float)dt * 0.1f);
                 }
 
-                pos = pos + velocity * dt;
+
+                Vector2 oldVel = velocity;
+
+                velocity += RForce * dt;
+
+
+
+
+
+                if (oldVel.X < 0 && velocity.X > 0)
+                {
+                    velocity = new Vector2(0, velocity.Y);
+                }
+                if (oldVel.X > 0 && velocity.X < 0)
+                {
+                    velocity = new Vector2(0, velocity.Y);
+                }
+
+
+                if (oldVel.Y < 0 && velocity.Y > 0)
+                {
+                    velocity = new Vector2(velocity.X, 0);
+                }
+                if (oldVel.Y > 0 && velocity.Y < 0)
+                {
+                    velocity = new Vector2(velocity.X, 0);
+                }
+
+
+
+
+
+                pos += velocity * dt / Weight;
+
+
+
+
+                world.Walkable(player.pos);
+                if (player.boat == this)
+                {
+                    player.pos += velocity * dt / Weight;
+                }
+
+
+
 
 
                 if (HasPlayerPilot)
@@ -95,14 +144,23 @@ namespace Base_Building_Game
 
                     if (ActiveKeys["a"])
                     {
-                        angle -= 4;
+                        angle -= TurnSpeed * Math.Min(velocity.Length() * 2, 0.01f) * dt;
                     }
                     if (ActiveKeys["d"])
                     {
-                        angle += 4;
+                        angle += TurnSpeed * Math.Min(velocity.Length() * 2, 0.01f) * dt;
                     }
                 }
             }
+        }
+
+
+
+        public static int SignOf(float x)
+        {
+            if (x < 0) { return -1; }
+            else if (x == 0) { return 0; }
+            else { return 1; }
         }
     }
 }
