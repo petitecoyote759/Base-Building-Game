@@ -172,7 +172,7 @@ namespace Base_Building_Game
                                         if (!HasResources) { break; }
 
                                         skiff = new Skiff(port.pos);
-                                        skiff.pos = new Vector2(skiff.pos.X + 0.5f, skiff.pos.Y + 0.5f);
+                                        skiff.pos = new Vector2(skiff.pos.X - 0.5f, skiff.pos.Y + 0.5f);
                                         LoadedActiveEntities.Add(skiff);
                                         
 

@@ -80,13 +80,17 @@ namespace Base_Building_Game
                         (Thrust * MathF.Cos(((float)angle) * MathF.PI / 180f))
                         ) * ((float)dt * 0.001f / Weight);
                 }
+                else
+                {
+                    velocity = new Vector2();
+                }
 
                 pos = pos + velocity * dt;
 
 
                 if (HasPlayerPilot)
                 {
-                    player.pos = pos - new Vector2(0, 0.5f);
+                    player.pos = pos;
 
 
                     if (ActiveKeys["a"])

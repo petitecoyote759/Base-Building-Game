@@ -76,8 +76,8 @@ namespace Base_Building_Game
             //    );
 
             return
-                (-boat.Width <= MovedPos.X && MovedPos.X <= 0) &&
-                (-boat.Length + 0.5f <= MovedPos.Y && MovedPos.Y <= 0);
+                (-boat.Width / 2f <= MovedPos.X && MovedPos.X <= boat.Width / 2f) &&
+                (-boat.Length / 2f <= MovedPos.Y && MovedPos.Y <= boat.Length / 2f);
         }
     }
 }

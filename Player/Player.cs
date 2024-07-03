@@ -52,7 +52,7 @@ namespace Base_Building_Game
             {
                 Func<int, int, bool, bool> Walkable = world.Walkable;
 
-                float speed = this.speed / 50f;
+                float speed = this.speed / 100f;
 
 
                 if (!Piloting)

@@ -147,14 +147,15 @@ namespace Base_Building_Game
                     {
                         if (boat.ID == (short)BoatID.Skiff)
                         {
-                            DrawPP(
-                                boat.pos.X - (boat.Width / 2), 
-                                boat.pos.Y - (boat.Length / 2), 
+                            DrawBP(
+                                boat.pos.X - (boat.Width / 2f), 
+                                boat.pos.Y - (boat.Length / 2f), 
                                 BoatImages[boat.ID][BoatResearch[boat.ID]], 
                                 zoom * boat.Width, 
                                 zoom * boat.Length, 
                                 boat.angle);
 
+                            DrawBP(boat.pos.X - 0.1f, boat.pos.Y - 0.1f, "Short Studios Logo", zoom / 10, zoom / 10);
                         }
                     }
                 }
