@@ -15,9 +15,9 @@ namespace Base_Building_Game
 {
     public static partial class General
     {
-        public class Skiff : Boat
+        public class Destroyer : Boat
         {
-            public Vector2 pos { get; set; } 
+            public Vector2 pos { get; set; }
 
             public double angle { get; set; } = 0d;
             public float Thrust { get; } = 0.0005f;
@@ -33,8 +33,8 @@ namespace Base_Building_Game
             const int HealthPerTier = 1000;
             const int BaseHealth = 2000;
 
-            public int Width { get => 1; }
-            public int Length { get => 2; }
+            public int Width { get => 2; }
+            public int Length { get => 4; }
 
 
             public int Weight { get => 100; }
@@ -54,13 +54,13 @@ namespace Base_Building_Game
 
 
 
-            public Skiff(IVect pos)
+            public Destroyer(IVect pos)
             {
                 CurrentHealth = MaxHealth;
                 this.pos = pos;
             }
 
-            public Skiff()
+            public Destroyer()
             {
                 pos = new IVect(int.MinValue, int.MinValue);
             }
@@ -74,7 +74,7 @@ namespace Base_Building_Game
             {
                 Vector2 RForce = new Vector2();
 
-                
+
                 RForce -= new Vector2(
                     SignOf(velocity.X) * MathF.Pow(velocity.X + (SignOf(velocity.X) / 10f), 2) * FrictionCoeffic,
                     SignOf(velocity.Y) * MathF.Pow(velocity.Y + (SignOf(velocity.Y) / 10f), 2) * FrictionCoeffic
@@ -124,13 +124,11 @@ namespace Base_Building_Game
 
                 pos += velocity * dt / Weight;
 
-                bool canMove = BoatCanMove(this);
-                if (!canMove) { pos -= velocity * dt / Weight; velocity = -velocity * 0.2f; ThrustActive = false; }
 
 
 
                 world.Walkable(player.pos);
-                if (player.boat == this && canMove)
+                if (player.boat == this)
                 {
                     player.pos += velocity * dt / Weight;
                 }
@@ -154,15 +152,6 @@ namespace Base_Building_Game
                     }
                 }
             }
-        }
-
-
-
-        public static int SignOf(float x)
-        {
-            if (x < 0) { return -1; }
-            else if (x == 0) { return 0; }
-            else { return 1; }
         }
     }
 }

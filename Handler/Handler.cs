@@ -181,6 +181,48 @@ namespace Base_Building_Game
                                         
 
                                         break;
+
+
+
+
+
+
+
+                                    case (short)BuildingID.MedPort:
+
+
+
+
+                                        MediumPort Mport = (MediumPort)building;
+
+                                        Destroyer destroyer = new Destroyer();
+
+
+                                        HasResources = true;
+                                        foreach (var pair in destroyer.ResourceCosts)
+                                        {
+                                            if (Mport.inventory[pair.Key] < pair.Value)
+                                            {
+                                                HasResources = false;
+                                                break; // TODO: add feature init
+                                            }
+                                        }
+                                        if (!HasResources) { break; }
+
+                                        destroyer = new Destroyer(Mport.pos);
+                                        destroyer.pos = new Vector2(destroyer.pos.X - 0.5f, destroyer.pos.Y + 0.5f);
+                                        LoadedActiveEntities.Add(destroyer);
+
+
+
+
+
+
+
+
+
+                                        break;
+
                                 }
                             }
                         }
