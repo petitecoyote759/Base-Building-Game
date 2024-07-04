@@ -46,6 +46,8 @@ namespace Base_Building_Game
             hotbar.SetBuilding(BuildingID.LargePort);
 
             hotbar.BuildBuilding(BuildingID.DropPod, player.blockX, player.blockY);
+
+            BoatResearch[(short)BoatID.Destroyer] = 2;
            
 
             renderer.Start();

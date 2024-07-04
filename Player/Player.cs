@@ -23,6 +23,7 @@ namespace Base_Building_Game
             public int CurrrentRotation = 0;
 
             public Boat? boat;
+            public Turret? turret;
             public bool Piloting = false;
 
             public float speed { get => settings.PlayerSpeed; }
@@ -55,7 +56,7 @@ namespace Base_Building_Game
                 float speed = this.speed / 100f;
 
 
-                if (boat is null)
+                if (boat is null && turret is null)
                 {
 
                     if (ActiveKeys["w"])
@@ -107,10 +108,13 @@ namespace Base_Building_Game
                         }
                     }
 
-
-                    angle = (Math.PI / 2d + Math.Atan2((getMousePos().y - (renderer.GetPy(y))), (getMousePos().x - (renderer.GetPx(x))))) * 180d / Math.PI;
-
                 }
+
+                if (boat is null)
+                {
+                    angle = (Math.PI / 2d + Math.Atan2((getMousePos().y - (renderer.GetPy(y))), (getMousePos().x - (renderer.GetPx(x))))) * 180d / Math.PI;
+                }
+
 
 
                 camPos = pos;

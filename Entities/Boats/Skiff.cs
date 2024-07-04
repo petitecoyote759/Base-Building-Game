@@ -41,6 +41,8 @@ namespace Base_Building_Game
 
             public Vector2 velocity { get; set; } = new IVect();
 
+            public Turret[] turrets { get; set; } 
+
 
 
 

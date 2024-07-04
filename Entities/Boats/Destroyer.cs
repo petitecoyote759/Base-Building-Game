@@ -41,6 +41,8 @@ namespace Base_Building_Game
 
             public Vector2 velocity { get; set; } = new IVect();
 
+            public Turret[] turrets { get; set; }
+
 
 
 
@@ -58,6 +60,13 @@ namespace Base_Building_Game
             {
                 CurrentHealth = MaxHealth;
                 this.pos = pos;
+
+                turrets = new Turret[2];
+
+                turrets[0] = new Turret(0, this);
+                LoadedActiveEntities.Add(turrets[0]);
+                turrets[1] = new Turret(1, this);
+                LoadedActiveEntities.Add(turrets[1]);
             }
 
             public Destroyer()

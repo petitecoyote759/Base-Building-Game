@@ -6,6 +6,7 @@ using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
 using Short_Tools;
+using static Base_Building_Game.General;
 using static Short_Tools.General;
 using IVect = Short_Tools.General.ShortIntVector2;
 
@@ -31,6 +32,11 @@ namespace Base_Building_Game
                         Cboat.Pilot = null;
                         player.boat = null;
                     }
+                    if (player.turret is Turret CTurret)
+                    {
+                        CTurret.Pilot = null;
+                        player.turret = null;
+                    }
 
                     break;
 
@@ -53,6 +59,23 @@ namespace Base_Building_Game
                         {
                             boat.Pilot = player;
                             player.boat = boat;
+                            player.turret = null;
+                            break;
+                        }
+                    }
+
+
+
+                    foreach (Turret turret in (from entity in LoadedActiveEntities where entity is Turret select (Turret)entity).ToArray())
+                    {
+                        Vector2 blockMousePos = new Vector2(renderer.GetFBlockx(MPos.x), renderer.GetFBlocky(MPos.y));
+
+                        if (MathF.Abs(turret.pos.X - blockMousePos.X + 0.5f) < 0.5f &&
+                            MathF.Abs(turret.pos.Y - blockMousePos.Y + 0.5f) < 0.5f)
+                        {
+                            turret.Pilot = player;
+                            player.boat = null;
+                            player.turret = turret;
                             break;
                         }
                     }

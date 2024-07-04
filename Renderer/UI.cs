@@ -147,6 +147,17 @@ namespace Base_Building_Game
                         Draw(GetPx(boat.pos.X) - zoom / 4, GetPy(boat.pos.Y) - zoom, zoom / 2, zoom / 2, "Interact");
                     }
                 }
+
+                foreach (Turret turret in (from entity in LoadedActiveEntities where entity is Turret select (Turret)entity).ToArray())
+                {
+                    Vector2 blockMousePos = new Vector2(GetFBlockx(MPos.x), GetFBlocky(MPos.y));
+
+                    if (MathF.Abs(turret.pos.X - blockMousePos.X + 0.5f) < 0.5f &&
+                        MathF.Abs(turret.pos.Y - blockMousePos.Y + 0.5f) < 0.5f)
+                    {
+                        Draw(GetPx(turret.pos.X + 0.5f) - zoom / 4, GetPy(turret.pos.Y + 0.5f) - zoom, zoom / 2, zoom / 2, "Interact");
+                    }
+                }
             }
 
 

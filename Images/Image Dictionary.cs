@@ -60,6 +60,11 @@ namespace Base_Building_Game
             // boats
             { "Skiff0", "Entities\\Skiff0.png" },
 
+            { "Destroyer2", "Entities\\Destroyer2.png" },
+
+
+            { "Turret2", "Entities\\Turret2.png" },
+
 
 
 

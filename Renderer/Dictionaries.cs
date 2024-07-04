@@ -179,7 +179,7 @@ namespace Base_Building_Game
                     {
                         renderer.images["Skiff0"],
                         renderer.images["Skiff0"],
-                        renderer.images["Skiff0"],
+                        renderer.images["Destroyer2"],
                         renderer.images["Skiff0"],
                         renderer.images["Skiff0"],
                     }

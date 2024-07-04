@@ -133,8 +133,11 @@ namespace Base_Building_Game
                         //DrawBP(entity.pos.x / 32, entity.pos.y / 32, ItemImages[(short)item.ID]);
                         DrawBP(entity.pos.X, entity.pos.Y, ItemImages[item.ID]);
                     }
-                    
                 }
+
+
+
+
                 foreach (IActiveEntity activeEntity in activeEntitiesToRender)
                 {
                     if (activeEntity is Men)
@@ -154,6 +157,16 @@ namespace Base_Building_Game
                             boat.angle);
 
                         DrawBP(boat.pos.X - 0.1f, boat.pos.Y - 0.1f, "Short Studios Logo", zoom / 10, zoom / 10);
+                    }
+                }
+
+
+
+                foreach (IActiveEntity activeEntity in activeEntitiesToRender)
+                {
+                    if (activeEntity is Turret turret)
+                    {
+                        DrawBP(activeEntity.pos.X, activeEntity.pos.Y, "Turret2", turret.angle);
                     }
                 }
             }

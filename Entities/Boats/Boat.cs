@@ -43,6 +43,8 @@ namespace Base_Building_Game
 
 
             public IEntity? Pilot { get; set; }
+
+            public Turret[] turrets { get; set; }
         }
 
 
@@ -246,6 +248,16 @@ namespace Base_Building_Game
                 if (ActiveKeys["d"])
                 {
                     boat.angle += boat.TurnSpeed * Math.Min(boat.velocity.Length() * 2, 0.01f) * dt;
+                }
+            }
+
+
+
+            foreach (Turret turret in boat.turrets)
+            {
+                if (turret.Pilot is IEntity entity)
+                {
+                    entity.pos = turret.pos + new Vector2(0.5f, 0.5f);
                 }
             }
         }
