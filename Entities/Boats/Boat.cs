@@ -252,12 +252,14 @@ namespace Base_Building_Game
             }
 
 
-
-            foreach (Turret turret in boat.turrets)
+            if (boat.turrets is not null)
             {
-                if (turret.Pilot is IEntity entity)
+                foreach (Turret turret in boat.turrets)
                 {
-                    entity.pos = turret.pos + new Vector2(0.5f, 0.5f);
+                    if (turret.Pilot is IEntity entity)
+                    {
+                        entity.pos = turret.pos + new Vector2(0.5f, 0.5f);
+                    }
                 }
             }
         }

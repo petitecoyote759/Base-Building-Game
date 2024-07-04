@@ -81,6 +81,25 @@ namespace Base_Building_Game
                     }
 
                     break;
+
+
+
+
+                case "Mouse":
+
+                    if (!down) { break; }
+
+                    if (player.turret is Turret Mturret)
+                    {
+                        if (DateTimeOffset.Now.ToUnixTimeMilliseconds() - Mturret.LastFireTime > Mturret.TimePerFire)
+                        {
+                            Mturret.LastFireTime = DateTimeOffset.Now.ToUnixTimeMilliseconds();
+                            Projectile bullet = new Projectile(Mturret.pos, Mturret.angle);
+                            LoadedActiveEntities.Add(bullet);
+                        }
+                    }
+
+                    break;
             } 
         }
     }

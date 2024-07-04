@@ -22,59 +22,65 @@ namespace Base_Building_Game
             public void DrawUI()
             {
                 IVect MPos = getMousePos();
-                DrawBP(GetBlockx(MPos.x), GetBlocky(MPos.y), "MouseBox");
 
-                if (player.selectedTile is not null)
+
+                if (player.turret is null)
                 {
-                    DrawBP(player.selectedTile.Value.x, player.selectedTile.Value.y, "SelectBox");
-                }
-                // MouseBox   return (zoom * x) - (zoom * player.camPos.x / 32) + halfscreenwidth;
+                    DrawBP(GetBlockx(MPos.x), GetBlocky(MPos.y), "MouseBox");
 
-
-                if (HotbarSelected != -1)
-                {
-                    short ID = hotbar[HotbarSelected];
-                    if (ID != 0)
+                    if (player.selectedTile is not null)
                     {
-                        if (BuildingImages.ContainsKey(ID))
-                        {
-                            Building building = BuildingIDToBuilding((BuildingID)ID, new IVect(int.MinValue, int.MinValue));
+                        DrawBP(player.selectedTile.Value.x, player.selectedTile.Value.y, "SelectBox");
+                    }
 
-                            DrawBP(
-                                GetBlockx(MPos.x), 
-                                GetBlocky(MPos.y), 
-                                BuildingImages[ID][Research[ID]], 
-                                zoom * building.xSize,
-                                zoom * building.ySize,
-                                90d * player.CurrrentRotation);
+                    // MouseBox   return (zoom * x) - (zoom * player.camPos.x / 32) + halfscreenwidth;
+
+
+                    if (HotbarSelected != -1)
+                    {
+                        short ID = hotbar[HotbarSelected];
+                        if (ID != 0)
+                        {
+                            if (BuildingImages.ContainsKey(ID))
+                            {
+                                Building building = BuildingIDToBuilding((BuildingID)ID, new IVect(int.MinValue, int.MinValue));
+
+                                DrawBP(
+                                    GetBlockx(MPos.x),
+                                    GetBlocky(MPos.y),
+                                    BuildingImages[ID][Research[ID]],
+                                    zoom * building.xSize,
+                                    zoom * building.ySize,
+                                    90d * player.CurrrentRotation);
+                            }
+                        }
+                    }
+
+
+
+
+
+
+
+
+
+
+
+                    if (player.selectedTile is IVect pos)
+                    {
+                        if (world.GetTile(pos.x, pos.y).building is Building building)
+                        {
+                            if (building.ID == (short)BuildingID.SmallPort)
+                            {
+                                DrawBP(building.pos.x - 1, building.pos.y - 2, "Port UI", zoom * 3, zoom * 2);
+                            }
+                            else if (building.ID == (short)BuildingID.MedPort)
+                            {
+                                DrawBP(building.pos.x - 2, building.pos.y - 4, "Port UI", zoom * 6, zoom * 4);
+                            }
                         }
                     }
                 }
-
-
-
-
-
-
-
-
-
-                if (player.selectedTile is IVect pos)
-                {
-                    if (world.GetTile(pos.x, pos.y).building is Building building)
-                    {
-                        if (building.ID == (short)BuildingID.SmallPort)
-                        {
-                            DrawBP(building.pos.x - 1, building.pos.y - 2, "Port UI", zoom * 3, zoom * 2);
-                        }
-                        else if (building.ID == (short)BuildingID.MedPort)
-                        {
-                            DrawBP(building.pos.x - 2, building.pos.y - 4, "Port UI", zoom * 6, zoom * 4);
-                        }
-                    }
-                }
-
-
 
 
 

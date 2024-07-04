@@ -168,6 +168,10 @@ namespace Base_Building_Game
                     {
                         DrawBP(activeEntity.pos.X, activeEntity.pos.Y, "Turret2", turret.angle);
                     }
+                    if (activeEntity is Projectile bullet)
+                    {
+                        DrawBP(activeEntity.pos.X - 0.1f, activeEntity.pos.Y - 0.25f, "Projectile2", zoom / 4, zoom / 4, bullet.angle);
+                    }
                 }
             }
 

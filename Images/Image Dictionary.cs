@@ -63,7 +63,12 @@ namespace Base_Building_Game
             { "Destroyer2", "Entities\\Destroyer2.png" },
 
 
+            //  turrets
             { "Turret2", "Entities\\Turret2.png" },
+
+
+            // bullets
+            { "Projectile2", "Entities\\Projectile2.png" },
 
 
 

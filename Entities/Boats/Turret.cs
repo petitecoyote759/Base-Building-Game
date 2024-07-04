@@ -55,6 +55,9 @@ namespace Base_Building_Game
             int position;
             short BoatID;
 
+            public long LastFireTime = 0;
+            public long TimePerFire = 1000;
+
 
 
 
