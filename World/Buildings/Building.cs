@@ -107,6 +107,7 @@ namespace Base_Building_Game
                 BuildingID.DropPod   => new DropPod(pos),
                 BuildingID.SmallPort => new SmallPort(pos, player.CurrrentRotation),
                 BuildingID.MedPort   => new MediumPort(pos, player.CurrrentRotation),
+                BuildingID.LargePort => new LargePort(pos, player.CurrrentRotation),
 
                 _ => null
             }; // Add new buildings here ^^^^^^

@@ -9,6 +9,7 @@ using static Short_Tools.General;
 using static Base_Building_Game.General;
 using SDL2;
 using static SDL2.SDL;
+using System.Numerics;
 
 
 
@@ -123,6 +124,29 @@ namespace Base_Building_Game
                 SDL_RenderCopy(SDLrenderer, images["Map"], ref srcrect, ref dstrect);
 
                 Draw(screenwidth * 19 / 20, screenwidth * 1 / 20, screenwidth / 100, screenwidth / 100, "Player", player.angle);
+
+
+
+
+
+
+
+
+
+
+
+
+
+                foreach (Boat boat in (from entity in LoadedActiveEntities where entity is Boat select (Boat)entity).ToArray())
+                {
+                    Vector2 blockMousePos = new Vector2(GetFBlockx(MPos.x), GetFBlocky(MPos.y));
+
+                    if (MathF.Abs(boat.pos.X - blockMousePos.X) < 0.5f &&
+                        MathF.Abs(boat.pos.Y - blockMousePos.Y) < 0.5f)
+                    {
+                        Draw(GetPx(boat.pos.X) - zoom / 4, GetPy(boat.pos.Y) - zoom, zoom / 2, zoom / 2, "Interact");
+                    }
+                }
             }
 
 
@@ -136,6 +160,16 @@ namespace Base_Building_Game
             public int GetBlocky(int y)
             {
                 return (int)((y - halfscreenheight + (zoom * player.camPos.Y)) / zoom);
+            }
+
+
+            public float GetFBlockx(int x)
+            {
+                return ((x - halfscreenwidth + (zoom * player.camPos.X)) / zoom);
+            }
+            public float GetFBlocky(int y)
+            {
+                return ((y - halfscreenheight + (zoom * player.camPos.Y)) / zoom);
             }
         }
     }

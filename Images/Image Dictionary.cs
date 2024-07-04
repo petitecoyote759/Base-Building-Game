@@ -53,7 +53,7 @@ namespace Base_Building_Game
             { "StoneItem", "Entities\\rock.png" },
             { "IronItem", "Entities\\iron.png" },
             { "DiamondItem", "Entities\\diamond.png" },
-            {"Man","Entities\\man.png" },
+            { "Man" , "Entities\\man.png" },
 
 
 
@@ -73,6 +73,7 @@ namespace Base_Building_Game
             { "DeliverBox", "UI\\deliver box.png" },
 
             { "Port UI", "UI\\Port UI.png" },
+            { "Interact", "UI\\Interact.png" },
 
 
 

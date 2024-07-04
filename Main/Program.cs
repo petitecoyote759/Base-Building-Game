@@ -43,6 +43,7 @@ namespace Base_Building_Game
             hotbar.SetBuilding(BuildingID.DropPod);
             hotbar.SetBuilding(BuildingID.SmallPort);
             hotbar.SetBuilding(BuildingID.MedPort);
+            hotbar.SetBuilding(BuildingID.LargePort);
 
             hotbar.BuildBuilding(BuildingID.DropPod, player.blockX, player.blockY);
            

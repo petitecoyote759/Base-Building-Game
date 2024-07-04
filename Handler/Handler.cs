@@ -49,20 +49,16 @@ namespace Base_Building_Game
                 {
                     case "w":
 
-                        if (down && InGame && player.Piloting)
+                        if (down && InGame && player.boat is not null)
                         {
-                            if (player.boat is null) { world.Walkable(player.pos); }
-                            if (player.boat is null) { break; }
                             player.boat.ThrustActive = true;
                         }
                         break;
 
                     case "s":
 
-                        if (down && InGame && player.Piloting)
+                        if (down && InGame && player.boat is not null)
                         {
-                            if (player.boat is null) { world.Walkable(player.pos); }
-                            if (player.boat is null) { break; }
                             player.boat.ThrustActive = false;
                         }
                         break;
@@ -85,27 +81,6 @@ namespace Base_Building_Game
                     case "SPACE":
 
                         if (!InGame) { InGame = true; }  // TODO: change this when the menu is added
-                        else
-                        {
-                            if (down)
-                            {
-                                if (player.boat is null)
-                                {
-                                    world.Walkable(player.pos);
-                                    if (player.boat is null) { break; }
-                                }
-                                if (player.Piloting)
-                                {
-                                    player.Piloting = false;
-                                    player.boat.HasPlayerPilot = false;
-                                }
-                                else
-                                {
-                                    player.Piloting = true;
-                                    player.boat.HasPlayerPilot = true;
-                                }
-                            }
-                        }
                         break;
 
 
@@ -190,9 +165,6 @@ namespace Base_Building_Game
 
                                     case (short)BuildingID.MedPort:
 
-
-
-
                                         MediumPort Mport = (MediumPort)building;
 
                                         Destroyer destroyer = new Destroyer();
@@ -213,16 +185,34 @@ namespace Base_Building_Game
                                         destroyer.pos = new Vector2(destroyer.pos.X - 0.5f, destroyer.pos.Y + 0.5f);
                                         LoadedActiveEntities.Add(destroyer);
 
-
-
-
-
-
-
-
-
                                         break;
 
+
+
+
+                                    case (short)BuildingID.LargePort:
+
+                                        LargePort Lport = (LargePort)building;
+
+                                        Battleship battleship = new Battleship();
+
+
+                                        HasResources = true;
+                                        foreach (var pair in battleship.ResourceCosts)
+                                        {
+                                            if (Lport.inventory[pair.Key] < pair.Value)
+                                            {
+                                                HasResources = false;
+                                                break; // TODO: add feature init
+                                            }
+                                        }
+                                        if (!HasResources) { break; }
+
+                                        battleship = new Battleship(Lport.pos);
+                                        battleship.pos = new Vector2(battleship.pos.X - 0.5f, battleship.pos.Y + 0.5f);
+                                        LoadedActiveEntities.Add(battleship);
+
+                                        break;
                                 }
                             }
                         }
@@ -230,6 +220,9 @@ namespace Base_Building_Game
                         break;
                     
                 }
+
+
+                DoBoatHandles(inp, down);
             }
         }
     }
