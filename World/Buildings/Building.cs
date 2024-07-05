@@ -56,6 +56,8 @@ namespace Base_Building_Game
             SmallPort,
             MedPort,
             LargePort,
+
+            
         }
 
 
@@ -104,6 +106,7 @@ namespace Base_Building_Game
                 BuildingID.Bridge    => new Bridge(pos),
                 BuildingID.Wall      => new Wall(pos),
                 BuildingID.Extractor => new Extractor(pos),
+                BuildingID.WorkCamp => new WorkCamp(pos),
                 BuildingID.DropPod   => new DropPod(pos),
                 BuildingID.SmallPort => new SmallPort(pos, player.CurrrentRotation),
                 BuildingID.MedPort   => new MediumPort(pos, player.CurrrentRotation),

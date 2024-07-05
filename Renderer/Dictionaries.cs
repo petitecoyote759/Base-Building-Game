@@ -81,6 +81,16 @@ namespace Base_Building_Game
                     }
                 },
 
+                  {
+                    (short)BuildingID.WorkCamp, new IntPtr[]
+                    {
+                        renderer.images["WorkCamp0"],
+                        renderer.images["WorkCamp0"],
+                        renderer.images["WorkCamp0"],
+                        renderer.images["WorkCamp0"],
+                        renderer.images["WorkCamp0"],
+                    }
+                },
 
                  {
                     (short)BuildingID.DropPod, new IntPtr[]

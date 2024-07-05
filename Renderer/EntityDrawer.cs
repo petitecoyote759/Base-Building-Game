@@ -62,7 +62,7 @@ namespace Base_Building_Game
                 {
                     if (activeEntity is Men)
                     {
-                        DrawPP(activeEntity.pos.X, activeEntity.pos.Y, images["Man"]);
+                        DrawBP(activeEntity.pos.X, activeEntity.pos.Y, images["Man"]);
                     }
                     //When new entities are added, add them here:
                     //

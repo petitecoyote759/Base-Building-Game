@@ -6,6 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Transactions;
 using System.Xml.Linq;
+using System.Numerics;
 using IVect = Short_Tools.General.ShortIntVector2;
 
 namespace Base_Building_Game
@@ -29,7 +30,7 @@ namespace Base_Building_Game
                 this.start = start;               
             }
 
-            public Stack<IVect>? GetPath(int maxDist)
+            public Stack<Vector2>? GetPath(int maxDist)
             {
                 bool found = false;
                 nodesToVisit.Enqueue(new AStar_Node(start, 0),0);
@@ -101,12 +102,15 @@ namespace Base_Building_Game
                 
                 
                 
-                Stack<IVect> movements = new Stack<IVect>();
-                AStar_Node checking = visitedNodes[visitedNodes.Count - 1];
-                while (checking.lastNode != null)
+                Stack<Vector2> movements = new Stack<Vector2>();
+                if (visitedNodes.Count != 0)
                 {
-                    movements.Push(checking.pos);
-                    checking = checking.lastNode;
+                    AStar_Node checking = visitedNodes[visitedNodes.Count - 1];
+                    while (checking.lastNode != null)
+                    {
+                        movements.Push(checking.pos);
+                        checking = checking.lastNode;
+                    } 
                 }
                 return movements;
                 

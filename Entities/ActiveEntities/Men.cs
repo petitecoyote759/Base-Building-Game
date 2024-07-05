@@ -27,9 +27,15 @@ namespace Base_Building_Game
 
             public void Action(int dt)
             {
-                if (targetedItem is null)
+                
+                if (targetedItem is null && heldItem is null)
                 {
                     FindItem();
+                    return;
+                }
+                if (heldItem is not null)
+                {
+                    //TODO: Make the men return their camp.
                     return;
                 }
                 if (path is not null)
@@ -43,9 +49,9 @@ namespace Base_Building_Game
                     if (PickupItem())
                     {
                         return;
-                        //TODO: Make the men return their camp.
+                        
                     }
-                    //If this occurs, this is a pretty big issue. The men have followed their path to its conclusion, and their isnt an item there.
+                    //If this occurs, this is a pretty big issue. The men have followed their path to its conclusion, and there isnt an item there.
                     debugger.AddLog("Man failed to pick up an item once its path had concluded");
 
                 }
@@ -66,17 +72,17 @@ namespace Base_Building_Game
                     item.Targeted = true;
                     targetedItem = item;
                     AStar pathing = new AStar(world.Walkable, item.pos, this.pos);
-                    path = pathing.GetPath(100);
+                    path = pathing.GetPath(1000);
                     break;
                 }
             }
             public bool PickupItem()
             {
-                if (targetedItem.pos == pos)
+                if (targetedItem.pos / 32 == this.pos)
                 {
                     heldItem = targetedItem;
-                    targetedItem = null;
                     LoadedEntities.Remove(targetedItem);
+                    targetedItem = null;
                     return true;
                 }
                 return false;
