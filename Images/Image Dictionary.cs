@@ -33,13 +33,20 @@ namespace Base_Building_Game
             // buildings
             { "BridgeNode0", "Buildings\\bridge node0.png" },
 
+
             { "WallNode0", "Buildings\\wall node0.png" },
+
+            { "WallSegment0", "Buildings\\wall segment0.png" },
+
 
             { "Extractor0", "Buildings\\extractor.png" },
 
+
             { "DropPod0", "Buildings\\DropPod0.png" },
 
+
             { "SmallPort0", "Buildings\\port up.png" },
+
 
             { "MediumPort0", "Buildings\\Medium Port.png" },
 

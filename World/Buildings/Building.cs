@@ -112,5 +112,16 @@ namespace Base_Building_Game
                 _ => null
             }; // Add new buildings here ^^^^^^
         }
+
+
+
+
+
+
+        public interface ConnectingBuilding : Building
+        {
+            public Func<Tile, bool> Connections { get; }
+            public IntPtr connectionImage { get; }
+        }
     }
 }

@@ -21,9 +21,9 @@ namespace Base_Building_Game
 
             public double angle { get; set; } = 0d;
             public float Thrust { get; } = 0.0005f;
-            public float TurnSpeed { get; } = 3;
+            public float TurnSpeed { get; } = 3; // 3
 
-            public float FrictionCoeffic { get; } = 0.005f;
+            public float FrictionCoeffic { get; } = 0.005f; // 0.005f
             public bool ThrustActive { get; set; } = false;
             public IEntity? Pilot { get; set; }
 
