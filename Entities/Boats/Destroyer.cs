@@ -15,33 +15,33 @@ namespace Base_Building_Game
 {
     public static partial class General
     {
-        public class Skiff : Boat
+        public class Destroyer : Boat
         {
-            public Vector2 pos { get; set; } 
+            public Vector2 pos { get; set; }
 
             public double angle { get; set; } = 0d;
-            public float Thrust { get; } = 0.0008f;
-            public float TurnSpeed { get; } = 3;
+            public float Thrust { get; } = 0.0005f;
+            public float TurnSpeed { get; } = 3; // 3
 
-            public float FrictionCoeffic { get; } = 0.005f;
+            public float FrictionCoeffic { get; } = 0.005f; // 0.005f
             public bool ThrustActive { get; set; } = false;
             public IEntity? Pilot { get; set; }
 
-            public short ID { get => (short)BoatID.Skiff; }
+            public short ID { get => (short)BoatID.Destroyer; }
 
 
             const int HealthPerTier = 1000;
             const int BaseHealth = 2000;
 
-            public int Width { get => 1; }
-            public int Length { get => 2; }
+            public int Width { get => 2; }
+            public int Length { get => 4; }
 
 
             public int Weight { get => 100; }
 
             public Vector2 velocity { get; set; } = new IVect();
 
-            public Turret[] turrets { get; set; } 
+            public Turret[] turrets { get; set; }
 
 
 
@@ -56,13 +56,20 @@ namespace Base_Building_Game
 
 
 
-            public Skiff(IVect pos)
+            public Destroyer(IVect pos)
             {
                 CurrentHealth = MaxHealth;
                 this.pos = pos;
+
+                turrets = new Turret[2];
+
+                turrets[0] = new Turret(0, this);
+                LoadedActiveEntities.Add(turrets[0]);
+                turrets[1] = new Turret(1, this);
+                LoadedActiveEntities.Add(turrets[1]);
             }
 
-            public Skiff()
+            public Destroyer()
             {
                 pos = new IVect(int.MinValue, int.MinValue);
             }
@@ -76,15 +83,6 @@ namespace Base_Building_Game
             {
                 MoveBoat(this, dt);
             }
-        }
-
-
-
-        public static int SignOf(float x)
-        {
-            if (x < 0) { return -1; }
-            else if (x == 0) { return 0; }
-            else { return 1; }
         }
     }
 }

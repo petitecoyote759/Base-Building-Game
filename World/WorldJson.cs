@@ -10,8 +10,8 @@ namespace Base_Building_Game
     {
         public class WorldJson
         {
-            public int PlayerX { get; set; }
-            public int PlayerY { get; set; }
+            public float PlayerX { get; set; }
+            public float PlayerY { get; set; }
             public string Name { get; set; }
             public SectorJson[,] Sectors { get; set; }
             public int SectorX { get; set; }

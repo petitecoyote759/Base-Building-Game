@@ -12,12 +12,25 @@ namespace Base_Building_Game
 {
     public static partial class General
     {
-        public class Wall : Building
+        public class Wall : ConnectingBuilding
         {
             public Func<Tile, bool> ValidTiles { get; } = (Tile tile) => 
             {
                 return tile.ID == (short)TileID.Grass || tile.ID == (short)TileID.Sand; // use a array to make more effic
             };
+
+
+            public Func<Tile, bool> Connections { get; } = (Tile tile) => tile.building is not null && tile.building.ID == (short)BuildingID.Wall;
+
+
+            public IntPtr connectionImage 
+            { 
+                get => renderer.images["WallSegment" + Research[ID]];
+            }
+
+
+
+
 
 
 

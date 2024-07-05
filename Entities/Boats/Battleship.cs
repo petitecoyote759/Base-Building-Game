@@ -15,35 +15,33 @@ namespace Base_Building_Game
 {
     public static partial class General
     {
-        public class Skiff : Boat
+        public class Battleship : Boat
         {
-            public Vector2 pos { get; set; } 
+            public Vector2 pos { get; set; }
 
             public double angle { get; set; } = 0d;
-            public float Thrust { get; } = 0.0008f;
-            public float TurnSpeed { get; } = 3;
+            public float Thrust { get; } = 0.001f;
+            public float TurnSpeed { get; } = 1;
 
-            public float FrictionCoeffic { get; } = 0.005f;
+            public float FrictionCoeffic { get; } = 0.001f;
             public bool ThrustActive { get; set; } = false;
             public IEntity? Pilot { get; set; }
 
-            public short ID { get => (short)BoatID.Skiff; }
+            public short ID { get => (short)BoatID.Battleship; }
 
 
             const int HealthPerTier = 1000;
             const int BaseHealth = 2000;
 
-            public int Width { get => 1; }
-            public int Length { get => 2; }
+            public int Width { get => 3; }
+            public int Length { get => 6; }
 
 
-            public int Weight { get => 100; }
+            public int Weight { get => 400; }
 
             public Vector2 velocity { get; set; } = new IVect();
 
-            public Turret[] turrets { get; set; } 
-
-
+            public Turret[] turrets { get; set; }
 
 
             public int MaxHealth { get => BaseHealth + (HealthPerTier * BoatResearch[ID]); }
@@ -56,13 +54,13 @@ namespace Base_Building_Game
 
 
 
-            public Skiff(IVect pos)
+            public Battleship(IVect pos)
             {
                 CurrentHealth = MaxHealth;
                 this.pos = pos;
             }
 
-            public Skiff()
+            public Battleship()
             {
                 pos = new IVect(int.MinValue, int.MinValue);
             }
@@ -76,15 +74,6 @@ namespace Base_Building_Game
             {
                 MoveBoat(this, dt);
             }
-        }
-
-
-
-        public static int SignOf(float x)
-        {
-            if (x < 0) { return -1; }
-            else if (x == 0) { return 0; }
-            else { return 1; }
         }
     }
 }

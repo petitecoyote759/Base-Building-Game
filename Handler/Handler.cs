@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Numerics;
 using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
@@ -46,6 +47,26 @@ namespace Base_Building_Game
 
                 switch (inp)
                 {
+                    case "w":
+
+                        if (down && InGame && player.boat is not null)
+                        {
+                            player.boat.ThrustActive = true;
+                        }
+                        break;
+
+                    case "s":
+
+                        if (down && InGame && player.boat is not null)
+                        {
+                            player.boat.ThrustActive = false;
+                        }
+                        break;
+
+
+
+
+
                     case "ESCAPE":
 
                         if (down)
@@ -60,11 +81,11 @@ namespace Base_Building_Game
                     case "SPACE":
 
                         if (!InGame) { InGame = true; }  // TODO: change this when the menu is added
-                        else
-                        {
-                            Men man = new Men(player.pos);
-                        }
                         break;
+
+
+
+
 
                     case "MouseWheel":
 
@@ -103,6 +124,8 @@ namespace Base_Building_Game
 
                     case "b":
 
+                        if (!down) { break; }
+
                         if (player.selectedTile is IVect pos)
                         {
                             if (world.GetTile(pos.x, pos.y).building is Building building)
@@ -111,7 +134,6 @@ namespace Base_Building_Game
                                 {
                                     case (short)BuildingID.SmallPort:
 
-                                        SmallPort port = (SmallPort)building;
 
                                         Skiff skiff = new Skiff();
 
@@ -119,7 +141,7 @@ namespace Base_Building_Game
                                         bool HasResources = true;
                                         foreach (var pair in skiff.ResourceCosts)
                                         {
-                                            if (port.inventory[pair.Key] < pair.Value)
+                                            if (building.inventory[pair.Key] < pair.Value)
                                             {
                                                 HasResources = false;
                                                 break; // TODO: add feature init
@@ -127,10 +149,64 @@ namespace Base_Building_Game
                                         }
                                         if (!HasResources) { break; }
 
-                                        skiff = new Skiff(port.pos * 32);
-                                        skiff.pos = new IVect(skiff.pos.x, skiff.pos.y + 16);
-                                        LoadedEntities.Add(skiff);
+                                        skiff = new Skiff(building.pos);
+                                        skiff.pos = new Vector2(skiff.pos.X - 0.5f, skiff.pos.Y + 0.5f);
+                                        LoadedActiveEntities.Add(skiff);
                                         
+
+                                        break;
+
+
+
+
+
+
+
+                                    case (short)BuildingID.MedPort:
+
+                                        Destroyer destroyer = new Destroyer();
+
+
+                                        HasResources = true;
+                                        foreach (var pair in destroyer.ResourceCosts)
+                                        {
+                                            if (building.inventory[pair.Key] < pair.Value)
+                                            {
+                                                HasResources = false;
+                                                break; // TODO: add feature init
+                                            }
+                                        }
+                                        if (!HasResources) { break; }
+
+                                        destroyer = new Destroyer(building.pos);
+                                        destroyer.pos = new Vector2(destroyer.pos.X - 0.5f, destroyer.pos.Y + 0.5f);
+                                        LoadedActiveEntities.Add(destroyer);
+
+                                        break;
+
+
+
+
+                                    case (short)BuildingID.LargePort:
+
+
+                                        Battleship battleship = new Battleship();
+
+
+                                        HasResources = true;
+                                        foreach (var pair in battleship.ResourceCosts)
+                                        {
+                                            if (building.inventory[pair.Key] < pair.Value)
+                                            {
+                                                HasResources = false;
+                                                break; // TODO: add feature init
+                                            }
+                                        }
+                                        if (!HasResources) { break; }
+
+                                        battleship = new Battleship(building.pos);
+                                        battleship.pos = new Vector2(battleship.pos.X - 0.5f, battleship.pos.Y + 0.5f);
+                                        LoadedActiveEntities.Add(battleship);
 
                                         break;
                                 }
@@ -140,6 +216,9 @@ namespace Base_Building_Game
                         break;
                     
                 }
+
+
+                DoBoatHandles(inp, down);
             }
         }
     }

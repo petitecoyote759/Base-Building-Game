@@ -23,6 +23,7 @@ namespace Base_Building_Game
             LoadSettings();
 
             LoadImages();
+            LoadFancyTiles();
             LoadText();
 
 
@@ -43,8 +44,11 @@ namespace Base_Building_Game
             hotbar.SetBuilding(BuildingID.DropPod);
             hotbar.SetBuilding(BuildingID.SmallPort);
             hotbar.SetBuilding(BuildingID.MedPort);
+            hotbar.SetBuilding(BuildingID.LargePort);
 
-            hotbar.BuildBuilding(BuildingID.DropPod, player.x / 32, player.y / 32);
+            hotbar.BuildBuilding(BuildingID.DropPod, player.blockX, player.blockY);
+
+            BoatResearch[(short)BoatID.Destroyer] = 2;
            
 
             renderer.Start();
@@ -54,6 +58,13 @@ namespace Base_Building_Game
 
             while (Running)
             {
+                if (SDL_GetError() != "")
+                {
+                    AddLog("SDL Error -> " + SDL_GetError(), Debugger.Priority.ERROR);
+                    SDL_ClearError();
+                }
+
+
                 handler.HandleInputs(ref Running); 
                 player.Move((int)dt);
 
@@ -64,6 +75,7 @@ namespace Base_Building_Game
                 dt = GetDt(ref LFT);
                 RunActiveEntities((int)dt);
             }
+
             SaveWorld(world, "Test.SWrld");
 
 

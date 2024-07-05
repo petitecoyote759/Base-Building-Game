@@ -57,7 +57,10 @@ namespace Base_Building_Game
             {
                 if (settings.Cheats && player) { return true; } 
 
+
                 if (tile.ID == (short)TileID.DeepOcean) { return false; }
+
+
                 if (tile.ID == (short)TileID.Ocean) 
                 {
                     if (tile.building is not null)
@@ -73,18 +76,8 @@ namespace Base_Building_Game
 
 
 
-                    foreach (Boat boat in (from entity in LoadedEntities where entity is Boat select (Boat)entity).ToArray())
-                    {
-                        //if ((General.player.pos - boat.pos).MagSquared() > 200) { continue; }
-
-                        if (IsPlayerWithinHitbox(boat, General.player))
-                        {
-                            return true;
-                        }
-                    }
-
-
-                    return false; 
+                    if (General.player.IsOnBoat()) { return true; }
+                    return false;
                 }
 
                 if (tile.building is not null)

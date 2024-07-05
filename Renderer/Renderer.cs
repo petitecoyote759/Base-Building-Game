@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Numerics;
 using System.Text;
 using System.Threading.Tasks;
 using static Base_Building_Game.General;
@@ -68,125 +69,12 @@ namespace Base_Building_Game
 
 
 
-            public void DrawTiles()
-            {
-                // need to get pos of the top left part of the screen
-                // players pos is at the centre of the screen, - zoom / 2
-                // so in terms of blocks, for x that is 
-                //   
-                int zoom = renderer.zoom;
-                int px = player.camPos.x;
-                int py = player.camPos.y;
-
-                int Left = (px / 32) - (halfscreenwidth / zoom) - 2;
-                int Top = (py / 32) - (halfscreenheight / zoom) - 2;
-                // OPTIMISE: make it so it doesnt recalc every time 
-
-                for (int x = Left; x < Left + screenwidth / zoom + 4; x++)
-                {
-                    for (int y = Top; y < Top + screenheight / zoom + 4; y++)
-                    {
-                        Tile tile = world.GetTile(x, y);
-
-                        if (TileImages.ContainsKey(tile.ID))
-                        {
-                            DrawBP(x, px, y, py, TileImages[tile.ID], zoom, zoom);
-                        }
-                    }
-                }
-            }
-
-            public void DrawEntities()
-            {
-                int zoom = renderer.zoom;
-                int px = player.camPos.x;
-                int py = player.camPos.Y;
 
 
-
-                IEntity[] entities = LoadedEntities.ToArray();
-                //This returns all of the entities which are on the screen using LINQ. It orders them by distance from the player in order to give them rendering priority if there are too many entities.
-                IEntity[] entitiesToRender =
-                    (from entity in entities
-                     where GetPx(entity.pos.x / 32) >= -zoom && GetPx(entity.pos.x / 32) <= screenwidth && GetPy(entity.pos.y / 32) >= -zoom && GetPy(entity.pos.y / 32) <= screenheight
-                     orderby (player.pos - entity.pos).MagSquared() ascending
-                     select entity).ToArray();
-
-                IActiveEntity[] activeEntities = LoadedActiveEntities.ToArray();
-                //This returns all of the entities which are on the screen using LINQ. It orders them by distance from the player in order to give them rendering priority if there are too many entities.
-                IEntity[] activeEntitiesToRender =
-                    (from entity in activeEntities
-                     where GetPx(entity.pos.x / 32) >= -zoom && GetPx(entity.pos.x / 32) <= screenwidth && GetPy(entity.pos.y / 32) >= -zoom && GetPy(entity.pos.y / 32) <= screenheight
-                     orderby (player.pos - entity.pos).MagSquared() ascending
-                     select entity).ToArray();
+            
 
 
-                //Iterating through all of the onscreen entities.
-                foreach (IEntity entity in entitiesToRender)
-                {
-                    //If its an item, then we render using the itemImages dictionary.
-                    if (entity is Item)
-                    {
-                        
-                        Item item = (Item)entity;
-                        //DrawBP(entity.pos.x / 32, entity.pos.y / 32, ItemImages[(short)item.ID]);
-                        DrawPP(entity.pos.x, entity.pos.y, ItemImages[item.ID]);
-                    }
-                    
-                }
-                foreach (IActiveEntity activeEntity in activeEntitiesToRender)
-                {
-                    if (activeEntity is Men)
-                    {
-                        DrawPP(activeEntity.pos.x, activeEntity.pos.y, images["Man"]);
-                    }
-                    //When new entities are added, add them here:
-                    //
-                    if (activeEntity is Boat boat)
-                    {
-                        if (boat.ID == (short)BoatID.Skiff)
-                        {
-                            DrawPP(boat.pos.x - boat.Width * 16, boat.pos.y - boat.Length * 16, BoatImages[boat.ID][BoatResearch[boat.ID]], zoom * boat.Width, zoom * boat.Length, boat.angle);
-                            DrawPP(boat.pos.x, boat.pos.y, "Short Studios Logo", zoom / 8, zoom / 8);
-                        }
-                    }
-                }
-            }
-            public void DrawBuildings()
-            {
-                int zoom = renderer.zoom;
-                int px = player.camPos.x;
-                int py = player.camPos.y;
-
-                int Left = (px / 32) - (halfscreenwidth / zoom) - 4;
-                int Top = (py / 32) - (halfscreenheight / zoom) - 4;
-
-
-
-
-                for (int x = Left; x < Left + screenwidth / zoom + 8; x++)
-                {
-                    for (int y = Top; y < Top + screenheight / zoom + 8; y++)
-                    {
-                        Tile tile = world.GetTile(x, y);
-                        lock(tile)
-                        {
-                            if (tile.building is null) { continue; }
-
-                            if (BuildingImages.ContainsKey(tile.building.ID) && tile.building is not Linker)
-                            {
-                                DrawBP(x, y,
-                                    BuildingImages[tile.building.ID][Research[tile.building.ID]],
-                                    zoom * tile.building.xSize,
-                                    zoom * tile.building.ySize,
-                                    tile.building.rotation * 90d
-                                    );
-                            }
-                        }
-                        
-                    }
-                }
-            }
+            
 
 
 
@@ -201,28 +89,28 @@ namespace Base_Building_Game
             /// <param name="x"></param>
             /// <param name="y"></param>
             /// <param name="image"></param>
-            public void DrawBP(int x, int y, string image, double angle = 0)
+            public void DrawBP(float x, float y, string image, double angle = 0)
             {
                 DrawBP(x, y, images[image], angle);
             }
             /// <summary>
             /// Draws based on block position.
             /// </summary>
-            public void DrawBP(int x, int y, IntPtr image, double angle = 0)
+            public void DrawBP(float x, float y, IntPtr image, double angle = 0)
             {
                 Draw(GetPx(x), GetPy(y), zoom, zoom, image, angle);
             }
             /// <summary>
             /// Draws based on block position.
             /// </summary>
-            public void DrawBP(int x, int px, int y, int py, string image)
+            public void DrawBP(float x, float px, float y, float py, string image)
             {
                 DrawBP(x, px, y, py, images[image]);
             }
             /// <summary>
             /// Draws based on block position.
             /// </summary>
-            public void DrawBP(int x, int px, int y, int py, IntPtr image)
+            public void DrawBP(float x, float px, float y, float py, IntPtr image)
             {
                 Draw(GetPx(x, px), GetPy(y, py), zoom, zoom, image);
             }
@@ -230,21 +118,21 @@ namespace Base_Building_Game
             /// <summary>
             /// Draws based on block position
             /// </summary>
-            public void DrawBP(int x, int y, IntPtr image, int sizex, int sizey, double angle = 0d)
+            public void DrawBP(float x, float y, IntPtr image, int sizex, int sizey, double angle = 0d)
             {
                 Draw(GetPx(x), GetPy(y), sizex, sizey, image, angle);
             }
             /// <summary>
             /// Draws based on block position
             /// </summary>
-            public void DrawBP(int x, int y, string image, int sizex, int sizey, double angle = 0d)
+            public void DrawBP(float x, float y, string image, int sizex, int sizey, double angle = 0d)
             {
                 DrawBP(x, y, images[image], sizex, sizey, angle);
             }
             /// <summary>
             /// Draws based on block position
             /// </summary>
-            public void DrawBP(int x, int px, int y, int py, IntPtr image, int sizex, int sizey, double angle = 0d)
+            public void DrawBP(float x, float px, float y, float py, IntPtr image, int sizex, int sizey, double angle = 0d)
             {
                 Draw(GetPx(x, px), GetPy(y, py), sizex, sizey, image, angle);
             }
@@ -257,29 +145,29 @@ namespace Base_Building_Game
             /// <summary>
             /// Draws based on the player position (anything scaled up by 32)
             /// </summary>
-            public void DrawPP(int x, int y, IntPtr image, double angle = 0)
+            public void DrawPP(float x, float y, IntPtr image, double angle = 0)
             {
                 Draw(
-                    (x - player.camPos.x - 16) * zoom / 32 + halfscreenwidth,
-                    (y - player.camPos.y - 16) * zoom / 32 + halfscreenheight,
+                    (int)((x - player.camPos.X - 0.5f) * zoom + halfscreenwidth),
+                    (int)((y - player.camPos.X - 0.5f) * zoom + halfscreenheight),
                     zoom, zoom, image, angle);
             }
             /// <summary>
             /// Draws based on the player position (anything scaled up by 32)
             /// </summary>
-            public void DrawPP(int x, int y, string image, double angle = 0)
+            public void DrawPP(float x, float y, string image, double angle = 0)
             {
                 DrawPP(x, y, images[image], angle);
             }
 
-            public void DrawPP(int x, int y, IntPtr image, int sizex, int sizey, double angle = 0)
+            public void DrawPP(float x, float y, IntPtr image, int sizex, int sizey, double angle = 0)
             {
                 Draw(
-                    (x - player.camPos.x - 16) * zoom / 32 + halfscreenwidth,
-                    (y - player.camPos.y - 16) * zoom / 32 + halfscreenheight,
+                    (int)((x - player.camPos.X - 0.5f) * zoom + halfscreenwidth),
+                    (int)((y - player.camPos.Y - 0.5f) * zoom + halfscreenheight),
                     sizex, sizey, image, angle);
             }
-            public void DrawPP(int x, int y, string image, int sizex, int sizey, double angle = 0)
+            public void DrawPP(float x, float y, string image, int sizex, int sizey, double angle = 0)
             {
                 DrawPP(x, y, images[image], sizex, sizey, angle);
             }
@@ -294,13 +182,13 @@ namespace Base_Building_Game
                 /// </summary>
                 /// <param name="x"></param>
                 /// <returns></returns>
-                public int GetPx(int x)
+            public int GetPx(float x)
             {
-                return (zoom * x) - (zoom * player.camPos.x / 32) + halfscreenwidth;
+                return (int)(zoom *  (x - player.camPos.X) + halfscreenwidth);
             }
-            public int GetPx(int x, int px)
+            public int GetPx(float x, float px)
             {
-                return (zoom * x) - (zoom * px / 32) + halfscreenwidth;
+                return (int)(zoom * (x - px) + halfscreenwidth);
             }
 
 
@@ -309,13 +197,13 @@ namespace Base_Building_Game
             /// </summary>
             /// <param name="y"></param>
             /// <returns></returns>
-            public int GetPy(int y)
+            public int GetPy(float y)
             {
-                return (zoom * y) - (zoom * player.camPos.y / 32) + halfscreenheight;
+                return (int)(zoom * (y - player.camPos.Y) + halfscreenheight);
             }
-            public int GetPy(int y, int py)
+            public int GetPy(float y, float py)
             {
-                return (zoom * y) - (zoom * py / 32) + halfscreenheight;
+                return (int)(zoom * (y - py) + halfscreenheight);
             }
         }
     }

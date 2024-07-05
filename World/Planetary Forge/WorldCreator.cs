@@ -34,8 +34,8 @@ namespace Base_Building_Game
 
             ActiveSector = world[(World.size + 1) / 2, (World.size + 1) / 2];
 
-            player.pos = new IVect(16 * SectorSize, 16 * SectorSize);
-            player.camPos = new IVect(16 * SectorSize, 16 * SectorSize);
+            player.pos = new IVect(SectorSize / 2, SectorSize / 2);
+            player.camPos = new IVect(SectorSize / 2, SectorSize / 2);
         }
 
 

@@ -28,18 +28,30 @@ namespace Base_Building_Game
             { "Wood", "Tiles\\wood.png" },
 
 
+            // fancy tiles
+            { "GrassSS", "Tiles\\grass sprite sheet.bmp" },
+            { "SandSS", "Tiles\\sand sprite sheet.bmp" },
+
+
 
 
             // buildings
             { "BridgeNode0", "Buildings\\bridge node0.png" },
 
+
             { "WallNode0", "Buildings\\wall node0.png" },
+
+            { "WallSegment0", "Buildings\\wall segment0.png" },
+
 
             { "Extractor0", "Buildings\\extractor.png" },
 
+
             { "DropPod0", "Buildings\\DropPod0.png" },
 
+
             { "SmallPort0", "Buildings\\port up.png" },
+
 
             { "MediumPort0", "Buildings\\Medium Port.png" },
 
@@ -53,12 +65,22 @@ namespace Base_Building_Game
             { "StoneItem", "Entities\\rock.png" },
             { "IronItem", "Entities\\iron.png" },
             { "DiamondItem", "Entities\\diamond.png" },
-            {"Man","Entities\\man.png" },
+            { "Man" , "Entities\\man.png" },
 
 
 
             // boats
             { "Skiff0", "Entities\\Skiff0.png" },
+
+            { "Destroyer2", "Entities\\Destroyer2.png" },
+
+
+            //  turrets
+            { "Turret2", "Entities\\Turret2.png" },
+
+
+            // bullets
+            { "Projectile2", "Entities\\Projectile2.png" },
 
 
 
@@ -73,6 +95,7 @@ namespace Base_Building_Game
             { "DeliverBox", "UI\\deliver box.png" },
 
             { "Port UI", "UI\\Port UI.png" },
+            { "Interact", "UI\\Interact.png" },
 
 
 

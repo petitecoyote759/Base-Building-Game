@@ -13,22 +13,26 @@ namespace Base_Building_Game
 {
     public static partial class General
     {
-        public class Player
+        public class Player  : IEntity
         {
-            public IVect pos = new IVect();
-            public IVect camPos = new IVect();
+            public Vector2 pos { get; set; } = new Vector2();
+            public Vector2 camPos = new Vector2();
             public IVect SectorPos = new IVect((World.size + 1) / 2, (World.size + 1) / 2);
 
             public IVect? selectedTile = null;
             public int CurrrentRotation = 0;
 
-            public int speed { get => settings.PlayerSpeed; }
+            public Boat? boat;
+            public Turret? turret;
+            public bool Piloting = false;
+
+            public float speed { get => settings.PlayerSpeed; }
             public int camspeed = 1;
 
-            public int x { get => pos.x; set => pos.x = value; }
-            public int blockX { get => pos.x / 32; }
-            public int y { get => pos.y; set => pos.y = value; }
-            public int blockY { get => pos.y / 32; }
+            public float x { get => pos.X; set => pos = new Vector2(value, pos.Y); }
+            public int blockX { get => (int)x; }
+            public float y { get => pos.Y; set => pos = new Vector2(pos.X, value); }
+            public int blockY { get => (int)y; }
 
             public double angle = 0d; // ik this is bad but you need it for SDL rotating
 
@@ -47,63 +51,74 @@ namespace Base_Building_Game
 
             public void Move(int dt)
             {
-                dt = dt * 3 / 5;
                 Func<int, int, bool, bool> Walkable = world.Walkable;
 
+                float speed = this.speed / 100f;
 
-                if (ActiveKeys["w"])
+
+                if (boat is null && turret is null)
                 {
-                    if (ActiveKeys["a"] ^ ActiveKeys["d"]) { y -= speed * dt * 5 / 7; }
-                    else { y -= speed * dt; }
 
-                    if (!Walkable(blockX, blockY, true))
-                    {
-                        if (ActiveKeys["a"] ^ ActiveKeys["d"]) { y += speed * dt * 5 / 7; }
-                        else { y += speed * dt; } // move back to the original place
-                    }
-
-                }
-                if (ActiveKeys["s"])
-                {
-                    if (ActiveKeys["a"] ^ ActiveKeys["d"]) { y += speed * dt * 5 / 7; }
-                    else { y += speed * dt; }
-
-                    if (!Walkable(blockX, blockY, true))
+                    if (ActiveKeys["w"])
                     {
                         if (ActiveKeys["a"] ^ ActiveKeys["d"]) { y -= speed * dt * 5 / 7; }
                         else { y -= speed * dt; }
+
+                        if (!Walkable(blockX, blockY, true))
+                        {
+                            if (ActiveKeys["a"] ^ ActiveKeys["d"]) { y += speed * dt * 5 / 7; }
+                            else { y += speed * dt; } // move back to the original place
+                        }
+
                     }
-
-                }
-                if (ActiveKeys["a"])
-                {
-                    if (ActiveKeys["w"] ^ ActiveKeys["s"]) { x -= speed * dt * 5 / 7; }
-                    else { x -= speed * dt; }
-
-                    if (!Walkable(blockX, blockY, true))
+                    if (ActiveKeys["s"])
                     {
-                        if (ActiveKeys["w"] ^ ActiveKeys["s"]) { x += speed * dt * 5 / 7; }
-                        else { x += speed * dt; }
+                        if (ActiveKeys["a"] ^ ActiveKeys["d"]) { y += speed * dt * 5 / 7; }
+                        else { y += speed * dt; }
+
+                        if (!Walkable(blockX, blockY, true))
+                        {
+                            if (ActiveKeys["a"] ^ ActiveKeys["d"]) { y -= speed * dt * 5 / 7; }
+                            else { y -= speed * dt; }
+                        }
+
                     }
-                }
-
-
-                if (ActiveKeys["d"])
-                {
-                    if (ActiveKeys["w"] ^ ActiveKeys["s"]) { x += speed * dt * 5 / 7; }
-                    else { x += speed * dt; }
-
-                    if (!Walkable(blockX, blockY, true))
+                    if (ActiveKeys["a"])
                     {
                         if (ActiveKeys["w"] ^ ActiveKeys["s"]) { x -= speed * dt * 5 / 7; }
                         else { x -= speed * dt; }
+
+                        if (!Walkable(blockX, blockY, true))
+                        {
+                            if (ActiveKeys["w"] ^ ActiveKeys["s"]) { x += speed * dt * 5 / 7; }
+                            else { x += speed * dt; }
+                        }
                     }
+
+
+                    if (ActiveKeys["d"])
+                    {
+                        if (ActiveKeys["w"] ^ ActiveKeys["s"]) { x += speed * dt * 5 / 7; }
+                        else { x += speed * dt; }
+
+                        if (!Walkable(blockX, blockY, true))
+                        {
+                            if (ActiveKeys["w"] ^ ActiveKeys["s"]) { x -= speed * dt * 5 / 7; }
+                            else { x -= speed * dt; }
+                        }
+                    }
+
                 }
+
+                if (boat is null)
+                {
+                    angle = (Math.PI / 2d + Math.Atan2((getMousePos().y - (renderer.GetPy(y))), (getMousePos().x - (renderer.GetPx(x))))) * 180d / Math.PI;
+                }
+
 
 
                 camPos = pos;
 
-                angle = (Math.PI / 2d + Math.Atan2((getMousePos().y - (renderer.GetPy(y / 32))), (getMousePos().x - (renderer.GetPx(x / 32))))) * 180d / Math.PI;
 
                 //float ratio = camspeed * (float)(Math.ReciprocalSqrtEstimate(Math.Pow((x - campos.X), 2) + Math.Pow((y - campos.Y), 2))) * dt / 1000f;
                 //float ratio = (dt * (128 + MathF.Pow((x - camPos.x) / 8, 2) + MathF.Pow((y - camPos.y) / 8, 2)) / 10000f);
@@ -113,6 +128,33 @@ namespace Base_Building_Game
                 //camPos.y = (int)((y - camPos.y) * ratio) + camPos.y;
 
                 // OPTIMISE: remove these ugly ass floats
+            }
+
+
+
+
+
+
+
+
+
+
+
+
+
+            public bool IsOnBoat()
+            {
+                foreach (Boat boat in (from entity in LoadedActiveEntities where entity is Boat select (Boat)entity).ToArray())
+                {
+                    //if ((General.player.pos - boat.pos).MagSquared() > 200) { continue; }
+
+                    if (IsPlayerWithinHitbox(boat, this))
+                    {
+                        return true;
+                    }
+                }
+
+                return false;
             }
         }
     }
