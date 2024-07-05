@@ -134,7 +134,6 @@ namespace Base_Building_Game
                                 {
                                     case (short)BuildingID.SmallPort:
 
-                                        SmallPort port = (SmallPort)building;
 
                                         Skiff skiff = new Skiff();
 
@@ -142,7 +141,7 @@ namespace Base_Building_Game
                                         bool HasResources = true;
                                         foreach (var pair in skiff.ResourceCosts)
                                         {
-                                            if (port.inventory[pair.Key] < pair.Value)
+                                            if (building.inventory[pair.Key] < pair.Value)
                                             {
                                                 HasResources = false;
                                                 break; // TODO: add feature init
@@ -150,7 +149,7 @@ namespace Base_Building_Game
                                         }
                                         if (!HasResources) { break; }
 
-                                        skiff = new Skiff(port.pos);
+                                        skiff = new Skiff(building.pos);
                                         skiff.pos = new Vector2(skiff.pos.X - 0.5f, skiff.pos.Y + 0.5f);
                                         LoadedActiveEntities.Add(skiff);
                                         
@@ -165,15 +164,13 @@ namespace Base_Building_Game
 
                                     case (short)BuildingID.MedPort:
 
-                                        MediumPort Mport = (MediumPort)building;
-
                                         Destroyer destroyer = new Destroyer();
 
 
                                         HasResources = true;
                                         foreach (var pair in destroyer.ResourceCosts)
                                         {
-                                            if (Mport.inventory[pair.Key] < pair.Value)
+                                            if (building.inventory[pair.Key] < pair.Value)
                                             {
                                                 HasResources = false;
                                                 break; // TODO: add feature init
@@ -181,7 +178,7 @@ namespace Base_Building_Game
                                         }
                                         if (!HasResources) { break; }
 
-                                        destroyer = new Destroyer(Mport.pos);
+                                        destroyer = new Destroyer(building.pos);
                                         destroyer.pos = new Vector2(destroyer.pos.X - 0.5f, destroyer.pos.Y + 0.5f);
                                         LoadedActiveEntities.Add(destroyer);
 
@@ -192,7 +189,6 @@ namespace Base_Building_Game
 
                                     case (short)BuildingID.LargePort:
 
-                                        LargePort Lport = (LargePort)building;
 
                                         Battleship battleship = new Battleship();
 
@@ -200,7 +196,7 @@ namespace Base_Building_Game
                                         HasResources = true;
                                         foreach (var pair in battleship.ResourceCosts)
                                         {
-                                            if (Lport.inventory[pair.Key] < pair.Value)
+                                            if (building.inventory[pair.Key] < pair.Value)
                                             {
                                                 HasResources = false;
                                                 break; // TODO: add feature init
@@ -208,7 +204,7 @@ namespace Base_Building_Game
                                         }
                                         if (!HasResources) { break; }
 
-                                        battleship = new Battleship(Lport.pos);
+                                        battleship = new Battleship(building.pos);
                                         battleship.pos = new Vector2(battleship.pos.X - 0.5f, battleship.pos.Y + 0.5f);
                                         LoadedActiveEntities.Add(battleship);
 

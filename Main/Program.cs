@@ -23,6 +23,7 @@ namespace Base_Building_Game
             LoadSettings();
 
             LoadImages();
+            LoadFancyTiles();
             LoadText();
 
 
@@ -57,6 +58,13 @@ namespace Base_Building_Game
 
             while (Running)
             {
+                if (SDL_GetError() != "")
+                {
+                    AddLog("SDL Error -> " + SDL_GetError(), Debugger.Priority.ERROR);
+                    SDL_ClearError();
+                }
+
+
                 handler.HandleInputs(ref Running); 
                 player.Move((int)dt);
 

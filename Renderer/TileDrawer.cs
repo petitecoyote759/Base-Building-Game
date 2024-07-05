@@ -36,7 +36,13 @@ namespace Base_Building_Game
                     {
                         Tile tile = world.GetTile(x, y);
 
-                        if (TileImages.ContainsKey(tile.ID))
+                        if (FancyTiles.ContainsKey(tile.ID))
+                        {
+                            int code = CalcCode(x, y);
+
+                            DrawBP(x, px, y, py, FancyTiles[tile.ID][code], zoom, zoom);
+                        }
+                        else if (TileImages.ContainsKey(tile.ID))
                         {
                             DrawBP(x, px, y, py, TileImages[tile.ID], zoom, zoom);
                         }

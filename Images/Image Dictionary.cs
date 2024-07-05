@@ -28,6 +28,11 @@ namespace Base_Building_Game
             { "Wood", "Tiles\\wood.png" },
 
 
+            // fancy tiles
+            { "GrassSS", "Tiles\\grass sprite sheet.bmp" },
+            { "SandSS", "Tiles\\sand sprite sheet.bmp" },
+
+
 
 
             // buildings
