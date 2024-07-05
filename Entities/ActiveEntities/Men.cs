@@ -18,26 +18,33 @@ namespace Base_Building_Game
             public Vector2 pos { get; set; }
             public Item? heldItem {get; set; } = null;
             public Item? targetedItem { get; set; } = null;
-            public Stack<IVect>? path { get; set; } = null;
-            public Men(Vector2 pos)
+            public Stack<Vector2>? path { get; set; } = new Stack<Vector2>();
+            public WorkCamp camp { get; }
+            public Men(Vector2 pos,WorkCamp camp)
             {
                 this.pos = pos;
+                this.camp = camp;
                 LoadedActiveEntities.Add(this);
             }
 
             public void Action(int dt)
             {
                 
-                if (targetedItem is null && heldItem is null)
+                if (targetedItem is null && path.Count == 0)
                 {
-                    FindItem();
+                    if (heldItem is null)
+                    {
+                        FindItem();
+                        
+                    }
+                    else
+                    {
+                        DepositItem();
+                        ReturnToCamp();
+                    }
                     return;
                 }
-                if (heldItem is not null)
-                {
-                    //TODO: Make the men return their camp.
-                    return;
-                }
+                
                 if (path is not null)
                 {
                     if (path.Count != 0)
@@ -46,14 +53,12 @@ namespace Base_Building_Game
                         pos = path.Pop();
                         return;
                     }
-                    if (PickupItem())
+                    if (heldItem is null)
                     {
-                        return;
+                        PickupItem();
                         
                     }
-                    //If this occurs, this is a pretty big issue. The men have followed their path to its conclusion, and there isnt an item there.
-                    debugger.AddLog("Man failed to pick up an item once its path had concluded");
-
+                    return;
                 }
                 
             }
@@ -72,13 +77,13 @@ namespace Base_Building_Game
                     item.Targeted = true;
                     targetedItem = item;
                     AStar pathing = new AStar(world.Walkable, item.pos, this.pos);
-                    path = pathing.GetPath(1000);
+                    path = pathing.GetPath(100);
                     break;
                 }
             }
             public bool PickupItem()
             {
-                if (targetedItem.pos / 32 == this.pos)
+                if (targetedItem.pos == this.pos)
                 {
                     heldItem = targetedItem;
                     LoadedEntities.Remove(targetedItem);
@@ -87,10 +92,21 @@ namespace Base_Building_Game
                 }
                 return false;
             }
-            public void PathToItem()
+            public bool DepositItem()
             {
-                throw new NotImplementedException();
+                if (camp.pos == (IVect)this.pos)
+                {
+                    heldItem = null;
+                    return true;
+                }
+                return false;
             }
+            public void ReturnToCamp()
+            {
+                AStar pathing = new AStar(world.Walkable, camp.pos, this.pos);
+                path = pathing.GetPath(100);
+            }
+           
         }
     }
 }
