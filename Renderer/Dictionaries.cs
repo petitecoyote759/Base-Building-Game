@@ -138,6 +138,17 @@ namespace Base_Building_Game
                         renderer.images["MediumPort0"],
                     }
                 },
+
+                  {
+                    (short)BuildingID.Barrel, new IntPtr[]
+                    {
+                        renderer.images["Barrel0"],
+                        renderer.images["Barrel0"],
+                        renderer.images["Barrel0"],
+                        renderer.images["Barrel0"],
+                        renderer.images["Barrel0"],
+                    }
+                },
             };
 
 

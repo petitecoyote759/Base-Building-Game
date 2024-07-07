@@ -58,6 +58,8 @@ namespace Base_Building_Game
 
             {"WorkCamp0","Buildings\\workcamp.png"},
 
+            //TODO: Fix temp image.
+            {"Barrel0","Entities\\Turret2.png" },
 
             
             
