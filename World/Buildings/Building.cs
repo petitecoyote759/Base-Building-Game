@@ -56,6 +56,8 @@ namespace Base_Building_Game
             SmallPort,
             MedPort,
             LargePort,
+
+
         }
 
 
@@ -107,6 +109,7 @@ namespace Base_Building_Game
                 BuildingID.DropPod   => new DropPod(pos),
                 BuildingID.SmallPort => new SmallPort(pos, player.CurrrentRotation),
                 BuildingID.MedPort   => new MediumPort(pos, player.CurrrentRotation),
+
                 BuildingID.Barrel    => new Barrel(pos),
 
                 _ => null
