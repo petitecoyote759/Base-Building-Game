@@ -13,9 +13,9 @@ namespace Base_Building_Game
 {
     public static partial class General
     {
-        public class Player
+        public class Player  : IEntity
         {
-            public Vector2 pos = new Vector2();
+            public Vector2 pos { get; set; } = new Vector2();
             public Vector2 camPos = new Vector2();
             public IVect SectorPos = new IVect((World.size + 1) / 2, (World.size + 1) / 2);
 
@@ -23,14 +23,15 @@ namespace Base_Building_Game
             public int CurrrentRotation = 0;
 
             public Boat? boat;
+            public Turret? turret;
             public bool Piloting = false;
 
             public float speed { get => settings.PlayerSpeed; }
             public int camspeed = 1;
 
-            public float x { get => pos.X; set => pos.X = value; }
+            public float x { get => pos.X; set => pos = new Vector2(value, pos.Y); }
             public int blockX { get => (int)x; }
-            public float y { get => pos.Y; set => pos.Y = value; }
+            public float y { get => pos.Y; set => pos = new Vector2(pos.X, value); }
             public int blockY { get => (int)y; }
 
             public double angle = 0d; // ik this is bad but you need it for SDL rotating
@@ -55,7 +56,7 @@ namespace Base_Building_Game
                 float speed = this.speed / 100f;
 
 
-                if (!Piloting)
+                if (boat is null && turret is null)
                 {
 
                     if (ActiveKeys["w"])
@@ -107,10 +108,13 @@ namespace Base_Building_Game
                         }
                     }
 
-
-                    angle = (Math.PI / 2d + Math.Atan2((getMousePos().y - (renderer.GetPy(y))), (getMousePos().x - (renderer.GetPx(x))))) * 180d / Math.PI;
-
                 }
+
+                if (boat is null)
+                {
+                    angle = (Math.PI / 2d + Math.Atan2((getMousePos().y - (renderer.GetPy(y))), (getMousePos().x - (renderer.GetPx(x))))) * 180d / Math.PI;
+                }
+
 
 
                 camPos = pos;
@@ -124,6 +128,33 @@ namespace Base_Building_Game
                 //camPos.y = (int)((y - camPos.y) * ratio) + camPos.y;
 
                 // OPTIMISE: remove these ugly ass floats
+            }
+
+
+
+
+
+
+
+
+
+
+
+
+
+            public bool IsOnBoat()
+            {
+                foreach (Boat boat in (from entity in LoadedActiveEntities where entity is Boat select (Boat)entity).ToArray())
+                {
+                    //if ((General.player.pos - boat.pos).MagSquared() > 200) { continue; }
+
+                    if (IsPlayerWithinHitbox(boat, this))
+                    {
+                        return true;
+                    }
+                }
+
+                return false;
             }
         }
     }

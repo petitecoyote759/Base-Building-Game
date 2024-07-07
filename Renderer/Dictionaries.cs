@@ -81,6 +81,16 @@ namespace Base_Building_Game
                     }
                 },
 
+                  {
+                    (short)BuildingID.WorkCamp, new IntPtr[]
+                    {
+                        renderer.images["WorkCamp0"],
+                        renderer.images["WorkCamp0"],
+                        renderer.images["WorkCamp0"],
+                        renderer.images["WorkCamp0"],
+                        renderer.images["WorkCamp0"],
+                    }
+                },
 
                  {
                     (short)BuildingID.DropPod, new IntPtr[]
@@ -116,7 +126,23 @@ namespace Base_Building_Game
                         renderer.images["MediumPort0"],
                     }
                 },
+
+
+                 {
+                    (short)BuildingID.LargePort, new IntPtr[]
+                    {
+                        renderer.images["MediumPort0"],
+                        renderer.images["MediumPort0"],
+                        renderer.images["MediumPort0"],
+                        renderer.images["MediumPort0"],
+                        renderer.images["MediumPort0"],
+                    }
+                },
             };
+
+
+
+
 
 
 
@@ -142,10 +168,36 @@ namespace Base_Building_Game
 
 
 
+
+
             renderer.BoatImages = new Dictionary<short, IntPtr[]>()
             {
                 {
-                    (short)BuildingID.Bridge, new IntPtr[]
+                    (short)BoatID.Skiff, new IntPtr[]
+                    {
+                        renderer.images["Skiff0"],
+                        renderer.images["Skiff0"],
+                        renderer.images["Skiff0"],
+                        renderer.images["Skiff0"],
+                        renderer.images["Skiff0"],
+                    }
+                },
+
+
+                {
+                    (short)BoatID.Destroyer, new IntPtr[]
+                    {
+                        renderer.images["Skiff0"],
+                        renderer.images["Skiff0"],
+                        renderer.images["Destroyer2"],
+                        renderer.images["Skiff0"],
+                        renderer.images["Skiff0"],
+                    }
+                },
+
+
+                {
+                    (short)BoatID.Battleship, new IntPtr[]
                     {
                         renderer.images["Skiff0"],
                         renderer.images["Skiff0"],

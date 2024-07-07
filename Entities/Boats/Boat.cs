@@ -42,7 +42,9 @@ namespace Base_Building_Game
             public Dictionary<short, int> ResourceCosts { get; }
 
 
-            public bool HasPlayerPilot { get; set; }
+            public IEntity? Pilot { get; set; }
+
+            public Turret[] turrets { get; set; }
         }
 
 
@@ -140,6 +142,127 @@ namespace Base_Building_Game
         }
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        public static void MoveBoat(Boat boat, int dt)
+        {
+            Vector2 RForce = new Vector2();
+
+
+            RForce -= new Vector2(
+                SignOf(boat.velocity.X) * MathF.Pow(boat.velocity.X + (SignOf(boat.velocity.X) / 10f), 2) * boat.FrictionCoeffic,
+                SignOf(boat.velocity.Y) * MathF.Pow(boat.velocity.Y + (SignOf(boat.velocity.Y) / 10f), 2) * boat.FrictionCoeffic
+                );
+
+
+
+            if (boat.ThrustActive)
+            {
+                RForce -= new Vector2(
+                    (-boat.Thrust * MathF.Sin(((float)boat.angle) * MathF.PI / 180f)),
+                    (boat.Thrust * MathF.Cos(((float)boat.angle) * MathF.PI / 180f))
+                    ) * ((float)dt * 0.1f);
+            }
+
+
+            Vector2 oldVel = boat.velocity;
+
+            boat.velocity += RForce * dt;
+
+
+
+
+
+            if (oldVel.X < 0 && boat.velocity.X > 0)
+            {
+                boat.velocity = new Vector2(0, boat.velocity.Y);
+            }
+            if (oldVel.X > 0 && boat.velocity.X < 0)
+            {
+                boat.velocity = new Vector2(0, boat.velocity.Y);
+            }
+
+
+            if (oldVel.Y < 0 && boat.velocity.Y > 0)
+            {
+                boat.velocity = new Vector2(boat.velocity.X, 0);
+            }
+            if (oldVel.Y > 0 && boat.velocity.Y < 0)
+            {
+                boat.velocity = new Vector2(boat.velocity.X, 0);
+            }
+
+
+
+
+
+            boat.pos += boat.velocity * dt / boat.Weight;
+
+
+
+
+            world.Walkable(player.pos);
+            if (player.boat == boat)
+            {
+                player.pos += boat.velocity * dt / boat.Weight;
+            }
+
+
+            if (boat.Pilot is IEntity pilot)
+            {
+                pilot.pos = boat.pos;
+                player.angle = boat.angle;
+            }
+            else if (IsPlayerWithinHitbox(boat, player))
+            {
+                player.pos += boat.velocity * dt / boat.Weight;
+            }
+
+
+
+
+            if (boat.Pilot == player)
+            {
+
+                if (ActiveKeys["a"])
+                {
+                    boat.angle -= boat.TurnSpeed * Math.Min(boat.velocity.Length() * 2, 0.01f) * dt;
+                }
+                if (ActiveKeys["d"])
+                {
+                    boat.angle += boat.TurnSpeed * Math.Min(boat.velocity.Length() * 2, 0.01f) * dt;
+                }
+            }
+
+
+            if (boat.turrets is not null)
+            {
+                foreach (Turret turret in boat.turrets)
+                {
+                    if (turret.Pilot is IEntity entity)
+                    {
+                        entity.pos = turret.pos + new Vector2(0.5f, 0.5f);
+                    }
+                }
+            }
+        }
 
 
 

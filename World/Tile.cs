@@ -3,6 +3,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Short_Tools;
+using static Short_Tools.General;
+using IVect = Short_Tools.General.ShortIntVector2;
+
+
+
 
 namespace Base_Building_Game
 {
@@ -29,6 +35,8 @@ namespace Base_Building_Game
         // THE WIDTH OF A TILE IS 32!!!!!!!!!
         public class Tile
         {
+            public int code = 255;
+
             public short ID;
             public Building? building;
 
@@ -36,7 +44,7 @@ namespace Base_Building_Game
             {
                 if (random)
                 {
-                    ID = (short)randy.Next(0,4);
+                    ID = (short)randy.Next(0, 4);
                 }
                 else
                 {
@@ -54,6 +62,79 @@ namespace Base_Building_Game
                 this.ID = ID;
             }
         }
+
+
+
+        public static int CalcCode(int x, int y)
+        {
+            IVect[] directions = new IVect[]
+            {
+            new IVect { x = x - 1, y = y - 1 },
+            new IVect { x = x    , y = y - 1 },
+            new IVect { x = x + 1, y = y - 1 },
+
+            new IVect { x = x + 1, y = y     },
+            new IVect { x = x + 1, y = y + 1 },
+
+            new IVect { x = x    , y = y + 1 },
+            new IVect { x = x - 1, y = y + 1 },
+            new IVect { x = x - 1, y = y     }
+            };
+
+
+
+
+
+
+
+            int code = 0;
+
+            switch (world.GetTile(x, y).ID)
+            {
+                // TODO: add calc code
+                case (short)TileID.Sand:
+
+                    foreach (IVect pos in directions)
+                    {
+                        if (world.GetTile(pos.x, pos.y).ID == (short)TileID.Ocean)
+                        {
+                            code += 1 << Array.IndexOf(directions, pos);
+                        }
+                    }
+                    break;
+
+
+                case (short)TileID.Grass:
+
+                    foreach (IVect pos in directions)
+                    {
+                        if (world.GetTile(pos.x, pos.y).ID == (short)TileID.Sand)
+                        {
+                            code += 1 << Array.IndexOf(directions, pos);
+                        }
+                    }
+                    break;
+            }
+
+            return code;
+        }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
         // ~~~ TILE FORMAT ~~~
         // Friendly? BuildingID

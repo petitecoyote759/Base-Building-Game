@@ -66,6 +66,10 @@ namespace Base_Building_Game
                 if (!ActiveSector[x, y].building.ValidTiles(world.GetTile(x, y)))
                 {
                     ActiveSector[x, y].building = null;
+                    if (id == BuildingID.WorkCamp)
+                    {
+                        LoadedActiveEntities.RemoveAt(LoadedActiveEntities.Count - 1);
+                    }
                     return;
                 }
 

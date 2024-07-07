@@ -20,12 +20,12 @@ namespace Base_Building_Game
             public Vector2 pos { get; set; } 
 
             public double angle { get; set; } = 0d;
-            public float Thrust { get; } = 0.0005f;
+            public float Thrust { get; } = 0.0008f;
             public float TurnSpeed { get; } = 3;
 
             public float FrictionCoeffic { get; } = 0.005f;
             public bool ThrustActive { get; set; } = false;
-            public bool HasPlayerPilot { get; set; } = false;
+            public IEntity? Pilot { get; set; }
 
             public short ID { get => (short)BoatID.Skiff; }
 
@@ -40,6 +40,8 @@ namespace Base_Building_Game
             public int Weight { get => 100; }
 
             public Vector2 velocity { get; set; } = new IVect();
+
+            public Turret[] turrets { get; set; } 
 
 
 
@@ -72,87 +74,7 @@ namespace Base_Building_Game
 
             public void Action(int dt)
             {
-                Vector2 RForce = new Vector2();
-
-                
-                RForce -= new Vector2(
-                    SignOf(velocity.X) * MathF.Pow(velocity.X + (SignOf(velocity.X) / 10f), 2) * FrictionCoeffic,
-                    SignOf(velocity.Y) * MathF.Pow(velocity.Y + (SignOf(velocity.Y) / 10f), 2) * FrictionCoeffic
-                    );
-
-
-
-                if (ThrustActive)
-                {
-                    RForce -= new Vector2(
-                        (-Thrust * MathF.Sin(((float)angle) * MathF.PI / 180f)),
-                        (Thrust * MathF.Cos(((float)angle) * MathF.PI / 180f))
-                        ) * ((float)dt * 0.1f);
-                }
-
-
-                Vector2 oldVel = velocity;
-
-                velocity += RForce * dt;
-
-
-
-
-
-                if (oldVel.X < 0 && velocity.X > 0)
-                {
-                    velocity = new Vector2(0, velocity.Y);
-                }
-                if (oldVel.X > 0 && velocity.X < 0)
-                {
-                    velocity = new Vector2(0, velocity.Y);
-                }
-
-
-                if (oldVel.Y < 0 && velocity.Y > 0)
-                {
-                    velocity = new Vector2(velocity.X, 0);
-                }
-                if (oldVel.Y > 0 && velocity.Y < 0)
-                {
-                    velocity = new Vector2(velocity.X, 0);
-                }
-
-
-
-
-
-                pos += velocity * dt / Weight;
-
-                bool canMove = BoatCanMove(this);
-                if (!canMove) { pos -= velocity * dt / Weight; velocity = -velocity * 0.2f; ThrustActive = false; }
-
-
-
-                world.Walkable(player.pos);
-                if (player.boat == this && canMove)
-                {
-                    player.pos += velocity * dt / Weight;
-                }
-
-
-
-
-
-                if (HasPlayerPilot)
-                {
-                    player.pos = pos;
-
-
-                    if (ActiveKeys["a"])
-                    {
-                        angle -= TurnSpeed * Math.Min(velocity.Length() * 2, 0.01f) * dt;
-                    }
-                    if (ActiveKeys["d"])
-                    {
-                        angle += TurnSpeed * Math.Min(velocity.Length() * 2, 0.01f) * dt;
-                    }
-                }
+                MoveBoat(this, dt);
             }
         }
 

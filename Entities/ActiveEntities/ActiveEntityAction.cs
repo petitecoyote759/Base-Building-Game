@@ -16,7 +16,8 @@ namespace Base_Building_Game
         static List<IActiveEntity> LoadedActiveEntities = new List<IActiveEntity>();
         public static void RunActiveEntities(int dt)
         {
-            foreach (IActiveEntity entity in LoadedActiveEntities)
+            IActiveEntity[] tempActiveEntities = LoadedActiveEntities.ToArray();
+            foreach (IActiveEntity entity in tempActiveEntities)
             {
                 entity.Action(dt);
             }

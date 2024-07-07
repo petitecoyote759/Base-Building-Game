@@ -49,20 +49,16 @@ namespace Base_Building_Game
                 {
                     case "w":
 
-                        if (down && InGame && player.Piloting)
+                        if (down && InGame && player.boat is not null)
                         {
-                            if (player.boat is null) { world.Walkable(player.pos); }
-                            if (player.boat is null) { break; }
                             player.boat.ThrustActive = true;
                         }
                         break;
 
                     case "s":
 
-                        if (down && InGame && player.Piloting)
+                        if (down && InGame && player.boat is not null)
                         {
-                            if (player.boat is null) { world.Walkable(player.pos); }
-                            if (player.boat is null) { break; }
                             player.boat.ThrustActive = false;
                         }
                         break;
@@ -84,30 +80,9 @@ namespace Base_Building_Game
 
                     case "SPACE":
 
-                        if (!InGame) { InGame = true; }  // TODO: change this when the menu is added
-                        else
-                        {
-                            if (down)
-                            {
-                                if (player.boat is null)
-                                {
-                                    world.Walkable(player.pos);
-                                    if (player.boat is null) { break; }
-                                }
-                                if (player.Piloting)
-                                {
-                                    player.Piloting = false;
-                                    player.boat.HasPlayerPilot = false;
-                                }
-                                else
-                                {
-                                    player.Piloting = true;
-                                    player.boat.HasPlayerPilot = true;
-                                }
-                            }
-                        }
-                        break;
 
+                        if (!InGame) { InGame = true; }  // TODO: change this when the menu is added
+                        break;
 
 
 
@@ -159,7 +134,6 @@ namespace Base_Building_Game
                                 {
                                     case (short)BuildingID.SmallPort:
 
-                                        SmallPort port = (SmallPort)building;
 
                                         Skiff skiff = new Skiff();
 
@@ -167,7 +141,7 @@ namespace Base_Building_Game
                                         bool HasResources = true;
                                         foreach (var pair in skiff.ResourceCosts)
                                         {
-                                            if (port.inventory[pair.Key] < pair.Value)
+                                            if (building.inventory[pair.Key] < pair.Value)
                                             {
                                                 HasResources = false;
                                                 break; // TODO: add feature init
@@ -175,7 +149,7 @@ namespace Base_Building_Game
                                         }
                                         if (!HasResources) { break; }
 
-                                        skiff = new Skiff(port.pos);
+                                        skiff = new Skiff(building.pos);
                                         skiff.pos = new Vector2(skiff.pos.X - 0.5f, skiff.pos.Y + 0.5f);
                                         LoadedActiveEntities.Add(skiff);
                                         
@@ -190,18 +164,13 @@ namespace Base_Building_Game
 
                                     case (short)BuildingID.MedPort:
 
-
-
-
-                                        MediumPort Mport = (MediumPort)building;
-
                                         Destroyer destroyer = new Destroyer();
 
 
                                         HasResources = true;
                                         foreach (var pair in destroyer.ResourceCosts)
                                         {
-                                            if (Mport.inventory[pair.Key] < pair.Value)
+                                            if (building.inventory[pair.Key] < pair.Value)
                                             {
                                                 HasResources = false;
                                                 break; // TODO: add feature init
@@ -209,20 +178,37 @@ namespace Base_Building_Game
                                         }
                                         if (!HasResources) { break; }
 
-                                        destroyer = new Destroyer(Mport.pos);
+                                        destroyer = new Destroyer(building.pos);
                                         destroyer.pos = new Vector2(destroyer.pos.X - 0.5f, destroyer.pos.Y + 0.5f);
                                         LoadedActiveEntities.Add(destroyer);
 
-
-
-
-
-
-
-
-
                                         break;
 
+
+
+
+                                    case (short)BuildingID.LargePort:
+
+
+                                        Battleship battleship = new Battleship();
+
+
+                                        HasResources = true;
+                                        foreach (var pair in battleship.ResourceCosts)
+                                        {
+                                            if (building.inventory[pair.Key] < pair.Value)
+                                            {
+                                                HasResources = false;
+                                                break; // TODO: add feature init
+                                            }
+                                        }
+                                        if (!HasResources) { break; }
+
+                                        battleship = new Battleship(building.pos);
+                                        battleship.pos = new Vector2(battleship.pos.X - 0.5f, battleship.pos.Y + 0.5f);
+                                        LoadedActiveEntities.Add(battleship);
+
+                                        break;
                                 }
                             }
                         }
@@ -230,6 +216,9 @@ namespace Base_Building_Game
                         break;
                     
                 }
+
+
+                DoBoatHandles(inp, down);
             }
         }
     }
