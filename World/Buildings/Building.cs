@@ -56,8 +56,6 @@ namespace Base_Building_Game
             SmallPort,
             MedPort,
             LargePort,
-
-
         }
 
 
