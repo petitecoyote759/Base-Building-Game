@@ -101,17 +101,18 @@ namespace Base_Building_Game
                             code += 1 << Array.IndexOf(directions, pos);
                         }
                     }
+                    break;
 
 
-                    // if (topleft) { code += 1 << 0; }
-                    // if (top) { code += 1 << 1; }
-                    // if (topright) { code += 1 << 2; }
-                    // if (right) { code += 1 << 3; }
-                    // if (bottomright) { code += 1 << 4; }
-                    // if (bottom) { code += 1 << 5; }
-                    // if (bottomleft) { code += 1 << 6; }
-                    // if (left) { code += 1 << 7; }
+                case (short)TileID.Grass:
 
+                    foreach (IVect pos in directions)
+                    {
+                        if (world.GetTile(pos.x, pos.y).ID == (short)TileID.Sand)
+                        {
+                            code += 1 << Array.IndexOf(directions, pos);
+                        }
+                    }
                     break;
             }
 
