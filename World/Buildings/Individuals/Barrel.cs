@@ -21,7 +21,7 @@ namespace Base_Building_Game
             public int xSize { get; } = 1;
             public int ySize { get; } = 1;
 
-            public Inventory? inventory { get; set; } = null;
+            public Inventory? inventory { get; set; } = new Inventory();
             public int CurrentHealth { get; set; }
 
             public IVect pos { get; set; }
