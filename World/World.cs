@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using IVect = Short_Tools.General.ShortIntVector2;
 using static Short_Tools.General;
+using System.Xml.Serialization;
 
 
 
@@ -53,8 +54,10 @@ namespace Base_Building_Game
 
 
 
-            public bool Walkable(Tile tile, bool player = false)
+            public bool Walkable(int x, int y, bool player = false)
             {
+                Tile tile = world.GetTile(x, y);
+
                 if (settings.Cheats && player) { return true; } 
 
 
@@ -76,7 +79,7 @@ namespace Base_Building_Game
 
 
 
-                    if (General.player.IsOnBoat()) { return true; }
+                    if (IsOnBoat(x, y)) { return true; }
                     return false;
                 }
 
@@ -89,12 +92,6 @@ namespace Base_Building_Game
             }
 
 
-
-
-            public bool Walkable(int x, int y, bool player = false)
-            {
-                return Walkable(GetTile(x, y), player);
-            }
             public bool Walkable(IVect pos, bool player = false)
             {
                 return Walkable(pos.x, pos.y, player);

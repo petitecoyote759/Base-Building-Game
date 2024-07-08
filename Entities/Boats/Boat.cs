@@ -69,9 +69,9 @@ namespace Base_Building_Game
 
 
 
-        public static bool IsPlayerWithinHitbox(Boat boat, Player player)
+        public static bool IsPlayerWithinHitbox(Boat boat, float x, float y)
         {
-            Vector2 MovedPos = player.pos - boat.pos;
+            Vector2 MovedPos = new Vector2(x, y) - boat.pos;
 
             Vector2 RotatedPos = new Vector2(
                 MathF.Cos((float)boat.angle * MathF.PI / 180f) * MovedPos.X + MathF.Sin((float)boat.angle * MathF.PI / 180f) * MovedPos.Y,
@@ -229,10 +229,18 @@ namespace Base_Building_Game
             {
                 pilot.pos = boat.pos;
                 player.angle = boat.angle;
+                for (int i = 0; i < player.Legs.Count(); i++)
+                {
+                    player.Legs[i] += boat.velocity * dt / boat.Weight;
+                }
             }
-            else if (IsPlayerWithinHitbox(boat, player))
+            else if (IsPlayerWithinHitbox(boat, player.x, player.y))
             {
                 player.pos += boat.velocity * dt / boat.Weight;
+                for (int i = 0; i < player.Legs.Count(); i++)
+                {
+                    player.Legs[i] += boat.velocity * dt / boat.Weight;
+                }
             }
 
 
@@ -269,6 +277,25 @@ namespace Base_Building_Game
 
 
 
+
+
+
+
+
+        public static bool IsOnBoat(float x, float y)
+        {
+            foreach (Boat boat in (from entity in LoadedActiveEntities where entity is Boat select (Boat)entity).ToArray())
+            {
+                //if ((General.player.pos - boat.pos).MagSquared() > 200) { continue; }
+
+                if (IsPlayerWithinHitbox(boat, x, y))
+                {
+                    return true;
+                }
+            }
+
+            return false;
+        }
 
 
 

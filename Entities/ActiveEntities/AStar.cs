@@ -8,6 +8,7 @@ using System.Transactions;
 using System.Xml.Linq;
 using System.Numerics;
 using IVect = Short_Tools.General.ShortIntVector2;
+using System.Reflection;
 
 namespace Base_Building_Game
 {
@@ -16,14 +17,14 @@ namespace Base_Building_Game
         
         public class AStar
         {
-            Func<Tile,bool, bool> tileChecker { get; }
+            Func<int, int, bool, bool> tileChecker { get; }
             IVect destination { get; set; }
             IVect start { get; set; }
             AStar_Node currentNode { get; set; }
             PriorityQueue<AStar_Node, int> nodesToVisit { get; } = new PriorityQueue<AStar_Node, int>();
             List<AStar_Node> visitedNodes { get; } = new List<AStar_Node>();
 
-            public AStar(Func<Tile,bool, bool> tileChecker, IVect destination, IVect start)
+            public AStar(Func<int, int, bool, bool> tileChecker, IVect destination, IVect start)
             {
                 this.tileChecker = tileChecker;
                 this.destination = destination;
@@ -53,7 +54,7 @@ namespace Base_Building_Game
                             }
                             IVect checkedPos = new IVect(currentNode.pos.x + x, currentNode.pos.y + y);
                             //If that tile is valid according to the delegate, then we add it to the priority queue.
-                            if (tileChecker(world.GetTile(checkedPos.x, checkedPos.y),false))
+                            if (tileChecker(checkedPos.x, checkedPos.y, false))
                             {
                                 bool hasVisited = false;
                                 foreach (AStar_Node node in visitedNodes)

@@ -27,7 +27,6 @@ namespace Base_Building_Game
             LoadText();
 
 
-
             if (!File.Exists("Saves\\Test.SWrld"))
             {
                 CreateWorld();
@@ -52,6 +51,7 @@ namespace Base_Building_Game
 
             BoatResearch[(short)BoatID.Destroyer] = 2;
            
+
 
             renderer.Start();
 

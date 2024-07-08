@@ -22,6 +22,7 @@ namespace Base_Building_Game
         {
             createImages(renderer.images["GrassSS"], (int)TileID.Grass, 95, 95);
             createImages(renderer.images["SandSS"], (int)TileID.Sand, 96, 96);
+            createImages(renderer.images["OceanSS"], (int)TileID.Ocean, 96, 96);
         }
 
 

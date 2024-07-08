@@ -7,13 +7,13 @@ using System.Threading.Tasks;
 using IVect = Short_Tools.General.ShortIntVector2;
 using MathI = Short_Tools.ShortMathI;
 using static Short_Tools.General;
-
+using Short_Tools;
 
 namespace Base_Building_Game
 {
     public static partial class General
     {
-        public class Player  : IEntity
+        public class Player : IEntity
         {
             public Vector2 pos { get; set; } = new Vector2();
             public Vector2 camPos = new Vector2();
@@ -28,6 +28,9 @@ namespace Base_Building_Game
 
             public float speed { get => settings.PlayerSpeed; }
             public int camspeed = 1;
+
+            public Leg[] Legs = new Leg[4] { new Leg(), new Leg(), new Leg(), new Leg() };
+            public float LegDist = 3f;
 
             public float x { get => pos.X; set => pos = new Vector2(value, pos.Y); }
             public int blockX { get => (int)x; }
@@ -51,6 +54,27 @@ namespace Base_Building_Game
 
             public void Move(int dt)
             {
+                Vector2 LastPos = pos;
+
+
+                for (int i = 0; i < Legs.Length; i++)
+                {
+                    if ((Legs[i] - pos).Length() > LegDist * 10)
+                    {
+                        float angle = (float)(randy.NextDouble() * MathF.PI * 2);
+
+                        Legs[i] = new Vector2(x + LegDist * MathF.Cos(angle), y + LegDist * MathF.Sin(angle));
+                    }
+                    else if (!world.Walkable((Vector2)Legs[i]))
+                    {
+                        float angle = (float)(randy.NextDouble() * MathF.PI * 2);
+
+                        Legs[i] = new Vector2(x + LegDist * MathF.Cos(angle), y + LegDist * MathF.Sin(angle));
+                    }
+                }
+
+
+
                 Func<int, int, bool, bool> Walkable = world.Walkable;
 
                 float speed = this.speed / 100f;
@@ -128,34 +152,19 @@ namespace Base_Building_Game
                 //camPos.y = (int)((y - camPos.y) * ratio) + camPos.y;
 
                 // OPTIMISE: remove these ugly ass floats
-            }
 
 
-
-
-
-
-
-
-
-
-
-
-
-            public bool IsOnBoat()
-            {
-                foreach (Boat boat in (from entity in LoadedActiveEntities where entity is Boat select (Boat)entity).ToArray())
+                if (player.pos != LastPos)
                 {
-                    //if ((General.player.pos - boat.pos).MagSquared() > 200) { continue; }
-
-                    if (IsPlayerWithinHitbox(boat, this))
-                    {
-                        return true;
-                    }
+                    MoveLegs(player.pos - LastPos);
                 }
-
-                return false;
             }
+
+
+
+
+
+
         }
     }
 }

@@ -31,6 +31,7 @@ namespace Base_Building_Game
             // fancy tiles
             { "GrassSS", "Tiles\\grass sprite sheet.bmp" },
             { "SandSS", "Tiles\\sand sprite sheet.bmp" },
+            { "OceanSS", "Tiles\\ocean sprite sheet.bmp" },
 
 
 
@@ -56,7 +57,7 @@ namespace Base_Building_Game
             { "MediumPort0", "Buildings\\Medium Port.png" },
 
 
-            {"WorkCamp0","Buildings\\workcamp.png"},
+            { "WorkCamp0", "Buildings\\workcamp.png" },
 
             //TODO: Fix temp image.
             {"Barrel0","Entities\\Turret2.png" },
@@ -65,10 +66,13 @@ namespace Base_Building_Game
             
             // entities
             { "Player", "Entities\\Body.png" },
+            { "PlayerLeg", "Entities\\Leg.png" },
+
             { "woodItem", "Entities\\woodItem.png" },
             { "StoneItem", "Entities\\rock.png" },
             { "IronItem", "Entities\\iron.png" },
             { "DiamondItem", "Entities\\diamond.png" },
+
             { "Man" , "Entities\\man.png" },
 
 
@@ -100,6 +104,11 @@ namespace Base_Building_Game
 
             { "Port UI", "UI\\Port UI.png" },
             { "Interact", "UI\\Interact.png" },
+
+
+
+            // Debug
+            { "Circle", "UI\\Circle.png" },
 
 
 

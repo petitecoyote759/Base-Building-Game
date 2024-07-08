@@ -114,6 +114,18 @@ namespace Base_Building_Game
                         }
                     }
                     break;
+
+
+                case (short)TileID.Ocean:
+
+                    foreach (IVect pos in directions)
+                    {
+                        if (world.GetTile(pos.x, pos.y).ID == (short)TileID.DeepOcean)
+                        {
+                            code += 1 << Array.IndexOf(directions, pos);
+                        }
+                    }
+                    break;
             }
 
             return code;

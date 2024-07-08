@@ -70,7 +70,7 @@ namespace Base_Building_Game
         /// <summary>
         /// The animations currently active, they will be removed from this list when they are finished.
         /// </summary>
-        protected List<Animation> animations = new List<Animation>();
+        public List<General.Animation> animations = new List<General.Animation>();
         /// <summary>
         /// Time taken for the last frame to render, calculated after RenderClear();
         /// </summary>
@@ -442,16 +442,17 @@ namespace Base_Building_Game
 
         private void Animate()
         {
-            List<Animation> ToRemove = new List<Animation>();
+            List<General.Animation> ToRemove = new List<General.Animation>();
 
-            foreach (Animation animation in animations)
+            General.Animation[] CurrentAnimations = animations.ToArray();
+            foreach (General.Animation animation in CurrentAnimations)
             {
                 animation.Tick(dt);
                 if (animation.Finished) { ToRemove.Add(animation); }
             }
 
             //animations.RemoveAll(a => ToRemove.IndexOf(a) != -1);
-            foreach (Animation animation in ToRemove)
+            foreach (General.Animation animation in ToRemove)
             {
                 animations.Remove(animation);
             }
@@ -475,10 +476,10 @@ namespace Base_Building_Game
         /// Removes any given animations from the animations list.
         /// </summary>
         /// <param name="InAnimations"> The animations to be removed </param>
-        public void RemoveAnimation(params Animation[] InAnimations)
+        public void RemoveAnimation(params General.Animation[] InAnimations)
         {
-            if (InAnimations == new Animation[0]) { return; }
-            foreach (Animation animation in InAnimations)
+            if (InAnimations == new General.Animation[0]) { return; }
+            foreach (General.Animation animation in InAnimations)
             {
                 animations.Remove(animation);
             }
@@ -606,7 +607,83 @@ namespace Base_Building_Game
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+        public void DrawTextureBetweenPoints(IntPtr texture, int x1, int y1, int x2, int y2, int w, int h)
+        {
+
+            // Calculate the distance between the two points
+            int dx = x2 - x1;
+            int dy = y2 - y1;
+            float distance = MathF.Sqrt(dx * dx + dy * dy);
+
+            // Calculate the angle of the line
+            float angle = MathF.Atan2(dy, dx) * (180.0f / MathF.PI);
+
+            // Calculate the number of tiles needed
+            int numTiles = (int)(distance / w) + 1;
+
+            // Draw the texture tiles
+            for (int i = 0; i < numTiles; i++)
+            {
+                float t = (float)i / numTiles;
+                int x = (int)(x1 + t * dx);
+                int y = (int)(y1 + t * dy);
+
+                SDL_Rect dstRect = new SDL_Rect
+                {
+                    x = x,
+                    y = y,
+                    w = w,
+                    h = h
+                };
+
+                SDL_RenderCopyEx(SDLrenderer, texture, IntPtr.Zero, ref dstRect, angle, IntPtr.Zero, SDL.SDL_RendererFlip.SDL_FLIP_NONE);
+            }
+        }
     }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -614,9 +691,10 @@ namespace Base_Building_Game
     /// Image animator that changes the image of an object.
     /// </summary>
     /// <typeparam name="T"> The type of the object to have its image changed. </typeparam>
-    public class ImageAnimator<T> : Animation where T : ISAnimatableImage
+    public class ImageAnimator<T> : General.Animation where T : ISAnimatableImage
     {
         T obj;
+        public object ObjGetter { get => obj; }
         IntPtr[] AnimationSheet;
         IntPtr baseImage;
         long TimePerFrame;
@@ -719,7 +797,7 @@ namespace Base_Building_Game
 
 
 
-    public class PositionAnimation<T> : Animation where T : ISHasPosition
+    public class PositionAnimation<T> : General.Animation where T : ISHasPosition
     {
         /// <summary>
         /// <para> Flags used to determine which type of movement the objects will perform. </para>
@@ -751,6 +829,7 @@ namespace Base_Building_Game
         Vector2 Start;
         Vector2 End;
         T obj;
+        public object ObjGetter { get => obj; }
         float speed;
         long dtSum;
 

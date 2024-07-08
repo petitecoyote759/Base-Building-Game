@@ -37,11 +37,9 @@ namespace Base_Building_Game
 
             public override void Render()
             {
-                RenderClear();
-
                 if (!InGame)
                 {
-                    //RenderClear();
+                    RenderClear();
 
                     Draw(0, 0, screenwidth, screenheight, "Short Studios Logo");
                 }
@@ -53,8 +51,6 @@ namespace Base_Building_Game
                     DrawPlayer();
                     DrawUI();
                 }
-
-
 
                 RenderDraw();
             }
