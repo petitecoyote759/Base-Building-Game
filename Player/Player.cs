@@ -29,7 +29,9 @@ namespace Base_Building_Game
             public float speed { get => settings.PlayerSpeed; }
             public int camspeed = 1;
 
-            public Leg[] Legs = new Leg[4] { new Leg(), new Leg(), new Leg(), new Leg() };
+            public Leg[] Legs = new Leg[] { 
+                new Leg(), new Leg(), new Leg(), new Leg()
+            };
             public float LegDist = 3f;
 
             public float x { get => pos.X; set => pos = new Vector2(value, pos.Y); }
