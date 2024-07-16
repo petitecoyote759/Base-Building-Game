@@ -134,6 +134,7 @@ namespace Base_Building_Game
         {
             debugger.CleanFiles(5);
             renderer.Stop();
+            debugger.Save();
 
 
             if (File.Exists("Settings.ini"))
@@ -176,7 +177,7 @@ namespace Base_Building_Game
 
 
 
-        public static string ByteArrayToString(byte[] ba)
+        public static string ByteArrayToString(params byte[] ba)
         {
             StringBuilder hex = new StringBuilder(ba.Length * 2);
             foreach (byte b in ba)
