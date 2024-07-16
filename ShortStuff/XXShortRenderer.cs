@@ -507,15 +507,21 @@ namespace Base_Building_Game
         {
             images = new Dictionary<string, IntPtr>();
 
-            if (imagePaths == null)
-            {
-                // add debug log for no paths given
+            if (imagePaths is null)
+            { 
                 return;
             }
 
             foreach (var image in imagePaths)
             {
-                images.Add(image.Key, L(image.Value));
+                if (image.Value.Split('\\').Last() != "")
+                {
+                    images.Add(image.Key, L(image.Value));
+                }
+                else
+                {
+                    images.Add(image.Key, IntPtr.Zero);
+                }
             }
 
 
@@ -527,7 +533,7 @@ namespace Base_Building_Game
             string missing = "";
             foreach (var image in images)
             {
-                if (image.Value == IntPtr.Zero)
+                if (image.Value == IntPtr.Zero && imagePaths[image.Key].Split('\\').Last() != "")
                 {
                     if (missing != "") { missing += ", "; }
                     missing += image.Key;

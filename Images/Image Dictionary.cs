@@ -115,7 +115,7 @@ namespace Base_Building_Game
 
 
 
-            { "Map", ".png" }
+            { "Map", "" }
         };
     }
 }
