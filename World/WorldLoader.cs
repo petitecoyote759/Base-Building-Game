@@ -9,6 +9,8 @@ using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
 using static Base_Building_Game.General;
+using Priority = Short_Tools.ShortDebugger.Priority;
+
 
 namespace Base_Building_Game
 {
@@ -28,7 +30,7 @@ namespace Base_Building_Game
             if (worldJson is null)
             {
                 //Uh oh! Kind of an issue.
-                debugger.AddLog("World JSON returned null");
+                debugger.AddLog("World JSON returned null", Priority.CRITICAL);
 
                 //This should return to menu. Add this later.
                 return;
@@ -42,6 +44,7 @@ namespace Base_Building_Game
 
             //Initializing the world.
             world = new World();
+            AddLog("World initialised", Priority.DEBUG);
 
             //Getting the position of the active sector from the JSON.
             int activeSectorX = worldJson.SectorX;
@@ -49,18 +52,25 @@ namespace Base_Building_Game
 
             //Creating the sector we are going to load, and pulling the data from the JSON.
             Sector loadedSector = new Sector(true);
+            AddLog("Created the active sector", Priority.DEBUG);
             SectorJson sectorData = worldJson.Sectors[activeSectorX, activeSectorY];
 
             //This will fill up the sector with the tile data from the bit structure.
             for (int i = 0; i < SectorSize * SectorSize; i++)
             {
-                BuildingID buildingID;
+                short buildingID;
                 Tile tile = ConvertCharacterToTile(sectorData.MapData[i]);
+                buildingID = tile.building is null ? (short)BuildingID.None : tile.building.ID;
                 loadedSector[i / SectorSize, i % SectorSize] = tile;
                
-                
-                
+                try
+                {
+                    BuildingID Temp = (BuildingID)buildingID;
+                }
+                catch
+                { AddLog($"Building ID {buildingID} was not contained in the enum!", Priority.ERROR); }
             }
+            AddLog("Loaded tiles in active sector", Priority.DEBUG);
 
             world.sectors[activeSectorX, activeSectorY] = loadedSector;
             ActiveSector = loadedSector;
@@ -74,12 +84,13 @@ namespace Base_Building_Game
                     hotbar.BuildBuilding(buildingID, i / SectorSize, i % SectorSize);
                 }
             }
+            AddLog("Loaded Buildings in active sector", Priority.DEBUG);
 
             world.sectors[activeSectorX, activeSectorY] = loadedSector;
             ActiveSector = loadedSector;
 
 
-
+            AddLog("Finished loading", Priority.DEBUG);
         }
     }
 }
