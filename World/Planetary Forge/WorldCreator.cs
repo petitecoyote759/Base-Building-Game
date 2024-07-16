@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
+using System.Numerics;
 using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
@@ -109,6 +110,13 @@ namespace Base_Building_Game
             
             AddLog($"{Seeds.Count} seeds created", ShortDebugger.Priority.DEBUG);
 
+            BigInteger SeedSeeds = new BigInteger();
+            for (int i = 0; i < Seeds.Count; i++)
+            {// 11 bits per seed
+                SeedSeeds += new BigInteger(Seeds[i].x + (Seeds[i].y * 2048)) << 22 * i;
+            }
+            byte[] array = SeedSeeds.ToByteArray();
+            //Print(ByteArrayToString(array));
 
             CreateLand(Seeds.ToArray(), sector);
 
