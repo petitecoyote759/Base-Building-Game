@@ -20,6 +20,9 @@ namespace Base_Building_Game
             debugger.ChangeDisplayPriority(Debugger.Priority.ERROR);
 #endif
 
+
+
+
             LoadSettings();
 
             LoadImages();
