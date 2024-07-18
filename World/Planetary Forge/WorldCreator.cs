@@ -110,6 +110,8 @@ namespace Base_Building_Game
             
             AddLog($"{Seeds.Count} seeds created", ShortDebugger.Priority.DEBUG);
 
+
+
             BigInteger SeedSeeds = new BigInteger();
             for (int i = 0; i < Seeds.Count; i++)
             {// 11 bits per seed
@@ -117,6 +119,9 @@ namespace Base_Building_Game
             }
             byte[] array = SeedSeeds.ToByteArray();
             //Print(ByteArrayToString(array));
+            File.WriteAllBytes("Saves\\CurrentSeed.Sseed", array);
+
+
 
             CreateLand(Seeds.ToArray(), sector);
 

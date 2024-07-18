@@ -4,6 +4,7 @@ using System.Linq;
 using System.Numerics;
 using System.Text;
 using System.Threading.Tasks;
+using Newtonsoft.Json.Linq;
 using Short_Tools;
 using static Short_Tools.General;
 using IVect = Short_Tools.General.ShortIntVector2;
@@ -43,13 +44,22 @@ namespace Base_Building_Game
 
             public void GenVectors()
             {
+                BigInteger seed = new BigInteger();
+
                 for (int x = 0; x < SectorSize / PerlinWidth + 1; x++)
                 {
                     for (int y = 0; y < SectorSize / PerlinWidth + 1; y++)
                     {
-                        vectors[x, y] = VectorPosibilities[randy.Next(0, 4)];
+                        int random = randy.Next(0, 4);
+                        vectors[x, y] = VectorPosibilities[random];
+                        seed += new BigInteger(random) << ((x * SectorSize / PerlinWidth) + y) * 2; // 0, 1, 2, 3
                     }
                 }
+
+                //Print(ByteArrayToString(seed.ToByteArray()));
+                File.WriteAllBytes
+                    ("Saves\\CurrentSeed.Sseed", 
+                    seed.ToByteArray().Concat(new byte[] { 0, 0 }).Concat(File.ReadAllBytes("Saves\\CurrentSeed.Sseed")).ToArray());
             }
 
 
