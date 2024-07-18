@@ -30,7 +30,7 @@ namespace Base_Building_Game
             public int camspeed = 1;
 
             public Leg[] Legs = new Leg[] { 
-                new Leg()
+                //new Leg()
             };
             public float LegDist = 1f;
             public float LegStep = 0.1f;

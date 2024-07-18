@@ -38,11 +38,11 @@ namespace Base_Building_Game
                         (int)(zoom * 2 * player.LegDist), (int)(zoom * 2 * player.LegDist), 
                         "Circle");
                 }
-                Draw(
-                        GetPx(player.x) - (int)(zoom * player.JointDist),
-                        GetPy(player.y) - (int)(zoom * player.JointDist),
-                        (int)(zoom * 2 * player.JointDist), (int)(zoom * 2 * player.JointDist),
-                        "Circle");
+                //Draw(
+                //        GetPx(player.x) - (int)(zoom * player.JointDist),
+                //        GetPy(player.y) - (int)(zoom * player.JointDist),
+                //        (int)(zoom * 2 * player.JointDist), (int)(zoom * 2 * player.JointDist),
+                //        "Circle");
 
 
 

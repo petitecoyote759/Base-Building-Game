@@ -15,6 +15,8 @@ namespace Base_Building_Game
     {
         public static void MoveLegs(Vector2 UNDirection) // unnormalised direction
         {
+            if (player.Legs.Length == 0) { return; }
+
             Vector2 Direction = UNDirection / UNDirection.Length();
 
             Leg ActiveLeg = player.Legs[player.CurrentMovingLeg];
