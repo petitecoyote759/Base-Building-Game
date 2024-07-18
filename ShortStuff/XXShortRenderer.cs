@@ -7,6 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 using SDL2;
 using Short_Tools;
+using static Base_Building_Game.General;
 using static SDL2.SDL;
 using static Short_Tools.General;
 using static Short_Tools.ShortDebugger;
@@ -657,6 +658,44 @@ namespace Base_Building_Game
 
                 SDL_RenderCopyEx(SDLrenderer, texture, IntPtr.Zero, ref dstRect, angle, IntPtr.Zero, SDL.SDL_RendererFlip.SDL_FLIP_NONE);
             }
+        }
+
+
+
+
+
+
+
+
+        /// <summary>
+        /// Non wrapping texture between points
+        /// </summary>
+        /// <param name="x1"></param>
+        /// <param name="y1"></param>
+        /// <param name="x2"></param>
+        /// <param name="y2"></param>
+        public void DrawNWTextureBetweenPoints(IntPtr texture, int x1, int y1, int x2, int y2)
+        {
+            // Calculate the distance and angle between the points
+            float deltaX = x2 - x1;
+            float deltaY = y2 - y1;
+            float distance = (float)Math.Sqrt(deltaX * deltaX + deltaY * deltaY);
+            float angle = (float)(Math.Atan2(deltaY, deltaX) * (180.0 / Math.PI));
+
+            // Get the width and height of the texture
+            SDL.SDL_QueryTexture(texture, out _, out _, out int textureWidth, out int textureHeight);
+
+            // Create the destination rectangle
+            SDL.SDL_Rect destRect = new SDL.SDL_Rect
+            {
+                x = x1,
+                y = y1,
+                w = (int)distance,
+                h = textureHeight
+            };
+
+            // Render the texture with rotation
+            SDL.SDL_RenderCopyEx(SDLrenderer, texture, IntPtr.Zero, ref destRect, angle, IntPtr.Zero, SDL.SDL_RendererFlip.SDL_FLIP_NONE);
         }
     }
 

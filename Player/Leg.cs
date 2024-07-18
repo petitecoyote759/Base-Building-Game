@@ -23,6 +23,8 @@ namespace Base_Building_Game
             public float y { get => pos.Y; }
             public float Y { get => pos.Y; }
 
+            public PositionAnimation<Leg>? animation;
+
 
             public Leg()
             {

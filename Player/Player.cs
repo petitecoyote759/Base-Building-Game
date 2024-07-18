@@ -30,9 +30,14 @@ namespace Base_Building_Game
             public int camspeed = 1;
 
             public Leg[] Legs = new Leg[] { 
-                new Leg(), new Leg(), new Leg(), new Leg()
+                new Leg()
             };
-            public float LegDist = 3f;
+            public float LegDist = 1f;
+            public float LegStep = 0.1f;
+            public float LegMaxMove = 2f;
+            public float JointDist = 0.5f;
+
+            public int CurrentMovingLeg = 0;
 
             public float x { get => pos.X; set => pos = new Vector2(value, pos.Y); }
             public int blockX { get => (int)x; }

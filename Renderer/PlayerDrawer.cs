@@ -4,6 +4,7 @@ using System.Linq;
 using System.Numerics;
 using System.Text;
 using System.Threading.Tasks;
+using static Base_Building_Game.General;
 using static Short_Tools.General;
 
 
@@ -17,10 +18,32 @@ namespace Base_Building_Game
             {
                 foreach (Vector2 leg in player.Legs)
                 {
+
+                    Vector2 IPos = GetIntersectionPoint(leg, true);
+                    if (IPos == new Vector2(-1, -1)) { IPos = player.pos; }
+
+
                     DrawTextureBetweenPoints(images["PlayerLeg"], 
-                        GetPx(leg.X), GetPy(leg.Y), GetPx(player.x - 0.125f), GetPy(player.y - 0.125f),
+                        GetPx(IPos.X), GetPy(IPos.Y), GetPx(player.x - 0.125f), GetPy(player.y - 0.125f),
                         zoom / 4, zoom / 4);
+                    
+                    DrawTextureBetweenPoints(images["PlayerLeg"],
+                        GetPx(leg.X), GetPy(leg.Y), GetPx(IPos.X + 0.125f), GetPy(IPos.Y + 0.125f),
+                        zoom / 4, zoom / 4);
+
+
+                    Draw(
+                        GetPx(leg.X) - (int)(zoom * player.LegDist), 
+                        GetPy(leg.Y) - (int)(zoom * player.LegDist), 
+                        (int)(zoom * 2 * player.LegDist), (int)(zoom * 2 * player.LegDist), 
+                        "Circle");
                 }
+                Draw(
+                        GetPx(player.x) - (int)(zoom * player.JointDist),
+                        GetPy(player.y) - (int)(zoom * player.JointDist),
+                        (int)(zoom * 2 * player.JointDist), (int)(zoom * 2 * player.JointDist),
+                        "Circle");
+
 
 
 
@@ -35,6 +58,7 @@ namespace Base_Building_Game
                 //    (player.y - (player.LegDist)),
                 //    "Circle",
                 //    (int)(player.LegDist * zoom * 2), (int)(player.LegDist * zoom * 2));
+
             }
         }
     }
