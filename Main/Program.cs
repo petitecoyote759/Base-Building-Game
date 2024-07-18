@@ -61,6 +61,9 @@ namespace Base_Building_Game
             SaveMapImage("uhhh.png");
 
 
+            //new DropInAni();
+
+
             while (Running)
             {
                 if (SDL_GetError() != "")
