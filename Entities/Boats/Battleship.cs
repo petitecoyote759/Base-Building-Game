@@ -10,12 +10,6 @@ using IVect = Short_Tools.General.ShortIntVector2;
 
 
 
-#pragma warning disable CS8618 // property turrets needs to be defined, i should probably do this
-#warning Turrets should be defined M ;(
-
-
-
-
 namespace Base_Building_Game
 {
     public static partial class General
@@ -63,11 +57,13 @@ namespace Base_Building_Game
             {
                 CurrentHealth = MaxHealth;
                 this.pos = pos;
+                turrets = Array.Empty<Turret>(); // TODO: Add turrets here
             }
 
             public Battleship()
             {
                 pos = new IVect(int.MinValue, int.MinValue);
+                turrets = Array.Empty<Turret>();
             }
 
 
