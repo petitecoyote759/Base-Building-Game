@@ -16,6 +16,9 @@ namespace Base_Building_Game
     {
         public partial class Renderer
         {
+            static Tile tempTile;
+
+
             public void DrawBuildings()
             {
                 int zoom = renderer.zoom;
@@ -32,21 +35,21 @@ namespace Base_Building_Game
                 {
                     for (int y = Top; y < Top + screenheight / zoom + 8; y++)
                     {
-                        Tile tile = world.GetTile(x, y);
-                        lock (tile)
+                        tempTile = world.GetTile(x, y);
+                        lock (tempTile)
                         {
-                            if (tile.building is null) { continue; }
+                            if (tempTile.building is null) { continue; }
 
-                            if (BuildingImages.ContainsKey(tile.building.ID) && tile.building is not Linker)
+                            if (BuildingImages.ContainsKey(tempTile.building.ID) && tempTile.building is not Linker)
                             {
-                                if (tile.building is ConnectingBuilding CBuilding) { DrawConnectors(CBuilding); }
+                                if (tempTile.building is ConnectingBuilding CBuilding) { DrawConnectors(CBuilding); }
 
 
                                 DrawBP(x, y,
-                                    BuildingImages[tile.building.ID][Research[tile.building.ID]],
-                                    zoom * tile.building.xSize,
-                                    zoom * tile.building.ySize,
-                                    tile.building.rotation * 90d
+                                    BuildingImages[tempTile.building.ID][Research[tempTile.building.ID]],
+                                    zoom * tempTile.building.xSize,
+                                    zoom * tempTile.building.ySize,
+                                    tempTile.building.rotation * 90d
                                     );
                             }
                         }

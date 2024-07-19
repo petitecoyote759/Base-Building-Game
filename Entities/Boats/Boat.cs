@@ -93,32 +93,45 @@ namespace Base_Building_Game
 
         public static bool BoatCanMove(Boat boat)
         {
-            return true;
+            //return true;
 
 
             Vector2[] RectPoints = new Vector2[]
             {
                 (boat.pos + 0.5f * new Vector2(
-                    (float)(boat.Length * Math.Sin(boat.angle) + boat.Width * Math.Cos(boat.angle)),
-                    (float)(boat.Length * Math.Cos(boat.angle) + boat.Width * Math.Sin(boat.angle))
+                    (float)(boat.Length * Math.Sin(-boat.angle.ToRadians()) + boat.Width * Math.Cos(boat.angle.ToRadians())),
+                    (float)(boat.Length * Math.Cos(boat.angle.ToRadians()) - boat.Width * Math.Sin(-boat.angle.ToRadians()))
                     )),
 
 
                 (boat.pos + 0.5f * new Vector2(
-                    (float)(boat.Length * Math.Sin(boat.angle) - boat.Width * Math.Cos(boat.angle)),
-                    (float)(boat.Length * Math.Cos(boat.angle) + boat.Width * Math.Sin(boat.angle))
+                    (float)(boat.Length * Math.Sin(-boat.angle.ToRadians()) - boat.Width * Math.Cos(boat.angle.ToRadians())),
+                    (float)(boat.Length * Math.Cos(boat.angle.ToRadians()) + boat.Width * Math.Sin(-boat.angle.ToRadians()))
                     )),
 
 
                 (boat.pos + 0.5f * new Vector2(
-                    (float)(-boat.Length * Math.Sin(boat.angle) + boat.Width * Math.Cos(boat.angle)),
-                    (float)(-boat.Length * Math.Cos(boat.angle) + -boat.Width * Math.Sin(boat.angle))
+                    (float)(-boat.Length * Math.Sin(-boat.angle.ToRadians()) + boat.Width * Math.Cos(boat.angle.ToRadians())),
+                    (float)(-boat.Length * Math.Cos(boat.angle.ToRadians()) + -boat.Width * Math.Sin(-boat.angle.ToRadians()))
                     )),
 
                 new Vector2()
             };
 
+
+
             RectPoints[3] = RectPoints[1] + RectPoints[2] - RectPoints[0];
+
+
+
+
+            foreach (Vector2 pos in RectPoints)
+            {
+                renderer.DrawBP(pos.X, pos.Y, "Short Studios Logo", 10, 10);
+            }
+
+
+
 
             for (int index = 0; index < 4; index++)
             {
@@ -214,7 +227,12 @@ namespace Base_Building_Game
 
 
             boat.pos += boat.velocity * dt / boat.Weight;
-
+            if (!BoatCanMove(boat))
+            {
+                boat.pos -= boat.velocity * dt / boat.Weight;
+                boat.velocity = -boat.velocity / 2;
+                boat.pos += boat.velocity * dt / boat.Weight;
+            }
 
 
 
