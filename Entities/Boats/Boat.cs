@@ -74,8 +74,8 @@ namespace Base_Building_Game
             Vector2 MovedPos = new Vector2(x, y) - boat.pos;
 
             Vector2 RotatedPos = new Vector2(
-                MathF.Cos((float)boat.angle * MathF.PI / 180f) * MovedPos.X + MathF.Sin((float)boat.angle * MathF.PI / 180f) * MovedPos.Y,
-                -MathF.Sin((float)boat.angle * MathF.PI / 180f) * MovedPos.X + MathF.Cos((float)boat.angle * MathF.PI / 180f) * MovedPos.Y
+                Cos((float)boat.angle * PI / 180f) * MovedPos.X + Sin((float)boat.angle * PI / 180f) * MovedPos.Y,
+                -Sin((float)boat.angle * PI / 180f) * MovedPos.X + Cos((float)boat.angle * PI / 180f) * MovedPos.Y
                 );
 
             return
@@ -125,11 +125,10 @@ namespace Base_Building_Game
 
 
 
-
             for (int index = 0; index < 4; index++)
             {
                 int i = index; int j = (index + 1) % 4;
-                Vector2 normalised = Vector2.Normalize(RectPoints[j]);
+                Vector2 normalised = Normalize(RectPoints[j]);
 
                 for (float t = 0; t < 1; t += 0.05f)
                 {
