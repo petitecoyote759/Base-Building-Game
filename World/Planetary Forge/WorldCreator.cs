@@ -195,7 +195,6 @@ namespace Base_Building_Game
             List<IslandTile> NotFinished = new List<IslandTile>();
             List<IslandTile> Done = new List<IslandTile>();
 
-            IVect pos;
 
             public IslandCreator(IVect pos, Sector sector)
             {
@@ -301,6 +300,7 @@ namespace Base_Building_Game
 
 
 
+#pragma warning disable // so many warnings -> this aint even used
         class IslandTile
         {
             public bool[] directions = new bool[4] { true, true, true, true };
@@ -314,5 +314,6 @@ namespace Base_Building_Game
             public static bool operator ==(IslandTile lhs, IslandTile rhs) { return lhs.pos == rhs.pos; }
             public static bool operator !=(IslandTile lhs, IslandTile rhs) { return lhs.pos != rhs.pos; }
         }
+#pragma warning restore
     }
 }

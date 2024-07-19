@@ -13,6 +13,10 @@ using static Short_Tools.General;
 using static Short_Tools.ShortDebugger;
 using IVect = Short_Tools.General.ShortIntVector2;
 
+// turn off all warnings cause there are so many, like xml missing or silly stuff like that, noone should be here anyway
+#pragma warning disable
+
+
 
 
 namespace Base_Building_Game

@@ -9,6 +9,13 @@ using System.Threading.Tasks;
 using static Short_Tools.General;
 using IVect = Short_Tools.General.ShortIntVector2;
 
+
+
+#pragma warning disable CS8602 // defreference of a possible null reference -> silly, ik that small ports have inventories
+
+
+
+
 namespace Base_Building_Game
 {
     public static partial class General

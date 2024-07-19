@@ -31,12 +31,15 @@ namespace Base_Building_Game
             public int halfscreenwidth = 960;
             public int halfscreenheight = 540;
 
+#pragma warning disable CS8618 // must contain non null value -> its defined in load which is called immediately
 #if DEBUG
             public Renderer() : base("Logs\\", Flag.Debug)
 #else
             public Renderer() : base("Logs\\")
 #endif
             { halfscreenwidth = screenwidth / 2; halfscreenheight = screenheight / 2; CheckSDLErrors(); }
+#pragma warning restore CS8618
+
 
             public override void Render()
             {

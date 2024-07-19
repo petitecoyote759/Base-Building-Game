@@ -34,7 +34,8 @@ namespace Base_Building_Game
             }
 
 
-
+#pragma warning disable CS8602 // dereference of a possibly null reference -> active sector aint gonna be null
+#pragma warning disable CS8600 // same thing
             if (ActiveKeys["BACKSPACE"])
             {
                 if (InGame)
@@ -61,7 +62,8 @@ namespace Base_Building_Game
                     }
                 }
             }
-
+#pragma warning restore CS8602
+#pragma warning restore CS8600
 
 
 

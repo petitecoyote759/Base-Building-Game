@@ -16,7 +16,9 @@ namespace Base_Building_Game
     {
         public partial class Renderer
         {
+#pragma warning disable CS8618 // must have non null value -> its defined every time before use silly
             static Tile tempTile;
+#pragma warning restore CS8618
 
 
             public void DrawBuildings()

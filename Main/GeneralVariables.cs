@@ -30,7 +30,9 @@ namespace Base_Building_Game
         static Player player = new Player();
         static Hotbar hotbar = new Hotbar();
 
-        static World world;
+#pragma warning disable CS8618
+        static World world; // it gets created when you load in the game, no way its gonna be null
+#pragma warning restore CS8618
 
         static Sector ActiveSector = new Sector(false);
 

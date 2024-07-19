@@ -112,6 +112,7 @@ namespace Base_Building_Game
         }
 
 
+#pragma warning disable CS8602 // sector wont be null.
         public static void GenResourceNode(Sector sector, int size, float scale, TileID target, int mindistance)
         {
             PerlinMap Map = new PerlinMap(size);
@@ -132,5 +133,6 @@ namespace Base_Building_Game
                 }
             }
         }
+#pragma warning restore CS8602
     }
 }

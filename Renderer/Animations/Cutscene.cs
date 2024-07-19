@@ -30,7 +30,11 @@ namespace Base_Building_Game
             //public Tuple<IntPtr, int> Frames { get; }
             public IntPtr CurrentFrame { get => Frames[currentFrame].Item1; }
             public bool Finished { get; set; } = false;
+
+
+#pragma warning disable CS8603 // possible null reference return -> yeah no shit
             public object ObjGetter { get => null; }
+#pragma warning restore CS8603
 
 
             Tuple<IntPtr, int>[] Frames;

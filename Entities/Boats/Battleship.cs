@@ -10,6 +10,11 @@ using IVect = Short_Tools.General.ShortIntVector2;
 
 
 
+#pragma warning disable CS8618 // property turrets needs to be defined, i should probably do this
+#warning Turrets should be defined M ;(
+
+
+
 
 namespace Base_Building_Game
 {

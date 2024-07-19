@@ -61,6 +61,9 @@ namespace Base_Building_Game
                 this.pos = pos;
                 this.connectedBuilding = connectedBuilding;
             }
+
+
+#pragma warning disable CS8602 // active sector could be null? nuh uh
             public static void ClearLinkers(IVect pos, int xSize, int ySize)
             {
                 IVect topLeft = pos;
@@ -72,6 +75,7 @@ namespace Base_Building_Game
                     }
                 }
             }
+#pragma warning restore CS8602
         }
     }
 

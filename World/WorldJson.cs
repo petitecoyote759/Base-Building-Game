@@ -4,6 +4,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
+
+#pragma warning disable // a ton of warnings about things not being defined, the json will define it.
+
+
 namespace Base_Building_Game
 {
     public static partial class General

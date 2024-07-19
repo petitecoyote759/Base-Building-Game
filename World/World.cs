@@ -40,6 +40,7 @@ namespace Base_Building_Game
 
 
 
+#pragma warning disable CS8603 // Active sector being null, no its not init.
             /// <summary>
             /// Very important function blahg blach blah
             /// </summary>
@@ -51,6 +52,7 @@ namespace Base_Building_Game
 
                 return ActiveSector[x, y];
             }
+#pragma warning restore CS8603 
 
 
 

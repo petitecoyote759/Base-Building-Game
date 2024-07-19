@@ -9,8 +9,8 @@ using System.Threading.Tasks;
 using Short_Tools;
 using static Short_Tools.General;
 using IVect = Short_Tools.General.ShortIntVector2;
-
-
+using static System.Numerics.Vector2;
+using static System.MathF;
 
 
 
@@ -125,13 +125,6 @@ namespace Base_Building_Game
 
 
 
-            foreach (Vector2 pos in RectPoints)
-            {
-                renderer.DrawBP(pos.X, pos.Y, "Short Studios Logo", 10, 10);
-            }
-
-
-
 
             for (int index = 0; index < 4; index++)
             {
@@ -141,6 +134,17 @@ namespace Base_Building_Game
                 for (float t = 0; t < 1; t += 0.05f)
                 {
                     IVect point = RectPoints[i] + (t * normalised);
+
+                    if (Dot(point, new Vector2( 
+                        Cos((float)boat.angle.ToRadians()),
+                        Sin((float)boat.angle.ToRadians())
+                        )) < 0)
+#warning Might not be correct ^
+                    {
+                        continue;
+                    }
+
+
                     short ID = world.GetTile(point.x, point.y).ID;
 
                     if (ID == (short)TileID.Grass || ID == (short)TileID.Sand || ID == (short)TileID.DeepOcean)
@@ -313,94 +317,6 @@ namespace Base_Building_Game
             }
 
             return false;
-        }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-        public static bool TestBoatCanMove(Boat boat)
-        {
-            return false;
-            Vector2[] RectPoints = new Vector2[]
-            {
-                (boat.pos + 0.5f * new Vector2(
-                    (float)(boat.Length * Math.Sin(boat.angle) + boat.Width * Math.Cos(boat.angle)),
-                    (float)(boat.Length * Math.Cos(boat.angle) + boat.Width * Math.Sin(boat.angle))
-                    )),
-
-
-                (boat.pos + 0.5f * new Vector2(
-                    (float)(boat.Length * Math.Sin(boat.angle) - boat.Width * Math.Cos(boat.angle)),
-                    (float)(boat.Length * Math.Cos(boat.angle) + boat.Width * Math.Sin(boat.angle))
-                    )),
-
-
-                (boat.pos + 0.5f * new Vector2(
-                    (float)(-boat.Length * Math.Sin(boat.angle) + boat.Width * Math.Cos(boat.angle)),
-                    (float)(-boat.Length * Math.Cos(boat.angle) + -boat.Width * Math.Sin(boat.angle))
-                    )),
-
-                new Vector2()
-            };
-
-            RectPoints[3] = RectPoints[1] + RectPoints[2] - RectPoints[0];
-
-
-
-
-            int Dist = (int)MathF.Sqrt(boat.Width * boat.Width + boat.Length * boat.Length) + 1;
-
-            for (int x = (int)boat.pos.X - Dist; x < (int)boat.pos.X + Dist; x++)
-            {
-                for (int y = (int)boat.pos.Y - Dist; y < (int)boat.pos.Y + Dist; y++)
-                {
-
-
-
-                    foreach (Vector2 point in RectPoints)
-                    {
-                        Tile tile = world.GetTile(x, y);
-                        if (tile.ID != (short)TileID.Grass && tile.ID != (short)TileID.Sand) { continue; }
-
-                        if (x <= point.X && point.X <= x + 1 &&
-                            y <= point.Y && point.Y <= y + 1)
-                        {
-                            return false;
-                        }
-                    }
-
-
-
-                    Vector2[] MTilePoints = new Vector2[]
-                    {
-
-                    };
-
-
-                    foreach (Vector2 point in MTilePoints)
-                    {
-                        //if (RectPoints)
-                    }
-                }
-            }
         }
     }
 }

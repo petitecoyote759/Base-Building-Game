@@ -10,6 +10,10 @@ using System.Numerics;
 using IVect = Short_Tools.General.ShortIntVector2;
 using System.Reflection;
 
+#pragma warning disable CS8618 // must contain value when exciting constructor -> i trust bayl on this one
+
+
+
 namespace Base_Building_Game
 {
     public static partial class General

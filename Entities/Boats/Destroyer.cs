@@ -10,6 +10,11 @@ using IVect = Short_Tools.General.ShortIntVector2;
 
 
 
+#pragma warning disable CS8618 // property turrets needs to be defined, its fine, its just on the other funny constructor
+                               // where i temp spawn the thing at int.MinValue
+
+
+
 
 namespace Base_Building_Game
 {
