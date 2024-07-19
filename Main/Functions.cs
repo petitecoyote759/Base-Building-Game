@@ -186,5 +186,14 @@ namespace Base_Building_Game
                 hex.AppendFormat("{0:x2}", b);
             return hex.ToString();
         }
+
+
+
+
+        public static double ToRadians(this double Angle) => Angle * Math.PI / 180d;
+        public static double ToDegrees(this double Angle) => Angle * 180f / Math.PI;
+
+        public static float ToRadians(this float Angle) => Angle * MathF.PI / 180f;
+        public static float ToDegrees(this float Angle) => Angle * 180f / MathF.PI;
     }
 }
