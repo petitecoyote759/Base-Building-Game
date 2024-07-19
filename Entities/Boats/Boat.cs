@@ -136,8 +136,8 @@ namespace Base_Building_Game
                     IVect point = RectPoints[i] + (t * normalised);
 
                     if (Dot(point, new Vector2( 
-                        Cos((float)boat.angle.ToRadians()),
-                        Sin((float)boat.angle.ToRadians())
+                        -Sin((float)(boat.angle + 90d).ToRadians()),
+                        Cos((float)(boat.angle + 90d).ToRadians())
                         )) < 0)
 #warning Might not be correct ^
                     {
