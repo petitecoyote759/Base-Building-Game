@@ -136,6 +136,8 @@ namespace Base_Building_Game
             renderer.Stop();
             debugger.Save();
 
+            Cutscene.Cleanup();
+
 
             if (File.Exists("Settings.ini"))
             {

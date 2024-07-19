@@ -29,7 +29,7 @@ namespace Base_Building_Game
             LoadImages();
             LoadFancyTiles();
             LoadText();
-
+            LoadCutscenes();
 
             if (!File.Exists("Saves\\Test.SWrld"))
             {
@@ -62,26 +62,34 @@ namespace Base_Building_Game
 
 
             //new DropInAni();
+          
+
+            //PlayCutscene("IntroCutscene");
 
 
             while (Running)
             {
-                if (SDL_GetError() != "")
-                {
-                    AddLog("SDL Error -> " + SDL_GetError(), Debugger.Priority.ERROR);
-                    SDL_ClearError();
-                }
-
+                renderer.CheckSDLErrors();
 
                 handler.HandleInputs(ref Running);
-                player.Move((int)dt);
 
-                Tick((int)dt);
+                if (renderer.ActiveCutscene is null)
+                {
+                    player.Move((int)dt);
 
-                Thread.Sleep(10);
+                    Tick((int)dt);
 
-                dt = GetDt(ref LFT);
-                RunActiveEntities((int)dt);
+                    Thread.Sleep(10);
+
+                    dt = GetDt(ref LFT);
+                    
+                    RunActiveEntities((int)dt);
+                }
+                else
+                {
+                    Thread.Sleep(100);
+                    dt = GetDt(ref LFT);
+                }
             }
 
             SaveWorld(world, "Test.SWrld");

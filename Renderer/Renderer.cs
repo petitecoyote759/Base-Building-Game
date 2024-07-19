@@ -18,6 +18,9 @@ namespace Base_Building_Game
     {
         public partial class Renderer : XXShortRenderer
         {
+            public Cutscene? ActiveCutscene = null;
+
+
             /// <summary>
             /// The size of tiles in pixils, used by the Renderer class.
             /// Make sure it doesnt go to 0, tbh 1 is also pretty bad, just make sure its like above
@@ -45,11 +48,18 @@ namespace Base_Building_Game
                 }
                 else
                 {
-                    DrawTiles();
-                    DrawBuildings();
-                    DrawEntities();
-                    DrawPlayer();
-                    DrawUI();
+                    if (ActiveCutscene is Cutscene cutscene)
+                    {
+                        Draw(0, 0, screenwidth, screenheight, cutscene.CurrentFrame);
+                    }
+                    else
+                    {
+                        DrawTiles();
+                        DrawBuildings();
+                        DrawEntities();
+                        DrawPlayer();
+                        DrawUI();
+                    }
                 }
 
                 RenderDraw();
