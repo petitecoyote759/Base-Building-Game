@@ -90,7 +90,7 @@ namespace Base_Building_Game
 
 
 
-
+        // TODO: make the hitboxes smaller
         public static bool BoatCanMove(Boat boat)
         {
             //return true;
@@ -134,14 +134,14 @@ namespace Base_Building_Game
                 {
                     IVect point = RectPoints[i] + (t * normalised);
 
-                    if (Dot(point, new Vector2( 
-                        -Sin((float)(boat.angle + 90d).ToRadians()),
-                        Cos((float)(boat.angle + 90d).ToRadians())
-                        )) < 0)
-#warning Might not be correct ^
-                    {
-                        continue;
-                    }
+                    //if (Dot(point, new Vector2( 
+                    //    -Sin((float)(boat.angle + 90d).ToRadians()),
+                    //    Cos((float)(boat.angle + 90d).ToRadians())
+                    //    )) < 0)
+                    //#warning Might not be correct ^
+                    //{
+                    //    continue;
+                    //}
 
 
                     short ID = world.GetTile(point.x, point.y).ID;
