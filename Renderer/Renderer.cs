@@ -33,7 +33,7 @@ namespace Base_Building_Game
 #else
             public Renderer() : base("Logs\\")
 #endif
-            { halfscreenwidth = screenwidth / 2; halfscreenheight = screenheight / 2; }
+            { halfscreenwidth = screenwidth / 2; halfscreenheight = screenheight / 2; CheckSDLErrors(); }
 
             public override void Render()
             {

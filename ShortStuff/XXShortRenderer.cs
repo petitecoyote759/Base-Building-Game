@@ -552,14 +552,27 @@ namespace Base_Building_Game
 
 
         /// <summary>
-        /// Loads a png from the given path
+        /// Loads a png or bitmap from the given path
         /// </summary>
         /// <param name="path"></param>
         /// <returns></returns>
-        protected IntPtr L(string path) // load image
+        public IntPtr L(string path) // load image
         {
-            if (path.Substring(path.Length - 3) == "bmp") { return SDL.SDL_LoadBMP(path); }
-            if (path.Substring(path.Length - 3) == "png") { return SDL_image.IMG_LoadTexture(SDLrenderer, path); }
+            if (path.Substring(path.Length - 3) == "bmp") 
+            { 
+                IntPtr image = SDL_LoadBMP(path);
+                CheckSDLErrors();
+                return image;
+            }
+
+            if (path.Substring(path.Length - 3) == "png") 
+            { 
+                IntPtr image = SDL_image.IMG_LoadTexture(SDLrenderer, path);
+                CheckSDLErrors();
+                return image;
+            }
+
+
 
             debugger.AddLog("Invalid file type -> " + path.Substring(path.Length - 3), Priority.WARN);
             return IntPtr.Zero;
@@ -619,7 +632,14 @@ namespace Base_Building_Game
 
 
 
-
+        public void CheckSDLErrors()
+        {
+            if (SDL_GetError() != "")
+            {
+                debugger.AddLog("SDLError -> " + SDL_GetError(), Priority.ERROR);
+                SDL_ClearError();
+            }
+        }
 
 
 
