@@ -132,9 +132,7 @@ namespace Base_Building_Game
         /// </summary>
         static void Cleanup()
         {
-            debugger.CleanFiles(5);
             renderer.Stop();
-            debugger.Save();
 
             Cutscene.Cleanup();
 
@@ -147,6 +145,11 @@ namespace Base_Building_Game
             {
                 settings.SaveINI<Settings>(GetPathOfGame() + "Settings.ini");
             }
+
+            debugger.CleanFiles(4);
+            debugger.Save();
+
+            renderer.debugger.Save();
         }
 
 
