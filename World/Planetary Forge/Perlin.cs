@@ -21,8 +21,11 @@ namespace Base_Building_Game
 
             public IVect[,] vectors;
 
+            #region this[]
             public IVect this[int x, int y] => vectors[x, y];
             public IVect this[IVect pos] => vectors[pos.x, pos.y];
+            #endregion this[]
+
 
             public static readonly IVect[] VectorPosibilities = new IVect[] { 
                 new IVect(1,1), new IVect(-1,1),
@@ -63,7 +66,7 @@ namespace Base_Building_Game
             }
 
 
-
+            #region PerlinValueCreation
             public float GetValue(IVect pos)
             {
                 return GetValue(pos.x, pos.y);
@@ -91,7 +94,7 @@ namespace Base_Building_Game
 
                 return Lerp(North, South, ((y - Squarey * PerlinWidth) / (float)PerlinWidth));
             }
-
+            #endregion PerlinValueCreation
 
 
             public float Lerp(float a0, float a1, float w) // perc  is distance from A -> B

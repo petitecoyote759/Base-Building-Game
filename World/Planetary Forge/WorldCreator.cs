@@ -52,6 +52,7 @@ namespace Base_Building_Game
 
             sector.map = Make2DArray(Enumerable.Repeat(new Tile(TileID.Ocean), SectorSize * SectorSize).ToArray(), SectorSize, SectorSize);
 
+            #region SeedCreator
 
             List<IVect> Seeds = new List<IVect>();
             
@@ -100,18 +101,18 @@ namespace Base_Building_Game
                 {
                     Seeds.Add(Seed);
                 }
-
-                //GrowIslandSeed(Seed, sector);
             }
+
+            #endregion
 
             //StringBuilder SeedPos = new StringBuilder();
             //foreach (IVect DSeed in Seeds) { SeedPos.Append(DSeed.ToString() + ", "); }
             //debugger.AddLog(SeedPos.ToString(), Short_Tools.ShortDebugger.Priority.DEBUG);
-            
+
             AddLog($"{Seeds.Count} seeds created", ShortDebugger.Priority.DEBUG);
 
 
-
+            #region GetSeeds
             BigInteger SeedSeeds = new BigInteger();
             for (int i = 0; i < Seeds.Count; i++)
             {// 11 bits per seed
@@ -120,7 +121,7 @@ namespace Base_Building_Game
             byte[] array = SeedSeeds.ToByteArray();
             //Print(ByteArrayToString(array));
             File.WriteAllBytes("Saves\\CurrentSeed.Sseed", array);
-
+            #endregion GetSeeds
 
 
             CreateLand(Seeds.ToArray(), sector);
@@ -136,6 +137,8 @@ namespace Base_Building_Game
             return (int)((Math.Pow(2d * randy.NextDouble() - 1d, 3) + 1d) * SectorSize / 2);
         }
 
+
+        #region GetForces
         static int GetXForce(int x)
         {
             return
@@ -148,14 +151,14 @@ namespace Base_Building_Game
                 DefForce * SectorSize / ((y + 1) * 500) +
                 DefForce * SectorSize / ((SectorSize - y + 1) * 500);
         }
+        #endregion GetForces
 
 
 
 
 
 
-
-
+        #region NotUsed
         static void GrowIslandSeed(IVect Seed, Sector sector, bool MainIsland = false)
         {
             if (sector.map is null)
@@ -315,5 +318,6 @@ namespace Base_Building_Game
             public static bool operator !=(IslandTile lhs, IslandTile rhs) { return lhs.pos != rhs.pos; }
         }
 #pragma warning restore
+        #endregion
     }
 }

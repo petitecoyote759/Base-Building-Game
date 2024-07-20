@@ -32,6 +32,9 @@ namespace Base_Building_Game
             {
                 for (int y = 0; y < SectorSize; y++)
                 {
+
+
+
                     float value = 2 * map.GetValue(x, y) / map.PerlinWidth;
                     
                     foreach (IVect seed in seeds)
@@ -44,7 +47,7 @@ namespace Base_Building_Game
                     }
 
 
-
+                    #region Falloff
                     if (x < OuterWidth)
                     {
                         value -= (x - OuterWidth) * (x - OuterWidth) / (FallOff * FallOff); 
@@ -62,13 +65,10 @@ namespace Base_Building_Game
                     {
                         value -= (SectorSize - (y + OuterWidth)) * (SectorSize - (y + OuterWidth)) / (FallOff * FallOff);
                     }
+                    #endregion Falloff
 
 
-
-
-
-
-
+                    #region SelectTileType
                     if (value < -0.2f)
                     {
                         sector[x, y] = new Tile(TileID.DeepOcean);
@@ -85,6 +85,7 @@ namespace Base_Building_Game
                     {
                         sector[x, y] = new Tile(TileID.Grass);
                     }
+                    #endregion SelectTileType
                 }
             }
             AddLog("Terrain Generated", ShortDebugger.Priority.DEBUG);
@@ -102,7 +103,7 @@ namespace Base_Building_Game
 
 
 
-
+        #region ResourceNodes
         public static void GenResources(Sector sector)
         {
             GenResourceNode(sector, 8, 1.6f, TileID.Diamond, 600);
@@ -110,6 +111,8 @@ namespace Base_Building_Game
             GenResourceNode(sector, 8, 1.3f, TileID.Stone, 0);
             GenResourceNode(sector, 16, 1.2f, TileID.Wood, 0);
         }
+
+
 
 
 #pragma warning disable CS8602 // sector wont be null.
@@ -134,5 +137,6 @@ namespace Base_Building_Game
             }
         }
 #pragma warning restore CS8602
+        #endregion ResourceNodes
     }
 }
