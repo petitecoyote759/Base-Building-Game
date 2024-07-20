@@ -41,6 +41,7 @@ namespace Base_Building_Game
                 LoadWorld($"./Saves/Test.SWrld");
             }
 
+            #region Random Stuff
             hotbar.SetBuilding(BuildingID.Wall);
             hotbar.SetBuilding(BuildingID.Bridge);
             hotbar.SetBuilding(BuildingID.Extractor);
@@ -56,9 +57,14 @@ namespace Base_Building_Game
             BoatResearch[(short)BoatID.Destroyer] = 2;
 
 
+            SaveMapImage("uhhh.png");
+
+            #endregion Random Stuff
+
+
+
             renderer.Start();
 
-            SaveMapImage("uhhh.png");
 
 
             //new DropInAni();
@@ -73,6 +79,7 @@ namespace Base_Building_Game
 
                 handler.HandleInputs(ref Running);
 
+                #region In Game
                 if (renderer.ActiveCutscene is null)
                 {
                     player.Move((int)dt);
@@ -85,11 +92,15 @@ namespace Base_Building_Game
                     
                     RunActiveEntities((int)dt);
                 }
+                #endregion In Game
+
+                #region In Cutscene
                 else
                 {
                     Thread.Sleep(100);
                     dt = GetDt(ref LFT);
                 }
+                #endregion In Cutscene
             }
 
             SaveWorld(world, "Test.SWrld");
