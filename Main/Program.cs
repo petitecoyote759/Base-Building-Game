@@ -4,6 +4,9 @@ using Debugger = Short_Tools.ShortDebugger;
 using SDL2;
 using static SDL2.SDL;
 using System.Runtime.InteropServices;
+using System.Numerics;
+
+
 
 namespace Base_Building_Game
 {
@@ -58,6 +61,10 @@ namespace Base_Building_Game
 
 
             SaveMapImage("uhhh.png");
+
+
+            EnemyUnit test = new EnemyUnit();
+            test.pos = player.pos;
 
             #endregion Random Stuff
 

@@ -72,11 +72,11 @@ namespace Base_Building_Game
                         {
                             if (building.ID == (short)BuildingID.SmallPort)
                             {
-                                DrawBP(building.pos.x - 1, building.pos.y - 2, "Port UI", zoom * 3, zoom * 2);
+                                DrawBP(building.pos.X - 1, building.pos.Y - 2, "Port UI", zoom * 3, zoom * 2);
                             }
                             else if (building.ID == (short)BuildingID.MedPort)
                             {
-                                DrawBP(building.pos.x - 2, building.pos.y - 4, "Port UI", zoom * 6, zoom * 4);
+                                DrawBP(building.pos.X - 2, building.pos.Y - 4, "Port UI", zoom * 6, zoom * 4);
                             }
                         }
                     }

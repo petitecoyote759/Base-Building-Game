@@ -39,8 +39,10 @@ namespace Base_Building_Game
             }
 
 
+            #region Tile Getters
 
 #pragma warning disable CS8603 // Active sector being null, no its not init.
+
             /// <summary>
             /// Very important function blahg blach blah
             /// </summary>
@@ -52,8 +54,24 @@ namespace Base_Building_Game
 
                 return ActiveSector[x, y];
             }
-#pragma warning restore CS8603 
 
+
+            /// <summary>
+            /// Very important function blahg blach blah
+            /// </summary>
+            /// <returns></returns>
+            public Tile GetTile(float x, float y)
+            {
+                if (0 > x || x >= SectorSize) { return new Tile(TileID.DeepOcean); }
+                if (0 > y || y >= SectorSize) { return new Tile(TileID.DeepOcean); }
+
+                return ActiveSector[(int)x, (int)y];
+            }
+
+
+#pragma warning restore CS8603
+
+            #endregion Tile Getters
 
 
             public bool Walkable(int x, int y, bool player = false)

@@ -84,6 +84,11 @@ namespace Base_Building_Game
 
                 foreach (IActiveEntity activeEntity in activeEntitiesToRender)
                 {
+                    if (activeEntity is EnemyUnit eunit)
+                    {
+                        Draw(GetPx(activeEntity.pos.X - 0.25f), GetPy(activeEntity.pos.Y - 0.25f), zoom / 2, zoom / 2, "EnemyUnit", eunit.angle);
+                    }
+
                     if (activeEntity is Turret turret)
                     {
                         DrawBP(activeEntity.pos.X, activeEntity.pos.Y, "Turret2", turret.angle);
