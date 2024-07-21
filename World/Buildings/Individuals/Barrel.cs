@@ -23,6 +23,10 @@ namespace Base_Building_Game
             public int ySize { get; } = 1;
 
             public Inventory? inventory { get; set; } = new Inventory();
+
+
+
+            public int MaxHealth { get => Research[ID] * 1000 + 1000; } // edit this init
             public int CurrentHealth { get; set; }
 
             public Vector2 pos { get; set; }

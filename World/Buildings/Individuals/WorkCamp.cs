@@ -20,6 +20,8 @@ namespace Base_Building_Game
                 return Array.IndexOf(validTileArray, (TileID)tile.ID) == -1 ? false : true;
             };
 
+            public int MaxHealth { get => Research[ID] * 1000 + 1000; } // edit this init
+
             public int CurrentHealth { get; set; }
 
             public short ID { get; } = (short)BuildingID.WorkCamp;

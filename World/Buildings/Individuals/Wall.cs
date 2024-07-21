@@ -37,6 +37,9 @@ namespace Base_Building_Game
 
             public short ID { get; } = (short)BuildingID.Wall;
             public Inventory? inventory { get; set; } = null;
+
+
+            public int MaxHealth { get => Research[ID] * 1000 + 1000; } // edit this init
             public int CurrentHealth { get; set; }
             // maybe save connections?
 

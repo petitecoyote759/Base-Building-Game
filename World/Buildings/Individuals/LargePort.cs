@@ -32,6 +32,8 @@ namespace Base_Building_Game
 
             public short ID { get; } = (short)BuildingID.LargePort;
             public Inventory? inventory { get; set; } = new Inventory();
+
+            public int MaxHealth { get => Research[ID] * 1000 + 1000; } // edit this init
             public int CurrentHealth { get; set; }
 
             public int xSize { get; } = 5;
