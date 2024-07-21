@@ -46,6 +46,21 @@ namespace Base_Building_Game
 
             #endregion Path
 
+            #region Weapons
+
+            IWeapon weapon = new Sword();
+
+            public bool InWeaponRange()
+            {
+                if (Target is null) { return false; }
+
+                Vector2 delta = pos - Target.pos;
+
+                return delta.LengthSquared() < weapon.Range * weapon.Range;
+            }
+
+            #endregion Weapons
+
 
 
             public EnemyUnit() 
@@ -175,7 +190,7 @@ namespace Base_Building_Game
                         }
                         else
                         {
-                            if (true/*WeaponInRange()*/)
+                            if (InWeaponRange())
                             {
                                 Attack();
                             }
