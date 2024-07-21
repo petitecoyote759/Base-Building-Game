@@ -1,6 +1,5 @@
 ﻿using Short_Tools;
 using System.Numerics;
-using static Base_Building_Game.Entities.General;
 using static Short_Tools.General;
 using static System.MathF;
 using static System.Numerics.Vector2;

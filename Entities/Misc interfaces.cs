@@ -10,7 +10,7 @@ using V2 = System.Numerics.Vector2;
 
 
 
-namespace Base_Building_Game.Entities
+namespace Base_Building_Game
 {
     public static partial class General
     {
