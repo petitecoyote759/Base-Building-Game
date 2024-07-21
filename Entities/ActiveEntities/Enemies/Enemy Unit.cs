@@ -1,4 +1,5 @@
 ﻿using Short_Tools;
+using System.Drawing;
 using System.Numerics;
 using static Short_Tools.General;
 using static System.MathF;
@@ -30,6 +31,12 @@ namespace Base_Building_Game
             #region Path
 
             Stack<Vector2>? path = null;
+
+            IEntity? Target = null;
+
+            bool Wandering = true;
+
+
 
 
             public void GetPath(IVect target, int maxDist = 30) // block dist ykyk
@@ -72,17 +79,61 @@ namespace Base_Building_Game
 
             so action should look like this ish
 
-            holy fuck
+            holy
             my down key works
 
 
-            probably have hmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmm 
+            have Entity? target -> since buildings are entities now we can do fun stuff
+
+            hmmmmm Weapon????? class that has like range { get; } so you can do gun bullet and alla that
 
 
 
+            if (wandering)
+            {
+                get target init
 
-            if (path is not null) <- if there is a target
+                if (no target still)
+                {
+                    get wander point init
+                }
+            }
 
+            if (targeting)
+            {
+                if (at point)
+                {
+                    if (wandering)
+                    {
+                        get wander point init
+                    }
+                    else
+                    {
+                        shoot bullets init
+                    }
+                }
+                else
+                {
+                    go to point init
+                }
+            }
+            else
+            {
+                get target init
+
+                if (no target still)
+                {
+                    wander around init
+                }
+            }
+
+
+
+            every now and again, check if the path is valid?
+                                 check if target is alive.
+
+
+            what if cant get back to house, and has no targets -> just wander to fixed points near.
 
             */
 
@@ -90,6 +141,91 @@ namespace Base_Building_Game
 
 
             public void Action(int dt)
+            {
+                if (Target is null != path is null)  // wuh woh
+                {
+                    debugger.AddLog("somin went wrong"); // <- add better log init
+                    Target = null; path = null;
+                }
+
+
+
+                if (Wandering)
+                {
+                    GetTarget();
+
+                    if (Target is null)
+                    {
+                        GetWanderPoint();
+                    }
+                }
+
+
+
+
+
+
+                if (Target is IEntity target)
+                {
+                    if (true/*AtEnd()*/)
+                    {
+                        if (Wandering)
+                        {
+                            GetWanderPoint();
+                        }
+                        else
+                        {
+                            if (true/*WeaponInRange()*/)
+                            {
+                                Attack();
+                            }
+                            else
+                            {
+                                GetPath(target.pos);
+                            }
+                        }
+                    }
+                    else
+                    {
+                        //Bézier.Move();
+                    }
+                }
+
+                else 
+                {
+                    GetTarget();
+
+                    if (Target is /*still!!!*/ null)
+                    {
+                        Wandering = true;
+                    }
+                }
+            }
+
+
+
+
+
+
+
+
+            public void GetTarget()
+            {
+
+            }
+
+
+
+
+
+            public void GetWanderPoint()
+            {
+
+            }
+
+
+
+            public void Attack()
             {
 
             }
