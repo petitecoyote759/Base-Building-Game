@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Numerics;
 using System.Text;
 using System.Threading.Tasks;
 using IVect = Short_Tools.General.ShortIntVector2;
@@ -11,7 +12,7 @@ namespace Base_Building_Game
     {
         public class Linker : Building
         {
-            public IVect pos { get; set; }
+            public Vector2 pos { get; set; }
 
             public Func<Tile, bool> ValidTiles => connectedBuilding.ValidTiles;
 

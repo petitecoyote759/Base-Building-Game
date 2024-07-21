@@ -42,7 +42,7 @@ namespace Base_Building_Game
             byte tier => Research[ID];
             Item? LastItem;
 
-            public IVect pos { get; set; }
+            public Vector2 pos { get; set; }
             public int rotation { get; set; } = 0;
             public bool rotatable { get; } = false;
             short OnTileID = 0;

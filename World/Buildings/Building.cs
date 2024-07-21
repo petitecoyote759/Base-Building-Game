@@ -67,7 +67,7 @@ namespace Base_Building_Game
 
 
 
-        public interface Building
+        public interface Building : IEntity
         {
             /// <summary>
             /// A function that determins what tiles it is valid to be placed on
@@ -78,7 +78,6 @@ namespace Base_Building_Game
             public Inventory? inventory { get; set; }
             public int xSize { get; }
             public int ySize { get; }
-            public IVect pos { get; set; }
 
 
             /// <summary>

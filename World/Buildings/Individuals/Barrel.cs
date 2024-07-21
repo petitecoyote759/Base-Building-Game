@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Numerics;
 using System.Text;
 using System.Threading.Tasks;
 using Short_Tools;
@@ -24,7 +25,7 @@ namespace Base_Building_Game
             public Inventory? inventory { get; set; } = new Inventory();
             public int CurrentHealth { get; set; }
 
-            public IVect pos { get; set; }
+            public Vector2 pos { get; set; }
             public int rotation { get; set; } = 0;
             public bool rotatable { get; } = false;
 
