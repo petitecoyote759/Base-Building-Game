@@ -118,6 +118,11 @@ namespace Base_Building_Game
 
 
 
+        static void SetSeed(int seed)
+        {
+            randy = new Random(seed);
+        }
+        static void SetSeed() { }
 
 
 

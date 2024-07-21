@@ -14,7 +14,9 @@ namespace Base_Building_Game
 {
     public static partial class General
     {
-        static Random randy = new Random();
+        static Random randysParent = new Random();
+        static int RandSeed = randysParent.Next();
+        static Random randy = new Random(RandSeed);
 
         static Renderer renderer = new Renderer();
         static Settings settings = new Settings();

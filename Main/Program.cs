@@ -34,6 +34,10 @@ namespace Base_Building_Game
             LoadText();
             LoadCutscenes();
 
+            SetSeed(); // <- stick a seed in here to generate the same world :) (you can get the seed via the RandSeed var)
+
+
+
             if (!File.Exists("Saves\\Test.SWrld"))
             {
                 CreateWorld();
@@ -67,7 +71,6 @@ namespace Base_Building_Game
             test.pos = player.pos;
 
             #endregion Random Stuff
-
 
 
             renderer.Start();
