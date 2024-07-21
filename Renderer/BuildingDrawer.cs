@@ -78,24 +78,24 @@ namespace Base_Building_Game
 
             public void DrawConnectors(ConnectingBuilding building)
             {
-                if (building.Connections(world.GetTile(building.pos.x, building.pos.y - 1)))
+                if (building.Connections(world.GetTile(building.pos.X, building.pos.Y - 1)))
                 {
-                    DrawBP(building.pos.x, building.pos.y, building.connectionImage, 0d);
+                    DrawBP(building.pos.X, building.pos.Y, building.connectionImage, 0d);
                 }
 
-                if (building.Connections(world.GetTile(building.pos.x + 1, building.pos.y)))
+                if (building.Connections(world.GetTile(building.pos.X + 1, building.pos.Y)))
                 {
-                    DrawBP(building.pos.x, building.pos.y, building.connectionImage, 90d);
+                    DrawBP(building.pos.X, building.pos.Y, building.connectionImage, 90d);
                 }
 
-                if (building.Connections(world.GetTile(building.pos.x, building.pos.y + 1)))
+                if (building.Connections(world.GetTile(building.pos.X, building.pos.Y + 1)))
                 {
-                    DrawBP(building.pos.x, building.pos.y, building.connectionImage, 180d);
+                    DrawBP(building.pos.X, building.pos.Y, building.connectionImage, 180d);
                 }
 
-                if (building.Connections(world.GetTile(building.pos.x - 1, building.pos.y)))
+                if (building.Connections(world.GetTile(building.pos.X - 1, building.pos.Y)))
                 {
-                    DrawBP(building.pos.x, building.pos.y, building.connectionImage, 270d);
+                    DrawBP(building.pos.X, building.pos.Y, building.connectionImage, 270d);
                 }
             }
         }

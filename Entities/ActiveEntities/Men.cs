@@ -99,7 +99,7 @@ namespace Base_Building_Game
             }
             public bool DepositItem()
             {
-                if (camp.pos == (IVect)this.pos)
+                if ((IVect)camp.pos == (IVect)this.pos)
                 {
                     heldItem = null;
                     return true;
