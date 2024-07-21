@@ -20,6 +20,7 @@ namespace Base_Building_Game
             #region Pos
             Vector2 thisPos;
             public Vector2 pos { get => thisPos; set => thisPos = value; }
+            public double angle = 0d;
             #endregion Pos
 
             #region Health
@@ -66,6 +67,7 @@ namespace Base_Building_Game
             public EnemyUnit() 
             {
                 CurrentHealth = MaxHealth;
+                LoadedActiveEntities.Add(this);
             }
 
 

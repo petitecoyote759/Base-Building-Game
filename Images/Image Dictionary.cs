@@ -81,6 +81,8 @@ namespace Base_Building_Game
             { "DiamondItem", "Entities\\diamond.png" },
 
             { "Man" , "Entities\\man.png" },
+
+            { "EnemyUnit", "Entities\\Enemy Guardian.png" },
             #endregion Entities
 
 
