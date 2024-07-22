@@ -28,6 +28,10 @@ namespace Base_Building_Game
         {
             PerlinMap map = new PerlinMap();
 
+            PerlinMap subMap1 = new PerlinMap(16);
+
+            PerlinMap subMap2 = new PerlinMap(8);
+
             for (int x = 0; x < SectorSize; x++)
             {
                 for (int y = 0; y < SectorSize; y++)
@@ -37,10 +41,11 @@ namespace Base_Building_Game
 
                     float value = 2 * map.GetValue(x, y) / map.PerlinWidth;
 
+                    value += 0.5f * subMap1.GetValue(x, y) / subMap1.PerlinWidth;
+
+                    value += 0.25f * subMap2.GetValue(x, y) / subMap2.PerlinWidth;
 
 
-
-                    
                     foreach (IVect seed in seeds)
                     {
                         float dist = RoughSum(seed, new IVect(x, y));
@@ -96,6 +101,10 @@ namespace Base_Building_Game
             GenResources(sector);
             AddLog("Resources Generated", ShortDebugger.Priority.DEBUG);
         }
+
+
+
+
 
 
 
