@@ -36,6 +36,10 @@ namespace Base_Building_Game
 
 
                     float value = 2 * map.GetValue(x, y) / map.PerlinWidth;
+
+
+
+
                     
                     foreach (IVect seed in seeds)
                     {

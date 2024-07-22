@@ -39,7 +39,7 @@ namespace Base_Building_Game
 
 
 
-            if (!File.Exists("Saves\\Test.SWrld"))
+            if (true)//!File.Exists("Saves\\Test.SWrld"))
             {
                 CreateWorld();
                 SaveWorld(world, "Test.SWrld");
