@@ -68,8 +68,8 @@ namespace Base_Building_Game
             SaveMapImage("uhhh.png");
 
 
-            EnemyUnit test = new EnemyUnit();
-            test.pos = player.pos;
+            //EnemyUnit test = new EnemyUnit();
+            //test.pos = player.pos;
 
             #endregion Random Stuff
 
