@@ -67,6 +67,11 @@ namespace Base_Building_Game
 
             
             { "Barrel0" , "Buildings\\barrel0.png" },
+
+
+            { "Pipe0", "Buildings\\Pipe Node.png" },
+
+            { "PipeSegment0", "Buildings\\Pipe Segment.png" },
             #endregion Buildings
 
 
