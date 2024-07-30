@@ -55,6 +55,18 @@ namespace Base_Building_Game
 
 
 
+        /// <summary>
+        /// Time of day in milliseconds
+        /// </summary>
+        static int Time = 0;
+
+
+        /// <summary>
+        /// Time it takes for a full day night cycle in milliseconds
+        /// </summary>
+        const int TimePerDay = 100000;
+
+
 
 
         const int SectorSize = 2048;

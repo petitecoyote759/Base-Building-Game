@@ -71,6 +71,16 @@ namespace Base_Building_Game
 
 
 
+            #region Shadows
+            { "Wall Node Shadow", "Shadows\\wall.png" },
+            { "Wall Top Shadow", "Shadows\\wall segment top.png" },
+            { "Wall Bottom Shadow", "Shadows\\wall segment bottom.png" },
+
+            { "Night Filter", "Shadows\\blue.png" },
+            #endregion Shadows
+
+
+
             #region Entities
             { "Player", "Entities\\Body.png" },
             { "PlayerLeg", "Entities\\Leg.png" },
