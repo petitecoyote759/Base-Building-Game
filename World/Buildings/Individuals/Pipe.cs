@@ -20,7 +20,7 @@ namespace Base_Building_Game
                 return tile.ID == (short)TileID.Grass || tile.ID == (short)TileID.Sand; // use a array to make more effic
             };
 
-            public short ID { get; } = (short)BuildingID.Barrel;
+            public short ID { get; } = (short)BuildingID.Pipe;
 
             public int xSize { get; } = 1;
             public int ySize { get; } = 1;
@@ -40,7 +40,7 @@ namespace Base_Building_Game
 
             public IntPtr connectionImage
             {
-                get => renderer.images["WallSegment" + Research[ID]];
+                get => renderer.images["PipeSegment" + Research[ID]];
             }
 
             public void Action(int dt)
