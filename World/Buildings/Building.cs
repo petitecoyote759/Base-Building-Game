@@ -111,6 +111,7 @@ namespace Base_Building_Game
                 BuildingID.LargePort => new LargePort(pos, player.CurrrentRotation),
 
                 BuildingID.Barrel    => new Barrel(pos),
+                BuildingID.Pipe => new Pipe(pos),
 
                 _ => null
             }; // Add new buildings here ^^^^^^
