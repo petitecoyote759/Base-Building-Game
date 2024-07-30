@@ -45,7 +45,14 @@ namespace Base_Building_Game
 
             public void Action(int dt)
             {
-                
+                //up
+                world.GetTile(pos.X, pos.Y - 1);
+                //right
+                world.GetTile(pos.X + 1, pos.Y);
+                //down
+                world.GetTile(pos.X, pos.Y + 1);
+                //left
+                world.GetTile(pos.X - 1, pos.Y);
             }
 
             public Pipe(IVect pos)
