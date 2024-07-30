@@ -6,6 +6,10 @@ using System.Threading.Tasks;
 using Short_Tools;
 using static Short_Tools.General;
 using IVect = Short_Tools.General.ShortIntVector2;
+using static SDL2.SDL;
+using static System.MathF;
+
+
 
 
 namespace Base_Building_Game
@@ -14,6 +18,16 @@ namespace Base_Building_Game
     {
         public static void Tick(int dt)
         {
+            Time = (Time + dt) % TimePerDay;
+
+
+
+            float perc = Pow((Cos(2 * PI * (Time / (float)TimePerDay) + 0.25f) + 1) / 2f, 2);
+            SDL_SetTextureAlphaMod(renderer.images["Night Filter"], (byte)(140d * perc));
+
+
+
+
             if (ActiveKeys["Mouse"])
             {
                 if (InGame)

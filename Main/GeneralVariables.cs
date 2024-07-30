@@ -64,7 +64,7 @@ namespace Base_Building_Game
         /// <summary>
         /// Time it takes for a full day night cycle in milliseconds
         /// </summary>
-        const int TimePerDay = 100000;
+        const int TimePerDay = 100000; // 100000 default
 
 
 
