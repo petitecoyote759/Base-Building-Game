@@ -69,6 +69,17 @@ namespace Base_Building_Game
                     }
                 },
 
+                {
+                    (short)BuildingID.Pipe, new IntPtr[]
+                    {
+                        renderer.images["Pipe0"],
+                        renderer.images["Pipe0"],
+                        renderer.images["Pipe0"],
+                        renderer.images["Pipe0"],
+                        renderer.images["Pipe0"],
+                    }
+                },
+
 
                 {
                     (short)BuildingID.Extractor, new IntPtr[]

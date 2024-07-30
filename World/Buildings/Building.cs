@@ -104,14 +104,14 @@ namespace Base_Building_Game
                 BuildingID.Bridge    => new Bridge(pos),
                 BuildingID.Wall      => new Wall(pos),
                 BuildingID.Extractor => new Extractor(pos),
-                BuildingID.WorkCamp => new WorkCamp(pos),
+                BuildingID.WorkCamp  => new WorkCamp(pos),
                 BuildingID.DropPod   => new DropPod(pos),
                 BuildingID.SmallPort => new SmallPort(pos, player.CurrrentRotation),
                 BuildingID.MedPort   => new MediumPort(pos, player.CurrrentRotation),
                 BuildingID.LargePort => new LargePort(pos, player.CurrrentRotation),
 
                 BuildingID.Barrel    => new Barrel(pos),
-                BuildingID.Pipe => new Pipe(pos),
+                BuildingID.Pipe      => new Pipe(pos),
 
                 _ => null
             }; // Add new buildings here ^^^^^^
