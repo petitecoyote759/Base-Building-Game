@@ -62,7 +62,10 @@ namespace Base_Building_Game
         public static MenuStates MenuState = MenuStates.StartScreen;
 
 
-
+        /// <summary>
+        /// bool representing if the cleanup function has already been called
+        /// </summary>
+        static bool CleanedUp = false; 
 
 
 

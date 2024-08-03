@@ -143,6 +143,9 @@ namespace Base_Building_Game
         /// </summary>
         static void Cleanup()
         {
+            if (CleanedUp) { return; }
+            CleanedUp = true;
+
             renderer.Stop();
 
             Cutscene.Cleanup();
