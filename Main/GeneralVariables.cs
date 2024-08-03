@@ -51,7 +51,7 @@ namespace Base_Building_Game
         /// <summary>
         /// State of the game, if turned to false, the main function loop will stop, and so will the program
         /// </summary>
-        static bool Running = true;
+        public static bool Running = true;
 
 
 
