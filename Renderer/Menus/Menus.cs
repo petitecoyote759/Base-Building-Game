@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using static Short_Tools.General;
 using Short_Tools;
+using System.Runtime.CompilerServices;
 
 
 
@@ -14,6 +15,17 @@ using Short_Tools;
 
 namespace Base_Building_Game
 {
+    public static partial class General
+    {
+        public static bool IsInGame(this MenuStates state) => state == MenuStates.InGame;
+    }
+
+
+
+
+
+
+
     public enum MenuStates
     {
         StartScreen,
