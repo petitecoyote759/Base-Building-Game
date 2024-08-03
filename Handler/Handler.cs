@@ -43,6 +43,14 @@ namespace Base_Building_Game
             {
                 if (ActiveKeys.ContainsKey(inp)) { ActiveKeys[inp] = down; }
 
+
+                if (!MenuState.IsInGame() && down)
+                {
+                    HandleMenus(inp);
+                    return;
+                }
+
+
                 if (int.TryParse(inp, out int result)) // if it is a number
                 {
                     HotbarSelected = result - 1;
@@ -82,13 +90,6 @@ namespace Base_Building_Game
                             player.selectedTile = null;
                         }
 
-                        break;
-
-
-                    case "SPACE":
-
-
-                        if (!InGame) { InGame = true; }  // TODO: change this when the menu is added
                         break;
 
 
