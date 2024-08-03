@@ -29,10 +29,16 @@ namespace Base_Building_Game
 
             LoadSettings();
 
+            LoadTexturePacks();
             LoadImages();
+
             LoadFancyTiles();
+
             LoadText();
+
             LoadCutscenes();
+
+          
 
 
             SetSeed(); // <- stick a seed in here to generate the same world :) (you can get the seed via the RandSeed var)
