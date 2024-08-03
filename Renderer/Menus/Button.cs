@@ -20,14 +20,14 @@ namespace Base_Building_Game
 
                 IVect mpos = getMousePos();
 
-                if (x <= mpos.x && x + width <= mpos.x &&
-                    y <= mpos.y && y + height <= mpos.y)
+                if (x <= mpos.x && x + width >= mpos.x &&
+                    y <= mpos.y && y + height >= mpos.y)
                 {
                     Draw(x, y, width, height, images["SelectedButton"]);
                 }
 
 
-                Write(x, y, width * 3 / (text.Length * 2), height, text);
+                Write(x + width / 10, y, width * 1 / (text.Length * 1), height, text);
             }
         }
     }
