@@ -89,6 +89,7 @@ namespace Base_Building_Game
         public IntPtr SDLrenderer;
         protected IntPtr Font;
         public static readonly SDL_Color Black = new SDL_Color() { r = 0, g = 0, b = 0, a = 255 };
+        public static readonly SDL_Color White = new SDL_Color() { r = 255, g = 255, b = 255, a = 255 };
         protected SDL_Rect tRect;
         public int screenwidth { get; private set; }
         public int screenheight { get; private set; }
