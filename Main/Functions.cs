@@ -77,7 +77,13 @@ namespace Base_Building_Game
             }
 
 
-            foreach (var pair in images) { images[pair.Key] = path + pair.Value; }
+            foreach (var pair in images) 
+            {
+                if (!TexturePackedImages[pair.Key])
+                {
+                    images[pair.Key] = path + pair.Value;
+                }
+            }
 
             renderer.Load_Images(images);
 
