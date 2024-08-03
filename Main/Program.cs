@@ -149,6 +149,7 @@ namespace Base_Building_Game
             {
                 case CtrlTypes.CTRL_CLOSE_EVENT:
 
+                    Running = false;
                     Cleanup();
 
                     break;
