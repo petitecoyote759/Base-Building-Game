@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Numerics;
+using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 using static Base_Building_Game.General;
@@ -41,13 +42,12 @@ namespace Base_Building_Game
 #pragma warning restore CS8618
 
 
+            [MethodImpl(MethodImplOptions.AggressiveOptimization)]
             public override void Render()
             {
-                if (!InGame)
+                if (MenuState != MenuStates.InGame)
                 {
-                    RenderClear();
-
-                    Draw(0, 0, screenwidth, screenheight, "Short Studios Logo");
+                    DrawMenu();
                 }
                 else
                 {
