@@ -6,6 +6,8 @@ using System.Text;
 using System.Threading.Tasks;
 
 using System.Drawing;
+using System.Drawing.Printing;
+using static Short_Tools.General;
 
 
 namespace Base_Building_Game
@@ -20,9 +22,22 @@ namespace Base_Building_Game
 
         public static void LoadFancyTiles()
         {
-            createImages(renderer.images["GrassSS"], (int)TileID.Grass, 95, 95);
-            createImages(renderer.images["SandSS"], (int)TileID.Sand, 96, 96);
-            createImages(renderer.images["OceanSS"], (int)TileID.Ocean, 96, 96);
+            createImages(renderer.images["GrassSS"], General.images["GrassSS"], (int)TileID.Grass, 95, 95);
+            createImages(renderer.images["SandSS"], General.images["SandSS"], (int)TileID.Sand, 96, 96);
+            createImages(renderer.images["OceanSS"], General.images["OceanSS"], (int)TileID.Ocean, 96, 96);
+        }
+
+
+
+        public static unsafe void Test(string texture)
+        {
+            Print("Starting thing");
+
+            Bitmap bitmap = new Bitmap(texture);
+
+            Print(bitmap.Width);
+            
+            Print("Ending thing");
         }
 
 
@@ -32,22 +47,29 @@ namespace Base_Building_Game
 
 
 
-
-
-
-
-        public static void createImages(IntPtr spriteSheet, int ID, int width = 95, int height = 95)
+        public static void createImages(IntPtr spriteSheet, string path, int ID, int width = 95, int height = 95)
         {
             IntPtr[] NewTImages = new IntPtr[256];
 
 
 
-            //if (SDL.SDL_QueryTexture(spriteSheet, out type, out access, out width, out height) != 0) 
-            //{ 
-            //    string GetSDLError([CallerLineNumber] int lineNum = 0) => "SDL Error in file TileLoader : " + SDL.SDL_GetError() + " at line " + lineNum; 
-            //
-            //    Client.FancyPrint(GetSDLError(), ConsoleColor.DarkRed); 
-            //}
+#pragma warning disable CA1416 // getting upset that this only works on windows later than 6.1.
+            Bitmap bitmap = new Bitmap(path);
+
+            width = bitmap.Width;
+            height = bitmap.Height;
+#pragma warning restore CA1416
+
+            if (path == General.images["GrassSS"])
+            {
+                if (!TexturePackedImages["GrassSS"])
+                {
+                    width--; height--;
+                }
+            }
+
+
+
 
             for (uint i = 0; i < 256; i++)
             {
