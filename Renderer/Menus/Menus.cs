@@ -51,6 +51,11 @@ namespace Base_Building_Game
 
 
 
-        InGame
+
+
+        OnlineFindCreate,
+
+
+        InGame,
     }
 }
