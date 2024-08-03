@@ -638,6 +638,8 @@ namespace Base_Building_Game
 
         public void CheckSDLErrors()
         {
+            if (!General.Running) { return; }
+
             if (SDL_GetError() != "")
             {
                 debugger.AddLog("SDLError -> " + SDL_GetError(), Priority.ERROR);
