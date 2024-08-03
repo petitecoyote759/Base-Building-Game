@@ -123,6 +123,9 @@ namespace Base_Building_Game
             { "Port UI", "UI\\Port UI.png" },
             { "Interact", "UI\\Interact.png" },
 
+            { "MenuButton", "UI\\MenuButton.png" },
+            { "SelectedButton", "UI\\SelectedButton.png" },
+
             { "Map", "" },
             #endregion UI
 
