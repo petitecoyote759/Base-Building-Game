@@ -27,7 +27,7 @@ namespace Base_Building_Game
                 }
 
 
-                Write(x + width / 10, y, width * 1 / (text.Length * 1), height, text);
+                Write(x + width / 10, y, width / text.Length, height, text);
             }
         }
     }
