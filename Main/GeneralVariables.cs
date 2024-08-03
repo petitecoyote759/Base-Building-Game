@@ -56,6 +56,16 @@ namespace Base_Building_Game
 
 
 
+        /// <summary>
+        /// Enum variable to show what state the menu is in.
+        /// </summary>
+        public static MenuStates MenuState = MenuStates.StartScreen;
+
+
+
+
+
+
 
         const int SectorSize = 2048;
     }
