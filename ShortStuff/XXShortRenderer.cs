@@ -111,51 +111,16 @@ namespace Base_Building_Game
 
 
         /// <summary>
-        /// <para> Runs the setup, uses default screen dimensions of 1920x1080. </para>
-        /// </summary>
-        /// <param name="flags"> See ShortRenderer.Flag for more info. </param>
-        public XXShortRenderer(params Flag[] flags)
-        {
-            screenwidth = 1920;
-            screenheight = 1080;
-            flags ??= Array.Empty<Flag>();
-            this.flags = flags;
-            Setup();
-            if (flags.Contains(Flag.Debug))
-            {
-                debugger = new ShortDebugger("Renderer", ShortDebugger.Flags.DISPLAY_ON_ADD_LOG);
-            }
-            else
-            {
-                debugger = new ShortDebugger("Renderer");
-            }
-
-            if (flags.Contains(Flag.Write_Log_To_File))
-            {
-                List<Flag> ListFlag = this.flags.ToList();
-                ListFlag.Remove(Flag.Write_Log_To_File);
-                this.flags = ListFlag.ToArray();
-            }
-
-            debugger.AddLog("Renderer has been setup", Priority.INFO);
-            images = new Dictionary<string, IntPtr>();
-        }
-
-
-
-
-        /// <summary>
         /// <para> Runs the setup, uses default screen dimensions of 1920x1080, writes the logs to the file path given. </para>
         /// </summary>
         /// <param name="flags"> See ShortRenderer.Flag for more info. </param>
         /// <param name="path"> The path where the debug logs are written on renderer stop. </param>
         public XXShortRenderer(string path, params Flag[] flags)
         {
-            screenwidth = 1920;
-            screenheight = 1080;
+            //screenwidth = 1920;
+            //screenheight = 1080;
             flags ??= Array.Empty<Flag>();
             this.flags = flags;
-            Setup();
             if (flags.Contains(Flag.Debug))
             {
                 debugger = new ShortDebugger("Renderer", path, ShortDebugger.Flags.DISPLAY_ON_ADD_LOG);
@@ -172,79 +137,33 @@ namespace Base_Building_Game
                 this.flags = ListFlag.ToArray();
             }
             images = new Dictionary<string, IntPtr>();
-        }
+
+
+
+            // Initilizes SDL_image for use with png files.
+            SDL.SDL_Init(SDL.SDL_INIT_VIDEO);
+            SDL_image.IMG_Init(SDL_image.IMG_InitFlags.IMG_INIT_PNG);
+
+            SDL.SDL_DisplayMode displayMode;
+            if (SDL.SDL_GetCurrentDisplayMode(0, out displayMode) != 0)
+            {
+                Console.WriteLine($"SDL_GetCurrentDisplayMode failed! SDL_Error: {SDL.SDL_GetError()}");
+
+                // Fallback: Use SDL_GetDesktopDisplayMode if SDL_GetCurrentDisplayMode fails
+                if (SDL.SDL_GetDesktopDisplayMode(0, out displayMode) != 0)
+                {
+                    Console.WriteLine($"SDL_GetDesktopDisplayMode also failed! SDL_Error: {SDL.SDL_GetError()}");
+                    SDL.SDL_Quit();
+                    return;
+                }
+            }
+            screenwidth = displayMode.w / 2;
+            screenheight = displayMode.h / 2;
 
 
 
 
-
-        /// <summary>
-        /// <para> Runs the setup, uses given dimensions </para>
-        /// </summary>
-        /// <param name="height"> Height of the screen in pixels </param>
-        /// <param name="width"> Width of the screen in pixels </param>
-        /// <param name="flags"> See ShortRenderer.Flag for more info. </param>
-        public XXShortRenderer(int width, int height, params Flag[] flags)
-        {
-            screenwidth = width;
-            screenheight = height;
-            flags ??= Array.Empty<Flag>();
-            this.flags = flags;
             Setup();
-            if (flags.Contains(Flag.Debug))
-            {
-                debugger = new ShortDebugger("Renderer", ShortDebugger.Flags.DISPLAY_ON_ADD_LOG);
-            }
-            else
-            {
-                debugger = new ShortDebugger("Renderer");
-            }
-            debugger.AddLog("Renderer has been setup", Priority.INFO);
-
-            if (flags.Contains(Flag.Write_Log_To_File))
-            {
-                List<Flag> ListFlag = this.flags.ToList();
-                ListFlag.Remove(Flag.Write_Log_To_File);
-                this.flags = ListFlag.ToArray();
-            }
-            images = new Dictionary<string, IntPtr>();
-        }
-
-
-
-
-
-        /// <summary>
-        /// <para> Runs the setup, uses given dimensions, writes the logs to the file path given. </para>
-        /// </summary>
-        /// <param name="height"> Height of the screen in pixels </param>
-        /// <param name="width"> Width of the screen in pixels </param>
-        /// <param name="flags"> See ShortRenderer.Flag for more info. </param>
-        /// <param name="path"> The path where the debug logs are written on renderer stop. </param>
-        public XXShortRenderer(int width, int height, string path, params Flag[] flags)
-        {
-            screenwidth = width;
-            screenheight = height;
-            flags ??= Array.Empty<Flag>();
-            this.flags = flags;
-            Setup();
-            if (flags.Contains(Flag.Debug))
-            {
-                debugger = new ShortDebugger("Renderer", path, ShortDebugger.Flags.DISPLAY_ON_ADD_LOG);
-            }
-            else
-            {
-                debugger = new ShortDebugger("Renderer", path);
-            }
-            if (!flags.Contains(Flag.Write_Log_To_File))
-            {
-                List<Flag> ListFlag = this.flags.ToList();
-                ListFlag.Add(Flag.Write_Log_To_File);
-                this.flags = ListFlag.ToArray();
-            }
-
-            debugger.AddLog("Renderer has been setup", Priority.INFO);
-            images = new Dictionary<string, IntPtr>();
         }
 
 
@@ -257,9 +176,6 @@ namespace Base_Building_Game
         /// </summary>
         public void Setup()
         {
-            // Initilizes SDL_image for use with png files.
-            SDL.SDL_Init(SDL.SDL_INIT_VIDEO);
-            SDL_image.IMG_Init(SDL_image.IMG_InitFlags.IMG_INIT_PNG);
             window = SDL.SDL_CreateWindow("Window", SDL.SDL_WINDOWPOS_CENTERED, SDL.SDL_WINDOWPOS_CENTERED, screenwidth, screenheight, 0); //, SDL.SDL_WindowFlags.SDL_WINDOW_METAL | SDL.SDL_WindowFlags.SDL_WINDOW_FULLSCREEN_DESKTOP | SDL.SDL_WindowFlags.SDL_WINDOW_SHOWN);
             SDLrenderer = SDL.SDL_CreateRenderer(window,
                                                     -1,

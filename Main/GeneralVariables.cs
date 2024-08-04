@@ -65,7 +65,16 @@ namespace Base_Building_Game
         /// <summary>
         /// bool representing if the cleanup function has already been called
         /// </summary>
-        static bool CleanedUp = false; 
+        static bool CleanedUp = false;
+
+
+
+        /// <summary>
+        /// bool representing if the game is in the very first start up menu, which contains the loading of the game images and 
+        /// basic functionalities for the menu
+        /// </summary>
+        public static bool Initialising = true;
+
 
 
 
