@@ -25,18 +25,11 @@ namespace Base_Building_Game
 #endif
             SetConsoleCtrlHandler(new HandlerRoutine(ConsoleCtrlCheck), true);
 
+            Initialise();
 
 
-            LoadSettings();
 
-            LoadTexturePacks();
-            LoadImages();
-
-            LoadFancyTiles();
-
-            LoadText();
-
-            LoadCutscenes();
+            
 
           
 

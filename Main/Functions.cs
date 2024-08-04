@@ -143,12 +143,33 @@ namespace Base_Building_Game
         /// </summary>
         static void Cleanup()
         {
-            if (CleanedUp) { return; }
+            if (CleanedUp) 
+            {
+#if DEBUG
+                Print("Accidental Cleanup recall", ConsoleColor.Cyan);
+#endif
+                return;
+            }
+            debugger.AddLog("Entering cleanup function", Prio.DEBUG);
             CleanedUp = true;
 
             renderer.Stop();
 
             Cutscene.Cleanup();
+
+
+            foreach (var pair in FancyTiles)
+            {
+                foreach (IntPtr image in pair.Value)
+                {
+                    SDL2.SDL.SDL_DestroyTexture(image);
+                }
+            }
+
+            foreach (var pair in InitialImages)
+            {
+                SDL2.SDL.SDL_DestroyTexture(pair.Value);
+            }
 
 
             if (File.Exists("Settings.ini"))

@@ -75,6 +75,8 @@ namespace Base_Building_Game
         /// </summary>
         public static bool Initialising = true;
 
+        public static bool InitImagesLoaded = false;
+
 
 
 

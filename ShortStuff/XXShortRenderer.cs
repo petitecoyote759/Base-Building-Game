@@ -224,10 +224,17 @@ namespace Base_Building_Game
         /// <summary>
         /// <para> Starts the render thread. </para>
         /// </summary>
-        public void Start()
+        public Thread Start()
         {
-            controllerThread.Start();
+            if (controllerThread.ThreadState != ThreadState.Running)
+            {
+                controllerThread.Start();
+                debugger.AddLog("Short renderer \"Start\" function was called despite the thread running.", ShortDebugger.Priority.WARN);
+                return controllerThread;
+            }
             debugger.AddLog("Renderer started", Priority.INFO);
+
+            return controllerThread;
         }
 
         /// <summary>
@@ -524,6 +531,24 @@ namespace Base_Building_Game
         /// <param name="renderer"> The renderer being controlled</param>
         private static void Controller_Thread(XXShortRenderer renderer)
         {
+            SDL.SDL_SetRenderDrawColor(renderer.SDLrenderer, 0, 0, 0, 255);
+            SDL_RenderClear(renderer.SDLrenderer);
+            renderer.RenderDraw();
+
+            try
+            {
+                Thread.Sleep(-1); // wait until the main thread calls it to start (dont want to start rendering
+                                  // while the init images arent there)
+            }
+            catch (ThreadInterruptedException e) { }
+
+            renderer.screenwidth *= 2;
+            renderer.screenheight *= 2;
+
+            SDL_SetWindowSize(renderer.window, renderer.screenwidth, renderer.screenheight);
+            SDL_SetWindowPosition(renderer.window, 0, 0);
+
+
             if (renderer.flags.Contains(Flag.Auto_Draw_Clear))
             {
                 while (renderer.Running)
