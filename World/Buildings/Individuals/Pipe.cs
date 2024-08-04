@@ -45,14 +45,31 @@ namespace Base_Building_Game
 
             public void Action(int dt)
             {
+                
                 //up
-                world.GetTile(pos.X, pos.Y - 1);
+                Tile up = world.GetTile(pos.X, pos.Y - 1);
+                if (up.building != null && up.building.ID == (short)BuildingID.Pipe) 
+                {
+                    Console.WriteLine("Uppy");
+                }
                 //right
-                world.GetTile(pos.X + 1, pos.Y);
+                Tile right = world.GetTile(pos.X + 1, pos.Y);
+                if (right.building != null &&  right.building.ID == (short)BuildingID.Pipe) 
+                {
+                    Console.WriteLine("Rightyy");
+                }
                 //down
-                world.GetTile(pos.X, pos.Y + 1);
+                Tile down = world.GetTile(pos.X, pos.Y + 1);
+                if (down.building != null && down.building.ID == (short)BuildingID.Pipe) 
+                {
+                    Console.WriteLine("Downy");
+                }
                 //left
-                world.GetTile(pos.X - 1, pos.Y);
+                Tile left = world.GetTile(pos.X - 1, pos.Y);
+                if (left.building != null && left.building.ID == (short)BuildingID.Pipe) 
+                {
+                    Console.WriteLine("Leftyy");
+                }
             }
 
             public Pipe(IVect pos)
