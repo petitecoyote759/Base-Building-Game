@@ -93,7 +93,6 @@ namespace Base_Building_Game
 
             public void Handle(string inp, bool down)
             {
-                Print(inp);
                 if (ActiveKeys.ContainsKey(inp)) { ActiveKeys[inp] = down; }
 
 
