@@ -53,6 +53,8 @@ namespace Base_Building_Game
             [MethodImpl(MethodImplOptions.AggressiveOptimization)]
             public override void Render()
             {
+                CheckSDLErrors();
+
                 if (Initialising)
                 {
                     DrawInitMenu();

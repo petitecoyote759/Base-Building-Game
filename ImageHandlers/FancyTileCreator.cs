@@ -22,9 +22,9 @@ namespace Base_Building_Game
 
         public static void LoadFancyTiles()
         {
-            createImages(renderer.images["GrassSS"], General.images["GrassSS"], (int)TileID.Grass, 95, 95);
-            createImages(renderer.images["SandSS"], General.images["SandSS"], (int)TileID.Sand, 96, 96);
-            createImages(renderer.images["OceanSS"], General.images["OceanSS"], (int)TileID.Ocean, 96, 96);
+            //createImages(renderer.images["GrassSS"], General.images["GrassSS"], (int)TileID.Grass, 95, 95);
+            //createImages(renderer.images["SandSS"], General.images["SandSS"], (int)TileID.Sand, 96, 96);
+            //createImages(renderer.images["OceanSS"], General.images["OceanSS"], (int)TileID.Ocean, 96, 96);
         }
 
 

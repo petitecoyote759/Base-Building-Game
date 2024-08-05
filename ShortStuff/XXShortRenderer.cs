@@ -141,7 +141,7 @@ namespace Base_Building_Game
 
 
             // Initilizes SDL_image for use with png files.
-            SDL.SDL_Init(SDL.SDL_INIT_VIDEO);
+            SDL.SDL_Init(SDL.SDL_INIT_VIDEO); // SDL_INIT_EVERYTHING
             SDL_image.IMG_Init(SDL_image.IMG_InitFlags.IMG_INIT_PNG);
 
             SDL.SDL_DisplayMode displayMode;
@@ -176,11 +176,22 @@ namespace Base_Building_Game
         /// </summary>
         public void Setup()
         {
-            window = SDL.SDL_CreateWindow("Window", SDL.SDL_WINDOWPOS_CENTERED, SDL.SDL_WINDOWPOS_CENTERED, screenwidth, screenheight, 0); //, SDL.SDL_WindowFlags.SDL_WINDOW_METAL | SDL.SDL_WindowFlags.SDL_WINDOW_FULLSCREEN_DESKTOP | SDL.SDL_WindowFlags.SDL_WINDOW_SHOWN);
+            window = SDL.SDL_CreateWindow(
+                "Window", 
+                SDL.SDL_WINDOWPOS_CENTERED, 
+                SDL.SDL_WINDOWPOS_CENTERED, screenwidth, screenheight, 
+                0); //, SDL.SDL_WindowFlags.SDL_WINDOW_METAL | SDL.SDL_WindowFlags.SDL_WINDOW_FULLSCREEN_DESKTOP | SDL.SDL_WindowFlags.SDL_WINDOW_SHOWN);
+            
             SDLrenderer = SDL.SDL_CreateRenderer(window,
                                                     -1,
-                                                    SDL.SDL_RendererFlags.SDL_RENDERER_ACCELERATED |
-                                                    SDL.SDL_RendererFlags.SDL_RENDERER_PRESENTVSYNC);
+                                                    0); // SDL.SDL_RendererFlags.SDL_RENDERER_ACCELERATED |
+            //                                             SDL.SDL_RendererFlags.SDL_RENDERER_PRESENTVSYNC
+
+
+            //SDL_SetHint(SDL_HINT_RENDER_SCALE_QUALITY, "linear");
+
+            //SDL_RenderSetLogicalSize(SDLrenderer, screenwidth, screenheight);
+
             SDL.SDL_SetRenderDrawColor(SDLrenderer, 60, 10, 70, 255);
             //SDL.SDL_GetPerformanceCounter
             int width = -1;
@@ -229,10 +240,10 @@ namespace Base_Building_Game
             if (controllerThread.ThreadState != ThreadState.Running)
             {
                 controllerThread.Start();
-                debugger.AddLog("Short renderer \"Start\" function was called despite the thread running.", ShortDebugger.Priority.WARN);
+                debugger.AddLog("Renderer started", Priority.INFO);
                 return controllerThread;
             }
-            debugger.AddLog("Renderer started", Priority.INFO);
+            debugger.AddLog("Short renderer \"Start\" function was called despite the thread running.", ShortDebugger.Priority.WARN);
 
             return controllerThread;
         }
@@ -535,18 +546,12 @@ namespace Base_Building_Game
             SDL_RenderClear(renderer.SDLrenderer);
             renderer.RenderDraw();
 
-            try
-            {
-                Thread.Sleep(-1); // wait until the main thread calls it to start (dont want to start rendering
-                                  // while the init images arent there)
-            }
-            catch (ThreadInterruptedException e) { }
 
-            renderer.screenwidth *= 2;
-            renderer.screenheight *= 2;
+            
 
-            SDL_SetWindowSize(renderer.window, renderer.screenwidth, renderer.screenheight);
-            SDL_SetWindowPosition(renderer.window, 0, 0);
+            //SDL.SDL_Rect viewport = new SDL.SDL_Rect { x = 0, y = 0, w = renderer.screenwidth, h = renderer.screenheight };
+            //SDL.SDL_RenderSetViewport(renderer.SDLrenderer, ref viewport);
+
 
 
             if (renderer.flags.Contains(Flag.Auto_Draw_Clear))
@@ -574,6 +579,14 @@ namespace Base_Building_Game
 
 
 
+        public void Enlarge()
+        {
+            screenwidth = 1500;
+            screenheight = 700;
+
+            SDL_SetWindowSize(window, screenwidth, screenheight);
+            SDL_SetWindowPosition(window, SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED);
+        }
 
 
 

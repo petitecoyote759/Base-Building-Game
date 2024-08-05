@@ -13,6 +13,9 @@ namespace Base_Building_Game
             public void DrawInitMenu()
             {
                 RenderClear();
+
+                Draw(0, 0, screenwidth / 2, screenheight / 2, InitialImages["SSLogo"]);
+
             }
         }
     }

@@ -41,23 +41,26 @@ namespace Base_Building_Game
 
         public static void Initialise()
         {
-            Thread renderThread = renderer.Start();
-
             LoadText();
             LoadInitialImages();
 
             InitImagesLoaded = true;
 
-            renderThread.Interrupt();
+            renderer.Start();
 
-
-
+            debugger.AddLog("Starting LoaderFunctions", ShortDebugger.Priority.DEBUG);
 
             foreach (LoaderFunction function in InitFunctions)
             {
                 function.LoadFunction();
             }
 
+            debugger.AddLog("Completed LoaderFunctions", ShortDebugger.Priority.DEBUG);
+
+            lock (renderer)
+            {
+                renderer.Enlarge();
+            }
             Initialising = false;
         }
 
@@ -85,7 +88,7 @@ namespace Base_Building_Game
             }
 
 
-            foreach (var pair in images)
+            foreach (var pair in InitImagePaths)
             {
                 InitialImages.Add(pair.Key, renderer.L(path + pair.Value));
             }
