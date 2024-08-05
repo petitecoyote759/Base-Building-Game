@@ -153,6 +153,14 @@ namespace Base_Building_Game
             debugger.AddLog("Entering cleanup function", Prio.DEBUG);
             CleanedUp = true;
 
+
+            debugger.CleanFiles(4);
+            debugger.Save();
+
+            renderer.debugger.Save();
+            renderer.debugger.CleanFiles(5);
+
+
             renderer.Stop();
 
             Cutscene.Cleanup();
@@ -180,11 +188,6 @@ namespace Base_Building_Game
             {
                 settings.SaveINI<Settings>(GetPathOfGame() + "Settings.ini");
             }
-
-            debugger.CleanFiles(4);
-            debugger.Save();
-
-            renderer.debugger.Save();
         }
 
 

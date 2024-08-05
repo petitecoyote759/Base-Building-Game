@@ -168,10 +168,8 @@ namespace Base_Building_Game
             screenwidth = displayMode.w / 2;
             screenheight = displayMode.h / 2;
 
-
-
-
-            Setup();
+            controllerThread = new Thread(new ThreadStart(() => Controller_Thread(this)));
+            controllerThread.Name = "ShortTools Rendering Thread";
         }
 
 
@@ -207,9 +205,6 @@ namespace Base_Building_Game
             SDL.SDL_GetWindowSize(window, out width, out height);
             screenwidth = width;
             screenheight = height;
-
-            controllerThread = new Thread(new ThreadStart(() => Controller_Thread(this)));
-            controllerThread.Name = "ShortTools Rendering Thread";
         }
 
         /// <summary>
@@ -262,7 +257,7 @@ namespace Base_Building_Game
         public void Stop()
         {
             Running = false;
-            controllerThread.Join();
+            //controllerThread.Join();
             Cleanup();
             debugger.AddLog("Renderer has been stopped", Priority.INFO);
             if (flags.Contains(Flag.Write_Log_To_File))
@@ -562,6 +557,8 @@ namespace Base_Building_Game
         /// <param name="renderer"> The renderer being controlled</param>
         private static void Controller_Thread(XXShortRenderer renderer)
         {
+            renderer.Setup();
+
             SDL.SDL_SetRenderDrawColor(renderer.SDLrenderer, 0, 0, 0, 255);
             SDL_RenderClear(renderer.SDLrenderer);
             renderer.RenderDraw();
@@ -594,6 +591,13 @@ namespace Base_Building_Game
                         renderer.CurrentLoadedImage = renderer.L(renderer.CurrentPath);
                         renderer.MainThreadIsWaiting = false;
                     }
+                    if (renderer.TryingToEnlarge)
+                    {
+                        renderer.InternalEnlarge();
+                        renderer.TryingToEnlarge = false;
+                    }
+
+
 
                     renderer.Animate();
                     renderer.Render();
@@ -603,10 +607,14 @@ namespace Base_Building_Game
         }
 
 
-
+        bool TryingToEnlarge = false;
 
         public void Enlarge()
         {
+            TryingToEnlarge = true;
+        }
+        public void InternalEnlarge()
+        { 
             screenwidth = 1500;
             screenheight = 700;
 
