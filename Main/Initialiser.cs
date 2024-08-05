@@ -58,6 +58,7 @@ namespace Base_Building_Game
 
             foreach (var FunctionPair in InitFunctions)
             {
+                InitFunctionsProgress++;
                 InitialisePercent = 0;
                 CurrentLoaderFunction = FunctionPair.Key;
                 FunctionPair.Value.LoadFunction();
