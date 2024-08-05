@@ -77,6 +77,7 @@ namespace Base_Building_Game
 
         public static bool InitImagesLoaded = false;
 
+        public static bool SavingMapImage = false;
 
 
 

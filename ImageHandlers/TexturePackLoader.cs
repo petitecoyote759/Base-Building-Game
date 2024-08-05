@@ -47,7 +47,7 @@ namespace Base_Building_Game
                 debugger.AddLog("Could not find texture pack file.", DePrio.WARN);
                 return;
             }
-
+            InitialisePercent = 10;
 
 
 
@@ -61,8 +61,11 @@ namespace Base_Building_Game
 
             string[] packs = Directory.GetDirectories(path);
 
-            foreach (string pack in packs)
+            for (int i = 0; i < packs.Length; i++)
             {
+                string pack = packs[i];
+
+                InitialisePercent = (90 * i / packs.Length) + 10;
                 string PackName = pack.Split('\\').Last();
 
                 string jsonPath = path + "\\" + PackName + "\\Info.json";

@@ -19,8 +19,9 @@ namespace Base_Building_Game
         public static void LoadCutscenes()
         {
             LoadCutsceneImages();
-
+            InitialisePercent = 50;
             LoadCutsceneFiles();
+            InitialisePercent = 100;
         }
 
 

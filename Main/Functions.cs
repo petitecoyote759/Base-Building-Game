@@ -39,6 +39,7 @@ namespace Base_Building_Game
 
             if (File.Exists("Settings.ini"))
             {
+                InitialisePercent = 50;
                 // if the executable is in the same area as settings
                 settings.LoadINI<Settings>("Settings.ini");
             }
@@ -46,8 +47,12 @@ namespace Base_Building_Game
             {
                 string path = GetPathOfGame();
 
+                InitialisePercent = 20;
+
                 if (File.Exists(path + "Settings.ini"))
                 {
+                    InitialisePercent = 50;
+
                     // If the files are idk, like how the fings work
                     settings.LoadINI<Settings>(path + "Settings.ini");
                 }
@@ -56,6 +61,8 @@ namespace Base_Building_Game
                     debugger.AddLog("Settings did not load properly");
                 }
             }
+
+            InitialisePercent = 100;
         }
 
 
@@ -76,16 +83,20 @@ namespace Base_Building_Game
                 path = "Images\\";
             }
 
-
+            int i = 0;
             foreach (var pair in images) 
             {
+                InitialisePercent = 50 * i / images.Count;
+
                 if (!TexturePackedImages[pair.Key])
                 {
                     images[pair.Key] = path + pair.Value;
                 }
+                i++;
             }
 
             renderer.Load_Images(images);
+            InitialisePercent = 100;
 
             UpdateDictionaries();
         }
@@ -212,6 +223,10 @@ namespace Base_Building_Game
             }
             return output;
         }
+
+
+
+
 
 
 

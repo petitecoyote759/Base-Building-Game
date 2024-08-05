@@ -114,6 +114,8 @@ namespace Base_Building_Game
         IntPtr CurrentLoadedImage;
         bool MainThreadIsWaiting = false;
 
+        public string TempMapPath;
+
 
 
         /// <summary>
@@ -146,8 +148,24 @@ namespace Base_Building_Game
 
 
 
+            
+
+            controllerThread = new Thread(new ThreadStart(() => Controller_Thread(this)));
+            controllerThread.Name = "ShortTools Rendering Thread";
+        }
+
+
+
+
+
+
+        /// <summary>
+        /// <para> Sets up the renderer and screen. </para>
+        /// </summary>
+        public void Setup()
+        {
             // Initilizes SDL_image for use with png files.
-            SDL.SDL_Init(SDL.SDL_INIT_EVERYTHING); // SDL_INIT_EVERYTHING | SDL_INIT_VIDEO
+            SDL.SDL_Init(SDL.SDL_INIT_EVERYTHING | SDL_INIT_SENSOR); // SDL_INIT_EVERYTHING | SDL_INIT_VIDEO
             CheckSDLErrors();
             SDL_image.IMG_Init(SDL_image.IMG_InitFlags.IMG_INIT_PNG);
             CheckSDLErrors();
@@ -168,20 +186,10 @@ namespace Base_Building_Game
             screenwidth = displayMode.w / 2;
             screenheight = displayMode.h / 2;
 
-            controllerThread = new Thread(new ThreadStart(() => Controller_Thread(this)));
-            controllerThread.Name = "ShortTools Rendering Thread";
-        }
 
 
 
 
-
-
-        /// <summary>
-        /// <para> Sets up the renderer and screen. </para>
-        /// </summary>
-        public void Setup()
-        {
             window = SDL.SDL_CreateWindow(
                 "Window", 
                 SDL.SDL_WINDOWPOS_CENTERED, 
@@ -595,6 +603,11 @@ namespace Base_Building_Game
                     {
                         renderer.InternalEnlarge();
                         renderer.TryingToEnlarge = false;
+                    }
+                    if (General.SavingMapImage)
+                    {
+                        SaveMapImage(renderer.TempMapPath);
+                        General.SavingMapImage = false;
                     }
 
 

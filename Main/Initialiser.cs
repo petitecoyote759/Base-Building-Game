@@ -19,24 +19,28 @@ namespace Base_Building_Game
     {
         static Dictionary<string, string> InitImagePaths = new Dictionary<string, string>()
         {
-            { "SSLogo", "InitImages\\ShortLogo.png" }
+            { "SSLogo", "InitImages\\ShortLogo.png" },
+            { "ProgressBar", "InitImages\\ProgressBar.png" },
+            { "ProgressInSection", "InitImages\\ProgressInSection.png" }
         };
         static Dictionary<string, IntPtr> InitialImages = new Dictionary<string, IntPtr>();
 
 
 
         static int InitialisePercent = 0;
+        static int InitFunctionsProgress = 0;
 
 
-        static LoaderFunction[] InitFunctions = new LoaderFunction[]
+        static Dictionary<string, LoaderFunction> InitFunctions = new Dictionary<string, LoaderFunction>
         {
-            new LoaderFunction(LoadSettings),
-            new LoaderFunction(LoadTexturePacks),
-            new LoaderFunction(LoadImages),
-            new LoaderFunction(LoadFancyTiles),
-            new LoaderFunction(LoadCutscenes),
+            { "Loading Settings", new LoaderFunction(LoadSettings) }, 
+            { "Loading Texture Packs", new LoaderFunction(LoadTexturePacks) },
+            { "Loading Images", new LoaderFunction(LoadImages) },
+            { "Loading Tile Sprite Sheets", new LoaderFunction(LoadFancyTiles) },
+            { "Loading Cutscenes", new LoaderFunction(LoadCutscenes) },
         };
 
+        public static string CurrentLoaderFunction = "";
 
 
         public static void Initialise()
@@ -52,9 +56,11 @@ namespace Base_Building_Game
 
             debugger.AddLog("Starting LoaderFunctions", ShortDebugger.Priority.DEBUG);
 
-            foreach (LoaderFunction function in InitFunctions)
+            foreach (var FunctionPair in InitFunctions)
             {
-                function.LoadFunction();
+                InitialisePercent = 0;
+                CurrentLoaderFunction = FunctionPair.Key;
+                FunctionPair.Value.LoadFunction();
             }
 
             debugger.AddLog("Completed LoaderFunctions", ShortDebugger.Priority.DEBUG);

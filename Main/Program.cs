@@ -5,6 +5,7 @@ using SDL2;
 using static SDL2.SDL;
 using System.Runtime.InteropServices;
 using System.Numerics;
+using System.Reflection.Metadata;
 
 
 
@@ -19,8 +20,10 @@ namespace Base_Building_Game
         static void Main()
         {
 #if DEBUG
+            ShowConsole();
             debugger.ChangeDisplayPriority(Debugger.Priority.DEBUG);
 #else
+            HideConsole();
             debugger.ChangeDisplayPriority(Debugger.Priority.ERROR);
 #endif
             SetConsoleCtrlHandler(new HandlerRoutine(ConsoleCtrlCheck), true);
@@ -48,7 +51,7 @@ namespace Base_Building_Game
                 LoadWorld($"./Saves/Test.SWrld");
             }
 
-            #region Random Stuff
+            #region Random Testing Stuff
             hotbar.SetBuilding(BuildingID.Wall);
             hotbar.SetBuilding(BuildingID.Bridge);
             hotbar.SetBuilding(BuildingID.Extractor);
@@ -65,8 +68,7 @@ namespace Base_Building_Game
             BoatResearch[(short)BoatID.Destroyer] = 2;
 
 
-            SaveMapImage("uhhh.png");
-
+            ReqSaveMapImage("uhhh.png");
 
             //EnemyUnit test = new EnemyUnit();
             //test.pos = player.pos;
@@ -74,8 +76,6 @@ namespace Base_Building_Game
             #endregion Random Stuff
 
 
-            renderer.Start();
-             
 
 
             //new DropInAni();
@@ -175,6 +175,25 @@ namespace Base_Building_Game
             CTRL_LOGOFF_EVENT = 5,
             CTRL_SHUTDOWN_EVENT
         }
+
+
+
+
+        [DllImport("kernel32.dll")]
+        static extern IntPtr GetConsoleWindow();
+
+        [DllImport("user32.dll")]
+        static extern bool ShowWindow(IntPtr hWnd, int nCmdShow);
+
+        const int SW_HIDE = 0;
+        const int SW_SHOW = 5;
+        static IntPtr ConsoleHandler = GetConsoleWindow();
+
+        // Hide
+        static void HideConsole() => ShowWindow(ConsoleHandler, SW_HIDE);
+
+        // Show
+        static void ShowConsole() => ShowWindow(ConsoleHandler, SW_SHOW);
 
         #endregion
 

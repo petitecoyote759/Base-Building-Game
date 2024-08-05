@@ -22,35 +22,20 @@ namespace Base_Building_Game
 
         public static void LoadFancyTiles()
         {
+#warning TODO -> make this work based on render thread
             //createImages(renderer.images["GrassSS"], General.images["GrassSS"], (int)TileID.Grass, 95, 95);
             //createImages(renderer.images["SandSS"], General.images["SandSS"], (int)TileID.Sand, 96, 96);
             //createImages(renderer.images["OceanSS"], General.images["OceanSS"], (int)TileID.Ocean, 96, 96);
         }
 
-
-
-        public static unsafe void Test(string texture)
-        {
-            Print("Starting thing");
-
-            Bitmap bitmap = new Bitmap(texture);
-
-            Print(bitmap.Width);
-            
-            Print("Ending thing");
-        }
-
-
-
-
-
+        static int FancyTilesLoaded = 0;
+        static int NumberOfFancyTiles = 3;
 
 
 
         public static void createImages(IntPtr spriteSheet, string path, int ID, int width = 95, int height = 95)
         {
             IntPtr[] NewTImages = new IntPtr[256];
-
 
 
 #pragma warning disable CA1416 // getting upset that this only works on windows later than 6.1.
@@ -138,6 +123,8 @@ namespace Base_Building_Game
 
 
             FancyTiles.Add(ID, NewTImages);
+
+            InitialisePercent = (100 / NumberOfFancyTiles) * FancyTilesLoaded;
         }
     }
 }

@@ -28,10 +28,18 @@ namespace Base_Building_Game
 
 
 
+        static void ReqSaveMapImage(string path)
+        {
+            renderer.TempMapPath = path;
+            SavingMapImage = true;
+        }
 
 
-
-        static void SaveMapImage(string filePath)
+        /// <summary>
+        /// DO NOT CALL THIS ON THE MAIN THREAD, CALL ReqSaveMapImage
+        /// </summary>
+        /// <param name="filePath"></param>
+        public static void SaveMapImage(string filePath)
         {
             IntPtr surface = SDL_CreateRGBSurfaceWithFormat(0, SectorSize, SectorSize, 32, SDL.SDL_PIXELFORMAT_RGBA8888);
 
