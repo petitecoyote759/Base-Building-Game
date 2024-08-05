@@ -8,7 +8,8 @@ using System.Text;
 using System.Threading.Tasks;
 using static Short_Tools.General;
 using IVect = Short_Tools.General.ShortIntVector2;
-
+using SDL2;
+using static SDL2.SDL;
 
 
 #pragma warning disable CS8602 // defreference of a possible null reference -> silly, ik that small ports have inventories
@@ -34,12 +35,63 @@ namespace Base_Building_Game
 
 
 
-        public class Handler : ShortHandler
+        public class Handler
         {
 
             public Handler() : base() { } // stick in base(Flag.Debug) to see what buttons are pressed 
 
-            public override void Handle(string inp, bool down)
+
+            public void HandleInputs(ref bool Running)
+            {
+                SDL_Event e;
+                while (SDL_PollEvent(out e) != 0)
+                {
+                    switch (e.type)
+                    {
+                        case SDL_EventType.SDL_QUIT:
+
+                            Running = false;
+
+                            break;
+
+                        case SDL_EventType.SDL_KEYDOWN:
+
+                            string key = e.key.keysym.sym.ToString();
+
+                            Handle(key.Substring(5, key.Length - 5), true); //SDLK_w
+
+                            break;
+
+                        case SDL_EventType.SDL_KEYUP:
+
+                            key = e.key.keysym.sym.ToString();
+
+                            Handle(key.Substring(5, key.Length - 5), false); //SDLK_w
+
+                            break;
+
+                        case SDL_EventType.SDL_MOUSEBUTTONDOWN:
+
+                            Handle("Mouse", true);
+
+                            break;
+
+
+                        case SDL_EventType.SDL_MOUSEBUTTONUP:
+
+                            Handle("Mouse", false);
+
+                            break;
+                    }
+                }
+            }
+
+
+
+
+
+
+            public void Handle(string inp, bool down)
             {
                 if (ActiveKeys.ContainsKey(inp)) { ActiveKeys[inp] = down; }
 

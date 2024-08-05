@@ -38,30 +38,51 @@ namespace Base_Building_Game
 #else
             public Renderer() : base("Logs\\")
 #endif
-            { halfscreenwidth = screenwidth / 2; halfscreenheight = screenheight / 2; CheckSDLErrors(); }
+            { 
+                halfscreenwidth = screenwidth / 2; 
+                halfscreenheight = screenheight / 2; 
+                CheckSDLErrors();
+            }
 #pragma warning restore CS8618
+
+
+
+
 
 
             [MethodImpl(MethodImplOptions.AggressiveOptimization)]
             public override void Render()
             {
-                if (MenuState != MenuStates.InGame)
+                CheckSDLErrors();
+                if (!InitImagesLoaded)
                 {
-                    DrawMenu();
+                    return;
+                }
+
+                if (Initialising)
+                {
+                    DrawInitMenu();
                 }
                 else
                 {
-                    if (ActiveCutscene is Cutscene cutscene)
+                    if (MenuState != MenuStates.InGame)
                     {
-                        Draw(0, 0, screenwidth, screenheight, cutscene.CurrentFrame);
+                        DrawMenu();
                     }
                     else
                     {
-                        DrawTiles();
-                        DrawBuildings();
-                        DrawEntities();
-                        DrawPlayer();
-                        DrawUI();
+                        if (ActiveCutscene is Cutscene cutscene)
+                        {
+                            Draw(0, 0, screenwidth, screenheight, cutscene.CurrentFrame);
+                        }
+                        else
+                        {
+                            DrawTiles();
+                            DrawBuildings();
+                            DrawEntities();
+                            DrawPlayer();
+                            DrawUI();
+                        }
                     }
                 }
 

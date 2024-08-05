@@ -19,8 +19,9 @@ namespace Base_Building_Game
         public static void LoadCutscenes()
         {
             LoadCutsceneImages();
-
+            InitialisePercent = 50;
             LoadCutsceneFiles();
+            InitialisePercent = 100;
         }
 
 
@@ -44,7 +45,7 @@ namespace Base_Building_Game
 
             CutsceneImages = CutsceneImagePaths.Values.ToDictionary(
                 k => k.Split('\\').Last().Split('.').First(), 
-                p => renderer.L(p)); // hehe
+                p => renderer.LoadImage(p)); // hehe
         }
 
 
