@@ -141,8 +141,10 @@ namespace Base_Building_Game
 
 
             // Initilizes SDL_image for use with png files.
-            SDL.SDL_Init(SDL.SDL_INIT_VIDEO); // SDL_INIT_EVERYTHING
+            SDL.SDL_Init(SDL.SDL_INIT_EVERYTHING); // SDL_INIT_EVERYTHING | SDL_INIT_VIDEO
+            CheckSDLErrors();
             SDL_image.IMG_Init(SDL_image.IMG_InitFlags.IMG_INIT_PNG);
+            CheckSDLErrors();
 
             SDL.SDL_DisplayMode displayMode;
             if (SDL.SDL_GetCurrentDisplayMode(0, out displayMode) != 0)
