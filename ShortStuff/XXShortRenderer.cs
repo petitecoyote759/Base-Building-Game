@@ -615,8 +615,8 @@ namespace Base_Building_Game
         }
         public void InternalEnlarge()
         { 
-            screenwidth = 1500;
-            screenheight = 700;
+            screenwidth *= 2;
+            screenheight *= 2;
 
             SDL_SetWindowSize(window, screenwidth, screenheight);
             SDL_SetWindowPosition(window, SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED);
