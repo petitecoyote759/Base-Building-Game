@@ -54,6 +54,10 @@ namespace Base_Building_Game
             public override void Render()
             {
                 CheckSDLErrors();
+                if (!InitImagesLoaded)
+                {
+                    return;
+                }
 
                 if (Initialising)
                 {

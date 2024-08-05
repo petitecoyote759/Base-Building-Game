@@ -110,6 +110,12 @@ namespace Base_Building_Game
 
 
 
+        string CurrentPath;
+        IntPtr CurrentLoadedImage;
+        bool MainThreadIsWaiting = false;
+
+
+
         /// <summary>
         /// <para> Runs the setup, uses default screen dimensions of 1920x1080, writes the logs to the file path given. </para>
         /// </summary>
@@ -458,7 +464,7 @@ namespace Base_Building_Game
             {
                 if (image.Value.Split('\\').Last() != "")
                 {
-                    images.Add(image.Key, L(image.Value));
+                    images.Add(image.Key, LoadImage(image.Value));
                 }
                 else
                 {
@@ -490,6 +496,18 @@ namespace Base_Building_Game
                 debugger.AddLog("Images Loaded sucessfully", Priority.INFO);
             }
         }
+
+
+
+        public IntPtr LoadImage(string path)
+        {
+            CurrentPath = path;
+            MainThreadIsWaiting = true;
+            while (MainThreadIsWaiting) { Thread.Sleep(5); }
+            return CurrentLoadedImage;
+        }
+
+
 
 
         /// <summary>
@@ -571,6 +589,12 @@ namespace Base_Building_Game
             {
                 while (renderer.Running)
                 {
+                    if (renderer.MainThreadIsWaiting)
+                    {
+                        renderer.CurrentLoadedImage = renderer.L(renderer.CurrentPath);
+                        renderer.MainThreadIsWaiting = false;
+                    }
+
                     renderer.Animate();
                     renderer.Render();
                     renderer.dt = (int)GetDt(ref renderer.LFT);

@@ -42,11 +42,13 @@ namespace Base_Building_Game
         public static void Initialise()
         {
             LoadText();
+
+            renderer.Start();
+
             LoadInitialImages();
 
             InitImagesLoaded = true;
 
-            renderer.Start();
 
             debugger.AddLog("Starting LoaderFunctions", ShortDebugger.Priority.DEBUG);
 
@@ -90,7 +92,7 @@ namespace Base_Building_Game
 
             foreach (var pair in InitImagePaths)
             {
-                InitialImages.Add(pair.Key, renderer.L(path + pair.Value));
+                InitialImages.Add(pair.Key, renderer.LoadImage(path + pair.Value));
             }
         }
 

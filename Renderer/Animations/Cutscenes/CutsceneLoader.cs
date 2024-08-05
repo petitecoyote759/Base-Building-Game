@@ -44,7 +44,7 @@ namespace Base_Building_Game
 
             CutsceneImages = CutsceneImagePaths.Values.ToDictionary(
                 k => k.Split('\\').Last().Split('.').First(), 
-                p => renderer.L(p)); // hehe
+                p => renderer.LoadImage(p)); // hehe
         }
 
 
