@@ -186,7 +186,7 @@ namespace Base_Building_Game
                 "Window", 
                 SDL.SDL_WINDOWPOS_CENTERED, 
                 SDL.SDL_WINDOWPOS_CENTERED, screenwidth, screenheight, 
-                0); //, SDL.SDL_WindowFlags.SDL_WINDOW_METAL | SDL.SDL_WindowFlags.SDL_WINDOW_FULLSCREEN_DESKTOP | SDL.SDL_WindowFlags.SDL_WINDOW_SHOWN);
+                SDL.SDL_WindowFlags.SDL_WINDOW_BORDERLESS); //, SDL.SDL_WindowFlags.SDL_WINDOW_METAL | SDL.SDL_WindowFlags.SDL_WINDOW_FULLSCREEN_DESKTOP | SDL.SDL_WindowFlags.SDL_WINDOW_SHOWN);
             
             SDLrenderer = SDL.SDL_CreateRenderer(window,
                                                     -1,
