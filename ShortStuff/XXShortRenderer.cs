@@ -598,7 +598,7 @@ namespace Base_Building_Game
                     }
 
 
-
+                    General.handler.HandleInputs(ref General.Running);
                     renderer.Animate();
                     renderer.Render();
                     renderer.dt = (int)GetDt(ref renderer.LFT);

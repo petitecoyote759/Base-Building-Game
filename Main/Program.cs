@@ -88,8 +88,6 @@ namespace Base_Building_Game
             {
                 renderer.CheckSDLErrors();
 
-                handler.HandleInputs(ref Running);
-
                 #region In Game
                 if (renderer.ActiveCutscene is null)
                 {
