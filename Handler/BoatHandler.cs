@@ -46,7 +46,7 @@ namespace Base_Building_Game
 
                 case "e":
 
-                    if (!down || !InGame) { return; }
+                    if (!down || !MenuState.IsInGame()) { return; }
 
                     IVect MPos = getMousePos();
 

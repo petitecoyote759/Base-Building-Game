@@ -36,63 +36,66 @@ namespace Base_Building_Game
 
 
 
-        public class Handler
+        public class Handler : ShortHandler
         {
 
             public Handler() : base() { } // stick in base(Flag.Debug) to see what buttons are pressed 
 
 
-            public void HandleInputs(ref bool Running)
-            {
-                SDL_Event e;
-                while (SDL_PollEvent(out e) != 0)
-                {
-                    switch (e.type)
-                    {
-                        case SDL_EventType.SDL_QUIT:
+            //public void HandleInputs(ref bool Running)
+            //{
+            //    SDL_Event e;
+            //    while (SDL_PollEvent(out e) != 0)
+            //    {
+            //        switch (e.type)
+            //        {
+            //            case SDL_EventType.SDL_QUIT:
+            //
+            //                Running = false;
+            //
+            //                break;
+            //
+            //            case SDL_EventType.SDL_KEYDOWN:
+            //
+            //                string key = e.key.keysym.sym.ToString();
+            //
+            //                Handle(key.Substring(5, key.Length - 5), true); //SDLK_w
+            //
+            //                break;
+            //
+            //            case SDL_EventType.SDL_KEYUP:
+            //
+            //                key = e.key.keysym.sym.ToString();
+            //
+            //                Handle(key.Substring(5, key.Length - 5), false); //SDLK_w
+            //
+            //                break;
+            //
+            //            case SDL_EventType.SDL_MOUSEBUTTONDOWN:
+            //
+            //                Handle("Mouse", true);
+            //
+            //                break;
+            //
+            //
+            //            case SDL_EventType.SDL_MOUSEBUTTONUP:
+            //
+            //                Handle("Mouse", false);
+            //
+            //                break;
+            //
+            //
+            //                
+            //        }
+            //    }
+            //}
 
-                            Running = false;
-
-                            break;
-
-                        case SDL_EventType.SDL_KEYDOWN:
-
-                            string key = e.key.keysym.sym.ToString();
-
-                            Handle(key.Substring(5, key.Length - 5), true); //SDLK_w
-
-                            break;
-
-                        case SDL_EventType.SDL_KEYUP:
-
-                            key = e.key.keysym.sym.ToString();
-
-                            Handle(key.Substring(5, key.Length - 5), false); //SDLK_w
-
-                            break;
-
-                        case SDL_EventType.SDL_MOUSEBUTTONDOWN:
-
-                            Handle("Mouse", true);
-
-                            break;
-
-
-                        case SDL_EventType.SDL_MOUSEBUTTONUP:
-
-                            Handle("Mouse", false);
-
-                            break;
-                    }
-                }
-            }
 
 
 
 
 
-
-            public void Handle(string inp, bool down)
+            public override void Handle(string inp, bool down)
             {
                 if (ActiveKeys.ContainsKey(inp)) { ActiveKeys[inp] = down; }
 
@@ -117,7 +120,7 @@ namespace Base_Building_Game
                 {
                     case "w":
 
-                        if (down && InGame && player.boat is not null)
+                        if (down && MenuState.IsInGame() && player.boat is not null)
                         {
                             player.boat.ThrustActive = true;
                         }
@@ -125,7 +128,7 @@ namespace Base_Building_Game
 
                     case "s":
 
-                        if (down && InGame && player.boat is not null)
+                        if (down && MenuState.IsInGame() && player.boat is not null)
                         {
                             player.boat.ThrustActive = false;
                         }
