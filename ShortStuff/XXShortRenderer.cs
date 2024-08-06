@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Numerics;
+using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
@@ -195,11 +196,11 @@ namespace Base_Building_Game
                 SDL.SDL_WINDOWPOS_CENTERED, 
                 SDL.SDL_WINDOWPOS_CENTERED, screenwidth, screenheight, 
                 SDL.SDL_WindowFlags.SDL_WINDOW_BORDERLESS); //, SDL.SDL_WindowFlags.SDL_WINDOW_METAL | SDL.SDL_WindowFlags.SDL_WINDOW_FULLSCREEN_DESKTOP | SDL.SDL_WindowFlags.SDL_WINDOW_SHOWN);
-            
+
             SDLrenderer = SDL.SDL_CreateRenderer(window,
                                                     -1,
-                                                    0); // SDL.SDL_RendererFlags.SDL_RENDERER_ACCELERATED |
-            //                                             SDL.SDL_RendererFlags.SDL_RENDERER_PRESENTVSYNC
+                                                    SDL.SDL_RendererFlags.SDL_RENDERER_ACCELERATED |
+                                                    SDL.SDL_RendererFlags.SDL_RENDERER_PRESENTVSYNC);
 
 
             //SDL_SetHint(SDL_HINT_RENDER_SCALE_QUALITY, "linear");
@@ -356,6 +357,7 @@ namespace Base_Building_Game
         /// <param name="width"> Width of the image in pixels.</param>
         /// <param name="height"> Height of the image in pixels.</param>
         /// <param name="text"> Text to be written to the screen.</param>
+        [MethodImpl(MethodImplOptions.AggressiveOptimization)]
         public void Write(int posx, int posy, int width, int height, string text, [Optional] SDL_Color? InColour)
         {
             SDL_Color colour;
@@ -609,6 +611,12 @@ namespace Base_Building_Game
                         SaveMapImage(renderer.TempMapPath);
                         General.SavingMapImage = false;
                     }
+                    if (General.MainWaitingForSpriteSheet)
+                    {
+                        General.createImages(TempSpriteSheet, TempSpriteSheetPath, TempID);
+                        General.MainWaitingForSpriteSheet = false;
+                    }
+
 
 
                     General.handler.HandleInputs(ref General.Running);

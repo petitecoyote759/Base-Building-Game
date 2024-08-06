@@ -22,14 +22,32 @@ namespace Base_Building_Game
 
         public static void LoadFancyTiles()
         {
-#warning TODO -> make this work based on render thread
-            //createImages(renderer.images["GrassSS"], General.images["GrassSS"], (int)TileID.Grass, 95, 95);
-            //createImages(renderer.images["SandSS"], General.images["SandSS"], (int)TileID.Sand, 96, 96);
-            //createImages(renderer.images["OceanSS"], General.images["OceanSS"], (int)TileID.Ocean, 96, 96);
+            ReqCreateImages(renderer.images["GrassSS"], General.images["GrassSS"], (int)TileID.Grass);
+            ReqCreateImages(renderer.images["SandSS"], General.images["SandSS"], (int)TileID.Sand);
+            ReqCreateImages(renderer.images["OceanSS"], General.images["OceanSS"], (int)TileID.Ocean);
         }
 
         static int FancyTilesLoaded = 0;
         static int NumberOfFancyTiles = 3;
+
+
+
+        public static IntPtr TempSpriteSheet;
+        public static string TempSpriteSheetPath = "";
+        public static int TempID;
+        public static bool MainWaitingForSpriteSheet = false;
+
+        public static void ReqCreateImages(IntPtr spriteSheet, string path, int ID)
+        {
+            while (MainWaitingForSpriteSheet) { Thread.Sleep(5); }
+
+            TempSpriteSheet = spriteSheet;
+            TempSpriteSheetPath = path;
+            TempID = ID;
+            MainWaitingForSpriteSheet = true;
+        }
+
+
 
 
 

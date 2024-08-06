@@ -30,6 +30,8 @@ namespace Base_Building_Game
 
         static void ReqSaveMapImage(string path)
         {
+            while (SavingMapImage) { Thread.Sleep(5); }
+
             renderer.TempMapPath = path;
             SavingMapImage = true;
         }

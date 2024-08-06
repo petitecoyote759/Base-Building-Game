@@ -38,18 +38,18 @@ namespace Base_Building_Game
 
 
             SetSeed(); // <- stick a seed in here to generate the same world :) (you can get the seed via the RandSeed var)
-
-
-
-            if (!File.Exists("Saves\\Test.SWrld"))
-            {
-                CreateWorld();
-                SaveWorld(world, "Test.SWrld");
-            }
-            else
-            {
-                LoadWorld($"./Saves/Test.SWrld");
-            }
+            
+            
+            
+            //if (!File.Exists("Saves\\Test.SWrld"))
+            //{
+            //    CreateWorld();
+            //    SaveWorld(world, "Test.SWrld");
+            //}
+            //else
+            //{
+            //    LoadWorld($"./Saves/Test.SWrld");
+            //}
 
             #region Random Testing Stuff
             hotbar.SetBuilding(BuildingID.Wall);
@@ -63,12 +63,12 @@ namespace Base_Building_Game
             hotbar.SetBuilding(BuildingID.Barrel);
             hotbar.SetBuilding(BuildingID.Pipe);
 
-            hotbar.BuildBuilding(BuildingID.DropPod, player.blockX, player.blockY);
+            //hotbar.BuildBuilding(BuildingID.DropPod, player.blockX, player.blockY);
 
             BoatResearch[(short)BoatID.Destroyer] = 2;
 
 
-            ReqSaveMapImage("uhhh.png");
+            //ReqSaveMapImage("uhhh.png");
 
             //EnemyUnit test = new EnemyUnit();
             //test.pos = player.pos;
@@ -87,6 +87,15 @@ namespace Base_Building_Game
             while (Running)
             {
                 renderer.CheckSDLErrors();
+
+                #region In Menu
+                if (MenuState != MenuStates.InGame)
+                {
+                    Thread.Sleep(50);
+                    dt = GetDt(ref LFT);
+                    continue;
+                }
+                #endregion
 
                 #region In Game
                 if (renderer.ActiveCutscene is null)
@@ -112,7 +121,7 @@ namespace Base_Building_Game
                 #endregion In Cutscene
             }
 
-            SaveWorld(world, "Test.SWrld");
+            //SaveWorld(world, "Test.SWrld");
 
 
             Cleanup();
