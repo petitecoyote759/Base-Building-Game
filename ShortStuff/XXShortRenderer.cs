@@ -266,7 +266,7 @@ namespace Base_Building_Game
         public void Stop()
         {
             Running = false;
-            //controllerThread.Join();
+            controllerThread.Join();
             Cleanup();
             debugger.AddLog("Renderer has been stopped", Priority.INFO);
             if (flags.Contains(Flag.Write_Log_To_File))

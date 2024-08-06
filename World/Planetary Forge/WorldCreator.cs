@@ -45,7 +45,7 @@ namespace Base_Building_Game
 
 
 
-
+        [MethodImpl(MethodImplOptions.AggressiveOptimization)]
         public static Sector CreatePFSector() // see https://www.desmos.com/calculator/zgaxgsk2ws for more info
         {
             Sector sector = new Sector();

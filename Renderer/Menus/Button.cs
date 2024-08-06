@@ -27,7 +27,17 @@ namespace Base_Building_Game
                 }
 
 
-                Write(x + width / 10, y, width / text.Length, height, text);
+                WriteOnFullWidth(x, y, width, height, text);
+            }
+
+            public void WriteOnFullWidth(int x, int y, int width, int height, string text, SDL2.SDL.SDL_Color? colour = null)
+            {
+                colour ??= Black;
+
+                if (text.Length != 0)
+                {
+                    Write(x + width / 10, y, Math.Min(width / text.Length, height), height, text, colour);
+                }
             }
         }
     }

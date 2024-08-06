@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 using Short_Tools;
@@ -23,7 +24,7 @@ namespace Base_Building_Game
 
 
 
-
+        [MethodImpl(MethodImplOptions.AggressiveOptimization)]
         public static void CreateLand(IVect[] seeds, Sector sector)
         {
             PerlinMap map = new PerlinMap();
@@ -129,6 +130,7 @@ namespace Base_Building_Game
 
 
 #pragma warning disable CS8602 // sector wont be null.
+        [MethodImpl(MethodImplOptions.AggressiveOptimization)]
         public static void GenResourceNode(Sector sector, int size, float scale, TileID target, int mindistance)
         {
             PerlinMap Map = new PerlinMap(size);

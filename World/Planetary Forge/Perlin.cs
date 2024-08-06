@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Numerics;
+using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 using Newtonsoft.Json.Linq;
@@ -44,7 +45,7 @@ namespace Base_Building_Game
 
 
 
-
+            [MethodImpl(MethodImplOptions.AggressiveOptimization)]
             public void GenVectors()
             {
                 BigInteger seed = new BigInteger();
@@ -71,6 +72,7 @@ namespace Base_Building_Game
             {
                 return GetValue(pos.x, pos.y);
             }
+            [MethodImpl(MethodImplOptions.AggressiveOptimization)]
             public float GetValue(int x, int y)
             {
 
@@ -96,7 +98,7 @@ namespace Base_Building_Game
             }
             #endregion PerlinValueCreation
 
-
+            [MethodImpl(MethodImplOptions.AggressiveOptimization)]
             public float Lerp(float a0, float a1, float w) // perc  is distance from A -> B
             {
                 //return (a1 - a0) * w + a0;
