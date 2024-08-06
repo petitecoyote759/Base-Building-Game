@@ -127,14 +127,14 @@ namespace Base_Building_Game
 
 
             #region GetSeeds
-            BigInteger SeedSeeds = new BigInteger();
-            for (int i = 0; i < Seeds.Count; i++)
-            {// 11 bits per seed
-                SeedSeeds += new BigInteger(Seeds[i].x + (Seeds[i].y * 2048)) << 22 * i;
-            }
-            byte[] array = SeedSeeds.ToByteArray();
-            //Print(ByteArrayToString(array));
-            File.WriteAllBytes("Saves\\CurrentSeed.Sseed", array);
+            //BigInteger SeedSeeds = new BigInteger();
+            //for (int i = 0; i < Seeds.Count; i++)
+            //{// 11 bits per seed
+            //    SeedSeeds += new BigInteger(Seeds[i].x + (Seeds[i].y * 2048)) << 22 * i;
+            //}
+            //byte[] array = SeedSeeds.ToByteArray();
+            ////Print(ByteArrayToString(array));
+            //File.WriteAllBytes("Saves\\CurrentSeed.Sseed", array);
             #endregion GetSeeds
 
 

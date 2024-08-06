@@ -48,7 +48,6 @@ namespace Base_Building_Game
             [MethodImpl(MethodImplOptions.AggressiveOptimization)]
             public void GenVectors()
             {
-                BigInteger seed = new BigInteger();
 
                 for (int x = 0; x < SectorSize / PerlinWidth + 1; x++)
                 {
@@ -56,14 +55,8 @@ namespace Base_Building_Game
                     {
                         int random = randy.Next(0, 4);
                         vectors[x, y] = VectorPosibilities[random];
-                        seed += new BigInteger(random) << ((x * SectorSize / PerlinWidth) + y) * 2; // 0, 1, 2, 3
                     }
                 }
-
-                //Print(ByteArrayToString(seed.ToByteArray()));
-                File.WriteAllBytes
-                    ("Saves\\CurrentSeed.Sseed", 
-                    seed.ToByteArray().Concat(new byte[] { 0, 0 }).Concat(File.ReadAllBytes("Saves\\CurrentSeed.Sseed")).ToArray());
             }
 
 
