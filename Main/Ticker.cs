@@ -16,7 +16,7 @@ namespace Base_Building_Game
         {
             if (ActiveKeys["Mouse"])
             {
-                if (InGame)
+                if (MenuState.IsInGame())
                 {
                     if (HotbarSelected >= 0 && HotbarSelected < 10)
                     {
