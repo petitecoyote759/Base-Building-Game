@@ -155,8 +155,9 @@ namespace Base_Building_Game
                                     //TODO: make settings affect this
                                     //TODO: make load screen for this -> move it to main thread
 
-                                    CreateWorld();
-                                    SaveWorld(world, renderer.worldName);
+                                    ReqCreateWorld();
+                                    while (WaitingForWorldCreate) { Thread.Sleep(5); }
+                                    ReqSaveWorld(renderer.worldName);
                                     MenuState = MenuStates.InGame;
                                 }
                             }

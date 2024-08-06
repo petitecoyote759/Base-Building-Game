@@ -9,8 +9,28 @@ namespace Base_Building_Game
 {
     public static partial class General
     {
-        public static void SaveWorld(World world, string worldname) // maybe path?
+        static string tempWorldName = "";
+        static bool WaitingForWorldSave = true;
+
+        public static void ReqSaveWorld(string worldname)
         {
+            while (WaitingForWorldSave) { Thread.Sleep(5); }
+
+            tempWorldName = worldname;
+            WaitingForWorldSave = true;
+        }
+
+
+
+
+
+
+
+
+
+        public static void SaveWorld(string worldname) // maybe path?
+        {
+            WaitingForWorldSave = false;
             string ResearchString = "";
 
             SectorJson[,] SectorData = new SectorJson[World.size,World.size];

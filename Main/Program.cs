@@ -88,6 +88,18 @@ namespace Base_Building_Game
             {
                 renderer.CheckSDLErrors();
 
+
+                if (WaitingForWorldCreate)
+                {
+                    CreateWorld();
+                }
+                if (WaitingForWorldSave)
+                {
+                    SaveWorld(tempWorldName);
+                }
+
+
+
                 #region In Menu
                 if (MenuState != MenuStates.InGame)
                 {

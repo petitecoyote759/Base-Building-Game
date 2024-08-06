@@ -24,9 +24,22 @@ namespace Base_Building_Game
         const int DefForce = 100;
 
 
+        static bool WaitingForWorldCreate = false;
+
+        public static void ReqCreateWorld()
+        {
+            while (WaitingForWorldCreate) { Thread.Sleep(5); }
+            
+            WaitingForWorldCreate = true;
+        }
+
+
+
+
 
         public static void CreateWorld()
         {
+            WaitingForWorldCreate = false;
             world = new World();
 
             int size = World.size;
@@ -37,7 +50,7 @@ namespace Base_Building_Game
 
             if (Thread.CurrentThread.Name == "ShortTools Rendering Thread")
             {
-                ReqSaveMapImage(renderer.worldName + ".png");
+                SaveMapImage(renderer.worldName + ".png");
                 renderer.images["Map"] = renderer.L(renderer.worldName + ".png");
             }
             else

@@ -102,7 +102,7 @@ namespace Base_Building_Game
                 if (MenuState == MenuStates.StartScreen && down && inp == "F9")
                 {
                     debugger.AddLog("Activating dev create world", ShortDebugger.Priority.INFO);
-                    CreateWorld();
+                    ReqCreateWorld();
                     MenuState = MenuStates.InGame;
                 }
 
