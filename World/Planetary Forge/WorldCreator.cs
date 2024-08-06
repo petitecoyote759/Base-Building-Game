@@ -64,6 +64,8 @@ namespace Base_Building_Game
             player.pos = new IVect(SectorSize / 2, SectorSize / 2);
             player.camPos = new IVect(SectorSize / 2, SectorSize / 2);
             hotbar.BuildBuilding(BuildingID.DropPod, SectorSize / 2, SectorSize / 2);
+
+            MenuState = MenuStates.InGame;
         }
 
 

@@ -103,7 +103,6 @@ namespace Base_Building_Game
                 {
                     debugger.AddLog("Activating dev create world", ShortDebugger.Priority.INFO);
                     ReqCreateWorld();
-                    MenuState = MenuStates.InGame;
                 }
 
 

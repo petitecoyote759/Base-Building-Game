@@ -10,7 +10,7 @@ namespace Base_Building_Game
     public static partial class General
     {
         static string tempWorldName = "";
-        static bool WaitingForWorldSave = true;
+        static bool WaitingForWorldSave = false;
 
         public static void ReqSaveWorld(string worldname)
         {
