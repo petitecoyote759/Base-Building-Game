@@ -99,6 +99,13 @@ namespace Base_Building_Game
             {
                 if (ActiveKeys.ContainsKey(inp)) { ActiveKeys[inp] = down; }
 
+                if (MenuState == MenuStates.StartScreen && down && inp == "F9")
+                {
+                    debugger.AddLog("Activating dev create world", ShortDebugger.Priority.INFO);
+                    CreateWorld();
+                    MenuState = MenuStates.InGame;
+                }
+
 
                 if (!MenuState.IsInGame() && down)
                 {
