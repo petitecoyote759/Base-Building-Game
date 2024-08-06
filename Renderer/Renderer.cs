@@ -95,16 +95,20 @@ namespace Base_Building_Game
 
 
 
+            public override void EnlargeChange()
+            {
+                halfscreenwidth = screenwidth / 2;
+                halfscreenheight = screenheight / 2;
+            }
 
 
 
 
 
 
-            
 
 
-            
+
 
 
 

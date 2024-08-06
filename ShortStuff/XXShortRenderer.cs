@@ -635,12 +635,17 @@ namespace Base_Building_Game
             TryingToEnlarge = true;
         }
         public void InternalEnlarge()
-        { 
+        {
             screenwidth *= 2;
             screenheight *= 2;
 
             SDL_SetWindowSize(window, screenwidth, screenheight);
             SDL_SetWindowPosition(window, SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED);
+            EnlargeChange();
+        }
+        public virtual void EnlargeChange()
+        {
+
         }
 
 
