@@ -35,6 +35,19 @@ namespace Base_Building_Game
 
             ActiveSector = world[(World.size + 1) / 2, (World.size + 1) / 2];
 
+            if (Thread.CurrentThread.Name == "ShortTools Rendering Thread")
+            {
+                ReqSaveMapImage(renderer.worldName + ".png");
+                renderer.images["Map"] = renderer.L(renderer.worldName + ".png");
+            }
+            else
+            {
+                //TODO: change this to be world.name
+                ReqSaveMapImage(renderer.worldName + ".png");
+                renderer.images["Map"] = renderer.LoadImage(renderer.worldName + ".png");
+            }
+
+
             player.pos = new IVect(SectorSize / 2, SectorSize / 2);
             player.camPos = new IVect(SectorSize / 2, SectorSize / 2);
             hotbar.BuildBuilding(BuildingID.DropPod, SectorSize / 2, SectorSize / 2);

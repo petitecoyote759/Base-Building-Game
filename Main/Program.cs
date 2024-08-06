@@ -100,12 +100,12 @@ namespace Base_Building_Game
                 #region In Game
                 if (renderer.ActiveCutscene is null)
                 {
-                    if (renderer.images["Map"] == IntPtr.Zero)
-                    {
-                        //TODO: change this to be world.name
-                        ReqSaveMapImage(renderer.worldName + ".png");
-                        renderer.images["Map"] = renderer.LoadImage(renderer.worldName + ".png");
-                    }
+                    //if (renderer.images["Map"] == IntPtr.Zero)
+                    //{
+                    //    //TODO: change this to be world.name
+                    //    ReqSaveMapImage(renderer.worldName + ".png");
+                    //    renderer.images["Map"] = renderer.LoadImage(renderer.worldName + ".png");
+                    //}
 
                     player.Move((int)dt);
 

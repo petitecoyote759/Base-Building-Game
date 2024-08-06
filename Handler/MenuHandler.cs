@@ -153,7 +153,8 @@ namespace Base_Building_Game
                                 if (renderer.worldName != "")
                                 {
                                     //TODO: make settings affect this
-                                    //TODO: make load screen for this
+                                    //TODO: make load screen for this -> move it to main thread
+
                                     CreateWorld();
                                     SaveWorld(world, renderer.worldName);
                                     MenuState = MenuStates.InGame;
