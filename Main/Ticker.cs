@@ -38,7 +38,7 @@ namespace Base_Building_Game
 #pragma warning disable CS8600 // same thing
             if (ActiveKeys["BACKSPACE"])
             {
-                if (InGame)
+                if (MenuState.IsInGame())
                 {
                     if (player.selectedTile is not null)
                     {
