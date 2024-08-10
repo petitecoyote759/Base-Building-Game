@@ -76,15 +76,21 @@ namespace Base_Building_Game
 
             public bool Walkable(int x, int y, bool player = false)
             {
+                return Walkable((float)x, (float)y, player);
+            }
+
+
+            public bool Walkable(float x, float y, bool player = false)
+            {
                 Tile tile = world.GetTile(x, y);
 
-                if (settings.Cheats && player) { return true; } 
+                if (settings.Cheats && player) { return true; }
 
 
                 if (tile.ID == (short)TileID.DeepOcean) { return false; }
 
 
-                if (tile.ID == (short)TileID.Ocean) 
+                if (tile.ID == (short)TileID.Ocean)
                 {
                     if (tile.building is not null)
                     {

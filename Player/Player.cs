@@ -82,7 +82,7 @@ namespace Base_Building_Game
 
 
 
-                Func<int, int, bool, bool> Walkable = world.Walkable;
+                Func<float, float, bool, bool> Walkable = world.Walkable;
 
                 float speed = this.speed / 100f;
 
@@ -95,7 +95,7 @@ namespace Base_Building_Game
                         if (ActiveKeys["a"] ^ ActiveKeys["d"]) { y -= speed * dt * 5 / 7; }
                         else { y -= speed * dt; }
 
-                        if (!Walkable(blockX, blockY, true))
+                        if (!Walkable(x, y, true))
                         {
                             if (ActiveKeys["a"] ^ ActiveKeys["d"]) { y += speed * dt * 5 / 7; }
                             else { y += speed * dt; } // move back to the original place
@@ -107,7 +107,7 @@ namespace Base_Building_Game
                         if (ActiveKeys["a"] ^ ActiveKeys["d"]) { y += speed * dt * 5 / 7; }
                         else { y += speed * dt; }
 
-                        if (!Walkable(blockX, blockY, true))
+                        if (!Walkable(x, y, true))
                         {
                             if (ActiveKeys["a"] ^ ActiveKeys["d"]) { y -= speed * dt * 5 / 7; }
                             else { y -= speed * dt; }
@@ -119,7 +119,7 @@ namespace Base_Building_Game
                         if (ActiveKeys["w"] ^ ActiveKeys["s"]) { x -= speed * dt * 5 / 7; }
                         else { x -= speed * dt; }
 
-                        if (!Walkable(blockX, blockY, true))
+                        if (!Walkable(x, y, true))
                         {
                             if (ActiveKeys["w"] ^ ActiveKeys["s"]) { x += speed * dt * 5 / 7; }
                             else { x += speed * dt; }
@@ -132,7 +132,7 @@ namespace Base_Building_Game
                         if (ActiveKeys["w"] ^ ActiveKeys["s"]) { x += speed * dt * 5 / 7; }
                         else { x += speed * dt; }
 
-                        if (!Walkable(blockX, blockY, true))
+                        if (!Walkable(x, y, true))
                         {
                             if (ActiveKeys["w"] ^ ActiveKeys["s"]) { x -= speed * dt * 5 / 7; }
                             else { x -= speed * dt; }
