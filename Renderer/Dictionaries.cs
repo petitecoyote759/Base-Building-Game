@@ -14,7 +14,7 @@ namespace Base_Building_Game
             public Dictionary<short, IntPtr> TileImages;
             public Dictionary<short, IntPtr[]> BuildingImages;
             public Dictionary<short, IntPtr> ItemImages;
-
+            public Dictionary<short, IntPtr> ShadowImages;
             public Dictionary<short, IntPtr[]> BoatImages;
         }
 
@@ -38,6 +38,15 @@ namespace Base_Building_Game
                 { (short)TileID.Diamond,   renderer.images["Diamond"] },
 
                 { (short)TileID.Error, renderer.images["Error"] }
+            };
+
+
+
+
+
+            renderer.ShadowImages = new Dictionary<short, IntPtr>()
+            {
+                { (short)BuildingID.Wall, renderer.images["Wall Node Shadow"] }
             };
 
 

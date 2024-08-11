@@ -6,6 +6,10 @@ using System.Threading.Tasks;
 using Short_Tools;
 using static Short_Tools.General;
 using IVect = Short_Tools.General.ShortIntVector2;
+using static SDL2.SDL;
+using static System.MathF;
+
+
 
 
 namespace Base_Building_Game
@@ -14,6 +18,12 @@ namespace Base_Building_Game
     {
         public static void Tick(int dt)
         {
+            Time = (Time + dt) % TimePerDay;
+
+
+
+
+
             if (ActiveKeys["Mouse"])
             {
                 if (MenuState.IsInGame())

@@ -81,6 +81,14 @@ namespace Base_Building_Game
                             DrawBuildings();
                             DrawEntities();
                             DrawPlayer();
+                            DrawShadows();
+
+
+                            Draw(0, 0, screenwidth, screenheight, "Night Filter"); // the filter for night time
+
+
+
+
                             DrawUI();
                         }
                     }

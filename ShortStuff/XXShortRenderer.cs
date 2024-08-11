@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Numerics;
 using System.Runtime.CompilerServices;
+using System.Reflection.Metadata;
 using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
@@ -289,7 +290,15 @@ namespace Base_Building_Game
         {
             tRect.x = xPos; tRect.y = yPos;
             tRect.w = width; tRect.h = height;
-            SDL_RenderCopy(SDLrenderer, image, IntPtr.Zero, ref tRect);
+            if (width > 0)
+            {
+                SDL_RenderCopyEx(SDLrenderer, image, IntPtr.Zero, ref tRect, 0, IntPtr.Zero, SDL_RendererFlip.SDL_FLIP_NONE);
+            }
+            else
+            {
+                tRect.w = -width;
+                SDL_RenderCopyEx(SDLrenderer, image, IntPtr.Zero, ref tRect, 0, IntPtr.Zero, SDL_RendererFlip.SDL_FLIP_HORIZONTAL);
+            }
         }
 
         /// <summary>

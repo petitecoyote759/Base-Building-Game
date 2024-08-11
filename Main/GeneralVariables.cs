@@ -55,6 +55,18 @@ namespace Base_Building_Game
 
 
 
+        /// <summary>
+        /// Time of day in milliseconds
+        /// </summary>
+        static int Time = 0;
+
+
+        /// <summary>
+        /// Time it takes for a full day night cycle in milliseconds
+        /// </summary>
+        const int TimePerDay = 100000; // 100000 default
+
+
 
         /// <summary>
         /// Enum variable to show what state the menu is in.
