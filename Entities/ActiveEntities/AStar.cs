@@ -9,6 +9,7 @@ using System.Xml.Linq;
 using System.Numerics;
 using IVect = Short_Tools.General.ShortIntVector2;
 using System.Reflection;
+using System.Runtime.Intrinsics;
 
 #pragma warning disable CS8618 // must contain value when exciting constructor -> i trust bayl on this one
 
@@ -67,10 +68,12 @@ namespace Base_Building_Game
                                 {
                                     if (node.pos == checkedPos)
                                     {
-                                        if (node.distanceHere > (currentNode.distanceHere + 1))
+                                        if (node.distanceHere > (currentNode.distanceHere + (x == 0 || y == 0 ? 1 : 2)))
                                         {
-                                            node.distanceHere = currentNode.distanceHere + 1;
+                                            node.distanceHere = currentNode.distanceHere + (x == 0 || y == 0 ? 1 : 2);
                                             node.lastNode = currentNode;
+                                            nodesToVisit.Enqueue(node, node.distanceHere + node.ComputeHeuristic(destination));
+
                                         }
                                         hasVisited = true;
                                         break;
@@ -79,7 +82,7 @@ namespace Base_Building_Game
                                 
                                 if (!hasVisited)
                                 {
-                                    AStar_Node newNode = new AStar_Node(checkedPos, currentNode.distanceHere + 1);
+                                    AStar_Node newNode = new AStar_Node(checkedPos, currentNode.distanceHere + (x == 0 || y == 0 ? 1 : 2));
                                     newNode.lastNode = currentNode;
                                     nodesToVisit.Enqueue(newNode, newNode.distanceHere + newNode.ComputeHeuristic(destination));
                                     visitedNodes.Add(newNode);
@@ -88,7 +91,6 @@ namespace Base_Building_Game
                                 if (checkedPos == destination)
                                 {
                                     found = true;
-                                    break;
                                 }
                                 
                             }
@@ -115,7 +117,18 @@ namespace Base_Building_Game
                 Stack<Vector2> movements = new Stack<Vector2>();
                 if (visitedNodes.Count != 0)
                 {
-                    AStar_Node checking = visitedNodes[visitedNodes.Count - 1];
+                    //AStar_Node checking = visitedNodes[visitedNodes.Count - 1];
+                    AStar_Node checking = new AStar_Node(new IVect(),1000);
+                    int best = maxDist;
+                    foreach (AStar_Node node in visitedNodes)
+                    {
+                        if (destination == node.pos && node.distanceHere < best)
+                        {
+                            checking = node;
+                            best = node.distanceHere;
+                        }
+                    }
+
                     while (checking.lastNode != null)
                     {
                         movements.Push(checking.pos);
@@ -137,6 +150,7 @@ namespace Base_Building_Game
             public AStar_Node(IVect pos,int distanceHere)
             {
                 this.pos = pos;
+                this.distanceHere = distanceHere;
             }
             public int ComputeHeuristic(IVect endPos)
             {

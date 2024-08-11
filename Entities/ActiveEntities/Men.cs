@@ -165,7 +165,7 @@ namespace Base_Building_Game
                     item.Targeted = true;
                     targetedItem = item;
                     AStar pathing = new AStar(world.Walkable, item.pos, this.pos);
-                    path = pathing.GetPath(30);
+                    path = pathing.GetPath(50);
 
                     break;
                 }
@@ -194,7 +194,7 @@ namespace Base_Building_Game
             public void ReturnToCamp()
             {
                 AStar pathing = new AStar(world.Walkable, camp.pos, this.pos);
-                path = pathing.GetPath(30);
+                path = pathing.GetPath(50);
             }
             
             public void AddNextNodes()
