@@ -177,11 +177,27 @@ namespace Base_Building_Game
 
 
 
+                if (path is not null)
+                {
+                    if (nextPositions is null)
+                    {
+                        AddNextNodes();
+                    }
+                    Move(dt);
+                }
+
+
+
 
 
 
                 if (Target is IEntity target)
                 {
+                    if (nextPositions is not null && nextPositions.Length > 0)
+                    {
+                        angle = MathF.Atan2(nextPositions.First().Y - pos.Y, nextPositions.First().X - pos.X).ToDegrees() + 90;
+                    }
+
                     Wandering = false;
                     if (path is Stack<Vector2> Path && Path.Count == 0)
                     {
@@ -200,14 +216,6 @@ namespace Base_Building_Game
                                 GetPath(target.pos);
                             }
                         }
-                    }
-                    else if (path is not null)
-                    {
-                        if (nextPositions is null)
-                        {
-                            AddNextNodes();
-                        }
-                        Move(dt);
                     }
                     else
                     {
@@ -235,6 +243,9 @@ namespace Base_Building_Game
 
             public void GetTarget()
             {
+                path = null;
+                return;
+
                 AStar pather = new AStar(world.Walkable, player.pos, pos);
 
                 if (pather.GetPath(50) is not null)
@@ -286,7 +297,18 @@ namespace Base_Building_Game
 
             public void GetWanderPoint()
             {
+                for (int i = 0; i < 10; i++)
+                {
+                    Vector2 target = new Vector2(pos.X + randy.Next(24) - 12, pos.Y + randy.Next(24) - 12);
 
+                    AStar astar = new AStar(world.Walkable, target, pos);
+
+                    if (astar.GetPath(30) is Stack<Vector2> path)
+                    {
+                        this.path = path;
+                        break;
+                    }
+                }
             }
 
 
