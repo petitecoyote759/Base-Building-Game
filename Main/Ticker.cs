@@ -22,10 +22,6 @@ namespace Base_Building_Game
 
 
 
-            float perc = Pow((Cos(2 * PI * (Time / (float)TimePerDay) + 0.25f) + 1) / 2f, 2);
-            SDL_SetTextureAlphaMod(renderer.images["Night Filter"], (byte)(140d * perc));
-
-
 
 
             if (ActiveKeys["Mouse"])
