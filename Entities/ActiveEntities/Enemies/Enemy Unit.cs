@@ -37,6 +37,8 @@ namespace Base_Building_Game
 
             bool Wandering = true;
 
+            Vector2 MoveTarget;
+
 
 
 
@@ -230,9 +232,10 @@ namespace Base_Building_Game
             {
                 AStar pather = new AStar(world.Walkable, player.pos, pos);
 
-                pather.GetPath(50); 
-
-
+                if (pather.GetPath(50) is not null)
+                {
+                    Target = player;
+                }
             }
 
 
