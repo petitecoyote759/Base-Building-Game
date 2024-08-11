@@ -165,14 +165,6 @@ namespace Base_Building_Game
 
             public void Action(int dt)
             {
-                if (Target is null != path is null)  // wuh woh
-                {
-                    debugger.AddLog("somin went wrong"); // <- add better log init
-                    Target = null; path = null;
-                }
-
-
-
                 if (Wandering)
                 {
                     GetTarget();
