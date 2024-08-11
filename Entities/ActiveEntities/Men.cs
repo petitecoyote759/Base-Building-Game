@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Numerics;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using IVect = Short_Tools.General.ShortIntVector2;
@@ -20,6 +22,9 @@ namespace Base_Building_Game
             public Item? targetedItem { get; set; } = null;
             public Stack<Vector2>? path { get; set; } = new Stack<Vector2>();
             public WorkCamp camp { get; }
+            Vector2[]? nextPositions = null;
+            const float MovementScalar = 100;
+            int t;
             public Men(Vector2 pos,WorkCamp camp)
             {
                 this.pos = pos;
@@ -30,7 +35,7 @@ namespace Base_Building_Game
             public void Action(int dt)
             {
                 
-                if (targetedItem is null && path.Count == 0)
+                /*if (targetedItem is null && path.Count == 0)
                 {
                     if (heldItem is null)
                     {
@@ -47,20 +52,86 @@ namespace Base_Building_Game
                 
                 if (path is not null)
                 {
-                    if (path.Count != 0)
+                    if (path.Count != 0 || nextPositions is not null )
+                    {         
+                        if (nextPositions is null)
+                        {
+                            AddNextNodes();
+                        }
+                        if (nextPositions is not null)
+                        {
+                            t = t + dt;
+                            if (t >= MovementScalar)
+                            {
+                                t = (int)MovementScalar;
+                            }
+                            this.pos = Bézier.ComputeBézier(t / MovementScalar, nextPositions);
+                            if (t == MovementScalar)
+                            {
+                                nextPositions = null;
+                                t = 0;
+                                if (path.Count == 0)
+                                {
+                                    if (targetedItem is not null)
+                                    {
+                                        PickupItem();
+                                    }
+                                    else
+                                    {
+                                        DepositItem();
+                                    }
+                                }
+                            }
+                            return;
+                        } 
+                        
+                    }   
+                    return;
+                }*/
+
+
+                if (targetedItem is null && path.Count == 0 && nextPositions is null)
+                {
+                   if (heldItem is null)
+                   {
+                        FindItem();
+                   }
+                   else
+                   {
+                        ReturnToCamp();
+                   }
+                   return;
+                }
+
+                if (path.Count != 0 || nextPositions is not null)
+                {
+                    if (nextPositions is null)
                     {
-                        //TODO: Add bezier curves to smoothen out movement over a period of time.
-                        pos = path.Pop();
-                        return;
+                        AddNextNodes();
                     }
+                    Move(dt);
+                }
+
+
+                
+                
+
+                if (nextPositions is null && path.Count == 0)
+                {
                     if (heldItem is null)
                     {
                         PickupItem();
-                        
                     }
-                    return;
+                    else
+                    {
+                        DepositItem();
+                    }
                 }
-                
+
+
+
+
+
             }
             public void FindItem()
             {
@@ -78,6 +149,7 @@ namespace Base_Building_Game
                     targetedItem = item;
                     AStar pathing = new AStar(world.Walkable, item.pos, this.pos);
                     path = pathing.GetPath(100);
+
                     break;
                 }
             }
@@ -105,6 +177,31 @@ namespace Base_Building_Game
             {
                 AStar pathing = new AStar(world.Walkable, camp.pos, this.pos);
                 path = pathing.GetPath(100);
+            }
+            
+            public void AddNextNodes()
+            {
+                int size = path.Count >= 3 ? 3 : path.Count + 1;
+                nextPositions = new Vector2[size];
+                nextPositions[0] = pos;
+                for (int i = 1; i < size; i++)
+                {
+                    nextPositions[i] = path.Pop();
+                }
+            }
+            public void Move(int dt)
+            {
+                t = t + dt;
+                if (t >= MovementScalar)
+                {
+                    t = (int)MovementScalar;
+                }
+                this.pos = Bézier.ComputeBézier(t / MovementScalar, nextPositions);
+                if (t == MovementScalar)
+                {
+                    nextPositions = null;
+                    t = 0;
+                }
             }
            
         }
