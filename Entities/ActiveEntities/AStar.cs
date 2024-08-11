@@ -41,6 +41,8 @@ namespace Base_Building_Game
                 nodesToVisit.Enqueue(new AStar_Node(start, 0),0);
                 while (nodesToVisit.Count > 0)
                 {
+                    
+
                     AStar_Node currentNode = nodesToVisit.Dequeue();
                     int temp = currentNode.ComputeHeuristic(destination);
                     if (currentNode.ComputeHeuristic(destination) + currentNode.distanceHere > maxDist)

@@ -25,6 +25,7 @@ namespace Base_Building_Game
             public Vector2 pos { get; set; }
             public Item? heldItem {get; set; } = null;
             public Item? targetedItem { get; set; } = null;
+            long lastTimeToCalcPath;
             public Stack<Vector2>? path { get; set; } = new Stack<Vector2>();
             public WorkCamp camp { get; }
             Vector2[]? nextPositions = null;
@@ -39,7 +40,7 @@ namespace Base_Building_Game
 
             public void Action(int dt)
             {
-                
+
                 /*if (targetedItem is null && path.Count == 0)
                 {
                     if (heldItem is null)
@@ -97,25 +98,35 @@ namespace Base_Building_Game
 
                 if (targetedItem is null && path.Count == 0 && nextPositions is null)
                 {
-                   if (heldItem is null)
-                   {
-                        FindItem();
-                   }
-                   else
-                   {
-                        ReturnToCamp();
-                   }
-                   return;
+                    if (DateTimeOffset.Now.ToUnixTimeMilliseconds() - lastTimeToCalcPath > 10000)
+                    {
+                        if (heldItem is null)
+                        {
+                            FindItem();
+                            if (path is null)
+                            {
+                                targetedItem.Targeted = false;
+                                targetedItem = null;
+                                path = new Stack<Vector2>();
+                                lastTimeToCalcPath = DateTimeOffset.Now.ToUnixTimeMilliseconds();
+                            }
+                        }
+                        else
+                        {
+                            ReturnToCamp();
+                        }
+                       
+                    }
+                    return;
                 }
 
-                if (path is not null && path.Count != 0 || nextPositions is not null)
+                if (path.Count != 0 || nextPositions is not null)
                 {
                     if (nextPositions is null)
                     {
                         AddNextNodes();
                     }
                     Move(dt);
-                    return;
                 }
 
 
@@ -154,7 +165,7 @@ namespace Base_Building_Game
                     item.Targeted = true;
                     targetedItem = item;
                     AStar pathing = new AStar(world.Walkable, item.pos, this.pos);
-                    path = pathing.GetPath(50);
+                    path = pathing.GetPath(30);
 
                     break;
                 }
@@ -183,7 +194,7 @@ namespace Base_Building_Game
             public void ReturnToCamp()
             {
                 AStar pathing = new AStar(world.Walkable, camp.pos, this.pos);
-                path = pathing.GetPath(50);
+                path = pathing.GetPath(30);
             }
             
             public void AddNextNodes()
