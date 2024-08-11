@@ -153,7 +153,7 @@ namespace Base_Building_Game
                     item.Targeted = true;
                     targetedItem = item;
                     AStar pathing = new AStar(world.Walkable, item.pos, this.pos);
-                    path = pathing.GetPath(100);
+                    path = pathing.GetPath(50);
 
                     break;
                 }
@@ -163,7 +163,6 @@ namespace Base_Building_Game
                 if (targetedItem.pos == this.pos)
                 {
                     heldItem = targetedItem;
-                    LoadedEntities.Remove(targetedItem);
                     targetedItem = null;
                     return true;
                 }
@@ -173,7 +172,9 @@ namespace Base_Building_Game
             {
                 if ((IVect)camp.pos == (IVect)this.pos)
                 {
+                    LoadedEntities.Remove(heldItem);
                     heldItem = null;
+
                     return true;
                 }
                 return false;
@@ -181,7 +182,7 @@ namespace Base_Building_Game
             public void ReturnToCamp()
             {
                 AStar pathing = new AStar(world.Walkable, camp.pos, this.pos);
-                path = pathing.GetPath(100);
+                path = pathing.GetPath(50);
             }
             
             public void AddNextNodes()
@@ -202,6 +203,10 @@ namespace Base_Building_Game
                     t = (int)MovementScalar;
                 }
                 this.pos = Bézier.ComputeBézier(t / MovementScalar, nextPositions);
+                if (heldItem is not null)
+                {
+                    heldItem.pos = this.pos;
+                }
                 if (t == MovementScalar)
                 {
                     nextPositions = null;

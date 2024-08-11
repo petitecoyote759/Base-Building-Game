@@ -105,7 +105,10 @@ namespace Base_Building_Game
                     
                 }
                 
-                
+                if (!found)
+                {
+                    return null;
+                }
                 
                 Stack<Vector2> movements = new Stack<Vector2>();
                 if (visitedNodes.Count != 0)
