@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 using Short_Tools;
@@ -23,17 +24,29 @@ namespace Base_Building_Game
 
 
 
-
+        [MethodImpl(MethodImplOptions.AggressiveOptimization)]
         public static void CreateLand(IVect[] seeds, Sector sector)
         {
             PerlinMap map = new PerlinMap();
+
+            PerlinMap subMap1 = new PerlinMap(16);
+
+            PerlinMap subMap2 = new PerlinMap(8);
 
             for (int x = 0; x < SectorSize; x++)
             {
                 for (int y = 0; y < SectorSize; y++)
                 {
+
+
+
                     float value = 2 * map.GetValue(x, y) / map.PerlinWidth;
-                    
+
+                    value += 0.5f * subMap1.GetValue(x, y) / subMap1.PerlinWidth;
+
+                    value += 0.25f * subMap2.GetValue(x, y) / subMap2.PerlinWidth;
+
+
                     foreach (IVect seed in seeds)
                     {
                         float dist = RoughSum(seed, new IVect(x, y));
@@ -44,7 +57,7 @@ namespace Base_Building_Game
                     }
 
 
-
+                    #region Falloff
                     if (x < OuterWidth)
                     {
                         value -= (x - OuterWidth) * (x - OuterWidth) / (FallOff * FallOff); 
@@ -62,13 +75,10 @@ namespace Base_Building_Game
                     {
                         value -= (SectorSize - (y + OuterWidth)) * (SectorSize - (y + OuterWidth)) / (FallOff * FallOff);
                     }
+                    #endregion Falloff
 
 
-
-
-
-
-
+                    #region SelectTileType
                     if (value < -0.2f)
                     {
                         sector[x, y] = new Tile(TileID.DeepOcean);
@@ -85,12 +95,17 @@ namespace Base_Building_Game
                     {
                         sector[x, y] = new Tile(TileID.Grass);
                     }
+                    #endregion SelectTileType
                 }
             }
             AddLog("Terrain Generated", ShortDebugger.Priority.DEBUG);
             GenResources(sector);
             AddLog("Resources Generated", ShortDebugger.Priority.DEBUG);
         }
+
+
+
+
 
 
 
@@ -102,7 +117,7 @@ namespace Base_Building_Game
 
 
 
-
+        #region ResourceNodes
         public static void GenResources(Sector sector)
         {
             GenResourceNode(sector, 8, 1.6f, TileID.Diamond, 600);
@@ -112,6 +127,10 @@ namespace Base_Building_Game
         }
 
 
+
+
+#pragma warning disable CS8602 // sector wont be null.
+        [MethodImpl(MethodImplOptions.AggressiveOptimization)]
         public static void GenResourceNode(Sector sector, int size, float scale, TileID target, int mindistance)
         {
             PerlinMap Map = new PerlinMap(size);
@@ -132,5 +151,7 @@ namespace Base_Building_Game
                 }
             }
         }
+#pragma warning restore CS8602
+        #endregion ResourceNodes
     }
 }

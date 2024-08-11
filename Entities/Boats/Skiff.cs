@@ -11,6 +11,8 @@ using IVect = Short_Tools.General.ShortIntVector2;
 
 
 
+
+
 namespace Base_Building_Game
 {
     public static partial class General
@@ -60,11 +62,13 @@ namespace Base_Building_Game
             {
                 CurrentHealth = MaxHealth;
                 this.pos = pos;
+                turrets = Array.Empty<Turret>();
             }
 
             public Skiff()
             {
                 pos = new IVect(int.MinValue, int.MinValue);
+                turrets = Array.Empty<Turret>();
             }
 
 

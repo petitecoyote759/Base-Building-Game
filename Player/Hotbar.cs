@@ -50,6 +50,10 @@ namespace Base_Building_Game
             }
 
 
+
+#pragma warning disable CS8602 // dereference of a possibly null reference -> active sector aint gonna be null
+#pragma warning disable CS8600 // same thing
+#pragma warning disable CS8604 // same thing
             public void BuildBuilding(BuildingID id, int x, int y)
             {
                 if (ActiveSector[x, y].building is not null) { return; }
@@ -112,6 +116,10 @@ namespace Base_Building_Game
                     FBuildings.Add((FBuilding)ActiveSector[x, y].building);
                 }
             }
+#pragma warning restore CS8602
+#pragma warning restore CS8600
+#pragma warning restore CS8604
+
         }
     }
 }

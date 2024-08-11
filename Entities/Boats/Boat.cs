@@ -9,8 +9,8 @@ using System.Threading.Tasks;
 using Short_Tools;
 using static Short_Tools.General;
 using IVect = Short_Tools.General.ShortIntVector2;
-
-
+using static System.Numerics.Vector2;
+using static System.MathF;
 
 
 
@@ -74,8 +74,8 @@ namespace Base_Building_Game
             Vector2 MovedPos = new Vector2(x, y) - boat.pos;
 
             Vector2 RotatedPos = new Vector2(
-                MathF.Cos((float)boat.angle * MathF.PI / 180f) * MovedPos.X + MathF.Sin((float)boat.angle * MathF.PI / 180f) * MovedPos.Y,
-                -MathF.Sin((float)boat.angle * MathF.PI / 180f) * MovedPos.X + MathF.Cos((float)boat.angle * MathF.PI / 180f) * MovedPos.Y
+                Cos((float)boat.angle * PI / 180f) * MovedPos.X + Sin((float)boat.angle * PI / 180f) * MovedPos.Y,
+                -Sin((float)boat.angle * PI / 180f) * MovedPos.X + Cos((float)boat.angle * PI / 180f) * MovedPos.Y
                 );
 
             return
@@ -90,44 +90,60 @@ namespace Base_Building_Game
 
 
 
-
+        // TODO: make the hitboxes smaller
         public static bool BoatCanMove(Boat boat)
         {
-            return true;
+            //return true;
 
 
             Vector2[] RectPoints = new Vector2[]
             {
                 (boat.pos + 0.5f * new Vector2(
-                    (float)(boat.Length * Math.Sin(boat.angle) + boat.Width * Math.Cos(boat.angle)),
-                    (float)(boat.Length * Math.Cos(boat.angle) + boat.Width * Math.Sin(boat.angle))
+                    (float)(boat.Length * Math.Sin(-boat.angle.ToRadians()) + boat.Width * Math.Cos(boat.angle.ToRadians())),
+                    (float)(boat.Length * Math.Cos(boat.angle.ToRadians()) - boat.Width * Math.Sin(-boat.angle.ToRadians()))
                     )),
 
 
                 (boat.pos + 0.5f * new Vector2(
-                    (float)(boat.Length * Math.Sin(boat.angle) - boat.Width * Math.Cos(boat.angle)),
-                    (float)(boat.Length * Math.Cos(boat.angle) + boat.Width * Math.Sin(boat.angle))
+                    (float)(boat.Length * Math.Sin(-boat.angle.ToRadians()) - boat.Width * Math.Cos(boat.angle.ToRadians())),
+                    (float)(boat.Length * Math.Cos(boat.angle.ToRadians()) + boat.Width * Math.Sin(-boat.angle.ToRadians()))
                     )),
 
 
                 (boat.pos + 0.5f * new Vector2(
-                    (float)(-boat.Length * Math.Sin(boat.angle) + boat.Width * Math.Cos(boat.angle)),
-                    (float)(-boat.Length * Math.Cos(boat.angle) + -boat.Width * Math.Sin(boat.angle))
+                    (float)(-boat.Length * Math.Sin(-boat.angle.ToRadians()) + boat.Width * Math.Cos(boat.angle.ToRadians())),
+                    (float)(-boat.Length * Math.Cos(boat.angle.ToRadians()) + -boat.Width * Math.Sin(-boat.angle.ToRadians()))
                     )),
 
                 new Vector2()
             };
 
+
+
             RectPoints[3] = RectPoints[1] + RectPoints[2] - RectPoints[0];
+
+
+
 
             for (int index = 0; index < 4; index++)
             {
                 int i = index; int j = (index + 1) % 4;
-                Vector2 normalised = Vector2.Normalize(RectPoints[j]);
+                Vector2 normalised = Normalize(RectPoints[j]);
 
                 for (float t = 0; t < 1; t += 0.05f)
                 {
                     IVect point = RectPoints[i] + (t * normalised);
+
+                    //if (Dot(point, new Vector2( 
+                    //    -Sin((float)(boat.angle + 90d).ToRadians()),
+                    //    Cos((float)(boat.angle + 90d).ToRadians())
+                    //    )) < 0)
+                    //#warning Might not be correct ^
+                    //{
+                    //    continue;
+                    //}
+
+
                     short ID = world.GetTile(point.x, point.y).ID;
 
                     if (ID == (short)TileID.Grass || ID == (short)TileID.Sand || ID == (short)TileID.DeepOcean)
@@ -214,7 +230,12 @@ namespace Base_Building_Game
 
 
             boat.pos += boat.velocity * dt / boat.Weight;
-
+            if (!BoatCanMove(boat))
+            {
+                boat.pos -= boat.velocity * dt / boat.Weight;
+                boat.velocity = -boat.velocity / 2;
+                boat.pos += boat.velocity * dt / boat.Weight;
+            }
 
 
 
@@ -295,94 +316,6 @@ namespace Base_Building_Game
             }
 
             return false;
-        }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-        public static bool TestBoatCanMove(Boat boat)
-        {
-            return false;
-            Vector2[] RectPoints = new Vector2[]
-            {
-                (boat.pos + 0.5f * new Vector2(
-                    (float)(boat.Length * Math.Sin(boat.angle) + boat.Width * Math.Cos(boat.angle)),
-                    (float)(boat.Length * Math.Cos(boat.angle) + boat.Width * Math.Sin(boat.angle))
-                    )),
-
-
-                (boat.pos + 0.5f * new Vector2(
-                    (float)(boat.Length * Math.Sin(boat.angle) - boat.Width * Math.Cos(boat.angle)),
-                    (float)(boat.Length * Math.Cos(boat.angle) + boat.Width * Math.Sin(boat.angle))
-                    )),
-
-
-                (boat.pos + 0.5f * new Vector2(
-                    (float)(-boat.Length * Math.Sin(boat.angle) + boat.Width * Math.Cos(boat.angle)),
-                    (float)(-boat.Length * Math.Cos(boat.angle) + -boat.Width * Math.Sin(boat.angle))
-                    )),
-
-                new Vector2()
-            };
-
-            RectPoints[3] = RectPoints[1] + RectPoints[2] - RectPoints[0];
-
-
-
-
-            int Dist = (int)MathF.Sqrt(boat.Width * boat.Width + boat.Length * boat.Length) + 1;
-
-            for (int x = (int)boat.pos.X - Dist; x < (int)boat.pos.X + Dist; x++)
-            {
-                for (int y = (int)boat.pos.Y - Dist; y < (int)boat.pos.Y + Dist; y++)
-                {
-
-
-
-                    foreach (Vector2 point in RectPoints)
-                    {
-                        Tile tile = world.GetTile(x, y);
-                        if (tile.ID != (short)TileID.Grass && tile.ID != (short)TileID.Sand) { continue; }
-
-                        if (x <= point.X && point.X <= x + 1 &&
-                            y <= point.Y && point.Y <= y + 1)
-                        {
-                            return false;
-                        }
-                    }
-
-
-
-                    Vector2[] MTilePoints = new Vector2[]
-                    {
-
-                    };
-
-
-                    foreach (Vector2 point in MTilePoints)
-                    {
-                        //if (RectPoints)
-                    }
-                }
-            }
         }
     }
 }

@@ -2,15 +2,22 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Numerics;
+using System.Runtime.CompilerServices;
+using System.Reflection.Metadata;
 using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
 using SDL2;
 using Short_Tools;
+using static Base_Building_Game.General;
 using static SDL2.SDL;
 using static Short_Tools.General;
 using static Short_Tools.ShortDebugger;
 using IVect = Short_Tools.General.ShortIntVector2;
+
+// turn off all warnings cause there are so many, like xml missing or silly stuff like that, noone should be here anyway
+#pragma warning disable
+
 
 
 
@@ -84,6 +91,7 @@ namespace Base_Building_Game
         public IntPtr SDLrenderer;
         protected IntPtr Font;
         public static readonly SDL_Color Black = new SDL_Color() { r = 0, g = 0, b = 0, a = 255 };
+        public static readonly SDL_Color White = new SDL_Color() { r = 255, g = 255, b = 255, a = 255 };
         protected SDL_Rect tRect;
         public int screenwidth { get; private set; }
         public int screenheight { get; private set; }
@@ -104,37 +112,11 @@ namespace Base_Building_Game
 
 
 
-        /// <summary>
-        /// <para> Runs the setup, uses default screen dimensions of 1920x1080. </para>
-        /// </summary>
-        /// <param name="flags"> See ShortRenderer.Flag for more info. </param>
-        public XXShortRenderer(params Flag[] flags)
-        {
-            screenwidth = 1920;
-            screenheight = 1080;
-            flags ??= Array.Empty<Flag>();
-            this.flags = flags;
-            Setup();
-            if (flags.Contains(Flag.Debug))
-            {
-                debugger = new ShortDebugger("Renderer", ShortDebugger.Flags.DISPLAY_ON_ADD_LOG);
-            }
-            else
-            {
-                debugger = new ShortDebugger("Renderer");
-            }
+        string CurrentPath;
+        IntPtr CurrentLoadedImage;
+        bool MainThreadIsWaiting = false;
 
-            if (flags.Contains(Flag.Write_Log_To_File))
-            {
-                List<Flag> ListFlag = this.flags.ToList();
-                ListFlag.Remove(Flag.Write_Log_To_File);
-                this.flags = ListFlag.ToArray();
-            }
-
-            debugger.AddLog("Renderer has been setup", Priority.INFO);
-            images = new Dictionary<string, IntPtr>();
-        }
-
+        public string TempMapPath;
 
 
 
@@ -145,11 +127,10 @@ namespace Base_Building_Game
         /// <param name="path"> The path where the debug logs are written on renderer stop. </param>
         public XXShortRenderer(string path, params Flag[] flags)
         {
-            screenwidth = 1920;
-            screenheight = 1080;
+            //screenwidth = 1920;
+            //screenheight = 1080;
             flags ??= Array.Empty<Flag>();
             this.flags = flags;
-            Setup();
             if (flags.Contains(Flag.Debug))
             {
                 debugger = new ShortDebugger("Renderer", path, ShortDebugger.Flags.DISPLAY_ON_ADD_LOG);
@@ -166,79 +147,13 @@ namespace Base_Building_Game
                 this.flags = ListFlag.ToArray();
             }
             images = new Dictionary<string, IntPtr>();
-        }
 
 
 
+            
 
-
-        /// <summary>
-        /// <para> Runs the setup, uses given dimensions </para>
-        /// </summary>
-        /// <param name="height"> Height of the screen in pixels </param>
-        /// <param name="width"> Width of the screen in pixels </param>
-        /// <param name="flags"> See ShortRenderer.Flag for more info. </param>
-        public XXShortRenderer(int width, int height, params Flag[] flags)
-        {
-            screenwidth = width;
-            screenheight = height;
-            flags ??= Array.Empty<Flag>();
-            this.flags = flags;
-            Setup();
-            if (flags.Contains(Flag.Debug))
-            {
-                debugger = new ShortDebugger("Renderer", ShortDebugger.Flags.DISPLAY_ON_ADD_LOG);
-            }
-            else
-            {
-                debugger = new ShortDebugger("Renderer");
-            }
-            debugger.AddLog("Renderer has been setup", Priority.INFO);
-
-            if (flags.Contains(Flag.Write_Log_To_File))
-            {
-                List<Flag> ListFlag = this.flags.ToList();
-                ListFlag.Remove(Flag.Write_Log_To_File);
-                this.flags = ListFlag.ToArray();
-            }
-            images = new Dictionary<string, IntPtr>();
-        }
-
-
-
-
-
-        /// <summary>
-        /// <para> Runs the setup, uses given dimensions, writes the logs to the file path given. </para>
-        /// </summary>
-        /// <param name="height"> Height of the screen in pixels </param>
-        /// <param name="width"> Width of the screen in pixels </param>
-        /// <param name="flags"> See ShortRenderer.Flag for more info. </param>
-        /// <param name="path"> The path where the debug logs are written on renderer stop. </param>
-        public XXShortRenderer(int width, int height, string path, params Flag[] flags)
-        {
-            screenwidth = width;
-            screenheight = height;
-            flags ??= Array.Empty<Flag>();
-            this.flags = flags;
-            Setup();
-            if (flags.Contains(Flag.Debug))
-            {
-                debugger = new ShortDebugger("Renderer", path, ShortDebugger.Flags.DISPLAY_ON_ADD_LOG);
-            }
-            else
-            {
-                debugger = new ShortDebugger("Renderer", path);
-            }
-            if (!flags.Contains(Flag.Write_Log_To_File))
-            {
-                List<Flag> ListFlag = this.flags.ToList();
-                ListFlag.Add(Flag.Write_Log_To_File);
-                this.flags = ListFlag.ToArray();
-            }
-
-            debugger.AddLog("Renderer has been setup", Priority.INFO);
-            images = new Dictionary<string, IntPtr>();
+            controllerThread = new Thread(new ThreadStart(() => Controller_Thread(this)));
+            controllerThread.Name = "ShortTools Rendering Thread";
         }
 
 
@@ -252,13 +167,47 @@ namespace Base_Building_Game
         public void Setup()
         {
             // Initilizes SDL_image for use with png files.
-            SDL.SDL_Init(SDL.SDL_INIT_VIDEO);
+            SDL.SDL_Init(SDL.SDL_INIT_EVERYTHING | SDL_INIT_SENSOR); // SDL_INIT_EVERYTHING | SDL_INIT_VIDEO
+            CheckSDLErrors();
             SDL_image.IMG_Init(SDL_image.IMG_InitFlags.IMG_INIT_PNG);
-            window = SDL.SDL_CreateWindow("Window", SDL.SDL_WINDOWPOS_CENTERED, SDL.SDL_WINDOWPOS_CENTERED, screenwidth, screenheight, 0); //, SDL.SDL_WindowFlags.SDL_WINDOW_METAL | SDL.SDL_WindowFlags.SDL_WINDOW_FULLSCREEN_DESKTOP | SDL.SDL_WindowFlags.SDL_WINDOW_SHOWN);
+            CheckSDLErrors();
+
+            SDL.SDL_DisplayMode displayMode;
+            if (SDL.SDL_GetCurrentDisplayMode(0, out displayMode) != 0)
+            {
+                Console.WriteLine($"SDL_GetCurrentDisplayMode failed! SDL_Error: {SDL.SDL_GetError()}");
+
+                // Fallback: Use SDL_GetDesktopDisplayMode if SDL_GetCurrentDisplayMode fails
+                if (SDL.SDL_GetDesktopDisplayMode(0, out displayMode) != 0)
+                {
+                    Console.WriteLine($"SDL_GetDesktopDisplayMode also failed! SDL_Error: {SDL.SDL_GetError()}");
+                    SDL.SDL_Quit();
+                    return;
+                }
+            }
+            screenwidth = displayMode.w / 2;
+            screenheight = displayMode.h / 2;
+
+
+
+
+
+            window = SDL.SDL_CreateWindow(
+                "Window", 
+                SDL.SDL_WINDOWPOS_CENTERED, 
+                SDL.SDL_WINDOWPOS_CENTERED, screenwidth, screenheight, 
+                SDL.SDL_WindowFlags.SDL_WINDOW_BORDERLESS); //, SDL.SDL_WindowFlags.SDL_WINDOW_METAL | SDL.SDL_WindowFlags.SDL_WINDOW_FULLSCREEN_DESKTOP | SDL.SDL_WindowFlags.SDL_WINDOW_SHOWN);
+
             SDLrenderer = SDL.SDL_CreateRenderer(window,
                                                     -1,
                                                     SDL.SDL_RendererFlags.SDL_RENDERER_ACCELERATED |
                                                     SDL.SDL_RendererFlags.SDL_RENDERER_PRESENTVSYNC);
+
+
+            //SDL_SetHint(SDL_HINT_RENDER_SCALE_QUALITY, "linear");
+
+            //SDL_RenderSetLogicalSize(SDLrenderer, screenwidth, screenheight);
+
             SDL.SDL_SetRenderDrawColor(SDLrenderer, 60, 10, 70, 255);
             //SDL.SDL_GetPerformanceCounter
             int width = -1;
@@ -266,9 +215,6 @@ namespace Base_Building_Game
             SDL.SDL_GetWindowSize(window, out width, out height);
             screenwidth = width;
             screenheight = height;
-
-            controllerThread = new Thread(new ThreadStart(() => Controller_Thread(this)));
-            controllerThread.Name = "ShortTools Rendering Thread";
         }
 
         /// <summary>
@@ -302,10 +248,17 @@ namespace Base_Building_Game
         /// <summary>
         /// <para> Starts the render thread. </para>
         /// </summary>
-        public void Start()
+        public Thread Start()
         {
-            controllerThread.Start();
-            debugger.AddLog("Renderer started", Priority.INFO);
+            if (controllerThread.ThreadState != ThreadState.Running)
+            {
+                controllerThread.Start();
+                debugger.AddLog("Renderer started", Priority.INFO);
+                return controllerThread;
+            }
+            debugger.AddLog("Short renderer \"Start\" function was called despite the thread running.", ShortDebugger.Priority.WARN);
+
+            return controllerThread;
         }
 
         /// <summary>
@@ -337,7 +290,15 @@ namespace Base_Building_Game
         {
             tRect.x = xPos; tRect.y = yPos;
             tRect.w = width; tRect.h = height;
-            SDL_RenderCopy(SDLrenderer, image, IntPtr.Zero, ref tRect);
+            if (width > 0)
+            {
+                SDL_RenderCopyEx(SDLrenderer, image, IntPtr.Zero, ref tRect, 0, IntPtr.Zero, SDL_RendererFlip.SDL_FLIP_NONE);
+            }
+            else
+            {
+                tRect.w = -width;
+                SDL_RenderCopyEx(SDLrenderer, image, IntPtr.Zero, ref tRect, 0, IntPtr.Zero, SDL_RendererFlip.SDL_FLIP_HORIZONTAL);
+            }
         }
 
         /// <summary>
@@ -405,6 +366,7 @@ namespace Base_Building_Game
         /// <param name="width"> Width of the image in pixels.</param>
         /// <param name="height"> Height of the image in pixels.</param>
         /// <param name="text"> Text to be written to the screen.</param>
+        [MethodImpl(MethodImplOptions.AggressiveOptimization)]
         public void Write(int posx, int posy, int width, int height, string text, [Optional] SDL_Color? InColour)
         {
             SDL_Color colour;
@@ -507,15 +469,21 @@ namespace Base_Building_Game
         {
             images = new Dictionary<string, IntPtr>();
 
-            if (imagePaths == null)
-            {
-                // add debug log for no paths given
+            if (imagePaths is null)
+            { 
                 return;
             }
 
             foreach (var image in imagePaths)
             {
-                images.Add(image.Key, L(image.Value));
+                if (image.Value.Split('\\').Last() != "")
+                {
+                    images.Add(image.Key, LoadImage(image.Value));
+                }
+                else
+                {
+                    images.Add(image.Key, IntPtr.Zero);
+                }
             }
 
 
@@ -527,7 +495,7 @@ namespace Base_Building_Game
             string missing = "";
             foreach (var image in images)
             {
-                if (image.Value == IntPtr.Zero)
+                if (image.Value == IntPtr.Zero && imagePaths[image.Key].Split('\\').Last() != "")
                 {
                     if (missing != "") { missing += ", "; }
                     missing += image.Key;
@@ -544,15 +512,40 @@ namespace Base_Building_Game
         }
 
 
+
+        public IntPtr LoadImage(string path)
+        {
+            CurrentPath = path;
+            MainThreadIsWaiting = true;
+            while (MainThreadIsWaiting) { Thread.Sleep(5); }
+            return CurrentLoadedImage;
+        }
+
+
+
+
         /// <summary>
-        /// Loads a png from the given path
+        /// Loads a png or bitmap from the given path
         /// </summary>
         /// <param name="path"></param>
         /// <returns></returns>
-        protected IntPtr L(string path) // load image
+        public IntPtr L(string path) // load image
         {
-            if (path.Substring(path.Length - 3) == "bmp") { return SDL.SDL_LoadBMP(path); }
-            if (path.Substring(path.Length - 3) == "png") { return SDL_image.IMG_LoadTexture(SDLrenderer, path); }
+            if (path.Substring(path.Length - 3) == "bmp") 
+            { 
+                IntPtr image = SDL_LoadBMP(path);
+                CheckSDLErrors();
+                return image;
+            }
+
+            if (path.Substring(path.Length - 3) == "png") 
+            { 
+                IntPtr image = SDL_image.IMG_LoadTexture(SDLrenderer, path);
+                CheckSDLErrors();
+                return image;
+            }
+
+
 
             debugger.AddLog("Invalid file type -> " + path.Substring(path.Length - 3), Priority.WARN);
             return IntPtr.Zero;
@@ -583,6 +576,20 @@ namespace Base_Building_Game
         /// <param name="renderer"> The renderer being controlled</param>
         private static void Controller_Thread(XXShortRenderer renderer)
         {
+            renderer.Setup();
+
+            SDL.SDL_SetRenderDrawColor(renderer.SDLrenderer, 0, 0, 0, 255);
+            SDL_RenderClear(renderer.SDLrenderer);
+            renderer.RenderDraw();
+
+
+            
+
+            //SDL.SDL_Rect viewport = new SDL.SDL_Rect { x = 0, y = 0, w = renderer.screenwidth, h = renderer.screenheight };
+            //SDL.SDL_RenderSetViewport(renderer.SDLrenderer, ref viewport);
+
+
+
             if (renderer.flags.Contains(Flag.Auto_Draw_Clear))
             {
                 while (renderer.Running)
@@ -598,6 +605,30 @@ namespace Base_Building_Game
             {
                 while (renderer.Running)
                 {
+                    if (renderer.MainThreadIsWaiting)
+                    {
+                        renderer.CurrentLoadedImage = renderer.L(renderer.CurrentPath);
+                        renderer.MainThreadIsWaiting = false;
+                    }
+                    if (renderer.TryingToEnlarge)
+                    {
+                        renderer.InternalEnlarge();
+                        renderer.TryingToEnlarge = false;
+                    }
+                    if (General.SavingMapImage)
+                    {
+                        SaveMapImage(renderer.TempMapPath);
+                        General.SavingMapImage = false;
+                    }
+                    if (General.MainWaitingForSpriteSheet)
+                    {
+                        General.createImages(TempSpriteSheet, TempSpriteSheetPath, TempID);
+                        General.MainWaitingForSpriteSheet = false;
+                    }
+
+
+
+                    General.handler.HandleInputs(ref General.Running);
                     renderer.Animate();
                     renderer.Render();
                     renderer.dt = (int)GetDt(ref renderer.LFT);
@@ -606,13 +637,39 @@ namespace Base_Building_Game
         }
 
 
+        bool TryingToEnlarge = false;
+
+        public void Enlarge()
+        {
+            TryingToEnlarge = true;
+        }
+        public void InternalEnlarge()
+        {
+            screenwidth *= 2;
+            screenheight *= 2;
+
+            SDL_SetWindowSize(window, screenwidth, screenheight);
+            SDL_SetWindowPosition(window, SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED);
+            EnlargeChange();
+        }
+        public virtual void EnlargeChange()
+        {
+
+        }
 
 
 
 
+        public void CheckSDLErrors()
+        {
+            if (!General.Running) { return; }
 
-
-
+            if (SDL_GetError() != "")
+            {
+                debugger.AddLog("SDLError -> " + SDL_GetError(), Priority.ERROR);
+                SDL_ClearError();
+            }
+        }
 
 
 
@@ -651,6 +708,44 @@ namespace Base_Building_Game
 
                 SDL_RenderCopyEx(SDLrenderer, texture, IntPtr.Zero, ref dstRect, angle, IntPtr.Zero, SDL.SDL_RendererFlip.SDL_FLIP_NONE);
             }
+        }
+
+
+
+
+
+
+
+
+        /// <summary>
+        /// Non wrapping texture between points
+        /// </summary>
+        /// <param name="x1"></param>
+        /// <param name="y1"></param>
+        /// <param name="x2"></param>
+        /// <param name="y2"></param>
+        public void DrawNWTextureBetweenPoints(IntPtr texture, int x1, int y1, int x2, int y2)
+        {
+            // Calculate the distance and angle between the points
+            float deltaX = x2 - x1;
+            float deltaY = y2 - y1;
+            float distance = (float)Math.Sqrt(deltaX * deltaX + deltaY * deltaY);
+            float angle = (float)(Math.Atan2(deltaY, deltaX) * (180.0 / Math.PI));
+
+            // Get the width and height of the texture
+            SDL.SDL_QueryTexture(texture, out _, out _, out int textureWidth, out int textureHeight);
+
+            // Create the destination rectangle
+            SDL.SDL_Rect destRect = new SDL.SDL_Rect
+            {
+                x = x1,
+                y = y1,
+                w = (int)distance,
+                h = textureHeight
+            };
+
+            // Render the texture with rotation
+            SDL.SDL_RenderCopyEx(SDLrenderer, texture, IntPtr.Zero, ref destRect, angle, IntPtr.Zero, SDL.SDL_RendererFlip.SDL_FLIP_NONE);
         }
     }
 

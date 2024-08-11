@@ -15,55 +15,116 @@ namespace Base_Building_Game
     {
         public static void MoveLegs(Vector2 UNDirection) // unnormalised direction
         {
+            if (player.Legs.Length == 0) { return; }
+
             Vector2 Direction = UNDirection / UNDirection.Length();
 
-            for (int i = 0; i < player.Legs.Length; i++)
+            Leg ActiveLeg = player.Legs[player.CurrentMovingLeg];
+
+
+            if (ActiveLeg.animation is PositionAnimation<Leg> anim)
             {
-                if ((player.pos - player.Legs[i]).LengthSquared() > player.LegDist * player.LegDist / 8)
+                if (!anim.Finished)
                 {
-                    if (Direction.X > 0 && player.Legs[i].X - player.x > 0) { continue; }
-                    if (Direction.X < 0 && player.Legs[i].X - player.x < 0) { continue; }
-                    if (Direction.Y > 0 && player.Legs[i].Y - player.y > 0) { continue; }
-                    if (Direction.Y < 0 && player.Legs[i].Y - player.y < 0) { continue; }
+                    return;
+                }
+                else
+                {
+                    ActiveLeg.animation = null;
 
+                    ActiveLeg = player.Legs[(player.CurrentMovingLeg + 1) % player.Legs.Length];
 
-                    Animation[] animations = renderer.animations.ToArray();
-                    ISHasPosition[] CurrentAnimations = (from ani in animations select (ISHasPosition)ani.ObjGetter).ToArray();
-                    if (CurrentAnimations.Contains(player.Legs[i])) { continue; }
+                    for (float dist = Math.Min(
+                        (player.x - ActiveLeg.x) / Direction.X,
+                        (player.y - ActiveLeg.y) / Direction.Y); 
+                        dist > 0; dist -= player.LegStep)
+                    { 
+                        if (!world.Walkable(ActiveLeg.pos + (Direction * dist))) { continue; }
 
-
-
-
-
-
-                    float NewRad = (float)(randy.NextDouble() * player.LegDist / 4d) + (player.LegDist * 3f / 4f);
-
-                    Func<Vector2, Vector2, float> Dot = Vector2.Dot;
-
-                    Vector2 DeltaLeg = player.pos - player.Legs[i]; // P - L
-                    float DistDeltaDot = Dot(Direction, DeltaLeg); // (P - L) * D
-
-
-                    float Dist = DistDeltaDot +
-                        Sqrt(
-                            DistDeltaDot * DistDeltaDot
-                            - Dot(DeltaLeg, DeltaLeg)
-                            + (NewRad * NewRad));
-
-
-                    //player.Legs[i] = player.Legs[i] + Dist * Direction;
-
-
-                    renderer.CreateMoveAnimation(
-                        player.Legs[i] + Dist * Direction,
-                        player.Legs[i],
-                        4f,
-                        PositionAnimation<Leg>.Flags.Root
-                        );
-
-                    if (!world.Walkable((Vector2)player.Legs[i])) { player.Legs[i] = player.pos; }
+                        renderer.CreateMoveAnimation<Leg>(ActiveLeg.pos + (Direction * dist), ActiveLeg, 4f, PositionAnimation<Leg>.Flags.Sigmoid);
+                    }
                 }
             }
+        }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        public static bool InLegZones(Vector2 TestPos, Leg OGLeg)
+        {
+            float LDistSquared = player.LegDist * player.LegDist;
+
+            foreach (Leg leg in player.Legs)
+            {
+                if (leg == OGLeg) { continue; }
+
+                if ((leg - TestPos).LengthSquared() < LDistSquared) { return true; }
+            }
+
+            return false;
+        }
+
+
+
+
+
+
+
+
+
+
+
+
+
+        public static Vector2 GetIntersectionPoint(Leg ActiveLeg, bool top)
+        {
+            Vector2 p1 = ActiveLeg.pos;
+            Vector2 p2 = player.pos;
+            float r1 = player.LegDist;
+            float r2 = player.JointDist;
+
+            // Calculate the distance between the two circle centers
+            float d = Vector2.Distance(p1, p2);
+
+            // Check for solvability
+            if (d > r1 + r2 || d < Math.Abs(r1 - r2) || (d == 0 && r1 == r2))
+            {
+                // No solutions, the circles do not intersect
+                return new Vector2(-1, -1);
+            }
+
+            // 'a' is the distance from the first circle's center to the line joining the intersection points
+            float a = (r1 * r1 - r2 * r2 + d * d) / (2 * d);
+
+            // 'h' is the distance from the line joining the intersection points to the intersection points
+            float h = MathF.Sqrt(r1 * r1 - a * a);
+
+            // The point 'p' where the line through the circle intersection points crosses the line between the circle centers
+            Vector2 p = p1 + a * (p2 - p1) / d;
+
+            // Calculate the intersection points
+            Vector2 intersection1 = new Vector2(
+                p.X + h * (p2.Y - p1.Y) / d,
+                p.Y - h * (p2.X - p1.X) / d
+            );
+
+            Vector2 intersection2 = new Vector2(
+                p.X - h * (p2.Y - p1.Y) / d,
+                p.Y + h * (p2.X - p1.X) / d
+            );
+
+            // Return one of the intersection points
+            return top ? intersection1 : intersection2;
         }
     }
 }

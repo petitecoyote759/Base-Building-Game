@@ -39,6 +39,9 @@ namespace Base_Building_Game
             }
 
 
+            #region Tile Getters
+
+#pragma warning disable CS8603 // Active sector being null, no its not init.
 
             /// <summary>
             /// Very important function blahg blach blah
@@ -53,18 +56,41 @@ namespace Base_Building_Game
             }
 
 
+            /// <summary>
+            /// Very important function blahg blach blah
+            /// </summary>
+            /// <returns></returns>
+            public Tile GetTile(float x, float y)
+            {
+                if (0 > x || x >= SectorSize) { return new Tile(TileID.DeepOcean); }
+                if (0 > y || y >= SectorSize) { return new Tile(TileID.DeepOcean); }
+
+                return ActiveSector[(int)x, (int)y];
+            }
+
+
+#pragma warning restore CS8603
+
+            #endregion Tile Getters
+
 
             public bool Walkable(int x, int y, bool player = false)
             {
+                return Walkable((float)x, (float)y, player);
+            }
+
+
+            public bool Walkable(float x, float y, bool player = false)
+            {
                 Tile tile = world.GetTile(x, y);
 
-                if (settings.Cheats && player) { return true; } 
+                if (settings.Cheats && player) { return true; }
 
 
                 if (tile.ID == (short)TileID.DeepOcean) { return false; }
 
 
-                if (tile.ID == (short)TileID.Ocean) 
+                if (tile.ID == (short)TileID.Ocean)
                 {
                     if (tile.building is not null)
                     {

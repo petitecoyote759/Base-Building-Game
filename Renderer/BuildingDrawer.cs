@@ -16,6 +16,11 @@ namespace Base_Building_Game
     {
         public partial class Renderer
         {
+#pragma warning disable CS8618 // must have non null value -> its defined every time before use silly
+            static Tile tempTile;
+#pragma warning restore CS8618
+
+
             public void DrawBuildings()
             {
                 int zoom = renderer.zoom;
@@ -32,21 +37,21 @@ namespace Base_Building_Game
                 {
                     for (int y = Top; y < Top + screenheight / zoom + 8; y++)
                     {
-                        Tile tile = world.GetTile(x, y);
-                        lock (tile)
+                        tempTile = world.GetTile(x, y);
+                        lock (tempTile)
                         {
-                            if (tile.building is null) { continue; }
+                            if (tempTile.building is null) { continue; }
 
-                            if (BuildingImages.ContainsKey(tile.building.ID) && tile.building is not Linker)
+                            if (BuildingImages.ContainsKey(tempTile.building.ID) && tempTile.building is not Linker)
                             {
-                                if (tile.building is ConnectingBuilding CBuilding) { DrawConnectors(CBuilding); }
+                                if (tempTile.building is ConnectingBuilding CBuilding) { DrawConnectors(CBuilding); }
 
 
                                 DrawBP(x, y,
-                                    BuildingImages[tile.building.ID][Research[tile.building.ID]],
-                                    zoom * tile.building.xSize,
-                                    zoom * tile.building.ySize,
-                                    tile.building.rotation * 90d
+                                    BuildingImages[tempTile.building.ID][Research[tempTile.building.ID]],
+                                    zoom * tempTile.building.xSize,
+                                    zoom * tempTile.building.ySize,
+                                    tempTile.building.rotation * 90d
                                     );
                             }
                         }
@@ -73,24 +78,24 @@ namespace Base_Building_Game
 
             public void DrawConnectors(ConnectingBuilding building)
             {
-                if (building.Connections(world.GetTile(building.pos.x, building.pos.y - 1)))
+                if (building.Connections(world.GetTile(building.pos.X, building.pos.Y - 1)))
                 {
-                    DrawBP(building.pos.x, building.pos.y, building.connectionImage, 0d);
+                    DrawBP(building.pos.X, building.pos.Y, building.connectionImage, 0d);
                 }
 
-                if (building.Connections(world.GetTile(building.pos.x + 1, building.pos.y)))
+                if (building.Connections(world.GetTile(building.pos.X + 1, building.pos.Y)))
                 {
-                    DrawBP(building.pos.x, building.pos.y, building.connectionImage, 90d);
+                    DrawBP(building.pos.X, building.pos.Y, building.connectionImage, 90d);
                 }
 
-                if (building.Connections(world.GetTile(building.pos.x, building.pos.y + 1)))
+                if (building.Connections(world.GetTile(building.pos.X, building.pos.Y + 1)))
                 {
-                    DrawBP(building.pos.x, building.pos.y, building.connectionImage, 180d);
+                    DrawBP(building.pos.X, building.pos.Y, building.connectionImage, 180d);
                 }
 
-                if (building.Connections(world.GetTile(building.pos.x - 1, building.pos.y)))
+                if (building.Connections(world.GetTile(building.pos.X - 1, building.pos.Y)))
                 {
-                    DrawBP(building.pos.x, building.pos.y, building.connectionImage, 270d);
+                    DrawBP(building.pos.X, building.pos.Y, building.connectionImage, 270d);
                 }
             }
         }

@@ -10,12 +10,16 @@ namespace Base_Building_Game
     {
         public static Dictionary<string, string> images = new Dictionary<string, string>()
         {
+            #region Misc
             { "Short Studios Logo", "SSLogo.png" },
 
 
             { "Background", "Background\\Background.png" },
+            #endregion Misc
 
-            // tiles
+
+
+            #region Tiles
             { "Grass", "Tiles\\grass.png" },
             { "Diamond", "Tiles\\diamond.png" },
             { "Error", "Tiles\\Error.png" },
@@ -26,17 +30,19 @@ namespace Base_Building_Game
             { "Stone", "Tiles\\stone.png" },
             { "Ocean", "Tiles\\water.png" },
             { "Wood", "Tiles\\wood.png" },
+            #endregion Tiles
 
+            
 
-            // fancy tiles
+            #region Tile Sprite Sheets
             { "GrassSS", "Tiles\\grass sprite sheet.bmp" },
             { "SandSS", "Tiles\\sand sprite sheet.bmp" },
             { "OceanSS", "Tiles\\ocean sprite sheet.bmp" },
+            #endregion Tile Sprite Sheets
 
 
 
-
-            // buildings
+            #region Buildings
             { "BridgeNode0", "Buildings\\bridge node0.png" },
 
 
@@ -59,12 +65,28 @@ namespace Base_Building_Game
 
             { "WorkCamp0", "Buildings\\workcamp.png" },
 
-            //TODO: Fix temp image.
-            {"Barrel0","Entities\\Turret2.png" },
+            
+            { "Barrel0" , "Buildings\\barrel0.png" },
 
-            
-            
-            // entities
+
+            { "Pipe0", "Buildings\\Pipe Node.png" },
+
+            { "PipeSegment0", "Buildings\\Pipe Segment.png" },
+            #endregion Buildings
+
+
+
+            #region Shadows
+            { "Wall Node Shadow", "Shadows\\wall.png" },
+            { "Wall Top Shadow", "Shadows\\wall segment top.png" },
+            { "Wall Bottom Shadow", "Shadows\\wall segment bottom.png" },
+
+            { "Night Filter", "Shadows\\blue.png" },
+            #endregion Shadows
+
+
+
+            #region Entities
             { "Player", "Entities\\Body.png" },
             { "PlayerLeg", "Entities\\Leg.png" },
 
@@ -75,26 +97,32 @@ namespace Base_Building_Game
 
             { "Man" , "Entities\\man.png" },
 
+            { "EnemyUnit", "Entities\\Enemy Guardian.png" },
+            #endregion Entities
 
 
-            // boats
+
+            #region Boats
             { "Skiff0", "Entities\\Skiff0.png" },
 
             { "Destroyer2", "Entities\\Destroyer2.png" },
+            #endregion Boats
 
 
-            //  turrets
+
+            #region Turrets
             { "Turret2", "Entities\\Turret2.png" },
+            #endregion Turrets
 
 
-            // bullets
+
+            #region Projectiles
             { "Projectile2", "Entities\\Projectile2.png" },
+            #endregion Projectiles
 
 
 
-
-
-            //
+            #region UI
             { "MouseBox", "UI\\box.png" },
             { "Hotbar", "UI\\hotbar.png" },
             { "SelectBox", "UI\\selectBox.png" },
@@ -105,17 +133,17 @@ namespace Base_Building_Game
             { "Port UI", "UI\\Port UI.png" },
             { "Interact", "UI\\Interact.png" },
 
+            { "MenuButton", "UI\\MenuButton.png" },
+            { "SelectedButton", "UI\\SelectedButton.png" },
+
+            { "Map", "" },
+            #endregion UI
 
 
-            // Debug
+
+            #region Debug
             { "Circle", "UI\\Circle.png" },
-
-
-
-
-
-
-            { "Map", ".png" }
+            #endregion Debug
         };
     }
 }

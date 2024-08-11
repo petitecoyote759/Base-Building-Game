@@ -14,11 +14,15 @@ namespace Base_Building_Game
             public Tile[,]? map;
 
 
+#pragma warning disable CS8601 // -> possible null reference, just dont use it wrong init.
+#pragma warning disable CS8602 // same thing
             public Tile? this[int x, int y] 
             { 
                 get => map is null ? null : map [x, y];
                 set => map[x, y] = value;
             }
+#pragma warning restore CS8601
+#pragma warning restore CS8602
 
 
 

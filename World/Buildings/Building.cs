@@ -67,18 +67,16 @@ namespace Base_Building_Game
 
 
 
-        public interface Building
+        public interface Building : IEntity, IHasHealth
         {
             /// <summary>
             /// A function that determins what tiles it is valid to be placed on
             /// </summary>
             public Func<Tile, bool> ValidTiles { get; }
-            public int CurrentHealth { get; set; }
             public short ID { get; }
             public Inventory? inventory { get; set; }
             public int xSize { get; }
             public int ySize { get; }
-            public IVect pos { get; set; }
 
 
             /// <summary>
@@ -106,13 +104,14 @@ namespace Base_Building_Game
                 BuildingID.Bridge    => new Bridge(pos),
                 BuildingID.Wall      => new Wall(pos),
                 BuildingID.Extractor => new Extractor(pos),
-                BuildingID.WorkCamp => new WorkCamp(pos),
+                BuildingID.WorkCamp  => new WorkCamp(pos),
                 BuildingID.DropPod   => new DropPod(pos),
                 BuildingID.SmallPort => new SmallPort(pos, player.CurrrentRotation),
                 BuildingID.MedPort   => new MediumPort(pos, player.CurrrentRotation),
                 BuildingID.LargePort => new LargePort(pos, player.CurrrentRotation),
 
                 BuildingID.Barrel    => new Barrel(pos),
+                BuildingID.Pipe      => new Pipe(pos),
 
                 _ => null
             }; // Add new buildings here ^^^^^^

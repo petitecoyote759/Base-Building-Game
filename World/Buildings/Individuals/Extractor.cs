@@ -27,6 +27,9 @@ namespace Base_Building_Game
             public Func<Tile, bool> ValidTiles { get; } = (Tile tile) => 
             (Tiles.Contains(tile.ID));
 
+
+
+            public int MaxHealth { get => Research[ID] * 1000 + 1000; } // edit this init
             public int CurrentHealth { get; set; } = 1000;
             public short ID { get; } = (short)BuildingID.Extractor;
 
@@ -42,7 +45,7 @@ namespace Base_Building_Game
             byte tier => Research[ID];
             Item? LastItem;
 
-            public IVect pos { get; set; }
+            public Vector2 pos { get; set; }
             public int rotation { get; set; } = 0;
             public bool rotatable { get; } = false;
             short OnTileID = 0;

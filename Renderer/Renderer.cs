@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Numerics;
+using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 using static Base_Building_Game.General;
@@ -18,6 +19,9 @@ namespace Base_Building_Game
     {
         public partial class Renderer : XXShortRenderer
         {
+            public Cutscene? ActiveCutscene = null;
+
+
             /// <summary>
             /// The size of tiles in pixils, used by the Renderer class.
             /// Make sure it doesnt go to 0, tbh 1 is also pretty bad, just make sure its like above
@@ -28,28 +32,66 @@ namespace Base_Building_Game
             public int halfscreenwidth = 960;
             public int halfscreenheight = 540;
 
+#pragma warning disable CS8618 // must contain non null value -> its defined in load which is called immediately
 #if DEBUG
             public Renderer() : base("Logs\\", Flag.Debug)
 #else
             public Renderer() : base("Logs\\")
 #endif
-            { halfscreenwidth = screenwidth / 2; halfscreenheight = screenheight / 2; }
+            { 
+                halfscreenwidth = screenwidth / 2; 
+                halfscreenheight = screenheight / 2; 
+                CheckSDLErrors();
+            }
+#pragma warning restore CS8618
 
+
+
+
+
+
+            [MethodImpl(MethodImplOptions.AggressiveOptimization)]
             public override void Render()
             {
-                if (!InGame)
+                CheckSDLErrors();
+                if (!InitImagesLoaded)
                 {
-                    RenderClear();
+                    return;
+                }
 
-                    Draw(0, 0, screenwidth, screenheight, "Short Studios Logo");
+                if (Initialising)
+                {
+                    DrawInitMenu();
                 }
                 else
                 {
-                    DrawTiles();
-                    DrawBuildings();
-                    DrawEntities();
-                    DrawPlayer();
-                    DrawUI();
+                    if (MenuState != MenuStates.InGame)
+                    {
+                        DrawMenu();
+                    }
+                    else
+                    {
+                        if (ActiveCutscene is Cutscene cutscene)
+                        {
+                            Draw(0, 0, screenwidth, screenheight, cutscene.CurrentFrame);
+                        }
+                        else
+                        {
+                            DrawTiles();
+                            DrawShadows();
+                            DrawBuildings();
+                            DrawEntities();
+                            DrawPlayer();
+
+
+                            Draw(0, 0, screenwidth, screenheight, "Night Filter"); // the filter for night time
+
+
+
+
+                            DrawUI();
+                        }
+                    }
                 }
 
                 RenderDraw();
@@ -61,16 +103,20 @@ namespace Base_Building_Game
 
 
 
+            public override void EnlargeChange()
+            {
+                halfscreenwidth = screenwidth / 2;
+                halfscreenheight = screenheight / 2;
+            }
 
 
 
 
 
 
-            
 
 
-            
+
 
 
 

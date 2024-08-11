@@ -6,6 +6,10 @@ using System.Threading.Tasks;
 using Short_Tools;
 using static Short_Tools.General;
 using IVect = Short_Tools.General.ShortIntVector2;
+using static SDL2.SDL;
+using static System.MathF;
+
+
 
 
 namespace Base_Building_Game
@@ -14,9 +18,15 @@ namespace Base_Building_Game
     {
         public static void Tick(int dt)
         {
+            Time = (Time + dt) % TimePerDay;
+
+
+
+
+
             if (ActiveKeys["Mouse"])
             {
-                if (InGame)
+                if (MenuState.IsInGame())
                 {
                     if (HotbarSelected >= 0 && HotbarSelected < 10)
                     {
@@ -34,10 +44,11 @@ namespace Base_Building_Game
             }
 
 
-
+#pragma warning disable CS8602 // dereference of a possibly null reference -> active sector aint gonna be null
+#pragma warning disable CS8600 // same thing
             if (ActiveKeys["BACKSPACE"])
             {
-                if (InGame)
+                if (MenuState.IsInGame())
                 {
                     if (player.selectedTile is not null)
                     {
@@ -61,7 +72,8 @@ namespace Base_Building_Game
                     }
                 }
             }
-
+#pragma warning restore CS8602
+#pragma warning restore CS8600
 
 
 

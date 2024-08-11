@@ -39,6 +39,7 @@ namespace Base_Building_Game
 
             if (File.Exists("Settings.ini"))
             {
+                InitialisePercent = 50;
                 // if the executable is in the same area as settings
                 settings.LoadINI<Settings>("Settings.ini");
             }
@@ -46,8 +47,12 @@ namespace Base_Building_Game
             {
                 string path = GetPathOfGame();
 
+                InitialisePercent = 20;
+
                 if (File.Exists(path + "Settings.ini"))
                 {
+                    InitialisePercent = 50;
+
                     // If the files are idk, like how the fings work
                     settings.LoadINI<Settings>(path + "Settings.ini");
                 }
@@ -56,6 +61,8 @@ namespace Base_Building_Game
                     debugger.AddLog("Settings did not load properly");
                 }
             }
+
+            InitialisePercent = 100;
         }
 
 
@@ -76,10 +83,20 @@ namespace Base_Building_Game
                 path = "Images\\";
             }
 
+            int i = 0;
+            foreach (var pair in images) 
+            {
+                InitialisePercent = 50 * i / images.Count;
 
-            foreach (var pair in images) { images[pair.Key] = path + pair.Value; }
+                if (!TexturePackedImages[pair.Key])
+                {
+                    images[pair.Key] = path + pair.Value;
+                }
+                i++;
+            }
 
             renderer.Load_Images(images);
+            InitialisePercent = 100;
 
             UpdateDictionaries();
         }
@@ -118,6 +135,11 @@ namespace Base_Building_Game
 
 
 
+        static void SetSeed(int seed)
+        {
+            randy = new Random(seed);
+        }
+        static void SetSeed() { }
 
 
 
@@ -132,8 +154,41 @@ namespace Base_Building_Game
         /// </summary>
         static void Cleanup()
         {
-            debugger.CleanFiles(5);
+            if (CleanedUp) 
+            {
+#if DEBUG
+                Print("Accidental Cleanup recall", ConsoleColor.Cyan);
+#endif
+                return;
+            }
+            debugger.AddLog("Entering cleanup function", Prio.DEBUG);
+            CleanedUp = true;
+
+
+            debugger.CleanFiles(4);
+            debugger.Save();
+
+            renderer.debugger.Save();
+            renderer.debugger.CleanFiles(5);
+
+
             renderer.Stop();
+
+            Cutscene.Cleanup();
+
+
+            foreach (var pair in FancyTiles)
+            {
+                foreach (IntPtr image in pair.Value)
+                {
+                    SDL2.SDL.SDL_DestroyTexture(image);
+                }
+            }
+
+            foreach (var pair in InitialImages)
+            {
+                SDL2.SDL.SDL_DestroyTexture(pair.Value);
+            }
 
 
             if (File.Exists("Settings.ini"))
@@ -168,5 +223,33 @@ namespace Base_Building_Game
             }
             return output;
         }
+
+
+
+
+
+
+
+
+
+
+
+
+        public static string ByteArrayToString(params byte[] ba)
+        {
+            StringBuilder hex = new StringBuilder(ba.Length * 2);
+            foreach (byte b in ba)
+                hex.AppendFormat("{0:x2}", b);
+            return hex.ToString();
+        }
+
+
+
+
+        public static double ToRadians(this double Angle) => Angle * Math.PI / 180d;
+        public static double ToDegrees(this double Angle) => Angle * 180f / Math.PI;
+
+        public static float ToRadians(this float Angle) => Angle * MathF.PI / 180f;
+        public static float ToDegrees(this float Angle) => Angle * 180f / MathF.PI;
     }
 }

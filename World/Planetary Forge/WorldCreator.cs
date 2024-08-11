@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
+using System.Numerics;
 using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
@@ -23,9 +24,22 @@ namespace Base_Building_Game
         const int DefForce = 100;
 
 
+        static bool WaitingForWorldCreate = false;
+
+        public static void ReqCreateWorld()
+        {
+            while (WaitingForWorldCreate) { Thread.Sleep(5); }
+            
+            WaitingForWorldCreate = true;
+        }
+
+
+
+
 
         public static void CreateWorld()
         {
+            WaitingForWorldCreate = false;
             world = new World();
 
             int size = World.size;
@@ -34,8 +48,24 @@ namespace Base_Building_Game
 
             ActiveSector = world[(World.size + 1) / 2, (World.size + 1) / 2];
 
+            if (Thread.CurrentThread.Name == "ShortTools Rendering Thread")
+            {
+                SaveMapImage(renderer.worldName + ".png");
+                renderer.images["Map"] = renderer.L(renderer.worldName + ".png");
+            }
+            else
+            {
+                //TODO: change this to be world.name
+                ReqSaveMapImage(renderer.worldName + ".png");
+                renderer.images["Map"] = renderer.LoadImage(renderer.worldName + ".png");
+            }
+
+
             player.pos = new IVect(SectorSize / 2, SectorSize / 2);
             player.camPos = new IVect(SectorSize / 2, SectorSize / 2);
+            hotbar.BuildBuilding(BuildingID.DropPod, SectorSize / 2, SectorSize / 2);
+
+            MenuState = MenuStates.InGame;
         }
 
 
@@ -44,16 +74,17 @@ namespace Base_Building_Game
 
 
 
-
+        [MethodImpl(MethodImplOptions.AggressiveOptimization)]
         public static Sector CreatePFSector() // see https://www.desmos.com/calculator/zgaxgsk2ws for more info
         {
             Sector sector = new Sector();
 
             sector.map = Make2DArray(Enumerable.Repeat(new Tile(TileID.Ocean), SectorSize * SectorSize).ToArray(), SectorSize, SectorSize);
 
+            #region SeedCreator
 
             List<IVect> Seeds = new List<IVect>();
-
+            
             for (int index = 0; index < SeedCount; index++)
             {
                 IVect Seed = new IVect(
@@ -99,15 +130,27 @@ namespace Base_Building_Game
                 {
                     Seeds.Add(Seed);
                 }
-
-                //GrowIslandSeed(Seed, sector);
             }
+
+            #endregion
 
             //StringBuilder SeedPos = new StringBuilder();
             //foreach (IVect DSeed in Seeds) { SeedPos.Append(DSeed.ToString() + ", "); }
             //debugger.AddLog(SeedPos.ToString(), Short_Tools.ShortDebugger.Priority.DEBUG);
-            
+
             AddLog($"{Seeds.Count} seeds created", ShortDebugger.Priority.DEBUG);
+
+
+            #region GetSeeds
+            //BigInteger SeedSeeds = new BigInteger();
+            //for (int i = 0; i < Seeds.Count; i++)
+            //{// 11 bits per seed
+            //    SeedSeeds += new BigInteger(Seeds[i].x + (Seeds[i].y * 2048)) << 22 * i;
+            //}
+            //byte[] array = SeedSeeds.ToByteArray();
+            ////Print(ByteArrayToString(array));
+            //File.WriteAllBytes("Saves\\CurrentSeed.Sseed", array);
+            #endregion GetSeeds
 
 
             CreateLand(Seeds.ToArray(), sector);
@@ -123,6 +166,8 @@ namespace Base_Building_Game
             return (int)((Math.Pow(2d * randy.NextDouble() - 1d, 3) + 1d) * SectorSize / 2);
         }
 
+
+        #region GetForces
         static int GetXForce(int x)
         {
             return
@@ -135,14 +180,14 @@ namespace Base_Building_Game
                 DefForce * SectorSize / ((y + 1) * 500) +
                 DefForce * SectorSize / ((SectorSize - y + 1) * 500);
         }
+        #endregion GetForces
 
 
 
 
 
 
-
-
+        #region NotUsed
         static void GrowIslandSeed(IVect Seed, Sector sector, bool MainIsland = false)
         {
             if (sector.map is null)
@@ -182,7 +227,6 @@ namespace Base_Building_Game
             List<IslandTile> NotFinished = new List<IslandTile>();
             List<IslandTile> Done = new List<IslandTile>();
 
-            IVect pos;
 
             public IslandCreator(IVect pos, Sector sector)
             {
@@ -288,6 +332,7 @@ namespace Base_Building_Game
 
 
 
+#pragma warning disable // so many warnings -> this aint even used
         class IslandTile
         {
             public bool[] directions = new bool[4] { true, true, true, true };
@@ -301,5 +346,7 @@ namespace Base_Building_Game
             public static bool operator ==(IslandTile lhs, IslandTile rhs) { return lhs.pos == rhs.pos; }
             public static bool operator !=(IslandTile lhs, IslandTile rhs) { return lhs.pos != rhs.pos; }
         }
+#pragma warning restore
+        #endregion
     }
 }

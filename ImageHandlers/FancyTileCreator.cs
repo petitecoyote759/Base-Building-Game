@@ -6,6 +6,8 @@ using System.Text;
 using System.Threading.Tasks;
 
 using System.Drawing;
+using System.Drawing.Printing;
+using static Short_Tools.General;
 
 
 namespace Base_Building_Game
@@ -20,34 +22,57 @@ namespace Base_Building_Game
 
         public static void LoadFancyTiles()
         {
-            createImages(renderer.images["GrassSS"], (int)TileID.Grass, 95, 95);
-            createImages(renderer.images["SandSS"], (int)TileID.Sand, 96, 96);
-            createImages(renderer.images["OceanSS"], (int)TileID.Ocean, 96, 96);
+            ReqCreateImages(renderer.images["GrassSS"], General.images["GrassSS"], (int)TileID.Grass);
+            ReqCreateImages(renderer.images["SandSS"], General.images["SandSS"], (int)TileID.Sand);
+            ReqCreateImages(renderer.images["OceanSS"], General.images["OceanSS"], (int)TileID.Ocean);
+        }
+
+        static int FancyTilesLoaded = 0;
+        static int NumberOfFancyTiles = 3;
+
+
+
+        public static IntPtr TempSpriteSheet;
+        public static string TempSpriteSheetPath = "";
+        public static int TempID;
+        public static bool MainWaitingForSpriteSheet = false;
+
+        public static void ReqCreateImages(IntPtr spriteSheet, string path, int ID)
+        {
+            while (MainWaitingForSpriteSheet) { Thread.Sleep(5); }
+
+            TempSpriteSheet = spriteSheet;
+            TempSpriteSheetPath = path;
+            TempID = ID;
+            MainWaitingForSpriteSheet = true;
         }
 
 
 
 
 
-
-
-
-
-
-
-
-        public static void createImages(IntPtr spriteSheet, int ID, int width = 95, int height = 95)
+        public static void createImages(IntPtr spriteSheet, string path, int ID, int width = 95, int height = 95)
         {
             IntPtr[] NewTImages = new IntPtr[256];
 
 
+#pragma warning disable CA1416 // getting upset that this only works on windows later than 6.1.
+            Bitmap bitmap = new Bitmap(path);
 
-            //if (SDL.SDL_QueryTexture(spriteSheet, out type, out access, out width, out height) != 0) 
-            //{ 
-            //    string GetSDLError([CallerLineNumber] int lineNum = 0) => "SDL Error in file TileLoader : " + SDL.SDL_GetError() + " at line " + lineNum; 
-            //
-            //    Client.FancyPrint(GetSDLError(), ConsoleColor.DarkRed); 
-            //}
+            width = bitmap.Width;
+            height = bitmap.Height;
+#pragma warning restore CA1416
+
+            if (path == General.images["GrassSS"])
+            {
+                if (!TexturePackedImages["GrassSS"])
+                {
+                    width--; height--;
+                }
+            }
+
+
+
 
             for (uint i = 0; i < 256; i++)
             {
@@ -116,6 +141,8 @@ namespace Base_Building_Game
 
 
             FancyTiles.Add(ID, NewTImages);
+
+            InitialisePercent = (100 / NumberOfFancyTiles) * FancyTilesLoaded;
         }
     }
 }

@@ -8,6 +8,11 @@ using System.Text;
 using System.Threading.Tasks;
 using IVect = Short_Tools.General.ShortIntVector2;
 
+
+#pragma warning disable CS8602 // dereference of a possibly null reference. its to do with paths, again, i trust bayl on this
+
+
+
 namespace Base_Building_Game
 {
     public static partial class General
@@ -166,7 +171,7 @@ namespace Base_Building_Game
             }
             public bool DepositItem()
             {
-                if (camp.pos == (IVect)this.pos)
+                if ((IVect)camp.pos == (IVect)this.pos)
                 {
                     heldItem = null;
                     return true;
