@@ -19,6 +19,7 @@ namespace Base_Building_Game
         {
             #region Pos
             Vector2 thisPos;
+            float speed = 0.005f;
             public Vector2 pos { get => thisPos; set => thisPos = value; }
             public double angle = 0d;
             #endregion Pos
@@ -34,10 +35,13 @@ namespace Base_Building_Game
             Stack<Vector2>? path = null;
 
             IEntity? Target = null;
+            float t = 0;
 
             bool Wandering = true;
 
             Vector2 MoveTarget;
+
+            Vector2[]? nextPositions;
 
 
 
@@ -186,7 +190,8 @@ namespace Base_Building_Game
 
                 if (Target is IEntity target)
                 {
-                    if (true/*AtEnd()*/)
+                    Wandering = false;
+                    if (path is Stack<Vector2> Path && Path.Count == 0)
                     {
                         if (Wandering)
                         {
@@ -204,9 +209,17 @@ namespace Base_Building_Game
                             }
                         }
                     }
+                    else if (path is not null)
+                    {
+                        if (nextPositions is null)
+                        {
+                            AddNextNodes();
+                        }
+                        Move(dt);
+                    }
                     else
                     {
-                        //Bézier.Move();
+                        GetPath(target.pos);
                     }
                 }
 
@@ -235,6 +248,43 @@ namespace Base_Building_Game
                 if (pather.GetPath(50) is not null)
                 {
                     Target = player;
+                }
+            }
+
+
+
+
+
+            public void AddNextNodes()
+            {
+                if (path is null) { return; }
+
+                int size = path.Count >= 3 ? 3 : path.Count + 1;
+                nextPositions = new Vector2[size];
+                nextPositions[0] = pos;
+                for (int i = 1; i < size; i++)
+                {
+                    nextPositions[i] = path.Pop();
+                }
+            }
+
+
+
+
+            public void Move(int dt)
+            {
+                float MovementScalar = 1f / speed;
+
+                t = t + dt;
+                if (t >= MovementScalar)
+                {
+                    t = (int)MovementScalar;
+                }
+                this.pos = Bézier.ComputeBézier(t / MovementScalar, nextPositions);
+                if (t == MovementScalar)
+                {
+                    nextPositions = null;
+                    t = 0;
                 }
             }
 

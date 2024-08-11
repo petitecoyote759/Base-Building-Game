@@ -97,6 +97,9 @@ namespace Base_Building_Game
 
             public override void Handle(string inp, bool down)
             {
+                if (down && inp == "SPACE") { new EnemyUnit() { pos = player.pos }; }
+
+
                 if (ActiveKeys.ContainsKey(inp)) { ActiveKeys[inp] = down; }
 
                 if (MenuState == MenuStates.StartScreen && down && inp == "F9")
