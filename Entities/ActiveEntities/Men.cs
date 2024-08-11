@@ -108,13 +108,14 @@ namespace Base_Building_Game
                    return;
                 }
 
-                if (path.Count != 0 || nextPositions is not null)
+                if (path is not null && path.Count != 0 || nextPositions is not null)
                 {
                     if (nextPositions is null)
                     {
                         AddNextNodes();
                     }
                     Move(dt);
+                    return;
                 }
 
 
