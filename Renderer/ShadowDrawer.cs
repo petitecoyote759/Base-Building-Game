@@ -20,7 +20,11 @@ namespace Base_Building_Game
         {
             public void DrawShadows()
             {
-                float perc = Pow((Cos(2 * PI * (Time / (float)TimePerDay) + 0.25f) + 1) / 2f, 2);
+                float TimePerc = Time / (float)TimePerDay;
+
+
+
+                double perc = Math.Pow((Math.Cos(2 * Math.PI * ((TimePerc + 0.25f))) + 1) / 2d, 2);
 
                 if (100 - 140d * perc > 0)
                 {
@@ -29,14 +33,11 @@ namespace Base_Building_Game
                         SDL_SetTextureAlphaMod(shadow.Value, (byte)(100 - 140d * perc));
                     }
 
-                    SDL_SetTextureAlphaMod(images["Wall Bottom Shadow"], (byte)(100 - 140f * perc));
-                    SDL_SetTextureAlphaMod(images["Wall Top Shadow"], (byte)(100 - 140f * perc));
+                    SDL_SetTextureAlphaMod(images["Wall Bottom Shadow"], (byte)(100 - 140d * perc));
+                    SDL_SetTextureAlphaMod(images["Wall Top Shadow"], (byte)(100 - 140d * perc));
                 }
 
-
-                SDL_SetTextureAlphaMod(renderer.images["Night Filter"], (byte)(140f * perc));
-
-
+                SDL_SetTextureAlphaMod(images["Night Filter"], (byte)(140d * perc));
 
 
 
@@ -58,61 +59,58 @@ namespace Base_Building_Game
                         {
                             if (ShadowImages.ContainsKey(tempTile.building.ID))
                             {
-                                DrawBuildingShadow(perc, px, py, x, y, tempTile.building);
+                                DrawBuildingShadow(px, py, x, y, tempTile.building);
                             }
                         }
                     }
                 }
-
-
-                Draw(0, 0, screenwidth, screenheight, "Night Filter"); // the filter for night time
             }
 
 
 
 
 
-            private void DrawBuildingShadow(float TimePerc, float playerx, float playery, int x, int y, Building building)
+            private void DrawBuildingShadow(float playerx, float playery, int x, int y, Building building)
             {
-                if (TimePerc < 0)
+                float TimePerc = Time / (float)TimePerDay;
+
+                if ((int)(zoom * MathF.Cos(2 * MathF.PI * (float)TimePerc)) < 0)
                 {
-                    Draw(GetPx(x + 0.5f, playerx), GetPy(y, playery), (int)(zoom * TimePerc), zoom, ShadowImages[building.ID]);
+                    Draw(GetPx(x + 0.5f, playerx), GetPy(y, playery), (int)(zoom * MathF.Cos(2 * MathF.PI * (float)TimePerc)), zoom, ShadowImages[building.ID]);
                 }
                 else
                 {
-                    Draw(GetPx(x + 0.5f, playerx) - (int)(zoom * TimePerc), GetPy(y, playery), (int)(zoom * TimePerc), zoom, ShadowImages[building.ID]);
+                    Draw(GetPx(x + 0.5f, playerx) - (int)(zoom * MathF.Cos(2 * MathF.PI * (float)TimePerc)), GetPy(y, playery), (int)(zoom * MathF.Cos(2 * MathF.PI * (float)TimePerc)), zoom, ShadowImages[building.ID]);
                 }
 
-                return;
-                /*
+                
                 if (building.ID == (byte)BuildingID.Wall)
                 {
                     Wall wall = (Wall)building;
 
-                    if (ConnectingBuildings[(byte)BuildingID.Wall](Client.world.GetTile(x, y - 1)))
+                    if (wall.Connections(world.GetTile(x, y - 1)))
                     {
-                        if ((int)(zoom * (float)Math.Cos(2 * Math.PI * Client.TimePerc)) < 0)
+                        if ((int)(zoom * (float)Math.Cos(2 * Math.PI * TimePerc)) < 0)
                         {
-                            Draw(GetPx(x + 0.5f, playerx), GetPy(y, playery), (int)(zoom * 0.5f * MathF.Cos(2 * MathF.PI * (float)Client.TimePerc)), zoom, images["wall segment bottom"]);
+                            Draw(GetPx(x + 0.5f, playerx), GetPy(y, playery), (int)(zoom * 0.5f * MathF.Cos(2 * MathF.PI * (float)TimePerc)), zoom, images["Wall Bottom Shadow"]);
                         }
                         else
                         {
-                            Draw(GetPx(x + 0.5f, playerx) - (int)(zoom * 0.5f * MathF.Cos(2 * MathF.PI * (float)Client.TimePerc)), GetPy(y, playery), (int)(zoom * 0.5f * MathF.Cos(2 * MathF.PI * (float)Client.TimePerc)), zoom, images["wall segment bottom"]);
+                            Draw(GetPx(x + 0.5f, playerx) - (int)(zoom * 0.5f * MathF.Cos(2 * MathF.PI * (float)TimePerc)), GetPy(y, playery), (int)(zoom * 0.5f * MathF.Cos(2 * MathF.PI * (float)TimePerc)), zoom, images["Wall Bottom Shadow"]);
                         }
                     }
-                    if (ConnectingBuildings[(byte)BuildingIDs.Wall](Client.world.GetTile(x, y + 1)))
+                    if (wall.Connections(world.GetTile(x, y + 1)))
                     {
-                        if ((int)(zoom * (float)Math.Cos(2 * Math.PI * Client.TimePerc)) < 0)
+                        if ((int)(zoom * (float)Math.Cos(2 * Math.PI * TimePerc)) < 0)
                         {
-                            Draw(GetPx(x + 0.5f, playerx), GetPy(y, playery), (int)(zoom * 0.5f * MathF.Cos(2 * MathF.PI * (float)Client.TimePerc)), zoom, images["wall segment top"]);
+                            Draw(GetPx(x + 0.5f, playerx), GetPy(y, playery), (int)(zoom * 0.5f * MathF.Cos(2 * MathF.PI * (float)TimePerc)), zoom, images["Wall Top Shadow"]);
                         }
                         else
                         {
-                            Draw(GetPx(x + 0.5f, playerx) - (int)(zoom * 0.5f * MathF.Cos(2 * MathF.PI * (float)Client.TimePerc)), GetPy(y, playery), (int)(zoom * 0.5f * MathF.Cos(2 * MathF.PI * (float)Client.TimePerc)), zoom, images["wall segment top"]);
+                            Draw(GetPx(x + 0.5f, playerx) - (int)(zoom * 0.5f * MathF.Cos(2 * MathF.PI * (float)TimePerc)), GetPy(y, playery), (int)(zoom * 0.5f * MathF.Cos(2 * MathF.PI * (float)TimePerc)), zoom, images["Wall Top Shadow"]);
                         }
                     }
                 }
-                */
             }
         }
     }

@@ -343,13 +343,14 @@ namespace Base_Building_Game
         {
             tRect.x = xPos; tRect.y = yPos;
             tRect.w = width; tRect.h = height;
-            if (width < 0)
+            if (width > 0)
             {
-                SDL_RenderCopyEx(SDLrenderer, image, IntPtr.Zero, ref tRect, 0, IntPtr.Zero, SDL_RendererFlip.SDL_FLIP_HORIZONTAL);
+                SDL_RenderCopyEx(SDLrenderer, image, IntPtr.Zero, ref tRect, 0, IntPtr.Zero, SDL_RendererFlip.SDL_FLIP_NONE);
             }
             else
             {
-                SDL_RenderCopy(SDLrenderer, image, IntPtr.Zero, ref tRect);
+                tRect.w = -width;
+                SDL_RenderCopyEx(SDLrenderer, image, IntPtr.Zero, ref tRect, 0, IntPtr.Zero, SDL_RendererFlip.SDL_FLIP_HORIZONTAL);
             }
         }
 
