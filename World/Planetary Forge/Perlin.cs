@@ -20,7 +20,7 @@ namespace Base_Building_Game
         {
             public int PerlinWidth;
 
-            public IVect[,] vectors;
+            public Vector2[,] vectors;
 
             #region this[]
             public IVect this[int x, int y] => vectors[x, y];
@@ -38,7 +38,7 @@ namespace Base_Building_Game
             public PerlinMap(int PerlinWidth = 32)
             {
                 this.PerlinWidth = PerlinWidth;
-                vectors = new IVect[SectorSize / PerlinWidth + 1, SectorSize / PerlinWidth + 1];
+                vectors = new Vector2[SectorSize / PerlinWidth + 1, SectorSize / PerlinWidth + 1];
 
                 GenVectors();
             }
@@ -53,11 +53,46 @@ namespace Base_Building_Game
                 {
                     for (int y = 0; y < SectorSize / PerlinWidth + 1; y++)
                     {
-                        int random = randy.Next(0, 4);
-                        vectors[x, y] = VectorPosibilities[random];
+                        //int random = randy.Next(0, 4);
+                        //vectors[x, y] = VectorPosibilities[random];
+                        vectors[x, y] = randomGradient(x, y, RandSeed);
                     }
                 }
             }
+
+
+
+
+
+            static Vector2 randomGradient(int ix, int iy, int seed)
+            {
+                unchecked
+                {
+                    // No precomputed gradients mean this works for any number of grid coordinates
+                    const int w = 8 * sizeof(int);
+                    const int s = w / 2; // rotation width
+                    uint a = (uint)ix, b = (uint)iy;
+                    a *= 3284157443; b ^= a << s | a >> w - s;
+                    b *= 1911520717; a ^= b << s | b >> w - s;
+                    a *= 2048419325;
+                    a ^= (uint)seed;
+                    float random = a * (MathF.PI / ~(~0u >> 1)); // in [0, 2*Pi]
+                    Vector2 v;
+                    v.X = MathF.Cos(random); v.Y = MathF.Sin(random);
+                    return v;
+                }
+            }
+
+
+
+
+
+
+
+
+
+
+
 
 
             #region PerlinValueCreation
@@ -87,7 +122,7 @@ namespace Base_Building_Game
                 float North = Lerp(northwest, northeast, ((x - Squarex * PerlinWidth) / (float)PerlinWidth));
                 float South = Lerp(southwest, southeast ,((x - Squarex * PerlinWidth) / (float)PerlinWidth));
 
-                return Lerp(North, South, ((y - Squarey * PerlinWidth) / (float)PerlinWidth));
+                return Lerp(North, South, ((y - Squarey * PerlinWidth) / (float)PerlinWidth)) * 1.4f;
             }
             #endregion PerlinValueCreation
 
