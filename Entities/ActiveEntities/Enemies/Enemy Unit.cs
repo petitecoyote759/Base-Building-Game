@@ -243,8 +243,8 @@ namespace Base_Building_Game
 
             public void GetTarget()
             {
-                path = null;
-                return;
+                //path = null;
+                //return;
 
                 AStar pather = new AStar(world.Walkable, player.pos, pos);
 
