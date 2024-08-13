@@ -225,7 +225,11 @@ namespace Base_Building_Game
 
                         RenderClear();
 
-                        Draw(screenwidth - 120, screenheight - 120, 100, 100, "Loading Spinner", Math.Sin(DateTimeOffset.Now.ToUnixTimeMilliseconds() / 500d) * 180d);
+                        double sin = Math.Sin(DateTimeOffset.Now.ToUnixTimeMilliseconds() / 500d);
+
+                        int width = 100 + (int)(20 * sin);
+
+                        Draw(screenwidth - 20 - width, screenheight - 20 - width, width, width, "Loading Spinner", sin * 180d);
 
                         break;
                 } 
