@@ -104,7 +104,16 @@ namespace Base_Building_Game
                             }
                             if (screenwidth * 6 / 10 <= mpos.x && mpos.x <= screenwidth * 9 / 10)
                             {
+                                string[] worlds = Directory.GetDirectories("Saves");
+
+                                renderer.loadableWorlds = new MenuWorld[worlds.Length];
+                                for (int i = 0; i < worlds.Length; i++)
+                                {
+                                    renderer.loadableWorlds[i] = new MenuWorld(worlds[i]);
+                                }
+
                                 MenuState = MenuStates.OfflineLoadWorld;
+
                             }
                         }
                     }
@@ -226,6 +235,38 @@ namespace Base_Building_Game
                     #endregion Typing
 
                     break;
+
+
+
+                case MenuStates.OfflineLoadWorld:
+
+                    if (inp == "ESCAPE")
+                    {
+                        MenuState = MenuStates.OfflineCreateLoadWorld;
+                        foreach (MenuWorld world in renderer.loadableWorlds)
+                        {
+                            world.Dispose();
+                        }
+                        renderer.loadableWorlds = Array.Empty<MenuWorld>();
+                    }
+
+
+                    break;
+
+
+
+
+
+
+
+
+
+
+                case MenuStates.Loading:
+                    break;
+                case MenuStates.InGame:
+                    break;
+
 
 
 

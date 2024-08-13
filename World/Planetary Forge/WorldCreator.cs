@@ -51,13 +51,13 @@ namespace Base_Building_Game
 
             if (Thread.CurrentThread.Name == "ShortTools Rendering Thread")
             {
-                SaveMapImage(renderer.worldName + ".png");
+                SaveMapImage($"Saves\\{renderer.worldName}\\{renderer.worldName}.png");
                 renderer.images["Map"] = renderer.L(renderer.worldName + ".png");
             }
             else
             {
                 //TODO: change this to be world.name
-                ReqSaveMapImage(renderer.worldName + ".png");
+                ReqSaveMapImage($"Saves\\{renderer.worldName}\\{renderer.worldName}.png");
                 renderer.images["Map"] = renderer.LoadImage(renderer.worldName + ".png");
             }
 

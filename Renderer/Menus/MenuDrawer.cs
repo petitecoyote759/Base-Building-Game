@@ -32,6 +32,11 @@ namespace Base_Building_Game
             public int MaxSeedAndNameLength = 32;
             #endregion
 
+            #region Load World Vars
+            float barPos = 0f;
+            public MenuWorld[] loadableWorlds;
+            #endregion
+
 
 
 
@@ -195,6 +200,69 @@ namespace Base_Building_Game
                             screenwidth / 4,
                             screenheight / 10,
                             "Create");
+                        #endregion
+
+                        break;
+
+
+
+
+
+                    case MenuStates.OfflineLoadWorld:
+
+                        #region Top and Background
+                        Draw(0, 0, screenwidth, screenheight, "Background");
+
+                        DrawButton(screenwidth / 10, 0, screenwidth * 3 / 10, screenheight / 15, "Create World");
+
+                        DrawButton(screenwidth * 6 / 10, 0, screenwidth * 3 / 10, screenheight / 15, "Load World");
+                        #endregion
+
+                        #region LoadWorldBackground
+                        //TODO: make this image not silly
+                        Draw( // world select
+                            screenwidth * 1 / 6,
+                            screenheight * 2 / 10,
+                            screenwidth * 2 / 6,
+                            screenheight * 13 / 20,
+                            "MenuButton");
+
+                        Draw( // scroll bar
+                            screenwidth / 2,
+                            screenheight * 2 / 10,
+                            screenwidth * 1 / 48,
+                            screenheight * 13 / 20,
+                            "MenuButton");
+
+                        Draw( // world details
+                            screenwidth * 25 / 48,
+                            screenheight * 2 / 10,
+                            screenwidth * 3 / 12,
+                            screenheight * 13 / 20,
+                            "MenuButton");
+
+
+                        DrawButton( // load world button
+                            screenwidth * 25 / 48,
+                            screenheight * 15 / 20,
+                            screenwidth * 3 / 12,
+                            screenheight * 2 / 20, // 17 / 20
+                            "Load World");
+
+
+
+                        #endregion
+
+                        #region Worlds
+                        for (int i = 0; i < loadableWorlds.Length; i++)
+                        {
+                            DrawButton( // world select
+                            screenwidth * 35 / 200,
+                            screenheight * 10 / 40 + (i / 10),
+                            screenwidth * 63 / 200,
+                            screenheight * 2 / 20,
+                            loadableWorlds[i].name);
+                        }
                         #endregion
 
                         break;
