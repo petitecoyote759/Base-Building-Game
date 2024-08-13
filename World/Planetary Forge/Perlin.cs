@@ -66,6 +66,9 @@ namespace Base_Building_Game
 
             static Vector2 randomGradient(int ix, int iy, int seed)
             {
+                ix += SectorSize * player.SectorPos.x;
+                iy += SectorSize * player.SectorPos.y;
+
                 unchecked
                 {
                     // No precomputed gradients mean this works for any number of grid coordinates
