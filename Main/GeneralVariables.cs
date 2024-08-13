@@ -82,6 +82,8 @@ namespace Base_Building_Game
 
 
 
+
+
         const int SectorSize = 2048;
     }
 }

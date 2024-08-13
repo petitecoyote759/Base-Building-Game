@@ -212,6 +212,22 @@ namespace Base_Building_Game
                         DrawButton(0, 0, screenwidth, screenheight, "OnlineFindCreate");
 
                         break;
+
+
+
+
+
+
+
+
+
+                    case MenuStates.Loading:
+
+                        RenderClear();
+
+                        Draw(screenwidth - 120, screenheight - 120, 100, 100, "Loading Spinner", Math.Sin(DateTimeOffset.Now.ToUnixTimeMilliseconds() / 500d) * 180d);
+
+                        break;
                 } 
             }
         }

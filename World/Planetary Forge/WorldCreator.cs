@@ -40,6 +40,7 @@ namespace Base_Building_Game
         public static void CreateWorld()
         {
             WaitingForWorldCreate = false;
+            MenuState = MenuStates.Loading;
             world = new World();
 
             int size = World.size;
