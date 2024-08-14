@@ -65,7 +65,7 @@ namespace Base_Building_Game
 
 
 
-
+        Loading,
 
         InGame,
     }
