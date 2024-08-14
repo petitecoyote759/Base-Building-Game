@@ -16,10 +16,6 @@ namespace Base_Building_Game
 {
     public static partial class General
     {
-        static void SaveMap()
-        {
-
-        }
 
 
 

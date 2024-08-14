@@ -35,6 +35,7 @@ namespace Base_Building_Game
             #region Load World Vars
             float barPos = 0f;
             public MenuWorld[] loadableWorlds;
+            public const int worldsPerPage = 5;
             #endregion
 
 
@@ -253,16 +254,35 @@ namespace Base_Building_Game
 
                         #endregion
 
-                        #region Worlds
+                        #region Worlds And Scroll Bar
                         for (int i = 0; i < loadableWorlds.Length; i++)
                         {
                             DrawButton( // world select
                             screenwidth * 35 / 200,
-                            screenheight * 10 / 40 + (i / 10),
+                            screenheight * 10 / 40 + (i * ((screenheight * 12 / 20) / worldsPerPage)),
                             screenwidth * 63 / 200,
-                            screenheight * 2 / 20,
+                            (screenheight * 12 / 20) / worldsPerPage,
                             loadableWorlds[i].name);
+
+                            // 2 / 10
+                            // 13 / 20
                         }
+
+                        Draw( // scroll bar
+                            screenwidth / 2,
+                            (screenheight * 2 / 10),
+                            screenwidth * 1 / 48,
+                            (int)(screenheight * 13 / 20 / ((float)Math.Max(loadableWorlds.Length, worldsPerPage) / worldsPerPage)),
+                            "Hotbar");
+                        #endregion
+
+                        #region World Info
+                        WriteOnFullWidth(
+                            screenwidth * 25 / 48,
+                            screenheight * 5 / 20,
+                            screenwidth * 3 / 12,
+                            screenheight * 3 / 40,
+                            selectedWorld is null ? "Select World" : selectedWorld.name);
                         #endregion
 
                         break;

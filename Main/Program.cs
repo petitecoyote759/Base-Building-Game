@@ -97,6 +97,10 @@ namespace Base_Building_Game
                 {
                     SaveWorld(tempWorldName);
                 }
+                if (WaitingForWorldLoad)
+                {
+                    LoadWorld(tempWorldPath);
+                }
 
 
 

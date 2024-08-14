@@ -16,12 +16,29 @@ namespace Base_Building_Game
 {
     public static partial class General
     {
+        static string tempWorldPath = "";
+        static bool WaitingForWorldLoad = false;
+
+        public static void ReqLoadWorld(string path)
+        {
+            while (WaitingForWorldLoad) { Thread.Sleep(5); }
+
+            tempWorldPath = path;
+            WaitingForWorldLoad = true;
+        }
+
+
+
+
         /// <summary>
         /// Loads the world, and active sector, from the specified JSON.
         /// </summary>
         /// <param name="path">The location of the JSON file containing the world data.</param>
         public static void LoadWorld(string path)
         {
+            WaitingForWorldLoad = false;
+            MenuState = MenuStates.Loading;
+
             //Loads the world from the json file.
             StreamReader reader = new StreamReader(path);
             string jsonString = reader.ReadToEnd();
@@ -91,6 +108,8 @@ namespace Base_Building_Game
 
 
             AddLog("Finished loading", Priority.DEBUG);
+
+            MenuState = MenuStates.InGame;
         }
     }
 }
