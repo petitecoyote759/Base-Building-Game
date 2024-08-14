@@ -32,6 +32,12 @@ namespace Base_Building_Game
             public int MaxSeedAndNameLength = 32;
             #endregion
 
+            #region Load World Vars
+            float barPos = 0f;
+            public MenuWorld[] loadableWorlds;
+            public const int worldsPerPage = 5;
+            #endregion
+
 
 
 
@@ -203,6 +209,88 @@ namespace Base_Building_Game
 
 
 
+                    case MenuStates.OfflineLoadWorld:
+
+                        #region Top and Background
+                        Draw(0, 0, screenwidth, screenheight, "Background");
+
+                        DrawButton(screenwidth / 10, 0, screenwidth * 3 / 10, screenheight / 15, "Create World");
+
+                        DrawButton(screenwidth * 6 / 10, 0, screenwidth * 3 / 10, screenheight / 15, "Load World");
+                        #endregion
+
+                        #region LoadWorldBackground
+                        //TODO: make this image not silly
+                        Draw( // world select
+                            screenwidth * 1 / 6,
+                            screenheight * 2 / 10,
+                            screenwidth * 2 / 6,
+                            screenheight * 13 / 20,
+                            "MenuButton");
+
+                        Draw( // scroll bar
+                            screenwidth / 2,
+                            screenheight * 2 / 10,
+                            screenwidth * 1 / 48,
+                            screenheight * 13 / 20,
+                            "MenuButton");
+
+                        Draw( // world details
+                            screenwidth * 25 / 48,
+                            screenheight * 2 / 10,
+                            screenwidth * 3 / 12,
+                            screenheight * 13 / 20,
+                            "MenuButton");
+
+
+                        DrawButton( // load world button
+                            screenwidth * 25 / 48,
+                            screenheight * 15 / 20,
+                            screenwidth * 3 / 12,
+                            screenheight * 2 / 20, // 17 / 20
+                            "Load World");
+
+
+
+                        #endregion
+
+                        #region Worlds And Scroll Bar
+                        for (int i = 0; i < loadableWorlds.Length; i++)
+                        {
+                            DrawButton( // world select
+                            screenwidth * 35 / 200,
+                            screenheight * 10 / 40 + (i * ((screenheight * 12 / 20) / worldsPerPage)),
+                            screenwidth * 63 / 200,
+                            (screenheight * 12 / 20) / worldsPerPage,
+                            loadableWorlds[i].name);
+
+                            // 2 / 10
+                            // 13 / 20
+                        }
+
+                        Draw( // scroll bar
+                            screenwidth / 2,
+                            (screenheight * 2 / 10),
+                            screenwidth * 1 / 48,
+                            (int)(screenheight * 13 / 20 / ((float)Math.Max(loadableWorlds.Length, worldsPerPage) / worldsPerPage)),
+                            "Hotbar");
+                        #endregion
+
+                        #region World Info
+                        WriteOnFullWidth(
+                            screenwidth * 25 / 48,
+                            screenheight * 5 / 20,
+                            screenwidth * 3 / 12,
+                            screenheight * 3 / 40,
+                            selectedWorld is null ? "Select World" : selectedWorld.name);
+                        #endregion
+
+                        break;
+
+
+
+
+
 
 
                     case MenuStates.OnlineFindCreate:
@@ -210,6 +298,26 @@ namespace Base_Building_Game
                         Draw(0, 0, screenwidth, screenheight, "Background");
 
                         DrawButton(0, 0, screenwidth, screenheight, "OnlineFindCreate");
+
+                        break;
+
+
+
+
+
+
+
+
+
+                    case MenuStates.Loading:
+
+                        RenderClear();
+
+                        double sin = Math.Sin(DateTimeOffset.Now.ToUnixTimeMilliseconds() / 500d);
+
+                        int width = 100 + (int)(20 * sin);
+
+                        Draw(screenwidth - 20 - width, screenheight - 20 - width, width, width, "Loading Spinner", sin * 180d);
 
                         break;
                 } 

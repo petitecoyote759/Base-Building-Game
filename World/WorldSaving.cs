@@ -78,11 +78,9 @@ namespace Base_Building_Game
                 Sectors = SectorData
             };
 
-            if (!Directory.Exists("./Saves")) Directory.CreateDirectory("./Saves"); // Make sure saving directory exists
-            StreamWriter SW = File.CreateText($"./Saves/{worldname}"); // Create/open file with name of worldname
-            SW.Write(JsonConvert.SerializeObject(SaveData)); // Write savedata as string into text file
-            SW.Close(); // Clean up
-            SW.Dispose();
+            if (!Directory.Exists("./Saves/" + worldname)) { Directory.CreateDirectory("./Saves/" + worldname); } // Make sure saving directory exists
+
+            File.WriteAllText($"./Saves/{worldname}/{worldname}.SWrld", JsonConvert.SerializeObject(SaveData));
         }
     }
 }

@@ -136,6 +136,8 @@ namespace Base_Building_Game
             { "MenuButton", "UI\\MenuButton.png" },
             { "SelectedButton", "UI\\SelectedButton.png" },
 
+            { "Loading Spinner", "UI\\Loading Spinner.png" },
+
             { "Map", "" },
             #endregion UI
 
