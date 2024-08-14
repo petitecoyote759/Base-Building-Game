@@ -17,15 +17,22 @@ namespace Base_Building_Game
         static bool? SelectedOption = null; // null means no option, true means name and false means seed
         #endregion
 
+        #region Load World Vars
+        static MenuWorld? selectedWorld = null;
+        #endregion
 
 
 
 
-
+        //static int screenwidth { get => renderer.screenwidth; }
+        //static int screenheight { get => renderer.screenheight; }
 
 
         public static void HandleMenus(string inp)
         {
+            int screenwidth = renderer.screenwidth;
+            int screenheight = renderer.screenheight;
+
             switch (MenuState)
             {
                 case MenuStates.StartScreen:
@@ -47,10 +54,6 @@ namespace Base_Building_Game
                             break;
 
                         case "Mouse":
-
-                            int screenwidth = renderer.screenwidth;
-                            int screenheight = renderer.screenheight;
-                            
 
                             IVect mpos = getMousePos();
 
@@ -93,9 +96,6 @@ namespace Base_Building_Game
                     {
                         IVect mpos = getMousePos();
 
-                        int screenwidth = renderer.screenwidth;
-                        int screenheight = renderer.screenheight;
-
                         if (0 <= mpos.y && mpos.y <= screenheight / 15) // same y level as buttons
                         {
                             if (screenwidth / 10 <= mpos.x && mpos.x <= screenwidth * 4 / 10)
@@ -104,7 +104,22 @@ namespace Base_Building_Game
                             }
                             if (screenwidth * 6 / 10 <= mpos.x && mpos.x <= screenwidth * 9 / 10)
                             {
+                                string[] worlds = Directory.GetDirectories("Saves");
+
+                                renderer.loadableWorlds = new MenuWorld[worlds.Length];
+                                for (int i = 0; i < worlds.Length; i++)
+                                {
+                                    renderer.loadableWorlds[i] = new MenuWorld(worlds[i]);
+                                }
+
+                                renderer.loadableWorlds = (
+                                    from world in renderer.loadableWorlds
+                                    orderby File.GetLastAccessTimeUtc($"Saves\\{world.name}\\{world.name}.SWrld") descending
+                                    select world
+                                    ).ToArray();
+
                                 MenuState = MenuStates.OfflineLoadWorld;
+
                             }
                         }
                     }
@@ -127,8 +142,6 @@ namespace Base_Building_Game
                     {
                         IVect mpos = getMousePos();
 
-                        int screenwidth = renderer.screenwidth;
-                        int screenheight = renderer.screenheight;
 
                         if (screenheight * 3 / 10 <= mpos.y && mpos.y <= screenheight * 5 / 10)
                         {
@@ -226,6 +239,74 @@ namespace Base_Building_Game
                     #endregion Typing
 
                     break;
+
+
+
+                case MenuStates.OfflineLoadWorld:
+
+                    if (inp == "ESCAPE")
+                    {
+                        MenuState = MenuStates.OfflineCreateLoadWorld;
+                        foreach (MenuWorld world in renderer.loadableWorlds)
+                        {
+                            world.Dispose();
+                        }
+                        renderer.loadableWorlds = Array.Empty<MenuWorld>();
+                        selectedWorld = null;
+                    }
+
+
+                    if (inp == "Mouse")
+                    {
+                        IVect mpos = getMousePos();
+
+                        if (screenwidth * 35 / 200 <= mpos.x && mpos.x <= screenwidth * 98 / 200)
+                        {
+                            for (int i = 0; i < renderer.loadableWorlds.Length; i++)
+                            {
+                                int height = screenheight * 10 / 40 + (i * ((screenheight * 12 / 20) / Renderer.worldsPerPage));
+
+                                if (height <= mpos.y && mpos.y <= height + (screenheight * 12 / 20) / Renderer.worldsPerPage)
+                                {
+                                    selectedWorld = renderer.loadableWorlds[i];
+                                }
+                            }
+                        }
+
+
+                        if (selectedWorld is not null)
+                        {
+                            if (screenwidth * 25 / 48 <= mpos.x && mpos.x <= screenwidth * 37 / 48)
+                            {
+                                if (screenheight * 15 / 20 <= mpos.y && mpos.y <= screenheight * 17 / 20) // loading world
+                                {
+                                    ReqLoadWorld(selectedWorld.path + "\\" + selectedWorld.name + ".SWrld");
+                                    renderer.images["Map"] = renderer.L(selectedWorld.path + "\\" + selectedWorld.name + ".png");
+                                }
+                            }
+                        }
+                    }
+
+
+
+
+
+                    break;
+
+
+
+
+
+
+
+
+
+
+                case MenuStates.Loading:
+                    break;
+                case MenuStates.InGame:
+                    break;
+
 
 
 
