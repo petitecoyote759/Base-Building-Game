@@ -52,6 +52,13 @@ namespace Base_Building_Game
                 //type 0 = none
                 //type 1 = water
                 //type 2 = oil
+                //code checks surrounding tiles and checks if they are pipes or fluid extractors
+                //if they are then check if they are the same type fluid as pipe
+                //or they can take the type of a neighbouring pipe 
+                //if fluids are same type they will start take mean of nearby containers
+                //can make more effecient if i have a way to check if a building inherits fluid containers
+                //should also make container take mean of all nearby pipes at once rather than one at a time
+                //lots of comments but i will forget this because sleepy >.<
 
 
                 //up
