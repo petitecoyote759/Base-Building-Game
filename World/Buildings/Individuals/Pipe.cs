@@ -13,7 +13,7 @@ namespace Base_Building_Game
 {
     public static partial class General
     {
-        public class Pipe : FBuilding, ConnectingBuilding
+        public class Pipe : FBuilding, ConnectingBuilding, FluidContainer
         {
             public Func<Tile, bool> ValidTiles { get; } = (Tile tile) =>
             {
@@ -24,6 +24,10 @@ namespace Base_Building_Game
 
             public int xSize { get; } = 1;
             public int ySize { get; } = 1;
+
+            public int amount { get; set; } = 0;
+
+            public short type { get; set; } = 0;
 
             public Inventory? inventory { get; set; } = new Inventory();
 
@@ -45,30 +49,204 @@ namespace Base_Building_Game
 
             public void Action(int dt)
             {
-                
+                //type 0 = none
+                //type 1 = water
+                //type 2 = oil
+
+
                 //up
                 Tile up = world.GetTile(pos.X, pos.Y - 1);
-                if (up.building != null && up.building.ID == (short)BuildingID.Pipe) 
+                if (up.building != null && up.building.ID == (short)BuildingID.Pipe)
                 {
-                    Console.WriteLine("Uppy");
+                    if (type == 0 && up.building.type != 0)
+                    {
+                        type = up.building.type;
+                    }
+                    if (type == up.building.type)
+                    {
+                        amount = (amount + up.building.amount) / 2;
+                        up.building.amount = amount;
+
+                    }
                 }
+
+
+                else if (up.building != null && up.building.ID == (short)BuildingID.WaterPump) 
+                {
+                    if (type == 0) 
+                    {
+                        type = 1;
+                    }
+                    if (type == 1) 
+                    {
+                        amount = (amount + up.building.amount) / 2;
+                        up.building.amount = amount;
+
+                    }
+
+                }
+
+
+                else if (up.building != null && up.building.ID == (short)BuildingID.OilRig)
+                {
+                    if (type == 0)
+                    {
+                        type = 2;
+                    }
+                    if (type == 2)
+                    {
+                        amount = (amount + up.building.amount) / 2;
+                        up.building.amount = amount;
+
+                    }
+
+                }
+
+
                 //right
                 Tile right = world.GetTile(pos.X + 1, pos.Y);
                 if (right.building != null &&  right.building.ID == (short)BuildingID.Pipe) 
                 {
-                    Console.WriteLine("Rightyy");
+                    if (type == 0 && right.building.type != 0)
+                    {
+                        type = right.building.type;
+                    }
+                    if (type == right.building.type)
+                    {
+                        amount = (amount + right.building.amount) / 2;
+                        right.building.amount = amount;
+
+                    }
                 }
+
+
+                else if (right.building != null && right.building.ID == (short)BuildingID.WaterPump)
+                {
+                    if (type == 0)
+                    {
+                        type = 1;
+                    }
+                    if (type == 1)
+                    {
+                        amount = (amount + right.building.amount) / 2;
+                        right.building.amount = amount;
+
+                    }
+
+                }
+
+
+                else if (right.building != null && right.building.ID == (short)BuildingID.OilRig)
+                {
+                    if (type == 0)
+                    {
+                        type = 2;
+                    }
+                    if (type == 2)
+                    {
+                        amount = (amount + right.building.amount) / 2;
+                        right.building.amount = amount;
+
+                    }
+
+                }
+
+
                 //down
                 Tile down = world.GetTile(pos.X, pos.Y + 1);
                 if (down.building != null && down.building.ID == (short)BuildingID.Pipe) 
                 {
-                    Console.WriteLine("Downy");
+                    if (type == 0 && down.building.type != 0)
+                    {
+                        type = down.building.type;
+                    }
+                    if (type == down.building.type)
+                    {
+                        amount = (amount + down.building.amount) / 2;
+                        down.building.amount = amount;
+
+                    }
                 }
+
+
+                else if (down.building != null && down.building.ID == (short)BuildingID.WaterPump)
+                {
+                    if (type == 0)
+                    {
+                        type = 1;
+                    }
+                    if (type == 1)
+                    {
+                        amount = (amount + down.building.amount) / 2;
+                        down.building.amount = amount;
+
+                    }
+
+                }
+
+
+                else if (down.building != null && down.building.ID == (short)BuildingID.OilRig)
+                {
+                    if (type == 0)
+                    {
+                        type = 2;
+                    }
+                    if (type == 2)
+                    {
+                        amount = (amount + down.building.amount) / 2;
+                        down.building.amount = amount;
+
+                    }
+
+                }
+
+
                 //left
                 Tile left = world.GetTile(pos.X - 1, pos.Y);
-                if (left.building != null && left.building.ID == (short)BuildingID.Pipe) 
+                if (left.building != null && left.building.ID == (short)BuildingID.Pipe)
                 {
-                    Console.WriteLine("Leftyy");
+                    if (type == 0 && left.building.type != 0)
+                    {
+                        type = left.building.type;
+                    }
+                    if (type == left.building.type)
+                    {
+                        amount = (amount + left.building.amount) / 2;
+                        left.building.amount = amount;
+
+                    }
+                }
+
+
+                else if (left.building != null && left.building.ID == (short)BuildingID.WaterPump)
+                {
+                    if (type == 0)
+                    {
+                        type = 1;
+                    }
+                    if (type == 1)
+                    {
+                        amount = (amount + left.building.amount) / 2;
+                        left.building.amount = amount;
+
+                    }
+
+                }
+
+
+                else if (left.building != null && left.building.ID == (short)BuildingID.OilRig)
+                {
+                    if (type == 0)
+                    {
+                        type = 2;
+                    }
+                    if (type == 2)
+                    {
+                        amount = (amount + left.building.amount) / 2;
+                        left.building.amount = amount;
+
+                    }
+
                 }
             }
 

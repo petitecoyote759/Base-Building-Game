@@ -10,13 +10,14 @@ using static Short_Tools.General;
 using IVect = Short_Tools.General.ShortIntVector2;
 namespace Base_Building_Game
 {
-    public partial class General 
+    public static partial class General 
     {
         public static class Fluid
         {
             public enum FluidID : short 
             {
-                Water = 1,
+                None = 0,
+                Water,
                 Oil
             }
         }

@@ -13,7 +13,7 @@ namespace Base_Building_Game
 {
     public static partial class General
     {
-        public class WaterPump : FBuilding
+        public class WaterPump : FBuilding, FluidContainer
         {
             public Func<Tile, bool> ValidTiles { get; } = (Tile tile) => tile.ID == (short)TileID.Ocean;
 
@@ -21,6 +21,12 @@ namespace Base_Building_Game
 
             public int xSize { get; } = 1;
             public int ySize { get; } = 1;
+
+            public int amount { get; set; } = 0;
+
+            public short type { get; set; } = 1;
+
+
 
             public Inventory? inventory { get; set; } = new Inventory();
 
@@ -40,8 +46,9 @@ namespace Base_Building_Game
 
             public void Action(int dt) 
             {
+                amount++;
+                Console.WriteLine(amount);
                 
-            
             }
 
         }

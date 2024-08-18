@@ -11,11 +11,13 @@ using IVect = Short_Tools.General.ShortIntVector2;
 
 namespace Base_Building_Game
 {
-    public partial class General
+    public static partial class General
     {
         public interface FluidContainer
         {
+            public int amount { get; set; }
 
+            public short type { get; set; } 
 
 
 
