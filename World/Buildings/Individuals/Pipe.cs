@@ -52,209 +52,107 @@ namespace Base_Building_Game
                 //type 0 = none
                 //type 1 = water
                 //type 2 = oil
-                //code checks surrounding tiles and checks if they are pipes or fluid extractors
-                //if they are then check if they are the same type fluid as pipe
-                //or they can take the type of a neighbouring pipe 
-                //if fluids are same type they will start take mean of nearby containers
-                //can make more effecient if i have a way to check if a building inherits fluid containers
-                //should also make container take mean of all nearby pipes at once rather than one at a time
-                //lots of comments but i will forget this because sleepy >.<
+                //checks if building nearby are fluid containers
+                //gets mean amount of all nearby fluid containers and makes all amounts equal to mean
+                //Have not tested but made code smaller, commented out section is version using mean
+
 
 
                 //up
                 Tile up = world.GetTile(pos.X, pos.Y - 1);
-                if (up.building != null && up.building.ID == (short)BuildingID.Pipe)
+                Tile right = world.GetTile(pos.X + 1, pos.Y);
+                Tile down = world.GetTile(pos.X, pos.Y + 1);
+                Tile left = world.GetTile(pos.X - 1, pos.Y);
+                List<Tile> all = new List<Tile>();
+                
+
+                if (up.building != null && up.building is FluidContainer)
                 {
-                    if (type == 0 && up.building.type != 0)
+                    if (type == 0 && ((FluidContainer)up.building).type != 0)
                     {
-                        type = up.building.type;
+                        type = ((FluidContainer)up.building).type;
                     }
-                    if (type == up.building.type)
+                    if (type == ((FluidContainer)up.building).type)
                     {
-                        amount = (amount + up.building.amount) / 2;
-                        up.building.amount = amount;
+
+                        amount = (amount + ((FluidContainer)up.building).amount) / 2;
+                        ((FluidContainer)up.building).amount = amount;
+                        //all.Add(up);
 
                     }
                 }
-
-
-                else if (up.building != null && up.building.ID == (short)BuildingID.WaterPump) 
-                {
-                    if (type == 0) 
-                    {
-                        type = 1;
-                    }
-                    if (type == 1) 
-                    {
-                        amount = (amount + up.building.amount) / 2;
-                        up.building.amount = amount;
-
-                    }
-
-                }
-
-
-                else if (up.building != null && up.building.ID == (short)BuildingID.OilRig)
-                {
-                    if (type == 0)
-                    {
-                        type = 2;
-                    }
-                    if (type == 2)
-                    {
-                        amount = (amount + up.building.amount) / 2;
-                        up.building.amount = amount;
-
-                    }
-
-                }
-
 
                 //right
-                Tile right = world.GetTile(pos.X + 1, pos.Y);
-                if (right.building != null &&  right.building.ID == (short)BuildingID.Pipe) 
+                
+                if (right.building != null &&  right.building is FluidContainer) 
                 {
-                    if (type == 0 && right.building.type != 0)
+                    if (type == 0 && ((FluidContainer)right.building).type != 0)
                     {
-                        type = right.building.type;
+                        type = ((FluidContainer)right.building).type;
                     }
-                    if (type == right.building.type)
+                    if (type == ((FluidContainer)right.building).type)
                     {
-                        amount = (amount + right.building.amount) / 2;
-                        right.building.amount = amount;
-
+                        amount = (amount + ((FluidContainer)right.building).amount) / 2;
+                        ((FluidContainer)right.building).amount = amount;
+                        //all.Add(right);
                     }
                 }
-
-
-                else if (right.building != null && right.building.ID == (short)BuildingID.WaterPump)
-                {
-                    if (type == 0)
-                    {
-                        type = 1;
-                    }
-                    if (type == 1)
-                    {
-                        amount = (amount + right.building.amount) / 2;
-                        right.building.amount = amount;
-
-                    }
-
-                }
-
-
-                else if (right.building != null && right.building.ID == (short)BuildingID.OilRig)
-                {
-                    if (type == 0)
-                    {
-                        type = 2;
-                    }
-                    if (type == 2)
-                    {
-                        amount = (amount + right.building.amount) / 2;
-                        right.building.amount = amount;
-
-                    }
-
-                }
-
 
                 //down
-                Tile down = world.GetTile(pos.X, pos.Y + 1);
-                if (down.building != null && down.building.ID == (short)BuildingID.Pipe) 
+                
+                if (down.building != null && down.building is FluidContainer) 
                 {
-                    if (type == 0 && down.building.type != 0)
+                    if (type == 0 && ((FluidContainer)down.building).type != 0)
                     {
-                        type = down.building.type;
+                        type = ((FluidContainer)down.building).type;
                     }
-                    if (type == down.building.type)
+                    if (type == ((FluidContainer)down.building).type)
                     {
-                        amount = (amount + down.building.amount) / 2;
-                        down.building.amount = amount;
-
+                        amount = (amount + ((FluidContainer)down.building).amount) / 2;
+                        ((FluidContainer)down.building).amount = amount;
+                        //all.Add(down);
                     }
                 }
-
-
-                else if (down.building != null && down.building.ID == (short)BuildingID.WaterPump)
-                {
-                    if (type == 0)
-                    {
-                        type = 1;
-                    }
-                    if (type == 1)
-                    {
-                        amount = (amount + down.building.amount) / 2;
-                        down.building.amount = amount;
-
-                    }
-
-                }
-
-
-                else if (down.building != null && down.building.ID == (short)BuildingID.OilRig)
-                {
-                    if (type == 0)
-                    {
-                        type = 2;
-                    }
-                    if (type == 2)
-                    {
-                        amount = (amount + down.building.amount) / 2;
-                        down.building.amount = amount;
-
-                    }
-
-                }
-
 
                 //left
-                Tile left = world.GetTile(pos.X - 1, pos.Y);
-                if (left.building != null && left.building.ID == (short)BuildingID.Pipe)
+                
+                if (left.building != null && left.building is FluidContainer)
                 {
-                    if (type == 0 && left.building.type != 0)
+                    if (type == 0 && ((FluidContainer)left.building).type != 0)
                     {
-                        type = left.building.type;
+                        type = ((FluidContainer)left.building).type;
                     }
-                    if (type == left.building.type)
+                    if (type == ((FluidContainer)left.building).type)
                     {
-                        amount = (amount + left.building.amount) / 2;
-                        left.building.amount = amount;
-
+                        amount = (amount + ((FluidContainer)left.building).amount) / 2;
+                        ((FluidContainer)left.building).amount = amount;
+                        //all.Add(left);
                     }
                 }
 
-
-                else if (left.building != null && left.building.ID == (short)BuildingID.WaterPump)
+                //all amount change
+                /*
+                if (all.Count != 0)
                 {
-                    if (type == 0)
+                    int temp = 0;
+                    for (int i = 0; i < all.Count; i++) 
                     {
-                        type = 1;
+                        temp = ((FluidContainer)all[i].building).amount + temp;
                     }
-                    if (type == 1)
+                    all.Add(world.GetTile(pos.X, pos.Y));
+                    temp = temp / all.Count;
+                    for (int i = 0; i < all.Count; i++) 
                     {
-                        amount = (amount + left.building.amount) / 2;
-                        left.building.amount = amount;
+
+                        ((FluidContainer)all[i].building).amount = temp;
 
                     }
 
+                
                 }
+                */
 
 
-                else if (left.building != null && left.building.ID == (short)BuildingID.OilRig)
-                {
-                    if (type == 0)
-                    {
-                        type = 2;
-                    }
-                    if (type == 2)
-                    {
-                        amount = (amount + left.building.amount) / 2;
-                        left.building.amount = amount;
-
-                    }
-
-                }
             }
 
             public Pipe(IVect pos)
