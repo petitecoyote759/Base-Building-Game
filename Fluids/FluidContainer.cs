@@ -15,7 +15,7 @@ namespace Base_Building_Game
     {
         public interface FluidContainer
         {
-            public int amount { get; set; }
+            public float amount { get; set; }
 
             public short type { get; set; } 
 

@@ -25,7 +25,7 @@ namespace Base_Building_Game
             public int xSize { get; } = 1;
             public int ySize { get; } = 1;
 
-            public int amount { get; set; } = 0;
+            public float amount { get; set; } = 0;
 
             public short type { get; set; } = 0;
 
@@ -74,11 +74,7 @@ namespace Base_Building_Game
                     }
                     if (type == ((FluidContainer)up.building).type)
                     {
-
-                        amount = (amount + ((FluidContainer)up.building).amount) / 2;
-                        ((FluidContainer)up.building).amount = amount;
-                        //all.Add(up);
-
+                        all.Add(up);
                     }
                 }
 
@@ -92,9 +88,7 @@ namespace Base_Building_Game
                     }
                     if (type == ((FluidContainer)right.building).type)
                     {
-                        amount = (amount + ((FluidContainer)right.building).amount) / 2;
-                        ((FluidContainer)right.building).amount = amount;
-                        //all.Add(right);
+                        all.Add(right);
                     }
                 }
 
@@ -108,9 +102,7 @@ namespace Base_Building_Game
                     }
                     if (type == ((FluidContainer)down.building).type)
                     {
-                        amount = (amount + ((FluidContainer)down.building).amount) / 2;
-                        ((FluidContainer)down.building).amount = amount;
-                        //all.Add(down);
+                        all.Add(down);
                     }
                 }
 
@@ -124,23 +116,21 @@ namespace Base_Building_Game
                     }
                     if (type == ((FluidContainer)left.building).type)
                     {
-                        amount = (amount + ((FluidContainer)left.building).amount) / 2;
-                        ((FluidContainer)left.building).amount = amount;
-                        //all.Add(left);
+                        all.Add(left);
                     }
                 }
 
                 //all amount change
-                /*
+                
                 if (all.Count != 0)
                 {
-                    int temp = 0;
+                    float temp = 0;
                     for (int i = 0; i < all.Count; i++) 
                     {
                         temp = ((FluidContainer)all[i].building).amount + temp;
                     }
                     all.Add(world.GetTile(pos.X, pos.Y));
-                    temp = temp / all.Count;
+                    temp = temp / (float)all.Count;
                     for (int i = 0; i < all.Count; i++) 
                     {
 
@@ -150,9 +140,10 @@ namespace Base_Building_Game
 
                 
                 }
-                */
 
 
+                Console.WriteLine(amount);
+                Console.WriteLine(type);
             }
 
             public Pipe(IVect pos)

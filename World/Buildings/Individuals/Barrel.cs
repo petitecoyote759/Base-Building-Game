@@ -13,7 +13,7 @@ namespace Base_Building_Game
 {
     public static partial class General
     {
-        public class Barrel : Building
+        public class Barrel : Building, FluidContainer
         {
             public Func<Tile, bool> ValidTiles { get; } = (Tile tile) => tile.ID == (short)TileID.Grass;
 
@@ -23,6 +23,10 @@ namespace Base_Building_Game
             public int ySize { get; } = 1;
 
             public Inventory? inventory { get; set; } = new Inventory();
+
+            public float amount { get; set; } = 0;
+
+            public short type { get; set; } = 0;
 
 
 

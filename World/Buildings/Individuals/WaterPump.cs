@@ -22,7 +22,7 @@ namespace Base_Building_Game
             public int xSize { get; } = 1;
             public int ySize { get; } = 1;
 
-            public int amount { get; set; } = 0;
+            public float amount { get; set; } = 0;
 
             public short type { get; set; } = 1;
 
@@ -46,8 +46,7 @@ namespace Base_Building_Game
 
             public void Action(int dt) 
             {
-                amount++;
-                Console.WriteLine(amount);
+                amount = amount + 5;
                 
             }
 
