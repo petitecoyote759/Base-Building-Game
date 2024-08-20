@@ -113,6 +113,7 @@ namespace Base_Building_Game
                 BuildingID.WaterPump => new WaterPump(pos),
                 BuildingID.Barrel => new Barrel(pos),
                 BuildingID.Pipe => new Pipe(pos),
+                BuildingID.OilRig => new OilRig(pos),
 
                 _ => null
             } ; // Add new buildings here ^^^^^^
