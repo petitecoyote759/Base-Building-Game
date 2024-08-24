@@ -74,7 +74,9 @@ namespace Base_Building_Game
             { "PipeSegment0", "Buildings\\Pipe Segment.png" },
 
 
-            { "Oilrig0", "Buildings\\Oilrig.png" },
+            { "OilRig0", "Buildings\\Oilrig.png" },
+
+            { "WaterPump0", "Buidings\\Oilrig.png" },
             #endregion Buildings
 
 

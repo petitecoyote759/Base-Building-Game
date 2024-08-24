@@ -56,17 +56,18 @@ namespace Base_Building_Game
             }
 
             #region Random Stuff
-            hotbar.SetBuilding(BuildingID.Wall);
+            /*hotbar.SetBuilding(BuildingID.Wall);
             hotbar.SetBuilding(BuildingID.Bridge);
             hotbar.SetBuilding(BuildingID.Extractor);
             hotbar.SetBuilding(BuildingID.DropPod);
             hotbar.SetBuilding(BuildingID.SmallPort);
             hotbar.SetBuilding(BuildingID.MedPort);
             hotbar.SetBuilding(BuildingID.LargePort);
-            hotbar.SetBuilding(BuildingID.WorkCamp);
+            hotbar.SetBuilding(BuildingID.WorkCamp);*/
             hotbar.SetBuilding(BuildingID.Barrel);
             hotbar.SetBuilding(BuildingID.Pipe);
-
+            hotbar.SetBuilding(BuildingID.OilRig);
+            hotbar.SetBuilding(BuildingID.WaterPump);
 
             hotbar.BuildBuilding(BuildingID.DropPod, player.blockX, player.blockY);
 

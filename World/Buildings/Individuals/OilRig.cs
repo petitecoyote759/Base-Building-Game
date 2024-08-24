@@ -20,8 +20,8 @@ namespace Base_Building_Game
 
             public short ID { get; } = (short)BuildingID.OilRig;
 
-            public int xSize { get; } = 1;
-            public int ySize { get; } = 1;
+            public int xSize { get; } = 3;
+            public int ySize { get; } = 3;
 
             public float amount { get; set; } = 0;
 

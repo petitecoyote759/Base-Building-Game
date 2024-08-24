@@ -160,6 +160,28 @@ namespace Base_Building_Game
                         renderer.images["Barrel0"],
                     }
                 },
+
+                  {
+                    (short)BuildingID.WaterPump, new IntPtr[]
+                    {
+                        renderer.images["OilRig0"],
+                        renderer.images["OilRig0"],
+                        renderer.images["OilRig0"],
+                        renderer.images["OilRig0"],
+                        renderer.images["OilRig0"],
+                    }
+                },
+
+                {
+                    (short)BuildingID.OilRig, new IntPtr[]
+                    {
+                        renderer.images["OilRig0"],
+                        renderer.images["OilRig0"],
+                        renderer.images["OilRig0"],
+                        renderer.images["OilRig0"],
+                        renderer.images["OilRig0"],
+                    }
+                },
             };
 
 
