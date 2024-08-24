@@ -27,7 +27,7 @@ namespace Base_Building_Game
 
             public float amount { get; set; } = 0;
 
-            public short type { get; set; } = 0;
+            public short type { get; set; } = (short)FluidID.None;
 
             public Inventory? inventory { get; set; } = new Inventory();
 
@@ -57,7 +57,6 @@ namespace Base_Building_Game
                 //Have not tested but made code smaller, commented out section is version using mean
 
 
-
                 //up
                 Tile up = world.GetTile(pos.X, pos.Y - 1);
                 Tile right = world.GetTile(pos.X + 1, pos.Y);
@@ -66,9 +65,9 @@ namespace Base_Building_Game
                 List<Tile> all = new List<Tile>();
                 
 
-                if (up.building != null && up.building is FluidContainer)
+                if (up.building is FluidContainer)
                 {
-                    if (type == 0 && ((FluidContainer)up.building).type != 0)
+                    if (type == (short)FluidID.None && ((FluidContainer)up.building).type != (short)FluidID.None)
                     {
                         type = ((FluidContainer)up.building).type;
                     }
@@ -80,23 +79,23 @@ namespace Base_Building_Game
 
                 //right
                 
-                if (right.building != null &&  right.building is FluidContainer) 
+                if (right.building is FluidContainer) 
                 {
-                    if (type == 0 && ((FluidContainer)right.building).type != 0)
+                    if (type == (short)FluidID.None && ((FluidContainer)right.building).type != (short)FluidID.None)
                     {
                         type = ((FluidContainer)right.building).type;
                     }
                     if (type == ((FluidContainer)right.building).type)
                     {
-                        all.Add(right);
+                        all.Add(right);                  
                     }
                 }
 
                 //down
                 
-                if (down.building != null && down.building is FluidContainer) 
+                if (down.building is FluidContainer) 
                 {
-                    if (type == 0 && ((FluidContainer)down.building).type != 0)
+                    if (type == (short)FluidID.None && ((FluidContainer)down.building).type != (short)FluidID.None)
                     {
                         type = ((FluidContainer)down.building).type;
                     }
@@ -108,7 +107,7 @@ namespace Base_Building_Game
 
                 //left
                 
-                if (left.building != null && left.building is FluidContainer)
+                if (type == (short)FluidID.None && ((FluidContainer)left.building).type != (short)FluidID.None)
                 {
                     if (type == 0 && ((FluidContainer)left.building).type != 0)
                     {
@@ -124,12 +123,13 @@ namespace Base_Building_Game
                 
                 if (all.Count != 0)
                 {
+
                     float temp = 0;
+                    all.Add(world.GetTile(pos.X, pos.Y));
                     for (int i = 0; i < all.Count; i++) 
                     {
-                        temp = ((FluidContainer)all[i].building).amount + temp;
+                        temp += ((FluidContainer)all[i].building).amount;
                     }
-                    all.Add(world.GetTile(pos.X, pos.Y));
                     temp = temp / (float)all.Count;
                     for (int i = 0; i < all.Count; i++) 
                     {
@@ -138,12 +138,9 @@ namespace Base_Building_Game
 
                     }
 
-                
+
                 }
-
-
-                Console.WriteLine(amount);
-                Console.WriteLine(type);
+                
             }
 
             public Pipe(IVect pos)

@@ -12,15 +12,13 @@ namespace Base_Building_Game
 {
     public static partial class General 
     {
-        public static class Fluid
-        {
             public enum FluidID : short 
             {
                 None = 0,
                 Water,
                 Oil
             }
-        }
+        
     }
     
 }

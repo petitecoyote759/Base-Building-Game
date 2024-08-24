@@ -24,7 +24,7 @@ namespace Base_Building_Game
 
             public float amount { get; set; } = 0;
 
-            public short type { get; set; } = 1;
+            public short type { get; set; } = (short)FluidID.Water;
 
 
 
@@ -46,7 +46,7 @@ namespace Base_Building_Game
 
             public void Action(int dt) 
             {
-                amount = amount + 5;
+                amount = amount + 100 * dt;
                 
             }
 
