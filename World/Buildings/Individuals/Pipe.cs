@@ -49,9 +49,6 @@ namespace Base_Building_Game
 
             public void Action(int dt)
             {
-                //type 0 = none
-                //type 1 = water
-                //type 2 = oil
                 //checks if building nearby are fluid containers
                 //gets mean amount of all nearby fluid containers and makes all amounts equal to mean
                 //Have not tested but made code smaller, commented out section is version using mean
@@ -62,85 +59,164 @@ namespace Base_Building_Game
                 Tile right = world.GetTile(pos.X + 1, pos.Y);
                 Tile down = world.GetTile(pos.X, pos.Y + 1);
                 Tile left = world.GetTile(pos.X - 1, pos.Y);
-                List<Tile> all = new List<Tile>();
-                
+                Tile self = world.GetTile(pos.X, pos.Y);
+                List<FluidContainer> all = new List<FluidContainer>();
 
-                if (up.building is FluidContainer)
+                FluidContainer upcontainer = (FluidContainer)self.building;
+                FluidContainer rightcontainer = (FluidContainer)self.building;
+                FluidContainer downcontainer = (FluidContainer)self.building;
+                FluidContainer leftcontainer = (FluidContainer)self.building;
+                FluidContainer selfcontainer = (FluidContainer)self.building;
+
+                if (up.building != null) 
                 {
-                    if (type == (short)FluidID.None && ((FluidContainer)up.building).type != (short)FluidID.None)
+                    if (up.building is Linker uplinker && uplinker.ID == (short)BuildingID.OilRig)
                     {
-                        type = ((FluidContainer)up.building).type;
+                        upcontainer = (FluidContainer)uplinker.connectedBuilding;
                     }
-                    if (type == ((FluidContainer)up.building).type)
+                    else 
                     {
-                        all.Add(up);
+                        upcontainer = (FluidContainer)up.building;
                     }
                 }
+                if (upcontainer == selfcontainer) 
+                {
+
+                    upcontainer = null;
+                }
+                
+                
+
+                if (upcontainer != null)
+                {
+                    if (type == (short)FluidID.None && upcontainer.type != (short)FluidID.None)
+                    {
+                        type = upcontainer.type;
+                    }
+                    if (type == upcontainer.type)
+                    {
+                        all.Add(upcontainer);
+                    }
+                    
+                }
+
 
                 //right
-                
-                if (right.building is FluidContainer) 
+
+                if (right.building != null)
                 {
-                    if (type == (short)FluidID.None && ((FluidContainer)right.building).type != (short)FluidID.None)
+                    if (right.building is Linker rightlinker && rightlinker.ID == (short)BuildingID.OilRig)
                     {
-                        type = ((FluidContainer)right.building).type;
+                        rightcontainer = (FluidContainer)rightlinker.connectedBuilding;
                     }
-                    if (type == ((FluidContainer)right.building).type)
+                    else
                     {
-                        all.Add(right);                  
+                        rightcontainer = (FluidContainer)right.building;
                     }
+                }
+                if (rightcontainer == selfcontainer)
+                {
+                    rightcontainer = null;
+                }
+
+
+                if (rightcontainer != null)
+                {
+                    if (type == (short)FluidID.None && rightcontainer.type != (short)FluidID.None)
+                    {
+                        type = rightcontainer.type;
+                    }
+                    if (type == rightcontainer.type)
+                    {
+                        all.Add(rightcontainer);
+                    }
+
                 }
 
                 //down
-                
-                if (down.building is FluidContainer) 
+                if (down.building != null)
                 {
-                    if (type == (short)FluidID.None && ((FluidContainer)down.building).type != (short)FluidID.None)
+                    if (down.building is Linker downlinker && downlinker.ID == (short)BuildingID.OilRig)
                     {
-                        type = ((FluidContainer)down.building).type;
+                        downcontainer = (FluidContainer)downlinker.connectedBuilding;
                     }
-                    if (type == ((FluidContainer)down.building).type)
+                    else
                     {
-                        all.Add(down);
+                        downcontainer = (FluidContainer)down.building;
+                    }
+                }
+                if (downcontainer == selfcontainer)
+                {
+                    downcontainer = null;
+                }
+
+
+                if (downcontainer != null)
+                {
+                    if (type == (short)FluidID.None && downcontainer.type != (short)FluidID.None)
+                    {
+                        type = downcontainer.type;
+                    }
+                    if (type == downcontainer.type)
+                    {
+                        all.Add(downcontainer);
                     }
                 }
 
                 //left
-                
-                if (type == (short)FluidID.None && ((FluidContainer)left.building).type != (short)FluidID.None)
+
+                if (left.building != null)
                 {
-                    if (type == 0 && ((FluidContainer)left.building).type != 0)
+                    if (left.building is Linker leftlinker && leftlinker.ID == (short)BuildingID.OilRig)
                     {
-                        type = ((FluidContainer)left.building).type;
+                        leftcontainer = (FluidContainer)leftlinker.connectedBuilding;
                     }
-                    if (type == ((FluidContainer)left.building).type)
+                    else
                     {
-                        all.Add(left);
+                        leftcontainer = (FluidContainer)left.building;
+                    }
+                }
+                if (leftcontainer == selfcontainer)
+                {
+                    leftcontainer = null;
+                }
+
+
+                if (leftcontainer != null)
+                {
+                    if (type == (short)FluidID.None && leftcontainer.type != (short)FluidID.None)
+                    {
+                        type = leftcontainer.type;
+                    }
+                    if (type == leftcontainer.type)
+                    {
+                        all.Add(leftcontainer);
                     }
                 }
 
                 //all amount change
-                
+
                 if (all.Count != 0)
                 {
-
+                    Console.WriteLine("waaa");
                     float temp = 0;
-                    all.Add(world.GetTile(pos.X, pos.Y));
+                    all.Add(selfcontainer);
                     for (int i = 0; i < all.Count; i++) 
                     {
-                        temp += ((FluidContainer)all[i].building).amount;
+                        temp += all[i].amount;
                     }
                     temp = temp / (float)all.Count;
                     for (int i = 0; i < all.Count; i++) 
                     {
 
-                        ((FluidContainer)all[i].building).amount = temp;
+                        all[i].amount = temp;
 
                     }
 
 
                 }
-                
+                Console.WriteLine(amount);
+
             }
 
             public Pipe(IVect pos)
