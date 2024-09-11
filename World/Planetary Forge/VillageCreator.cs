@@ -6,6 +6,9 @@ using System.Text;
 using System.Threading.Tasks;
 using IVect = Short_Tools.General.ShortIntVector2;
 using Sector = Base_Building_Game.General.Sector;
+using BuildingID = Base_Building_Game.General.BuildingID;
+
+
 
 namespace PlanetaryForge
 {
@@ -121,6 +124,15 @@ namespace PlanetaryForge
 
         internal void Build(IVect pos, Action<int, int, short> Place)
         {
+            //// Instantly bricks the game, huh
+            //for (int x = -1; x < w + 1; x++)
+            //{
+            //    for (int y = -1; y < h + 1; y++)
+            //    {
+            //        Place(pos.x + x, pos.y + y, 6); // wall
+            //    }
+            //}
+
             for (int x = 0; x < w; x++)
             {
                 for (int y = 0; y < h; y++)
@@ -201,27 +213,31 @@ namespace PlanetaryForge
     {
         static Sector sector;
 
-        private static void Run(IVect seed, Sector inSector)
+        public static void Run(IVect seed, Sector inSector)
         {
             sector = inSector;
-
+            // TODO: move to json files
             Building[] buildings = new Building[] {
 
+            #region MainArea
             new Building(new short[,] {
-            { 0, 0, 0, 1, 0, 0, 0 },
-            { 0, 1, 1, 1, 1, 1, 0 },
-            { 0, 1, 0, 0, 0, 1, 0 },
+            { 6, 6, 6, 1, 6, 6, 6 },
+            { 6, 1, 1, 1, 1, 1, 6 },
+            { 6, 1, 2, 0, 0, 1, 6 },
             { 1, 1, 0, 0, 0, 1, 1 },
-            { 0, 1, 0, 0, 0, 1, 0 },
-            { 0, 1, 1, 1, 1, 1, 0 },
-            { 0, 0, 0, 1, 0, 0, 0 },
+            { 6, 1, 0, 0, 0, 1, 6 },
+            { 6, 1, 1, 1, 1, 1, 6 },
+            { 6, 6, 6, 1, 6, 6, 6 },
             }, 0),
+                #endregion
 
+            #region CrossRoads
             new Building(new short[,] {
             { 0, 1, 0 },
             { 1, 1, 1 },
             { 0, 1, 0 }
             }, 3),
+            #endregion
 
             #region Straights
             new Building(new short[,] {
@@ -312,7 +328,7 @@ namespace PlanetaryForge
             Queue<AccessPoint> nodesToVisit = new Queue<AccessPoint>();
             foreach (AccessPoint point in buildings[0].points)
             {
-                nodesToVisit.Enqueue(new AccessPoint() { pos = point.pos + mapMiddle, dir = point.dir });
+                nodesToVisit.Enqueue(new AccessPoint() { pos = point.pos + seed, dir = point.dir });
             }
 
 
@@ -354,10 +370,15 @@ namespace PlanetaryForge
 
 
 
-
-
-
-
+        enum BuildingEnum : short
+        {
+            Path = 1,
+            DropPod,
+            Extractor,
+            WorkCamp,
+            Barrel,
+            Wall,
+        }
 
 
 
@@ -367,11 +388,35 @@ namespace PlanetaryForge
 
         static void Place(int x, int y, short data) 
         {
-            if (data != 1) { return; }
+            sector[x, y].ID = data == 4 ?
+                (short)Base_Building_Game.General.TileID.Wood : 
+                (short)Base_Building_Game.General.TileID.Grass;
 
-            sector[x, y].building = new Base_Building_Game.General.Path(new IVect(x, y));
+
+
+            Base_Building_Game.General.hotbar.BuildBuilding(data switch
+            {
+                (short)BuildingEnum.Path => BuildingID.Path,
+                (short)BuildingEnum.DropPod => BuildingID.DropPod,
+                (short)BuildingEnum.Extractor => BuildingID.Extractor,
+                (short)BuildingEnum.WorkCamp => BuildingID.WorkCamp,
+                (short)BuildingEnum.Barrel => BuildingID.Barrel,
+                (short)BuildingEnum.Wall => BuildingID.Wall,
+
+                _ => BuildingID.None,
+            }, x, y);
         }
 
+
+
+        internal static readonly short[] validTiles = new short[]
+        {
+            (short)Base_Building_Game.General.TileID.Grass,
+            (short)Base_Building_Game.General.TileID.Stone,
+            (short)Base_Building_Game.General.TileID.Iron,
+            (short)Base_Building_Game.General.TileID.Diamond,
+            (short)Base_Building_Game.General.TileID.Wood,
+        };
 
         static bool Buildable(int x, int y)
         {
@@ -379,7 +424,11 @@ namespace PlanetaryForge
             int sectorSize = Base_Building_Game.General.SectorSize;
             if (x >= sectorSize || y >= sectorSize) { return false; }
 
-#warning DO this, need to see if it is grass and no building.
+            return (
+                validTiles.Contains(sector[x, y].ID)) &&
+                ((sector[x, y].building is null) ||
+                (sector[x, y].building.ID == (short)Base_Building_Game.General.BuildingID.Wall) ||
+                (sector[x, y].building.ID == (short)Base_Building_Game.General.BuildingID.None));
         }
     }
 }

@@ -30,7 +30,7 @@ namespace Base_Building_Game
 
         public static Handler handler = new Handler();
         static Player player = new Player();
-        static Hotbar hotbar = new Hotbar();
+        public static Hotbar hotbar = new Hotbar();
 
 #pragma warning disable CS8618
         static World world; // it gets created when you load in the game, no way its gonna be null

@@ -49,6 +49,15 @@ namespace Base_Building_Game
 
             ActiveSector = world[(World.size + 1) / 2, (World.size + 1) / 2];
 
+
+            foreach (IVect seed in Seeds)
+            {
+                PlanetaryForge.General.Run(seed, ActiveSector);
+            }
+
+            AddLog("Completed Village Generation");
+
+
             if (Thread.CurrentThread.Name == "ShortTools Rendering Thread")
             {
                 SaveMapImage($"Saves\\{renderer.worldName}\\{renderer.worldName}.png");
@@ -74,7 +83,7 @@ namespace Base_Building_Game
 
 
 
-
+        static List<IVect> Seeds = new List<IVect>();
         [MethodImpl(MethodImplOptions.AggressiveOptimization)]
         public static Sector CreatePFSector() // see https://www.desmos.com/calculator/zgaxgsk2ws for more info
         {
@@ -84,7 +93,7 @@ namespace Base_Building_Game
 
             #region SeedCreator
 
-            List<IVect> Seeds = new List<IVect>();
+            Seeds = new List<IVect>();
             
             for (int index = 0; index < SeedCount; index++)
             {
