@@ -96,6 +96,6 @@ namespace Base_Building_Game
 
 
 
-        const int SectorSize = 2048;
+        public const int SectorSize = 2048;
     }
 }

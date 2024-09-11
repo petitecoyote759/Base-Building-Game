@@ -169,6 +169,18 @@ namespace Base_Building_Game
                         renderer.images["Barrel0"],
                     }
                 },
+
+
+                  {
+                    (short)BuildingID.Path, new IntPtr[]
+                    {
+                        renderer.images["Path"],
+                        renderer.images["Path"],
+                        renderer.images["Path"],
+                        renderer.images["Path"],
+                        renderer.images["Path"],
+                    }
+                },
             };
 
 

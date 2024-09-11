@@ -40,6 +40,7 @@ namespace Base_Building_Game
 
 
             Bridge,
+            Path,
             Wall,
             Extractor,
             WorkCamp,
@@ -102,6 +103,7 @@ namespace Base_Building_Game
             return building switch
             {
                 BuildingID.Bridge    => new Bridge(pos),
+                BuildingID.Path      => new Path(pos),
                 BuildingID.Wall      => new Wall(pos),
                 BuildingID.Extractor => new Extractor(pos),
                 BuildingID.WorkCamp  => new WorkCamp(pos),
