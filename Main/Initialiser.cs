@@ -38,6 +38,7 @@ namespace Base_Building_Game
             { "Loading Images", new LoaderFunction(LoadImages) },
             { "Loading Tile Sprite Sheets", new LoaderFunction(LoadFancyTiles) },
             { "Loading Cutscenes", new LoaderFunction(LoadCutscenes) },
+            { "Loading Village Templates", new LoaderFunction(WorldGen.VillageGen.General.LoadTemplates) }
         };
 
         public static string CurrentLoaderFunction = "";

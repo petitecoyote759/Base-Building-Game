@@ -159,16 +159,16 @@ namespace Base_Building_Game
                         {
                             if (screenwidth / 2 - screenwidth / 8 <= mpos.x && mpos.x <= screenwidth / 2 - screenwidth / 8 + screenwidth / 4)
                             {
-                                if (renderer.seed != "")
+                                if (string.IsNullOrEmpty(renderer.seed))
                                 {
                                     if (int.TryParse(renderer.seed, out int seed)) { SetSeed(seed); }
                                 }
-                                if (renderer.worldName != "")
+                                if (!string.IsNullOrEmpty(renderer.worldName))
                                 {
                                     //TODO: make settings affect this
                                     //TODO: make load screen for this -> move it to main thread
 
-                                    ReqCreateWorld();
+                                    WorldGen.General.ReqCreateWorld();
                                     ReqSaveWorld(renderer.worldName);
                                 }
                             }
@@ -177,7 +177,7 @@ namespace Base_Building_Game
                     #region Typing
                     else if (inp.Length == 1) //TODO: make this work with _!-()[]{}'@~#:;><?
                     {
-                        if (ActiveKeys["LSHIFT"]) { inp = inp.ToUpper(); }
+                        if (ActiveKeys["LSHIFT"]) { inp = inp.ToUpperInvariant(); }
                         if (SelectedOption is bool option)
                         {
                             if (option == true) // name

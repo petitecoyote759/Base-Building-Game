@@ -211,7 +211,7 @@ namespace Base_Building_Game
 
 
 
-        private static T[,] Make2DArray<T>(T[] input, int height, int width)
+        public static T[,] Make2DArray<T>(T[] input, int height, int width)
         {
             T[,] output = new T[height, width];
             for (int i = 0; i < height; i++)

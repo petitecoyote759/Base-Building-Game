@@ -29,7 +29,7 @@ namespace Base_Building_Game
                 //This returns all of the entities which are on the screen using LINQ. It orders them by distance from the player in order to give them rendering priority if there are too many entities.
                 IEntity[] entitiesToRender =
                     (from entity in entities
-                     where GetPx(entity.pos.X) >= -zoom && GetPx(entity.pos.X) <= screenwidth && GetPy(entity.pos.Y) >= -zoom && GetPy(entity.pos.Y) <= screenheight
+                     where GetPx(entity?.pos.X ?? -SectorSize) >= -zoom && GetPx(entity?.pos.X ?? -SectorSize) <= screenwidth && GetPy(entity?.pos.Y ?? -SectorSize) >= -zoom && GetPy(entity?.pos.Y ?? -SectorSize) <= screenheight
                      orderby Vector2.Dot(player.pos - entity.pos, player.pos - entity.pos) ascending
                      select entity).ToArray();
 
@@ -37,7 +37,7 @@ namespace Base_Building_Game
                 //This returns all of the entities which are on the screen using LINQ. It orders them by distance from the player in order to give them rendering priority if there are too many entities.
                 IEntity[] activeEntitiesToRender =
                     (from entity in activeEntities
-                     where GetPx(entity.pos.X) >= -zoom && GetPx(entity.pos.X) <= screenwidth && GetPy(entity.pos.Y) >= -zoom && GetPy(entity.pos.Y) <= screenheight
+                     where GetPx(entity?.pos.X ?? -SectorSize) >= -zoom && GetPx(entity.pos.X) <= screenwidth && GetPy(entity.pos.Y) >= -zoom && GetPy(entity.pos.Y) <= screenheight
                      orderby Vector2.Dot(player.pos - entity.pos, player.pos - entity.pos) ascending
                      select entity).ToArray();
 

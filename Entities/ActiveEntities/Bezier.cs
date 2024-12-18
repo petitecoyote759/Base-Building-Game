@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using System.Numerics;
 using System.Security.Cryptography.X509Certificates;
 using System.Drawing.Drawing2D;
-
+using System.Diagnostics.CodeAnalysis;
 
 namespace Base_Building_Game
 {
@@ -15,7 +15,7 @@ namespace Base_Building_Game
 
         public static class Bézier
         {
-            public static Vector2 ComputeBézier(float t, params Vector2[] nodes)
+            public static Vector2 ComputeBézier(float t, [NotNull] params Vector2[] nodes)
             {
                
                 switch (nodes.Length)

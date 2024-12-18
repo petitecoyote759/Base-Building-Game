@@ -7,10 +7,10 @@ using System.Threading.Tasks;
 using IVect = Short_Tools.General.ShortIntVector2;
 using Sector = Base_Building_Game.General.Sector;
 using BuildingID = Base_Building_Game.General.BuildingID;
+using Newtonsoft;
+using Newtonsoft.Json;
 
-
-
-namespace PlanetaryForge
+namespace Base_Building_Game.WorldGen.VillageGen
 {
     public interface WeightedItem
     {
@@ -77,6 +77,7 @@ namespace PlanetaryForge
         }
 
 
+#pragma warning disable CS8618 // points gets defined in a function call silly
         internal Building(short[,] data, int weight)
         {
             this.data = data;
@@ -87,6 +88,7 @@ namespace PlanetaryForge
 
             CalcAccessPoints();
         }
+#pragma warning restore
 
         private void CalcAccessPoints()
         {
@@ -99,7 +101,7 @@ namespace PlanetaryForge
                 if (IsPath(Get(data, TestPoint))) { points.Add(new AccessPoint() { pos = TestPoint, dir = new IVect(0, -1) }); }
             }
 
-            for (int y = 0; y < w; y++)
+            for (int y = 0; y < h; y++)
             {
                 TestPoint.y = y;
                 if (IsPath(Get(data, TestPoint))) { points.Add(new AccessPoint() { pos = TestPoint, dir = new IVect(1, 0) }); }
@@ -189,126 +191,141 @@ namespace PlanetaryForge
     }
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-    internal class General
+    internal class BuildingJson
     {
+#pragma warning disable CS8618 // data must be non null from contructor - used in json so its chill
+        public short[,] data { get; set; }
+#pragma warning restore
+        public int weight { get; set; }
+
+        public Building ToBuilding() => new Building(data, weight);
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    internal static class General
+    {
+        public static void Main(string[] args)
+        {
+#warning Test this
+        }
+
+
+
+
+
+
+
+
+
+
+
+#pragma warning disable CS8618 // data must be non null from contructor - static class??????
         static Sector sector;
+#pragma warning restore
 
         public static void Run(IVect seed, Sector inSector)
         {
             sector = inSector;
-            // TODO: move to json files
-            Building[] buildings = new Building[] {
-
-            #region MainArea
-            new Building(new short[,] {
-            { 6, 6, 6, 1, 6, 6, 6 },
-            { 6, 1, 1, 1, 1, 1, 6 },
-            { 6, 1, 2, 0, 0, 1, 6 },
-            { 1, 1, 0, 0, 0, 1, 1 },
-            { 6, 1, 0, 0, 0, 1, 6 },
-            { 6, 1, 1, 1, 1, 1, 6 },
-            { 6, 6, 6, 1, 6, 6, 6 },
-            }, 0),
-                #endregion
-
-            #region CrossRoads
-            new Building(new short[,] {
-            { 0, 1, 0 },
-            { 1, 1, 1 },
-            { 0, 1, 0 }
-            }, 3),
-            #endregion
-
-            #region Straights
-            new Building(new short[,] {
-            { 0, 1, 0 },
-            { 0, 1, 0 },
-            { 0, 1, 0 }
-            }, 4),
-
-            new Building(new short[,] {
-            { 0, 0, 0 },
-            { 1, 1, 1 },
-            { 0, 0, 0 }
-            }, 4),
-            #endregion
-
-            #region Deadends
-                new Building(new short[,] {
-            { 0, 1, 0 },
-            { 0, 0, 0 },
-            { 0, 0, 0 }
-            }, 2),
-
-            new Building(new short[,] {
-            { 0, 0, 0 },
-            { 0, 0, 1 },
-            { 0, 0, 0 }
-            }, 2),
-
-            new Building(new short[,] {
-            { 0, 0, 0 },
-            { 0, 0, 0 },
-            { 0, 1, 0 }
-            }, 2),
-
-            new Building(new short[,] {
-            { 0, 0, 0 },
-            { 1, 0, 0 },
-            { 0, 0, 0 }
-            }, 2),
-                #endregion
-
-            #region TJunctions
-            new Building(new short[,] {
-            { 0, 0, 0 },
-            { 1, 1, 1 },
-            { 0, 1, 0 }
-            }, 2),
-
-            new Building(new short[,] {
-            { 0, 1, 0 },
-            { 1, 1, 0 },
-            { 0, 1, 0 }
-            }, 2),
-
-            new Building(new short[,] {
-            { 0, 1, 0 },
-            { 1, 1, 1 },
-            { 0, 0, 0 }
-            }, 2),
-
-            new Building(new short[,] {
-            { 0, 1, 0 },
-            { 0, 1, 1 },
-            { 0, 1, 0 }
-            }, 2),
-            #endregion
-            };
 
 
-            GenVillage(buildings, seed);
+            try
+            {
+                GenVillage(Abuildings, seed);
+            }
+            catch (Exception e)
+            {
+                Base_Building_Game.General.debugger.AddLog(e.Message, Short_Tools.ShortDebugger.Priority.ERROR);
+            }
         }
+
+
+
+
+
+
+#pragma warning disable CS8618 // data must be non null from contructor - static class??????
+        static Building[] Abuildings;
+        static Building hub;
+#pragma warning restore
+
+        public static void LoadTemplates()
+        {
+            hub = new Building(new short[,] {
+            { 2, 2, 2, 1, 2, 2, 2 },
+            { 2, 1, 1, 1, 1, 1, 2 },
+            { 2, 1, 6, 0, 0, 1, 2 },
+            { 1, 1, 0, 0, 0, 1, 1 },
+            { 2, 1, 0, 0, 0, 1, 2 },
+            { 2, 1, 1, 1, 1, 1, 2 },
+            { 2, 2, 2, 1, 2, 2, 2 },
+            }, 0);
+
+
+
+            Abuildings = GetBuildings("Buildings"); // TODO: change this location!!!!!
+        }
+
+
+
+        internal static Building[] GetBuildings(string folderPath)
+        {
+            List<Building> files = new List<Building>();
+            Queue<string> toVisitFiles = new Queue<string>();
+
+            if (!Directory.Exists(folderPath)) { throw new CantFindVillageTemplatesException(folderPath); }
+
+            toVisitFiles.Enqueue(folderPath);
+
+            while (toVisitFiles.Count != 0)
+            {
+                string file = toVisitFiles.Dequeue();
+
+                foreach (string directory in Directory.GetDirectories(file))
+                {
+                    toVisitFiles.Enqueue(directory);
+                }
+                foreach (string filetype in Directory.GetFiles(file))
+                {
+                    if (filetype.Length <= 4) { continue; }
+                    if (filetype.Substring(filetype.Length - 5, 5) != ".json") { continue; }
+
+                    string data = File.ReadAllText(filetype);
+                    BuildingJson? json = JsonConvert.DeserializeObject<BuildingJson>(data);
+                    if (json is null) { continue; }
+                    if (json.data is null) { continue; }
+                    files.Add(json.ToBuilding());
+                }
+            }
+
+            return files.ToArray();
+        }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -332,8 +349,10 @@ namespace PlanetaryForge
             }
 
 
-            while (nodesToVisit.Count() != 0)
+            while (nodesToVisit.Count != 0)
             {
+                if (nodesToVisit.Count > 10000) { throw new VillageGenTooLargeException(); }
+
                 currentBuildAttempt = 0;
                 AccessPoint node = nodesToVisit.Dequeue();
 
@@ -373,11 +392,13 @@ namespace PlanetaryForge
         enum BuildingEnum : short
         {
             Path = 1,
-            DropPod,
+            Wall,
             Extractor,
             WorkCamp,
             Barrel,
-            Wall,
+            DropPod,
+            Turret,
+
         }
 
 
@@ -385,10 +406,13 @@ namespace PlanetaryForge
 
 
 
-
+#pragma warning disable CS8602 // sector could be null, 
+        /// <summary>
+        /// dont call before sector is passed in.
+        /// </summary>
         static void Place(int x, int y, short data) 
         {
-            sector[x, y].ID = data == 4 ?
+            sector[x, y].ID = data == (short)BuildingEnum.Extractor ?
                 (short)Base_Building_Game.General.TileID.Wood : 
                 (short)Base_Building_Game.General.TileID.Grass;
 
@@ -406,7 +430,7 @@ namespace PlanetaryForge
                 _ => BuildingID.None,
             }, x, y);
         }
-
+#pragma warning restore
 
 
         internal static readonly short[] validTiles = new short[]
@@ -418,6 +442,11 @@ namespace PlanetaryForge
             (short)Base_Building_Game.General.TileID.Wood,
         };
 
+
+#pragma warning disable CS8602 // sector could be null, 
+        /// <summary>
+        /// dont call before sector is passed in.
+        /// </summary>
         static bool Buildable(int x, int y)
         {
             if (0 > x || 0 > y) { return false; }
@@ -427,8 +456,25 @@ namespace PlanetaryForge
             return (
                 validTiles.Contains(sector[x, y].ID)) &&
                 ((sector[x, y].building is null) ||
-                (sector[x, y].building.ID == (short)Base_Building_Game.General.BuildingID.Wall) ||
-                (sector[x, y].building.ID == (short)Base_Building_Game.General.BuildingID.None));
+                (sector[x, y].building.ID == (short)BuildingID.None));
         }
+#pragma warning restore
+    }
+
+
+
+
+
+
+
+
+
+
+
+    public class VillageGenTooLargeException : Exception { public new string Message = "Village nodes exceded maximum value."; }
+    public class CantFindVillageTemplatesException : Exception
+    {
+        public CantFindVillageTemplatesException(string path) : base(message + path + ".") { }
+        private const string message = "Village templates not found at ";
     }
 }

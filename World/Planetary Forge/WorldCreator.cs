@@ -15,7 +15,7 @@ using IVect = Short_Tools.General.ShortIntVector2;
 
 
 
-namespace Base_Building_Game
+namespace Base_Building_Game.WorldGen
 {
     public static partial class General
     {
@@ -24,7 +24,7 @@ namespace Base_Building_Game
         const int DefForce = 100;
 
 
-        static bool WaitingForWorldCreate = false;
+        public static bool WaitingForWorldCreate = false;
 
         public static void ReqCreateWorld()
         {
@@ -37,7 +37,7 @@ namespace Base_Building_Game
 
 
 
-        public static void CreateWorld()
+        public static void CreateWorld(out World world, out Sector ActiveSector)
         {
             WaitingForWorldCreate = false;
             MenuState = MenuStates.Loading;
@@ -52,7 +52,7 @@ namespace Base_Building_Game
 
             foreach (IVect seed in Seeds)
             {
-                PlanetaryForge.General.Run(seed, ActiveSector);
+                VillageGen.General.Run(seed, ActiveSector);
             }
 
             AddLog("Completed Village Generation");
@@ -163,7 +163,7 @@ namespace Base_Building_Game
             #endregion GetSeeds
 
 
-            CreateLand(Seeds.ToArray(), sector);
+            WorldGen.LandGen.General.CreateLand(Seeds.ToArray(), sector);
 
             AddLog("Completed land generation", ShortDebugger.Priority.DEBUG);
 

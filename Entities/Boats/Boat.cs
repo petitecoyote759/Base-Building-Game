@@ -250,7 +250,7 @@ namespace Base_Building_Game
             {
                 pilot.pos = boat.pos;
                 player.angle = boat.angle;
-                for (int i = 0; i < player.Legs.Count(); i++)
+                for (int i = 0; i < player.Legs.Length; i++)
                 {
                     player.Legs[i] += boat.velocity * dt / boat.Weight;
                 }
@@ -258,7 +258,7 @@ namespace Base_Building_Game
             else if (IsPlayerWithinHitbox(boat, player.x, player.y))
             {
                 player.pos += boat.velocity * dt / boat.Weight;
-                for (int i = 0; i < player.Legs.Count(); i++)
+                for (int i = 0; i < player.Legs.Length; i++)
                 {
                     player.Legs[i] += boat.velocity * dt / boat.Weight;
                 }

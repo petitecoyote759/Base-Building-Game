@@ -13,7 +13,7 @@ using IVect = Short_Tools.General.ShortIntVector2;
 
 
 
-namespace Base_Building_Game
+namespace Base_Building_Game.WorldGen.LandGen
 {
     public static partial class General
     {
@@ -25,17 +25,17 @@ namespace Base_Building_Game
 
 
         [MethodImpl(MethodImplOptions.AggressiveOptimization)]
-        public static void CreateLand(IVect[] seeds, Sector sector)
+        public static void CreateLand(IVect[] seeds, Base_Building_Game.General.Sector sector)
         {
-            PerlinMap map = new PerlinMap();
+            Perlin.PerlinMap map = new Perlin.PerlinMap();
 
-            PerlinMap subMap1 = new PerlinMap(16);
+            Perlin.PerlinMap subMap1 = new Perlin.PerlinMap(16);
 
-            PerlinMap subMap2 = new PerlinMap(8);
+            Perlin.PerlinMap subMap2 = new Perlin.PerlinMap(8);
 
-            for (int x = 0; x < SectorSize; x++)
+            for (int x = 0; x < Base_Building_Game.General.SectorSize; x++)
             {
-                for (int y = 0; y < SectorSize; y++)
+                for (int y = 0; y < Base_Building_Game.General.SectorSize; y++)
                 {
 
 
@@ -62,18 +62,18 @@ namespace Base_Building_Game
                     {
                         value -= (x - OuterWidth) * (x - OuterWidth) / (FallOff * FallOff); 
                     }
-                    else if (x > SectorSize - OuterWidth)
+                    else if (x > Base_Building_Game.General.SectorSize - OuterWidth)
                     {
-                        value -= (SectorSize - (x + OuterWidth)) * (SectorSize - (x + OuterWidth)) / (FallOff * FallOff);
+                        value -= (Base_Building_Game.General.SectorSize - (x + OuterWidth)) * (Base_Building_Game.General.SectorSize - (x + OuterWidth)) / (FallOff * FallOff);
                     }
 
                     if (y < OuterWidth)
                     {
                         value -= (y - OuterWidth) * (y - OuterWidth) / (FallOff * FallOff);
                     }
-                    else if (y > SectorSize - OuterWidth)
+                    else if (y > Base_Building_Game.General.SectorSize - OuterWidth)
                     {
-                        value -= (SectorSize - (y + OuterWidth)) * (SectorSize - (y + OuterWidth)) / (FallOff * FallOff);
+                        value -= (Base_Building_Game.General.SectorSize - (y + OuterWidth)) * (Base_Building_Game.General.SectorSize - (y + OuterWidth)) / (FallOff * FallOff);
                     }
                     #endregion Falloff
 
@@ -81,26 +81,26 @@ namespace Base_Building_Game
                     #region SelectTileType
                     if (value < -0.2f)
                     {
-                        sector[x, y] = new Tile(TileID.DeepOcean);
+                        sector[x, y] = new Base_Building_Game.General.Tile(Base_Building_Game.General.TileID.DeepOcean);
                     }
                     else if (value < 1.2f)
                     {
-                        sector[x, y] = new Tile(TileID.Ocean);
+                        sector[x, y] = new Base_Building_Game.General.Tile(Base_Building_Game.General.TileID.Ocean);
                     }
                     else if (value < 1.4f)
                     {
-                        sector[x, y] = new Tile(TileID.Sand);
+                        sector[x, y] = new Base_Building_Game.General.Tile(Base_Building_Game.General.TileID.Sand);
                     }
                     else
                     {
-                        sector[x, y] = new Tile(TileID.Grass);
+                        sector[x, y] = new Base_Building_Game.General.Tile(Base_Building_Game.General.TileID.Grass);
                     }
                     #endregion SelectTileType
                 }
             }
-            AddLog("Terrain Generated", ShortDebugger.Priority.DEBUG);
+            Base_Building_Game.General.AddLog("Terrain Generated", ShortDebugger.Priority.DEBUG);
             GenResources(sector);
-            AddLog("Resources Generated", ShortDebugger.Priority.DEBUG);
+            Base_Building_Game.General.AddLog("Resources Generated", ShortDebugger.Priority.DEBUG);
         }
 
 
@@ -118,12 +118,12 @@ namespace Base_Building_Game
 
 
         #region ResourceNodes
-        public static void GenResources(Sector sector)
+        public static void GenResources(Base_Building_Game.General.Sector sector)
         {
-            GenResourceNode(sector, 8, 1.6f, TileID.Diamond, 600);
-            GenResourceNode(sector, 8, 1.4f, TileID.Iron, 300);
-            GenResourceNode(sector, 8, 1.3f, TileID.Stone, 0);
-            GenResourceNode(sector, 16, 1.2f, TileID.Wood, 0);
+            GenResourceNode(sector, 8, 1.6f, Base_Building_Game.General.TileID.Diamond, 600);
+            GenResourceNode(sector, 8, 1.4f, Base_Building_Game.General.TileID.Iron, 300);
+            GenResourceNode(sector, 8, 1.3f, Base_Building_Game.General.TileID.Stone, 0);
+            GenResourceNode(sector, 16, 1.2f, Base_Building_Game.General.TileID.Wood, 0);
         }
 
 
@@ -131,21 +131,23 @@ namespace Base_Building_Game
 
 #pragma warning disable CS8602 // sector wont be null.
         [MethodImpl(MethodImplOptions.AggressiveOptimization)]
-        public static void GenResourceNode(Sector sector, int size, float scale, TileID target, int mindistance)
+        public static void GenResourceNode(Base_Building_Game.General.Sector sector, int size, float scale,
+            Base_Building_Game.General.TileID target, int mindistance)
         {
-            PerlinMap Map = new PerlinMap(size);
+            Perlin.PerlinMap Map = new Perlin.PerlinMap(size);
 
-            for (int x = 0; x < SectorSize; x++)
+            for (int x = 0; x < Base_Building_Game.General.SectorSize; x++)
             {
-                for (int y = 0; y < SectorSize; y++)
+                for (int y = 0; y < Base_Building_Game.General.SectorSize; y++)
                 {
                     float value = 2 * Map.GetValue(x, y) / Map.PerlinWidth;
 
-                    if (value > scale && sector[x, y].ID == (short)TileID.Grass)
+                    if (value > scale && sector[x, y].ID == (short)Base_Building_Game.General.TileID.Grass)
                     {
-                        if (new IVect(x - SectorSize / 2, y - SectorSize / 2).Mag() > mindistance)
+                        if (new IVect(x - Base_Building_Game.General.SectorSize / 2, 
+                            y - Base_Building_Game.General.SectorSize / 2).Mag() > mindistance)
                         {
-                            sector[x, y] = new Tile(target);
+                            sector[x, y] = new Base_Building_Game.General.Tile(target);
                         }
                     }
                 }

@@ -16,20 +16,20 @@ namespace Base_Building_Game
     {
         static Random randysParent = new Random();
         static int RandSeed = randysParent.Next();
-        static Random randy = new Random(RandSeed);
+        public static Random randy = new Random(RandSeed);
 
-        static Renderer renderer = new Renderer();
+        public static Renderer renderer = new Renderer();
         static Settings settings = new Settings();
 
 #if DEBUG
-        static Debugger debugger = new Debugger("General", "Logs\\", Debugger.Flags.DISPLAY_ON_ADD_LOG);
+        public static Debugger debugger = new Debugger("General", "Logs\\", Debugger.Flags.DISPLAY_ON_ADD_LOG);
 #else
-        static Debugger debugger = new Debugger("General", "Logs\\");
+        public static Debugger debugger = new Debugger("General", "Logs\\");
 #endif
 
 
         public static Handler handler = new Handler();
-        static Player player = new Player();
+        public static Player player = new Player();
         public static Hotbar hotbar = new Hotbar();
 
 #pragma warning disable CS8618

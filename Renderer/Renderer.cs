@@ -219,11 +219,11 @@ namespace Base_Building_Game
 
 
 
-                /// <summary>
-                /// Gets the pixil x position of an object. 
-                /// </summary>
-                /// <param name="x"></param>
-                /// <returns></returns>
+            /// <summary>
+            /// Gets the pixil x position of an object. 
+            /// </summary>
+            /// <param name="x"></param>
+            /// <returns></returns>
             public int GetPx(float x)
             {
                 return (int)(zoom *  (x - player.camPos.X) + halfscreenwidth);

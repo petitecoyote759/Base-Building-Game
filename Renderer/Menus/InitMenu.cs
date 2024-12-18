@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -52,30 +53,31 @@ namespace Base_Building_Game
 
 
 
-            public string GetPercentage(int value)
+            public static string GetPercentage(int value)
             {
                 if (value < 10)
                 {
-                    return "  " + value.ToString() + "%";
+                    return "  " + value.ToString(CultureInfo.CurrentCulture) + "%";
                 }
                 else if (value != 100)
                 {
-                    return " " + value.ToString() + "%";
+                    return " " + value.ToString(CultureInfo.CurrentCulture) + "%";
                 }
-                return value.ToString() + "%";
+                return value.ToString(CultureInfo.CurrentCulture) + "%";
             }
 
 
 
-            public string CutoffString(string text, int length)
+            public static string CutoffString(string text, int length)
             {
+                text ??= "";
                 if (text.Length < length)
                 {
                     return text;
                 }
                 else
                 {
-                    return text.Substring(length - 3) + "...";
+                    return string.Concat(text.AsSpan(length - 3), "...");
                 }
             }
         }

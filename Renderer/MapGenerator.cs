@@ -24,7 +24,7 @@ namespace Base_Building_Game
 
 
 
-        static void ReqSaveMapImage(string path)
+        public static void ReqSaveMapImage(string path)
         {
             while (SavingMapImage) { Thread.Sleep(5); }
 
