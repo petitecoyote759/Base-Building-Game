@@ -4,6 +4,7 @@ using System.ComponentModel;
 using System.Linq;
 using System.Numerics;
 using System.Reflection;
+using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 using IVect = Short_Tools.General.ShortIntVector2;
@@ -38,6 +39,7 @@ namespace Base_Building_Game
                 LoadedActiveEntities.Add(this);
             }
 
+            [MethodImpl(MethodImplOptions.AggressiveOptimization)]
             public void Action(int dt)
             {
 
@@ -150,14 +152,23 @@ namespace Base_Building_Game
 
 
             }
+
+
+            private static float RoughDist(Vector2 a, Vector2 b)
+            {
+                return Math.Abs(a.X - b.X) + Math.Abs(a.Y - b.Y);
+            }
+
+            const int MaxItemDist = 70;
             public void FindItem()
             {
                 //Returns all of the items in the loaded entities that are not currently being targeted, ordered by distance from the entity.
-                //This should be fixed soon, I dont like the issue that I brought up with Maddie. 
-                IEntity[] items =  (from item in LoadedEntities
-                                where (item is Item && !((Item)item).Targeted)
-                                orderby Vector2.Dot(item.pos - pos, item.pos - pos) ascending
-                                select item).ToArray();
+                //This should be fixed soon, I dont like the issue that I brought up with M. 
+                IEnumerable<Item> items =  (from item in LoadedEntities
+                                where RoughDist(item.pos, pos) < MaxItemDist
+                                where (item is Item item1 && !item1.Targeted)
+                                orderby (item.pos - pos).LengthSquared() ascending
+                                select (Item)item);
                
                 //Whenever you want items to not be targeted, add the specification into this foreach loop. 
                 foreach (Item item in items)
@@ -180,6 +191,10 @@ namespace Base_Building_Game
                 }
                 return false;
             }
+#pragma warning disable CS8604 // heldItem could be null
+            /// <summary>
+            /// Do not call when heldItem is null ig.
+            /// </summary>
             public bool DepositItem()
             {
                 if ((IVect)camp.pos == (IVect)this.pos)
@@ -191,6 +206,7 @@ namespace Base_Building_Game
                 }
                 return false;
             }
+#pragma warning restore CS8604
             public void ReturnToCamp()
             {
                 AStar pathing = new AStar(world.Walkable, camp.pos, this.pos);
@@ -207,14 +223,31 @@ namespace Base_Building_Game
                     nextPositions[i] = path.Pop();
                 }
             }
+#pragma warning disable CS8604 // next positions could be null
+            /// <summary>
+            /// Dont call when next positions is null
+            /// </summary>
             public void Move(int dt)
             {
-                t = t + dt;
+                t += dt;
                 if (t >= MovementScalar)
                 {
                     t = (int)MovementScalar;
                 }
-                this.pos = Bézier.ComputeBézier(t / MovementScalar, nextPositions);
+
+                if ((pos - player.pos).LengthSquared() < (renderer.screenwidth * renderer.screenwidth) / (float)(renderer.zoom * renderer.zoom))
+                {
+                    this.pos = Bézier.ComputeBézier(t / MovementScalar, nextPositions);
+                }
+                else
+                {
+                    if (nextPositions.Length != 0)
+                    {
+                        this.pos = new Vector2(nextPositions[0].X + t * (nextPositions[1].X - nextPositions[0].X), nextPositions[0].Y + t * (nextPositions[1].Y - nextPositions[0].Y));
+                    }
+                }
+
+
                 if (heldItem is not null)
                 {
                     heldItem.pos = this.pos;
