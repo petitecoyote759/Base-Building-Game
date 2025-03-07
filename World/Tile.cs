@@ -35,7 +35,7 @@ namespace Base_Building_Game
         // THE WIDTH OF A TILE IS 32!!!!!!!!!
         public class Tile
         {
-            public int code = 255;
+            public byte code = 255;
 
             public short ID;
             public Building? building;

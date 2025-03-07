@@ -8,6 +8,7 @@ using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 using IVect = Short_Tools.General.ShortIntVector2;
+using Base_Building_Game.Entities.AStar;
 
 
 #pragma warning disable CS8602 // dereference of a possibly null reference. its to do with paths, again, i trust bayl on this
@@ -27,11 +28,13 @@ namespace Base_Building_Game
             public Item? heldItem {get; set; } = null;
             public Item? targetedItem { get; set; } = null;
             long lastTimeToCalcPath;
-            public Stack<Vector2>? path { get; set; } = new Stack<Vector2>();
+            public Queue<Vector2>? path { get; set; } = new Queue<Vector2>();
             public WorkCamp camp { get; }
-            Vector2[]? nextPositions = null;
+            internal Vector2[]? nextPositions = null;
             const float MovementScalar = 100;
             int t;
+            AStar pather = new AStar(Walkable, 50, true);
+            static bool Walkable(int x, int y) => world.Walkable(x, y, false);
             public Men(Vector2 pos,WorkCamp camp)
             {
                 this.pos = pos;
@@ -98,6 +101,13 @@ namespace Base_Building_Game
                 }*/
 
 
+                if (path.Count == 1 && path.Peek() == pos)
+                {
+                    path = new Queue<Vector2>();
+                }
+
+
+
                 if (targetedItem is null && path.Count == 0 && nextPositions is null)
                 {
                     if (DateTimeOffset.Now.ToUnixTimeMilliseconds() - lastTimeToCalcPath > 10000)
@@ -109,7 +119,7 @@ namespace Base_Building_Game
                             {
                                 targetedItem.Targeted = false;
                                 targetedItem = null;
-                                path = new Stack<Vector2>();
+                                path = new Queue<Vector2>();
                                 lastTimeToCalcPath = DateTimeOffset.Now.ToUnixTimeMilliseconds();
                             }
                         }
@@ -150,7 +160,20 @@ namespace Base_Building_Game
 
 
 
+                if (targetedItem is not null && path.Count == 0 && heldItem is null)
+                {
+                    targetedItem.Targeted = false;
+                    targetedItem = null;
+                    FindItem();
 
+                    if (path is null)
+                    {
+                        targetedItem.Targeted = false;
+                        targetedItem = null;
+                        path = new Queue<Vector2>();
+                        lastTimeToCalcPath = DateTimeOffset.Now.ToUnixTimeMilliseconds();
+                    }
+                }
             }
 
 
@@ -163,20 +186,21 @@ namespace Base_Building_Game
             public void FindItem()
             {
                 //Returns all of the items in the loaded entities that are not currently being targeted, ordered by distance from the entity.
-                //This should be fixed soon, I dont like the issue that I brought up with M. 
-                IEnumerable<Item> items =  (from item in LoadedEntities
+                //This should be fixed soon, I dont like the issue that I brought up with M.
+                IEntity[] entities = LoadedEntities.ToArray();
+                Item[] items =  (from item in entities
+                                where item is not null
                                 where RoughDist(item.pos, pos) < MaxItemDist
                                 where (item is Item item1 && !item1.Targeted)
                                 orderby (item.pos - pos).LengthSquared() ascending
-                                select (Item)item);
-               
+                                select (Item)item).ToArray();
+
                 //Whenever you want items to not be targeted, add the specification into this foreach loop. 
                 foreach (Item item in items)
                 {
                     item.Targeted = true;
                     targetedItem = item;
-                    AStar pathing = new AStar(world.Walkable, item.pos, this.pos);
-                    path = pathing.GetPath(50);
+                    path = pather.GetPath(pos, targetedItem.pos);
 
                     break;
                 }
@@ -209,8 +233,7 @@ namespace Base_Building_Game
 #pragma warning restore CS8604
             public void ReturnToCamp()
             {
-                AStar pathing = new AStar(world.Walkable, camp.pos, this.pos);
-                path = pathing.GetPath(50);
+                path = pather.GetPath(pos, camp.pos);
             }
             
             public void AddNextNodes()
@@ -220,7 +243,7 @@ namespace Base_Building_Game
                 nextPositions[0] = pos;
                 for (int i = 1; i < size; i++)
                 {
-                    nextPositions[i] = path.Pop();
+                    nextPositions[i] = path.Dequeue();
                 }
             }
 #pragma warning disable CS8604 // next positions could be null
@@ -243,7 +266,8 @@ namespace Base_Building_Game
                 {
                     if (nextPositions.Length != 0)
                     {
-                        this.pos = new Vector2(nextPositions[0].X + t * (nextPositions[1].X - nextPositions[0].X), nextPositions[0].Y + t * (nextPositions[1].Y - nextPositions[0].Y));
+                        float t1 = t / MovementScalar;
+                        this.pos = new Vector2(nextPositions[0].X + t1 * (nextPositions[1].X - nextPositions[0].X), nextPositions[0].Y + t1 * (nextPositions[1].Y - nextPositions[0].Y));
                     }
                 }
 

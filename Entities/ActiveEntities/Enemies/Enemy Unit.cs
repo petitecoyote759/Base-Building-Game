@@ -7,7 +7,7 @@ using static System.Numerics.Vector2;
 using IVect = Short_Tools.General.ShortIntVector2;
 using Priority = Short_Tools.ShortDebugger.Priority;
 //using V2 = System.Numerics.Vector2;
-
+using Base_Building_Game.Entities.AStar;
 
 
 
@@ -31,19 +31,20 @@ namespace Base_Building_Game
 
             #region Path
 
-            Stack<Vector2>? path = null;
+            Queue<Vector2>? path = null;
 
             IEntity? Target = null;
 
             bool Wandering = true;
 
-
+            AStar pather = new AStar(Walkable, 50, true);
 
 
             public void GetPath(IVect target, int maxDist = 30) // block dist ykyk
             {
-                path = new AStar(world.Walkable, target, pos).GetPath(maxDist);
+                path = pather.GetPath(pos, target);
             }
+            static bool Walkable(int x, int y) => world.Walkable(x, y, false);
 
             #endregion Path
 

@@ -79,9 +79,10 @@ namespace Base_Building_Game
 
 
             //new DropInAni();
-          
+
 
             //PlayCutscene("IntroCutscene");
+            Thread.CurrentThread.Name = "Main Running Thread";
 
 
             while (Running)
@@ -131,7 +132,6 @@ namespace Base_Building_Game
 
                     dt = GetDt(ref LFT);
                     
-                    RunActiveEntities((int)dt);
                 }
                 #endregion In Game
 

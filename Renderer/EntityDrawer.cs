@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Numerics;
 using System.Text;
@@ -60,9 +61,27 @@ namespace Base_Building_Game
 
                 foreach (IActiveEntity activeEntity in activeEntitiesToRender)
                 {
-                    if (activeEntity is Men)
+                    if (activeEntity is Men man)
                     {
                         DrawBP(activeEntity.pos.X, activeEntity.pos.Y, images["Man"]);
+
+                        if (settings.Debugging)
+                        {
+                            IVect mPos = getMousePos();
+                            int x = GetPx(activeEntity.pos.X);
+                            int y = GetPy(activeEntity.pos.Y);
+                            if (x <= mPos.x && mPos.x <= x + zoom &&
+                                y <= mPos.y && mPos.y <= y + zoom)
+                            {
+                                string text = $"Item: {man.heldItem}\r" +
+                                    $"Path Length: {(Convert.ToString(man.path?.Count, CultureInfo.InvariantCulture) ?? "n/a")}\r" +
+                                    $"Targeted Item: {(man.targetedItem is null ? "null" : "not null")}\r" +
+                                    $"nextPositions: {(man.nextPositions?.Length)}";
+
+                                renderer.Write(GetPx(activeEntity.pos.X), GetPy(activeEntity.pos.Y), (int)(zoom / (float)text.Length) * 4, zoom / 4, text);
+                            }
+                        }
+
                     }
                     //When new entities are added, add them here:
                     //
