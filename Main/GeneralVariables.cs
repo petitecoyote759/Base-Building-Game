@@ -94,6 +94,20 @@ namespace Base_Building_Game
 
 
 
+        /// <summary>
+        /// Distance away from the player where they stop beziering
+        /// </summary>
+        public const int MenBezierDistance = 50;//200;
+        /// <summary>
+        /// Distance away from player where they teleport
+        /// </summary>
+        public const int MenTeleportDistance = 150;
+
+        public const float PathSpeedMultiplier = 1.5f;
+
+
+
+
 
 
         public const int SectorSize = 2048;

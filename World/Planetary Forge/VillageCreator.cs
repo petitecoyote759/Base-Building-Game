@@ -135,10 +135,15 @@ namespace Base_Building_Game.WorldGen.VillageGen
             //    }
             //}
 
+
+
             for (int x = 0; x < w; x++)
             {
                 for (int y = 0; y < h; y++)
                 {
+                    // TODO: remove this, turns off auto work camps for a bit
+                    if (data[x, y] == (int)BuildingID.WorkCamp) { continue; }
+
                     Place(pos.x + x, pos.y + y, data[x, y]);
                 }
             }

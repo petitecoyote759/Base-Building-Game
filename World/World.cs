@@ -71,6 +71,19 @@ namespace Base_Building_Game
 
             #endregion Tile Getters
 
+
+            public float GetTileHeuristic(int x, int y)
+            {
+                Tile tile = GetTile(x, y);
+                if (tile.building?.ID == (short)BuildingID.Path) 
+                { 
+                    return 0.5f; 
+                }
+                return 1f;
+            }
+
+
+
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             public bool Walkable(int x, int y, bool player = false)
             {

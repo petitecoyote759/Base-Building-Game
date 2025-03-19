@@ -9,6 +9,7 @@ using System.Text;
 using System.Threading.Tasks;
 using IVect = Short_Tools.General.ShortIntVector2;
 using Base_Building_Game.Entities.AStar;
+using System.Drawing.Printing;
 
 
 #pragma warning disable CS8602 // dereference of a possibly null reference. its to do with paths, again, i trust bayl on this
@@ -32,8 +33,10 @@ namespace Base_Building_Game
             public WorkCamp camp { get; }
             internal Vector2[]? nextPositions = null;
             const float MovementScalar = 100;
+            const float speed = 0.005f;
+            internal float currentSpeed = speed;
             int t;
-            AStar pather = new AStar(Walkable, 50, true);
+            AStar pather = new AStar(Walkable, world.GetTileHeuristic, 50, true);
             static bool Walkable(int x, int y) => world.Walkable(x, y, false);
             public Men(Vector2 pos,WorkCamp camp)
             {
@@ -45,133 +48,59 @@ namespace Base_Building_Game
             [MethodImpl(MethodImplOptions.AggressiveOptimization)]
             public void Action(int dt)
             {
-
-                /*if (targetedItem is null && path.Count == 0)
+                if (RoughDist(pos, player.pos) > MenTeleportDistance) 
                 {
-                    if (heldItem is null)
+                    HighDistanceAction(dt);
+                    return;
+                }
+
+
+                if (highDistance)
+                {
+                    if (targetedItem is not null) { targetedItem.Targeted = false; }
+                    highDistance = false;
+                }
+
+
+
+
+                if (path is not null && path.Count > 0)
+                {
+                    Move(dt);
+
+                    if (heldItem is not null)
+                    {
+                        heldItem.pos = this.pos;
+                        heldItem.InExtractor = false;
+                    }
+
+                    return;
+                }
+
+
+
+
+                if (heldItem is not null)
+                {                 
+
+                    if (pos == camp.pos)
+                    {
+                        DepositItem();
+                    }
+                    else
+                    {
+                        path = pather.GetPath(pos, camp.pos);
+                        if (RoughDist(player.pos, pos) < MenBezierDistance)
+                        {
+                            path = Bezier.GetBezier(path, 0.2f);
+                        }
+                    }
+                }
+                else
+                {
+                    if (!PickupItem()) // try to pick up item, if i cant then find item
                     {
                         FindItem();
-                        
-                    }
-                    else
-                    {
-                        DepositItem();
-                        ReturnToCamp();
-                    }
-                    return;
-                }
-                
-                if (path is not null)
-                {
-                    if (path.Count != 0 || nextPositions is not null )
-                    {         
-                        if (nextPositions is null)
-                        {
-                            AddNextNodes();
-                        }
-                        if (nextPositions is not null)
-                        {
-                            t = t + dt;
-                            if (t >= MovementScalar)
-                            {
-                                t = (int)MovementScalar;
-                            }
-                            this.pos = Bézier.ComputeBézier(t / MovementScalar, nextPositions);
-                            if (t == MovementScalar)
-                            {
-                                nextPositions = null;
-                                t = 0;
-                                if (path.Count == 0)
-                                {
-                                    if (targetedItem is not null)
-                                    {
-                                        PickupItem();
-                                    }
-                                    else
-                                    {
-                                        DepositItem();
-                                    }
-                                }
-                            }
-                            return;
-                        } 
-                        
-                    }   
-                    return;
-                }*/
-
-
-                if (path.Count == 1 && path.Peek() == pos)
-                {
-                    path = new Queue<Vector2>();
-                }
-
-
-
-                if (targetedItem is null && path.Count == 0 && nextPositions is null)
-                {
-                    if (DateTimeOffset.Now.ToUnixTimeMilliseconds() - lastTimeToCalcPath > 10000)
-                    {
-                        if (heldItem is null)
-                        {
-                            FindItem();
-                            if (path is null)
-                            {
-                                targetedItem.Targeted = false;
-                                targetedItem = null;
-                                path = new Queue<Vector2>();
-                                lastTimeToCalcPath = DateTimeOffset.Now.ToUnixTimeMilliseconds();
-                            }
-                        }
-                        else
-                        {
-                            ReturnToCamp();
-                        }
-                       
-                    }
-                    return;
-                }
-
-                if (path.Count != 0 || nextPositions is not null)
-                {
-                    if (nextPositions is null)
-                    {
-                        AddNextNodes();
-                    }
-                    Move(dt);
-                }
-
-
-                
-                
-
-                if (nextPositions is null && path.Count == 0)
-                {
-                    if (heldItem is null)
-                    {
-                        PickupItem();
-                    }
-                    else
-                    {
-                        DepositItem();
-                    }
-                }
-
-
-
-
-                if (targetedItem is not null && path.Count == 0 && heldItem is null)
-                {
-                    targetedItem.Targeted = false;
-                    targetedItem = null;
-                    FindItem();
-
-                    if (path is null)
-                    {
-                        targetedItem.Targeted = false;
-                        targetedItem = null;
-                        path = new Queue<Vector2>();
-                        lastTimeToCalcPath = DateTimeOffset.Now.ToUnixTimeMilliseconds();
                     }
                 }
             }
@@ -183,7 +112,7 @@ namespace Base_Building_Game
             }
 
             const int MaxItemDist = 70;
-            public void FindItem()
+            public void FindItem(bool far = false)
             {
                 //Returns all of the items in the loaded entities that are not currently being targeted, ordered by distance from the entity.
                 //This should be fixed soon, I dont like the issue that I brought up with M.
@@ -200,13 +129,22 @@ namespace Base_Building_Game
                 {
                     item.Targeted = true;
                     targetedItem = item;
-                    path = pather.GetPath(pos, targetedItem.pos);
+                    if (!far)
+                    {
+                        path = pather.GetPath(pos, targetedItem.pos);
+                        if (RoughDist(player.pos, pos) < MenBezierDistance)
+                        {
+                            path = Bezier.GetBezier(path, 0.2f);
+                        }
+                    }
 
                     break;
                 }
             }
             public bool PickupItem()
             {
+                if (targetedItem is null) { return false; }
+
                 if (targetedItem.pos == this.pos)
                 {
                     heldItem = targetedItem;
@@ -252,37 +190,74 @@ namespace Base_Building_Game
             /// </summary>
             public void Move(int dt)
             {
-                t += dt;
-                if (t >= MovementScalar)
+                if (path is null || path.Count == 0) { return; }
+
+                Vector2 nextNode = path.Peek();
+                if (nextNode == pos) { path.Dequeue(); return; }
+
+                if (world.GetTile(pos.X, pos.Y).building?.ID == (short)BuildingID.Path)
                 {
-                    t = (int)MovementScalar;
+                    currentSpeed = speed * PathSpeedMultiplier;
                 }
 
-                if ((pos - player.pos).LengthSquared() < (renderer.screenwidth * renderer.screenwidth) / (float)(renderer.zoom * renderer.zoom))
+
+                Vector2 dir = (nextNode - pos);
+
+                Vector2 normDir = Vector2.Normalize(dir);
+
+                Vector2 step = normDir * Math.Min(dir.Length(), currentSpeed * dt); // pretty sure this is wrong
+
+                this.pos += step;
+            }
+
+
+
+
+            float chargedMovement = 0f;
+            float requiredDistance = 0f;
+            bool highDistance = false;
+            [MethodImpl(MethodImplOptions.AggressiveInlining | MethodImplOptions.AggressiveOptimization)]
+            private void HighDistanceAction(int dt)
+            {
+                /*
+                
+                if targeting an item, charge up teleport.
+                else, target an item
+
+                */
+
+                pos = camp.pos;
+                if (heldItem is not null)
                 {
-                    this.pos = Bézier.ComputeBézier(t / MovementScalar, nextPositions);
+                    LoadedEntities.Remove(heldItem);
+                    heldItem.InExtractor = false;
+                    targetedItem = null;
+                    heldItem = null;
+                }
+                path = null;
+                highDistance = true;
+
+                if (targetedItem is not null)
+                {
+                    chargedMovement += speed * dt;
+                    if (requiredDistance <= chargedMovement)
+                    {
+                        LoadedEntities.Remove(targetedItem);
+                        targetedItem.InExtractor = false;
+                        targetedItem = null;
+                        // TODO: add the whole adding this to the damn thingie.
+                        chargedMovement -= requiredDistance;
+                    }
                 }
                 else
                 {
-                    if (nextPositions.Length != 0)
+                    FindItem(true);
+                    if (targetedItem is not null)
                     {
-                        float t1 = t / MovementScalar;
-                        this.pos = new Vector2(nextPositions[0].X + t1 * (nextPositions[1].X - nextPositions[0].X), nextPositions[0].Y + t1 * (nextPositions[1].Y - nextPositions[0].Y));
+                        requiredDistance = (targetedItem.pos - pos).Length();
                     }
                 }
-
-
-                if (heldItem is not null)
-                {
-                    heldItem.pos = this.pos;
-                }
-                if (t == MovementScalar)
-                {
-                    nextPositions = null;
-                    t = 0;
-                }
             }
-           
         }
     }
 }

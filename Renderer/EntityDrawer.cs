@@ -6,6 +6,7 @@ using System.Numerics;
 using System.Text;
 using System.Threading.Tasks;
 using Short_Tools;
+using static Base_Building_Game.General;
 using static Short_Tools.General;
 using IVect = Short_Tools.General.ShortIntVector2;
 
@@ -47,12 +48,29 @@ namespace Base_Building_Game
                 foreach (IEntity entity in entitiesToRender)
                 {
                     //If its an item, then we render using the itemImages dictionary.
-                    if (entity is Item)
+                    if (entity is Item item)
                     {
 
-                        Item item = (Item)entity;
                         //DrawBP(entity.pos.x / 32, entity.pos.y / 32, ItemImages[(short)item.ID]);
                         DrawBP(entity.pos.X, entity.pos.Y, ItemImages[item.ID]);
+
+
+                        if (settings.Debugging)
+                        {
+                            IVect mPos = getMousePos();
+                            int x = GetPx(item.pos.X);
+                            int y = GetPy(item.pos.Y);
+                            if (x <= mPos.x && mPos.x <= x + zoom &&
+                                y <= mPos.y && mPos.y <= y + zoom)
+                            {
+                                string text =
+                                    $"Item: {item.ID}\r" +
+                                $"Targeted: {item.Targeted}" +
+                                $"pos : ({x}, {y})";
+
+                                renderer.Write(x, y, (int)(zoom / (float)text.Length) * 4, zoom / 4, text);
+                            }
+                        }
                     }
                 }
 

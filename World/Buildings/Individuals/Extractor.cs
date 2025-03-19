@@ -55,6 +55,8 @@ namespace Base_Building_Game
             {
                 TimeSpent -= dt;
 
+                if (LastItem?.InExtractor is false) { LastItem = null; }
+
                 if (TimeSpent < 0)
                 {
                     if (LastItem is null)

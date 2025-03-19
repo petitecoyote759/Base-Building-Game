@@ -21,6 +21,7 @@ namespace Base_Building_Game.Entities.AStar
     {
 
         Func<int, int, bool> Walkable;
+        Func<int, int, float> GetTileHeuristic;
 
         QuadTree visitedNodes;
         List<AStarNode> toVisitNodes;
@@ -28,9 +29,10 @@ namespace Base_Building_Game.Entities.AStar
         public int maxDist { private get; set; }
 
 
-        public AStar(Func<int, int, bool> Walkable, int maxDist = 30, bool useDiagonals = true)
+        public AStar(Func<int, int, bool> Walkable, Func<int, int, float> GetTileHeuristic, int maxDist = 30, bool useDiagonals = true)
         {
             this.Walkable = Walkable;
+            this.GetTileHeuristic = GetTileHeuristic; //TODO: use this to prioritise paths
             this.useDiagonals = useDiagonals;
             this.maxDist = maxDist;
         }
@@ -66,7 +68,7 @@ namespace Base_Building_Game.Entities.AStar
             }
             else
             {
-                AStarNode newNode = new AStarNode(x, y, parent, pathLength, end);
+                AStarNode newNode = new AStarNode(x, y, parent, pathLength, end, GetTileHeuristic);
 
                 visitedNodes.AddValue(newNode);
                 toVisitNodes.Add(newNode);
@@ -84,7 +86,7 @@ namespace Base_Building_Game.Entities.AStar
 
         public Queue<Vector2> GetPath(Vector2 start, Vector2 end)
         {
-            AStarNode startNode = new AStarNode(start, null, 0f, end);
+            AStarNode startNode = new AStarNode(start, null, 0f, end, GetTileHeuristic);
 
             visitedNodes = new QuadTree(startNode);
             toVisitNodes = new List<AStarNode>() { startNode };
@@ -97,7 +99,7 @@ namespace Base_Building_Game.Entities.AStar
 
                 foreach (AStarNode node in toVisitNodes) // <- next point to fix
                 {
-                    float currentNodeValue = node.heuristic + node.pathLength;
+                    float currentNodeValue = node.pathLength + node.heuristic;
 
                     if (smallestNode is null || smallestNodeValue > currentNodeValue)
                     {
@@ -121,7 +123,7 @@ namespace Base_Building_Game.Entities.AStar
 
 
 
-                UpdateTile(smallestNode.x + 1, smallestNode.y, smallestNode.pathLength + 1, smallestNode, end, start);
+                UpdateTile(smallestNode.x + 1, smallestNode.y, smallestNode.pathLength + 1 * GetTileHeuristic(smallestNode.x + 1, smallestNode.y), smallestNode, end, start);
                 UpdateTile(smallestNode.x - 1, smallestNode.y, smallestNode.pathLength + 1, smallestNode, end, start);
                 UpdateTile(smallestNode.x, smallestNode.y + 1, smallestNode.pathLength + 1, smallestNode, end, start);
                 UpdateTile(smallestNode.x, smallestNode.y - 1, smallestNode.pathLength + 1, smallestNode, end, start);
@@ -154,26 +156,26 @@ namespace Base_Building_Game.Entities.AStar
         public AStarNode? parent;
 
 
-        public AStarNode(Vector2 inp, AStarNode? parent, float pathLength, Vector2 end)
+        public AStarNode(Vector2 inp, AStarNode? parent, float pathLength, Vector2 end, Func<int, int, float> GetTileHeuristic)
         {
             x = (int)inp.X; y = (int)inp.Y;
             this.pathLength = pathLength;
             this.parent = parent;
-            GenerateHeuristic(end);
+            GenerateHeuristic(end, GetTileHeuristic);
         }
-        public AStarNode(int x, int y, AStarNode? parent, float pathLength, Vector2 end)
+        public AStarNode(int x, int y, AStarNode? parent, float pathLength, Vector2 end, Func<int, int, float> GetTileHeuristic)
         {
             this.x = x;
             this.y = y;
             this.parent = parent;
             this.pathLength = pathLength;
-            GenerateHeuristic(end);
+            GenerateHeuristic(end, GetTileHeuristic);
         }
 
 
         public float heuristic;
 
-        private float GenerateHeuristic(Vector2 end)
+        private float GenerateHeuristic(Vector2 end, Func<int, int, float> GetTileHeuristic)
         {
             return (end - new Vector2(x, y)).Length();
         }
