@@ -202,6 +202,26 @@ namespace Base_Building_Game
                     }
                 }
                 #endregion Boat and Boat Turrets
+
+
+
+
+
+                #region Commands
+
+                if (TextBarOpen)
+                {
+                    Draw(
+                        0,
+                        screenheight * 9 / 10,
+                        screenwidth / 2,
+                        screenheight * 1 / 10,
+                        "Text Bar"
+                        );
+                }
+
+
+                #endregion
             }
 
 

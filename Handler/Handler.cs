@@ -149,12 +149,22 @@ namespace Base_Building_Game
 
                         break;
 
+                    case "SLASH":
+
+                        if (down && !TextBarOpen)
+                        {
+                            TextBarOpen = true;
+                        }
+
+                        break;
+
 
 
                     case "ESCAPE":
 
                         if (down)
                         {
+                            TextBarOpen = false;
                             HotbarSelected = -1;
                             player.selectedTile = null;
                         }

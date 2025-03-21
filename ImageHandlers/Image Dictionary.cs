@@ -141,6 +141,8 @@ namespace Base_Building_Game
 
             { "Loading Spinner", "UI\\Loading Spinner.png" },
 
+            { "Text Bar", "UI\\text bar.png" }, 
+
             { "Map", "" },
             #endregion UI
 

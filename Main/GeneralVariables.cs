@@ -61,6 +61,12 @@ namespace Base_Building_Game
         internal static bool MapOpen = false;
 
 
+        /// <summary>
+        /// Represents if the text bar is open, which is used in commands.
+        /// </summary>
+        internal static bool TextBarOpen = false;
+
+
 
         /// <summary>
         /// Time of day in milliseconds
