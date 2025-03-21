@@ -107,7 +107,7 @@ namespace Base_Building_Game.Entities.AStar
                         smallestNodeValue = currentNodeValue;
                     }
                 }
-                if (smallestNode.x == (int)end.X && smallestNode.y == (int)end.Y)
+                if (smallestNode?.x == (int)end.X && smallestNode?.y == (int)end.Y)
                 {
                     Queue<Vector2> path = new Queue<Vector2>();
 
@@ -123,17 +123,17 @@ namespace Base_Building_Game.Entities.AStar
 
 
 
-                UpdateTile(smallestNode.x + 1, smallestNode.y, smallestNode.pathLength + 1 * GetTileHeuristic(smallestNode.x + 1, smallestNode.y), smallestNode, end, start);
-                UpdateTile(smallestNode.x - 1, smallestNode.y, smallestNode.pathLength + 1, smallestNode, end, start);
-                UpdateTile(smallestNode.x, smallestNode.y + 1, smallestNode.pathLength + 1, smallestNode, end, start);
-                UpdateTile(smallestNode.x, smallestNode.y - 1, smallestNode.pathLength + 1, smallestNode, end, start);
+                UpdateTile(smallestNode.x + 1, smallestNode.y, smallestNode.pathLength + (1 * GetTileHeuristic(smallestNode.x + 1, smallestNode.y)), smallestNode, end, start);
+                UpdateTile(smallestNode.x - 1, smallestNode.y, smallestNode.pathLength + (1 * GetTileHeuristic(smallestNode.x - 1, smallestNode.y)), smallestNode, end, start);
+                UpdateTile(smallestNode.x, smallestNode.y + 1, smallestNode.pathLength + (1 * GetTileHeuristic(smallestNode.x, smallestNode.y + 1)), smallestNode, end, start);
+                UpdateTile(smallestNode.x, smallestNode.y - 1, smallestNode.pathLength + (1 * GetTileHeuristic(smallestNode.x, smallestNode.y - 1)), smallestNode, end, start);
 
                 if (useDiagonals)
                 {
-                    UpdateTile(smallestNode.x + 1, smallestNode.y + 1, smallestNode.pathLength + 1.41f, smallestNode, end, start);
-                    UpdateTile(smallestNode.x - 1, smallestNode.y + 1, smallestNode.pathLength + 1.41f, smallestNode, end, start);
-                    UpdateTile(smallestNode.x + 1, smallestNode.y - 1, smallestNode.pathLength + 1.41f, smallestNode, end, start);
-                    UpdateTile(smallestNode.x - 1, smallestNode.y - 1, smallestNode.pathLength + 1.41f, smallestNode, end, start);
+                    UpdateTile(smallestNode.x + 1, smallestNode.y + 1, smallestNode.pathLength + (1.41f * GetTileHeuristic(smallestNode.x + 1, smallestNode.y)), smallestNode, end, start);
+                    UpdateTile(smallestNode.x - 1, smallestNode.y + 1, smallestNode.pathLength + (1.41f * GetTileHeuristic(smallestNode.x - 1, smallestNode.y)), smallestNode, end, start);
+                    UpdateTile(smallestNode.x + 1, smallestNode.y - 1, smallestNode.pathLength + (1.41f * GetTileHeuristic(smallestNode.x, smallestNode.y + 1)), smallestNode, end, start);
+                    UpdateTile(smallestNode.x - 1, smallestNode.y - 1, smallestNode.pathLength + (1.41f * GetTileHeuristic(smallestNode.x, smallestNode.y - 1)), smallestNode, end, start);
                 }
 
 

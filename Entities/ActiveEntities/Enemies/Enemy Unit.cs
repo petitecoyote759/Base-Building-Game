@@ -37,7 +37,7 @@ namespace Base_Building_Game
 
             bool Wandering = true;
 
-            AStar pather = new AStar(Walkable, world.GetTileHeuristic, 50, true);
+            AStar pather = new AStar(Walkable, world.GetTileHeuristic, 30, true);
 
 
             public void GetPath(IVect target, int maxDist = 30) // block dist ykyk

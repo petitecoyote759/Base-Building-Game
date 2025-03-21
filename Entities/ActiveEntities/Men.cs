@@ -36,7 +36,7 @@ namespace Base_Building_Game
             const float speed = 0.005f;
             internal float currentSpeed = speed;
             int t;
-            AStar pather = new AStar(Walkable, world.GetTileHeuristic, 50, true);
+            AStar pather = new AStar(Walkable, world.GetTileHeuristic, 30, true);
             static bool Walkable(int x, int y) => world.Walkable(x, y, false);
             public Men(Vector2 pos,WorkCamp camp)
             {
@@ -198,6 +198,10 @@ namespace Base_Building_Game
                 if (world.GetTile(pos.X, pos.Y).building?.ID == (short)BuildingID.Path)
                 {
                     currentSpeed = speed * PathSpeedMultiplier;
+                }
+                else
+                {
+                    currentSpeed = speed;
                 }
 
 
