@@ -52,6 +52,7 @@ namespace Base_Building_Game.WorldGen
 
             foreach (IVect seed in Seeds)
             {
+                if (seed != Seeds[0])
                 VillageGen.General.Run(seed, ActiveSector);
             }
 
