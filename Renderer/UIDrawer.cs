@@ -137,6 +137,17 @@ namespace Base_Building_Game
 
                 if (MapOpen)
                 {
+                    // TODO: make an actual image for the border.
+                    // Border
+                    Draw(
+                        (screenwidth * 1 / 4) - screenwidth / 100,
+                        (screenheight - (screenwidth / 2)) / 2 - screenwidth / 100,
+                        screenwidth / 2 + screenwidth / 50,
+                        screenwidth / 2 + screenwidth / 50,
+                        "MenuButton"
+                        );
+
+
                     SDL_Rect srcrect = new SDL_Rect()
                     {
                         x = Math.Max(Math.Min((int)player.pos.X - screenwidth / 8, SectorSize - screenwidth / 4), 0),
