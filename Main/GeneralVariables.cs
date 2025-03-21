@@ -56,6 +56,13 @@ namespace Base_Building_Game
 
 
         /// <summary>
+        /// Represents if the big map is open, opened by pressing 'm'.
+        /// </summary>
+        internal static bool MapOpen = false;
+
+
+
+        /// <summary>
         /// Time of day in milliseconds
         /// </summary>
         static int Time = 0;

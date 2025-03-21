@@ -94,7 +94,7 @@ namespace Base_Building_Game
 
 
 
-
+            // TODO: Fix this abomination
             public override void Handle(string inp, bool down)
             {
                 if (ActiveKeys.ContainsKey(inp)) { ActiveKeys[inp] = down; }
@@ -140,7 +140,14 @@ namespace Base_Building_Game
                         }
                         break;
 
+                    case "m":
 
+                        if (down)
+                        {
+                            MapOpen = !MapOpen;
+                        }
+
+                        break;
 
 
 
