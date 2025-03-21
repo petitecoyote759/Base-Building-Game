@@ -343,6 +343,7 @@ namespace Base_Building_Game.WorldGen.VillageGen
         private static void GenVillage(Building[] buildings, IVect seed)
         {
             WeightedRandomiser<Building> randy = new WeightedRandomiser<Building>(buildings);
+            Random innerRandy = new Random(Base_Building_Game.General.RandSeed);
             int currentBuildAttempt = 0;
 
             buildings[0].Build(seed, Place);
@@ -364,7 +365,7 @@ namespace Base_Building_Game.WorldGen.VillageGen
                 IVect testPos = node.pos + node.dir;
 
             SelectBuilding:
-                Building building = randy.GetRandomValue();
+                Building building = randy.GetRandomValue(innerRandy);
 
                 bool built = false;
                 foreach (AccessPoint point in building.points)
