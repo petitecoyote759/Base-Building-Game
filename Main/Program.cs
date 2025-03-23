@@ -55,7 +55,7 @@ namespace Base_Building_Game
             hotbar.SetBuilding(BuildingID.Wall);
             hotbar.SetBuilding(BuildingID.Bridge);
             hotbar.SetBuilding(BuildingID.Extractor);
-            hotbar.SetBuilding(BuildingID.DropPod);
+            hotbar.SetBuilding(BuildingID.Path);
             hotbar.SetBuilding(BuildingID.SmallPort);
             hotbar.SetBuilding(BuildingID.MedPort);
             hotbar.SetBuilding(BuildingID.LargePort);
@@ -79,9 +79,10 @@ namespace Base_Building_Game
 
 
             //new DropInAni();
-          
+
 
             //PlayCutscene("IntroCutscene");
+            Thread.CurrentThread.Name = "Main Running Thread";
 
 
             while (Running)
@@ -89,9 +90,9 @@ namespace Base_Building_Game
                 renderer.CheckSDLErrors();
 
 
-                if (WaitingForWorldCreate)
+                if (WorldGen.General.WaitingForWorldCreate)
                 {
-                    CreateWorld();
+                    WorldGen.General.CreateWorld(out world, out ActiveSector);
                 }
                 if (WaitingForWorldSave)
                 {
@@ -131,7 +132,6 @@ namespace Base_Building_Game
 
                     dt = GetDt(ref LFT);
                     
-                    RunActiveEntities((int)dt);
                 }
                 #endregion In Game
 
@@ -149,6 +149,11 @@ namespace Base_Building_Game
 
             Cleanup();
 
+        }
+
+        static void KillProgram()
+        {
+            Running = false;
         }
 
 
@@ -189,17 +194,17 @@ namespace Base_Building_Game
         // Declare the SetConsoleCtrlHandler function
         // as external and receiving a delegate.
 
-        [DllImport("Kernel32")]
-        public static extern bool SetConsoleCtrlHandler(HandlerRoutine Handler, bool Add);
+        [DllImport("Kernel32"), DefaultDllImportSearchPaths(DllImportSearchPath.UserDirectories)]
+        private static extern bool SetConsoleCtrlHandler(HandlerRoutine Handler, bool Add);
 
         // A delegate type to be used as the handler routine
         // for SetConsoleCtrlHandler.
-        public delegate bool HandlerRoutine(CtrlTypes CtrlType);
+        private delegate bool HandlerRoutine(CtrlTypes CtrlType);
 
         // An enumerated type for the control messages
         // sent to the handler routine.
 
-        public enum CtrlTypes
+        private enum CtrlTypes
         {
             CTRL_C_EVENT = 0,
             CTRL_BREAK_EVENT,
@@ -211,10 +216,10 @@ namespace Base_Building_Game
 
 
 
-        [DllImport("kernel32.dll")]
+        [DllImport("kernel32.dll"), DefaultDllImportSearchPaths(DllImportSearchPath.UserDirectories)]
         static extern IntPtr GetConsoleWindow();
 
-        [DllImport("user32.dll")]
+        [DllImport("user32.dll"), DefaultDllImportSearchPaths(DllImportSearchPath.UserDirectories)]
         static extern bool ShowWindow(IntPtr hWnd, int nCmdShow);
 
         const int SW_HIDE = 0;

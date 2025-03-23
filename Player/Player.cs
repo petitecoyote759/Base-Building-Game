@@ -27,6 +27,7 @@ namespace Base_Building_Game
             public bool Piloting = false;
 
             public float speed { get => settings.PlayerSpeed; }
+            internal float currentSpeed = settings.PlayerSpeed;
             public int camspeed = 1;
 
             public Leg[] Legs = new Leg[] { 
@@ -48,7 +49,7 @@ namespace Base_Building_Game
 
             public Player()
             {
-
+                currentSpeed = speed;
             }
 
 
@@ -61,6 +62,15 @@ namespace Base_Building_Game
 
             public void Move(int dt)
             {
+                if (world.GetTile(x, y).building?.ID == (short)BuildingID.Path)
+                {
+                    currentSpeed = this.speed * General.PathSpeedMultiplier;
+                }
+                else
+                {
+                    currentSpeed = this.speed;
+                }
+
                 Vector2 LastPos = pos;
 
 
@@ -84,7 +94,7 @@ namespace Base_Building_Game
 
                 Func<float, float, bool, bool> Walkable = world.Walkable;
 
-                float speed = this.speed / 100f;
+                float speed = this.currentSpeed / 100f;
 
 
                 if (boat is null && turret is null)

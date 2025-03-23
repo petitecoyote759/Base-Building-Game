@@ -26,6 +26,7 @@ namespace Base_Building_Game
 
                 if (player.turret is null)
                 {
+                    #region Selected Buildings
                     DrawBP(GetBlockx(MPos.x), GetBlocky(MPos.y), "MouseBox");
 
                     if (player.selectedTile is not null)
@@ -55,17 +56,12 @@ namespace Base_Building_Game
                             }
                         }
                     }
+                    #endregion Selected Buildings
 
 
 
 
-
-
-
-
-
-
-
+                    #region Port UI
                     if (player.selectedTile is IVect pos)
                     {
                         if (world.GetTile(pos.x, pos.y).building is Building building)
@@ -80,6 +76,7 @@ namespace Base_Building_Game
                             }
                         }
                     }
+                    #endregion Port UI
                 }
 
 
@@ -91,7 +88,7 @@ namespace Base_Building_Game
 
 
 
-
+                #region Hotbar
                 // 356 x 38 def size, scaled upp to 712 x 76
                 Draw((screenwidth / 2) - (712 / 2), screenheight - 76, 712, 76, "Hotbar");
                 for (int i = 0; i < 10; i++)
@@ -110,31 +107,67 @@ namespace Base_Building_Game
                     Write(0, 0, 50, 50, $"({(int)player.pos.X}, {(int)player.pos.Y})");
                     Write(0, 60, 50, 50, (player.SectorPos).ToString());
                 }
+                #endregion Hotbar
 
 
 
 
 
 
-
-
-                SDL_Rect srcrect = new SDL_Rect()
+                #region Minimap, and Big Map
+                if (!MapOpen)
                 {
-                    x = Math.Max(Math.Min((int)player.pos.X - screenwidth / 20, SectorSize - screenwidth / 10), 0),
-                    y = Math.Max(Math.Min((int)player.pos.Y - screenwidth / 20, SectorSize - screenwidth / 10), 0),
-                    w = screenwidth / 10, h = screenwidth / 10
-                };
+                    SDL_Rect srcrect = new SDL_Rect()
+                    {
+                        x = Math.Max(Math.Min((int)player.pos.X - screenwidth / 20, SectorSize - screenwidth / 10), 0),
+                        y = Math.Max(Math.Min((int)player.pos.Y - screenwidth / 20, SectorSize - screenwidth / 10), 0),
+                        w = screenwidth / 10,
+                        h = screenwidth / 10
+                    };
 
-                SDL_Rect dstrect = new SDL_Rect() { x = screenwidth * 9 / 10, y = 0, h = screenwidth / 10, w = screenwidth / 10 };
+                    SDL_Rect dstrect = new SDL_Rect() { x = screenwidth * 9 / 10, y = 0, h = screenwidth / 10, w = screenwidth / 10 };
 
-                SDL_RenderCopy(SDLrenderer, images["Map"], ref srcrect, ref dstrect);
-
-                Draw(screenwidth * 19 / 20, screenwidth * 1 / 20, screenwidth / 100, screenwidth / 100, "Player", player.angle);
-
-
-
+                    SDL_RenderCopy(SDLrenderer, images["Map"], ref srcrect, ref dstrect);
 
 
+                    // draw player
+                    Draw(screenwidth * 19 / 20, screenwidth * 1 / 20, screenwidth / 100, screenwidth / 100, "Player", player.angle);
+                }
+
+
+                if (MapOpen)
+                {
+                    // TODO: make an actual image for the border.
+                    // Border
+                    Draw(
+                        (screenwidth * 1 / 4) - screenwidth / 100,
+                        (screenheight - (screenwidth / 2)) / 2 - screenwidth / 100,
+                        screenwidth / 2 + screenwidth / 50,
+                        screenwidth / 2 + screenwidth / 50,
+                        "MenuButton"
+                        );
+
+
+                    SDL_Rect srcrect = new SDL_Rect()
+                    {
+                        x = Math.Max(Math.Min((int)player.pos.X - screenwidth / 8, SectorSize - screenwidth / 4), 0),
+                        y = Math.Max(Math.Min((int)player.pos.Y - screenwidth / 8, SectorSize - screenwidth / 4), 0),
+                        w = screenwidth / 4,
+                        h = screenwidth / 4
+                    };
+
+                    SDL_Rect dstrect = new SDL_Rect() { x = screenwidth * 1 / 4, y = (screenheight - screenwidth * 2 / 4) / 2, h = screenwidth * 2 / 4, w = screenwidth * 2 / 4 };
+
+                    SDL_RenderCopy(SDLrenderer, images["Map"], ref srcrect, ref dstrect);
+
+
+                    // draw player on bigger map
+                    Draw(screenwidth * 99 / 200, screenheight * 99 / 200, screenwidth / 100, screenwidth / 100, "Player", player.angle);
+                }
+
+
+
+                #endregion Minimap and Big Map
 
 
 
@@ -143,6 +176,10 @@ namespace Base_Building_Game
 
 
 
+
+
+
+                #region Boat and Boat Turrets
                 foreach (Boat boat in (from entity in LoadedActiveEntities where entity is Boat select (Boat)entity).ToArray())
                 {
                     Vector2 blockMousePos = new Vector2(GetFBlockx(MPos.x), GetFBlocky(MPos.y));
@@ -164,12 +201,33 @@ namespace Base_Building_Game
                         Draw(GetPx(turret.pos.X + 0.5f) - zoom / 4, GetPy(turret.pos.Y + 0.5f) - zoom, zoom / 2, zoom / 2, "Interact");
                     }
                 }
+                #endregion Boat and Boat Turrets
+
+
+
+
+
+                #region Commands
+
+                if (TextBarOpen)
+                {
+                    Draw(
+                        0,
+                        screenheight * 9 / 10,
+                        screenwidth / 2,
+                        screenheight * 1 / 10,
+                        "Text Bar"
+                        );
+                }
+
+
+                #endregion
             }
 
 
 
 
-
+            #region Get Block Positions
             public int GetBlockx(int x)
             {
                 return (int)((x - halfscreenwidth + (zoom * player.camPos.X)) / zoom);
@@ -188,6 +246,7 @@ namespace Base_Building_Game
             {
                 return ((y - halfscreenheight + (zoom * player.camPos.Y)) / zoom);
             }
+            #endregion Get Block Positions
         }
     }
 }

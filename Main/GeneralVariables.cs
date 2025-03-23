@@ -15,22 +15,22 @@ namespace Base_Building_Game
     public static partial class General
     {
         static Random randysParent = new Random();
-        static int RandSeed = randysParent.Next();
-        static Random randy = new Random(RandSeed);
+        internal static int RandSeed = randysParent.Next();
+        public static Random randy = new Random(RandSeed);
 
-        static Renderer renderer = new Renderer();
+        public static Renderer renderer = new Renderer();
         static Settings settings = new Settings();
 
 #if DEBUG
-        static Debugger debugger = new Debugger("General", "Logs\\", Debugger.Flags.DISPLAY_ON_ADD_LOG);
+        public static Debugger debugger = new Debugger("General", "Logs\\", Debugger.Flags.DISPLAY_ON_ADD_LOG);
 #else
-        static Debugger debugger = new Debugger("General", "Logs\\");
+        public static Debugger debugger = new Debugger("General", "Logs\\");
 #endif
 
 
         public static Handler handler = new Handler();
-        static Player player = new Player();
-        static Hotbar hotbar = new Hotbar();
+        public static Player player = new Player();
+        public static Hotbar hotbar = new Hotbar();
 
 #pragma warning disable CS8618
         static World world; // it gets created when you load in the game, no way its gonna be null
@@ -52,6 +52,19 @@ namespace Base_Building_Game
         /// State of the game, if turned to false, the main function loop will stop, and so will the program
         /// </summary>
         public static bool Running = true;
+
+
+
+        /// <summary>
+        /// Represents if the big map is open, opened by pressing 'm'.
+        /// </summary>
+        internal static bool MapOpen = false;
+
+
+        /// <summary>
+        /// Represents if the text bar is open, which is used in commands.
+        /// </summary>
+        internal static bool TextBarOpen = false;
 
 
 
@@ -94,8 +107,22 @@ namespace Base_Building_Game
 
 
 
+        /// <summary>
+        /// Distance away from the player where they stop beziering
+        /// </summary>
+        public const int MenBezierDistance = 50;//200;
+        /// <summary>
+        /// Distance away from player where they teleport
+        /// </summary>
+        public const int MenTeleportDistance = 150;
+
+        public const float PathSpeedMultiplier = 1.5f;
 
 
-        const int SectorSize = 2048;
+
+
+
+
+        public const int SectorSize = 2048;
     }
 }

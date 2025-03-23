@@ -72,6 +72,9 @@ namespace Base_Building_Game
             { "Pipe0", "Buildings\\Pipe Node.png" },
 
             { "PipeSegment0", "Buildings\\Pipe Segment.png" },
+
+
+            { "Path", "Buildings\\path.png" },
             #endregion Buildings
 
 
@@ -137,6 +140,8 @@ namespace Base_Building_Game
             { "SelectedButton", "UI\\SelectedButton.png" },
 
             { "Loading Spinner", "UI\\Loading Spinner.png" },
+
+            { "Text Bar", "UI\\text bar.png" }, 
 
             { "Map", "" },
             #endregion UI

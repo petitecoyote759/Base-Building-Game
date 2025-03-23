@@ -6,9 +6,7 @@ using System.Threading.Tasks;
 using IVect = Short_Tools.General.ShortIntVector2;
 using static Short_Tools.General;
 using System.Xml.Serialization;
-
-
-
+using System.Runtime.CompilerServices;
 
 namespace Base_Building_Game
 {
@@ -74,12 +72,25 @@ namespace Base_Building_Game
             #endregion Tile Getters
 
 
+            public float GetTileHeuristic(int x, int y)
+            {
+                Tile tile = GetTile(x, y);
+                if (tile.building?.ID == (short)BuildingID.Path) 
+                { 
+                    return 0.5f; 
+                }
+                return 1f;
+            }
+
+
+
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
             public bool Walkable(int x, int y, bool player = false)
             {
                 return Walkable((float)x, (float)y, player);
             }
 
-
+            [MethodImpl(MethodImplOptions.AggressiveInlining | MethodImplOptions.AggressiveOptimization)]
             public bool Walkable(float x, float y, bool player = false)
             {
                 Tile tile = world.GetTile(x, y);
@@ -104,8 +115,10 @@ namespace Base_Building_Game
                     }
 
 
-
-                    if (IsOnBoat(x, y)) { return true; }
+                    if (player)
+                    {
+                        if (IsOnBoat(x, y)) { return true; }
+                    }
                     return false;
                 }
 

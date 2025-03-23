@@ -1,10 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Numerics;
 using System.Text;
 using System.Threading.Tasks;
 using Short_Tools;
+using static Base_Building_Game.General;
 using static Short_Tools.General;
 using IVect = Short_Tools.General.ShortIntVector2;
 
@@ -29,7 +31,7 @@ namespace Base_Building_Game
                 //This returns all of the entities which are on the screen using LINQ. It orders them by distance from the player in order to give them rendering priority if there are too many entities.
                 IEntity[] entitiesToRender =
                     (from entity in entities
-                     where GetPx(entity.pos.X) >= -zoom && GetPx(entity.pos.X) <= screenwidth && GetPy(entity.pos.Y) >= -zoom && GetPy(entity.pos.Y) <= screenheight
+                     where GetPx(entity?.pos.X ?? -SectorSize) >= -zoom && GetPx(entity?.pos.X ?? -SectorSize) <= screenwidth && GetPy(entity?.pos.Y ?? -SectorSize) >= -zoom && GetPy(entity?.pos.Y ?? -SectorSize) <= screenheight
                      orderby Vector2.Dot(player.pos - entity.pos, player.pos - entity.pos) ascending
                      select entity).ToArray();
 
@@ -37,7 +39,7 @@ namespace Base_Building_Game
                 //This returns all of the entities which are on the screen using LINQ. It orders them by distance from the player in order to give them rendering priority if there are too many entities.
                 IEntity[] activeEntitiesToRender =
                     (from entity in activeEntities
-                     where GetPx(entity.pos.X) >= -zoom && GetPx(entity.pos.X) <= screenwidth && GetPy(entity.pos.Y) >= -zoom && GetPy(entity.pos.Y) <= screenheight
+                     where GetPx(entity?.pos.X ?? -SectorSize) >= -zoom && GetPx(entity.pos.X) <= screenwidth && GetPy(entity.pos.Y) >= -zoom && GetPy(entity.pos.Y) <= screenheight
                      orderby Vector2.Dot(player.pos - entity.pos, player.pos - entity.pos) ascending
                      select entity).ToArray();
 
@@ -46,12 +48,29 @@ namespace Base_Building_Game
                 foreach (IEntity entity in entitiesToRender)
                 {
                     //If its an item, then we render using the itemImages dictionary.
-                    if (entity is Item)
+                    if (entity is Item item)
                     {
 
-                        Item item = (Item)entity;
                         //DrawBP(entity.pos.x / 32, entity.pos.y / 32, ItemImages[(short)item.ID]);
                         DrawBP(entity.pos.X, entity.pos.Y, ItemImages[item.ID]);
+
+
+                        if (settings.Debugging)
+                        {
+                            IVect mPos = getMousePos();
+                            int x = GetPx(item.pos.X);
+                            int y = GetPy(item.pos.Y);
+                            if (x <= mPos.x && mPos.x <= x + zoom &&
+                                y <= mPos.y && mPos.y <= y + zoom)
+                            {
+                                string text =
+                                    $"Item: {item.ID}\r" +
+                                $"Targeted: {item.Targeted}" +
+                                $"pos : ({x}, {y})";
+
+                                renderer.Write(x, y, (int)(zoom / (float)text.Length) * 4, zoom / 4, text);
+                            }
+                        }
                     }
                 }
 
@@ -60,9 +79,27 @@ namespace Base_Building_Game
 
                 foreach (IActiveEntity activeEntity in activeEntitiesToRender)
                 {
-                    if (activeEntity is Men)
+                    if (activeEntity is Men man)
                     {
                         DrawBP(activeEntity.pos.X, activeEntity.pos.Y, images["Man"]);
+
+                        if (settings.Debugging)
+                        {
+                            IVect mPos = getMousePos();
+                            int x = GetPx(activeEntity.pos.X);
+                            int y = GetPy(activeEntity.pos.Y);
+                            if (x <= mPos.x && mPos.x <= x + zoom &&
+                                y <= mPos.y && mPos.y <= y + zoom)
+                            {
+                                string text = $"Item: {man.heldItem}\r" +
+                                    $"Path Length: {(Convert.ToString(man.path?.Count, CultureInfo.InvariantCulture) ?? "n/a")}\r" +
+                                    $"Targeted Item: {(man.targetedItem is null ? "null" : "not null")}\r" +
+                                    $"nextPositions: {(man.nextPositions?.Length)}";
+
+                                renderer.Write(GetPx(activeEntity.pos.X), GetPy(activeEntity.pos.Y), (int)(zoom / (float)text.Length) * 4, zoom / 4, text);
+                            }
+                        }
+
                     }
                     //When new entities are added, add them here:
                     //

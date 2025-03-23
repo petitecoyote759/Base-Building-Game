@@ -15,7 +15,7 @@ using IVect = Short_Tools.General.ShortIntVector2;
 
 
 
-namespace Base_Building_Game
+namespace Base_Building_Game.WorldGen
 {
     public static partial class General
     {
@@ -24,7 +24,7 @@ namespace Base_Building_Game
         const int DefForce = 100;
 
 
-        static bool WaitingForWorldCreate = false;
+        public static bool WaitingForWorldCreate = false;
 
         public static void ReqCreateWorld()
         {
@@ -37,7 +37,7 @@ namespace Base_Building_Game
 
 
 
-        public static void CreateWorld()
+        public static void CreateWorld(out World world, out Sector ActiveSector)
         {
             WaitingForWorldCreate = false;
             MenuState = MenuStates.Loading;
@@ -48,6 +48,16 @@ namespace Base_Building_Game
             world.sectors[(size + 1) / 2, (size + 1) / 2] = CreatePFSector();
 
             ActiveSector = world[(World.size + 1) / 2, (World.size + 1) / 2];
+
+
+            foreach (IVect seed in Seeds)
+            {
+                if (seed != Seeds[0])
+                VillageGen.General.Run(seed, ActiveSector);
+            }
+
+            AddLog("Completed Village Generation");
+
 
             if (Thread.CurrentThread.Name == "ShortTools Rendering Thread")
             {
@@ -74,7 +84,7 @@ namespace Base_Building_Game
 
 
 
-
+        static List<IVect> Seeds = new List<IVect>();
         [MethodImpl(MethodImplOptions.AggressiveOptimization)]
         public static Sector CreatePFSector() // see https://www.desmos.com/calculator/zgaxgsk2ws for more info
         {
@@ -84,7 +94,7 @@ namespace Base_Building_Game
 
             #region SeedCreator
 
-            List<IVect> Seeds = new List<IVect>();
+            Seeds = new List<IVect>();
             
             for (int index = 0; index < SeedCount; index++)
             {
@@ -154,7 +164,7 @@ namespace Base_Building_Game
             #endregion GetSeeds
 
 
-            CreateLand(Seeds.ToArray(), sector);
+            WorldGen.LandGen.General.CreateLand(Seeds.ToArray(), sector);
 
             AddLog("Completed land generation", ShortDebugger.Priority.DEBUG);
 

@@ -389,7 +389,7 @@ namespace Base_Building_Game
         public void SetupText(string path = "")
         {
             SDL_ttf.TTF_Init();
-            Font = SDL_ttf.TTF_OpenFont(path, 24);
+            Font = SDL_ttf.TTF_OpenFont(path, 128);
             if (Font == IntPtr.Zero)
             {
                 //throw new FontLoadingException("Cannot find text file.");

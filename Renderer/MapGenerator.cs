@@ -24,7 +24,7 @@ namespace Base_Building_Game
 
 
 
-        static void ReqSaveMapImage(string path)
+        public static void ReqSaveMapImage(string path)
         {
             while (SavingMapImage) { Thread.Sleep(5); }
 
@@ -61,6 +61,7 @@ namespace Base_Building_Game
                     if (renderer.TileImages.ContainsKey(tile.ID))
                     {
                         GetTileColour(tile.ID, out uint colour);
+                        GetBuildingColour(tile.building, ref colour);
                         SDL.SDL_FillRect(surface, ref dstRect, colour);
                         //SDL_BlitSurface(renderer.TileImages[tile.ID], ref srcrect, surface, ref dstRect);
                     }
@@ -112,22 +113,16 @@ namespace Base_Building_Game
                     colour = 0xFFFFFFFF; break;
             }
         }
-
-
-
-
-
-        static uint GetColorForTile(short tileId)
+        static void GetBuildingColour(Building? building, ref uint colour)
         {
-            switch (tileId)
+            if (building is null) { return; }
+
+            switch (building.ID)
             {
-                case 2: // Grass
-                    return 0xFF00FF00; // Green
-                case 3: // Sand
-                    return 0xFFFFFF00; // Yellow
-                case 1: // Sea
-                default:
-                    return 0xFF0000FF; // Blue
+                case (short)BuildingID.Wall:
+
+                    // TODO: check if freind, if not then change it to be mildly more red
+                    colour = 0xAAAAAA; break;
             }
         }
     }

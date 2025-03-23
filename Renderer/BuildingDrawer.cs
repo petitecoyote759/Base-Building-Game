@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Short_Tools;
+using static Base_Building_Game.General;
 using static Short_Tools.General;
 using IVect = Short_Tools.General.ShortIntVector2;
 
@@ -53,6 +54,8 @@ namespace Base_Building_Game
                                     zoom * tempTile.building.ySize,
                                     tempTile.building.rotation * 90d
                                     );
+
+
                             }
                         }
 

@@ -94,7 +94,7 @@ namespace Base_Building_Game
 
 
 
-
+            // TODO: Fix this abomination
             public override void Handle(string inp, bool down)
             {
                 if (ActiveKeys.ContainsKey(inp)) { ActiveKeys[inp] = down; }
@@ -102,7 +102,7 @@ namespace Base_Building_Game
                 if (MenuState == MenuStates.StartScreen && down && inp == "F9")
                 {
                     debugger.AddLog("Activating dev create world", ShortDebugger.Priority.INFO);
-                    ReqCreateWorld();
+                    WorldGen.General.ReqCreateWorld();
                 }
 
 
@@ -140,7 +140,23 @@ namespace Base_Building_Game
                         }
                         break;
 
+                    case "m":
 
+                        if (down)
+                        {
+                            MapOpen = !MapOpen;
+                        }
+
+                        break;
+
+                    case "SLASH":
+
+                        if (down && !TextBarOpen)
+                        {
+                            TextBarOpen = true;
+                        }
+
+                        break;
 
 
 
@@ -148,6 +164,7 @@ namespace Base_Building_Game
 
                         if (down)
                         {
+                            TextBarOpen = false;
                             HotbarSelected = -1;
                             player.selectedTile = null;
                         }
