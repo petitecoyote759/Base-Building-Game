@@ -97,6 +97,8 @@ namespace Base_Building_Game
             // TODO: Fix this abomination
             public override void Handle(SDL_Keycode inp, bool down)
             {
+                if (inp == SDL_Keycode.SDLK_LSHIFT) { ActiveKeys[SDL_Keycode.SDLK_LSHIFT] = down; }
+
                 if (MenuState.IsInGame() && TextBarOpen && down && inp != SDL_Keycode.SDLK_ESCAPE)
                 {
                     Handlers.CommandHandler.HandleCommands(inp);
@@ -163,6 +165,7 @@ namespace Base_Building_Game
                         {
                             TextBarOpen = true;
                             Handlers.CommandHandler.commandLine = "/";
+                            Handlers.CommandHandler.commandLinePosition = 1;
                         }
 
                         break;

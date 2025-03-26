@@ -16,7 +16,7 @@ namespace Base_Building_Game
         {
             public Sector[,] sectors;
             public static int size = 9; // how many sectors x and y the map is
-
+            public int seed = 0;
 
 
             public Sector this[int x, int y] => sectors[x, y];

@@ -219,15 +219,22 @@ namespace Base_Building_Game
                         "Text Bar"
                         );
 
+                    const double multiplier = 0.004d;
 
-                    SDL2.SDL_ttf.TTF_SizeText(Font, Handlers.CommandHandler.commandLine, out int w, out int h);
+                    double value = Math.Sin(DateTimeOffset.Now.ToUnixTimeMilliseconds() * multiplier);
+                    string seperator = value > 0 ? "|" : " ";
+
+                    Handlers.CommandHandler.commandLinePosition = Math.Min(Handlers.CommandHandler.commandLinePosition, Handlers.CommandHandler.commandLine.Length);
+                    
+                    string commandLine = Handlers.CommandHandler.AddChar(seperator, Handlers.CommandHandler.commandLinePosition, Handlers.CommandHandler.commandLine);
+                    SDL2.SDL_ttf.TTF_SizeText(Font, commandLine, out int w, out int h);
 
                     WriteLength(
                         posx: 0,
                         posy: screenheight * 9 / 10,
                         width: w,
                         height: screenheight * 1 / 20,
-                        text: Handlers.CommandHandler.commandLine
+                        text: commandLine
                         );
                 }
 
