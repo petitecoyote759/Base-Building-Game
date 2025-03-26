@@ -202,5 +202,15 @@ namespace Base_Building_Game.Handlers
             if (commandLine == "/creative off") { General.settings.Cheats = false; }
             if (commandLine == "/creative on") { General.settings.Cheats = true; }
         }
+
+
+
+
+        // TODO:
+        // 
+        // Add chat log
+        // Add previous commands so up arrow can select them
+        // Add autofill????
+        // Make some cool commands
     }
 }
