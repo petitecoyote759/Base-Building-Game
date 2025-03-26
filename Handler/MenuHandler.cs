@@ -92,7 +92,7 @@ namespace Base_Building_Game
                     {
                         MenuState = MenuStates.StartScreen;
                     }
-                    if (inp == "Mouse")
+                    if (mouseDown)
                     {
                         IVect mpos = getMousePos();
 
@@ -138,7 +138,7 @@ namespace Base_Building_Game
                             break;
                         }
                     }
-                    else if (inp == "Mouse")
+                    else if (mouseDown)
                     {
                         IVect mpos = getMousePos();
 
@@ -177,7 +177,7 @@ namespace Base_Building_Game
                     #region Typing
                     else if (inp.Length == 1) //TODO: make this work with _!-()[]{}'@~#:;><?
                     {
-                        if (ActiveKeys["LSHIFT"]) { inp = inp.ToUpperInvariant(); }
+                        if (ActiveKeys[SDL2.SDL.SDL_Keycode.SDLK_LSHIFT]) { inp = inp.ToUpperInvariant(); }
                         if (SelectedOption is bool option)
                         {
                             if (option == true) // name
@@ -256,7 +256,7 @@ namespace Base_Building_Game
                     }
 
 
-                    if (inp == "Mouse")
+                    if (mouseDown)
                     {
                         IVect mpos = getMousePos();
 

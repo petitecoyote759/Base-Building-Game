@@ -100,51 +100,51 @@ namespace Base_Building_Game
                 if (boat is null && turret is null)
                 {
 
-                    if (ActiveKeys["w"])
+                    if (ActiveKeys[SDL2.SDL.SDL_Keycode.SDLK_w])
                     {
-                        if (ActiveKeys["a"] ^ ActiveKeys["d"]) { y -= speed * dt * 5 / 7; }
+                        if (ActiveKeys[SDL2.SDL.SDL_Keycode.SDLK_a] ^ ActiveKeys[SDL2.SDL.SDL_Keycode.SDLK_d]) { y -= speed * dt * 5 / 7; }
                         else { y -= speed * dt; }
 
                         if (!Walkable(x, y, true))
                         {
-                            if (ActiveKeys["a"] ^ ActiveKeys["d"]) { y += speed * dt * 5 / 7; }
+                            if (ActiveKeys[SDL2.SDL.SDL_Keycode.SDLK_a] ^ ActiveKeys[SDL2.SDL.SDL_Keycode.SDLK_d]) { y += speed * dt * 5 / 7; }
                             else { y += speed * dt; } // move back to the original place
                         }
 
                     }
-                    if (ActiveKeys["s"])
+                    if (ActiveKeys[SDL2.SDL.SDL_Keycode.SDLK_s])
                     {
-                        if (ActiveKeys["a"] ^ ActiveKeys["d"]) { y += speed * dt * 5 / 7; }
+                        if (ActiveKeys[SDL2.SDL.SDL_Keycode.SDLK_a] ^ ActiveKeys[SDL2.SDL.SDL_Keycode.SDLK_d]) { y += speed * dt * 5 / 7; }
                         else { y += speed * dt; }
 
                         if (!Walkable(x, y, true))
                         {
-                            if (ActiveKeys["a"] ^ ActiveKeys["d"]) { y -= speed * dt * 5 / 7; }
+                            if (ActiveKeys[SDL2.SDL.SDL_Keycode.SDLK_a] ^ ActiveKeys[SDL2.SDL.SDL_Keycode.SDLK_d]) { y -= speed * dt * 5 / 7; }
                             else { y -= speed * dt; }
                         }
 
                     }
-                    if (ActiveKeys["a"])
+                    if (ActiveKeys[SDL2.SDL.SDL_Keycode.SDLK_a])
                     {
-                        if (ActiveKeys["w"] ^ ActiveKeys["s"]) { x -= speed * dt * 5 / 7; }
+                        if (ActiveKeys[SDL2.SDL.SDL_Keycode.SDLK_w] ^ ActiveKeys[SDL2.SDL.SDL_Keycode.SDLK_s]) { x -= speed * dt * 5 / 7; }
                         else { x -= speed * dt; }
 
                         if (!Walkable(x, y, true))
                         {
-                            if (ActiveKeys["w"] ^ ActiveKeys["s"]) { x += speed * dt * 5 / 7; }
+                            if (ActiveKeys[SDL2.SDL.SDL_Keycode.SDLK_w] ^ ActiveKeys[SDL2.SDL.SDL_Keycode.SDLK_s]) { x += speed * dt * 5 / 7; }
                             else { x += speed * dt; }
                         }
                     }
 
 
-                    if (ActiveKeys["d"])
+                    if (ActiveKeys[SDL2.SDL.SDL_Keycode.SDLK_d])
                     {
-                        if (ActiveKeys["w"] ^ ActiveKeys["s"]) { x += speed * dt * 5 / 7; }
+                        if (ActiveKeys[SDL2.SDL.SDL_Keycode.SDLK_w] ^ ActiveKeys[SDL2.SDL.SDL_Keycode.SDLK_s]) { x += speed * dt * 5 / 7; }
                         else { x += speed * dt; }
 
                         if (!Walkable(x, y, true))
                         {
-                            if (ActiveKeys["w"] ^ ActiveKeys["s"]) { x -= speed * dt * 5 / 7; }
+                            if (ActiveKeys[SDL2.SDL.SDL_Keycode.SDLK_w] ^ ActiveKeys[SDL2.SDL.SDL_Keycode.SDLK_s]) { x -= speed * dt * 5 / 7; }
                             else { x -= speed * dt; }
                         }
                     }

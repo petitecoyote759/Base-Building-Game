@@ -218,6 +218,17 @@ namespace Base_Building_Game
                         screenheight * 1 / 10,
                         "Text Bar"
                         );
+
+
+                    SDL2.SDL_ttf.TTF_SizeText(Font, Handlers.CommandHandler.commandLine, out int w, out int h);
+
+                    WriteLength(
+                        posx: 0,
+                        posy: screenheight * 9 / 10,
+                        width: w,
+                        height: screenheight * 1 / 20,
+                        text: Handlers.CommandHandler.commandLine
+                        );
                 }
 
 

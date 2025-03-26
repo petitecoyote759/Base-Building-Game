@@ -381,6 +381,32 @@ namespace Base_Building_Game
         }
 
 
+
+
+        /// <summary>
+        /// <para> Writes the text given to the screen. </para>
+        /// </summary>
+        /// <param name="posx"> X position of the bottom left corner of the image destination in pixels.</param>
+        /// <param name="posy"> Y position of the bottom left corner of the image destination in pixels.</param>
+        /// <param name="width"> Width of the image in pixels.</param>
+        /// <param name="height"> Height of the image in pixels.</param>
+        /// <param name="text"> Text to be written to the screen.</param>
+        [MethodImpl(MethodImplOptions.AggressiveOptimization)]
+        public void WriteLength(int posx, int posy, int width, int height, string text, [Optional] SDL_Color? InColour)
+        {
+            SDL_Color colour;
+            if (InColour is null) { colour = Black; }
+            else { colour = (SDL_Color)InColour; }
+
+            IntPtr surfaceMessage = SDL_ttf.TTF_RenderText_Solid(Font, text, colour);
+            IntPtr Message = SDL_CreateTextureFromSurface(SDLrenderer, surfaceMessage);
+            Draw(posx, posy, (int)(width * 0.75f), height, Message);
+            SDL_DestroyTexture(Message);
+            SDL_FreeSurface(surfaceMessage);
+        }
+
+
+
         /// <summary>
         /// Sets up text to be able to use with the Write function. Call after Setup.
         /// </summary>
