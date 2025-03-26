@@ -50,9 +50,12 @@ namespace Base_Building_Game
             public int rotation { get; set; } = 0;
             public bool rotatable { get; } = false;
 
+            public bool friendly { get; set; }
 
-            public Wall(IVect pos)
+
+            public Wall(IVect pos, bool friendly = true)
             {
+                this.friendly = friendly;
                 this.pos = pos;
             }
         }

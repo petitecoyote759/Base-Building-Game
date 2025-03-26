@@ -56,10 +56,13 @@ namespace Base_Building_Game
             public int rotation { get; set; } = 0;
             public bool rotatable { get; } = true;
 
-            public SmallPort(IVect pos, int rotation)
+            public bool friendly { get; set; }
+
+            public SmallPort(IVect pos, int rotation, bool friendly = true)
             {
                 this.pos = pos;
                 this.rotation = rotation;
+                this.friendly = friendly;
             }
         }
     }

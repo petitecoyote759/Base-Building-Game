@@ -49,6 +49,9 @@ namespace Base_Building_Game
             public int rotation { get; set; } = 0;
             public bool rotatable { get; } = false;
             short OnTileID = 0;
+
+            public bool friendly { get; set; }
+
             short ItemDropID = 0;
 
             public void Action(int dt)
@@ -82,9 +85,10 @@ namespace Base_Building_Game
 
 
 
-            public Extractor(IVect pos)
+            public Extractor(IVect pos, bool friendly = true)
             {
                 this.pos = pos;
+                this.friendly = friendly;
                 OnTileID = world.GetTile(pos.x, pos.y).ID;
                 if (TileIDToItem.ContainsKey(OnTileID))
                 {

@@ -55,10 +55,12 @@ namespace Base_Building_Game
             public Vector2 pos { get; set; }
             public int rotation { get; set; } = 0;
             public bool rotatable { get; } = true;
+            public bool friendly { get; set; }
 
-            public MediumPort(IVect pos, int rotation)
+            public MediumPort(IVect pos, int rotation, bool friendly = true)
             {
                 this.pos = pos;
+                this.friendly = friendly;
                 this.rotation = rotation;
             }
         }

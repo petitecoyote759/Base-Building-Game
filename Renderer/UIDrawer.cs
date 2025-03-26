@@ -44,7 +44,7 @@ namespace Base_Building_Game
                         {
                             if (BuildingImages.ContainsKey(ID))
                             {
-                                Building building = BuildingIDToBuilding((BuildingID)ID, new IVect(int.MinValue, int.MinValue));
+                                Building building = BuildingIDToBuilding((BuildingID)ID, new IVect(int.MinValue, int.MinValue), true);
 
                                 DrawBP(
                                     GetBlockx(MPos.x),

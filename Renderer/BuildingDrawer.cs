@@ -46,16 +46,42 @@ namespace Base_Building_Game
                             if (BuildingImages.ContainsKey(tempTile.building.ID) && tempTile.building is not Linker)
                             {
                                 if (tempTile.building is ConnectingBuilding CBuilding) { DrawConnectors(CBuilding); }
-
+                                Building building = tempTile.building;
 
                                 DrawBP(x, y,
-                                    BuildingImages[tempTile.building.ID][Research[tempTile.building.ID]],
-                                    zoom * tempTile.building.xSize,
-                                    zoom * tempTile.building.ySize,
-                                    tempTile.building.rotation * 90d
+                                    BuildingImages[building.ID][Research[building.ID]],
+                                    zoom * building.xSize,
+                                    zoom * building.ySize,
+                                    building.rotation * 90d
                                     );
 
+                                if (!tempTile.building.friendly)
+                                {
+                                    DrawBP(
+                                        x, y,
+                                        "Enemy Shader",
+                                        zoom * building.xSize,
+                                        zoom * building.ySize
+                                    );
+                                }
 
+
+
+
+                                if (settings.Debugging)
+                                {
+                                    IVect mPos = getMousePos();
+                                    int bx = GetPx(building.pos.X);
+                                    int by = GetPy(building.pos.Y);
+                                    if (bx <= mPos.x && mPos.x <= bx + zoom &&
+                                        by <= mPos.y && mPos.y <= by + zoom)
+                                    {
+                                        string text =
+                                            $"Friendly: {building.friendly}";
+
+                                        renderer.Write(bx, by, (int)(zoom / (float)text.Length) * 4, zoom / 4, text);
+                                    }
+                                }
                             }
                         }
 

@@ -55,9 +55,11 @@ namespace Base_Building_Game
                 world.GetTile(pos.X - 1, pos.Y);
             }
 
-            public Pipe(IVect pos)
+            public bool friendly { get; set; }
+            public Pipe(IVect pos, bool friendly = true)
             {
                 this.pos = pos;
+                this.friendly = friendly;
             }
 
         }

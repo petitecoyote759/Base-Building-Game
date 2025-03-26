@@ -36,9 +36,12 @@ namespace Base_Building_Game
             public int rotation { get; set; } = 0;
             public bool rotatable { get; } = false;
 
-            public Bridge(IVect pos)
+            public bool friendly { get; set; }
+
+            public Bridge(IVect pos, bool friendly = true)
             {
                 this.pos = pos;
+                this.friendly = friendly;
             }
         }
     }

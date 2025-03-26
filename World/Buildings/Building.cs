@@ -86,6 +86,9 @@ namespace Base_Building_Game
             public int rotation { get; set; }
 
             public bool rotatable { get; }
+
+
+            public bool friendly { get; set; }
         }
 
 
@@ -98,22 +101,22 @@ namespace Base_Building_Game
         }
 
         
-        public static Building BuildingIDToBuilding(BuildingID building,IVect pos)
+        public static Building BuildingIDToBuilding(BuildingID building,IVect pos, bool friendly)
         {
             return building switch
             {
-                BuildingID.Bridge    => new Bridge(pos),
-                BuildingID.Path      => new Path(pos),
-                BuildingID.Wall      => new Wall(pos),
-                BuildingID.Extractor => new Extractor(pos),
-                BuildingID.WorkCamp  => new WorkCamp(pos),
-                BuildingID.DropPod   => new DropPod(pos),
-                BuildingID.SmallPort => new SmallPort(pos, player.CurrrentRotation),
-                BuildingID.MedPort   => new MediumPort(pos, player.CurrrentRotation),
-                BuildingID.LargePort => new LargePort(pos, player.CurrrentRotation),
+                BuildingID.Bridge    => new Bridge(pos, friendly),
+                BuildingID.Path      => new Path(pos, friendly),
+                BuildingID.Wall      => new Wall(pos, friendly),
+                BuildingID.Extractor => new Extractor(pos, friendly),
+                BuildingID.WorkCamp  => new WorkCamp(pos, friendly),
+                BuildingID.DropPod   => new DropPod(pos, friendly),
+                BuildingID.SmallPort => new SmallPort(pos, player.CurrrentRotation, friendly),
+                BuildingID.MedPort   => new MediumPort(pos, player.CurrrentRotation, friendly),
+                BuildingID.LargePort => new LargePort(pos, player.CurrrentRotation, friendly),
 
-                BuildingID.Barrel    => new Barrel(pos),
-                BuildingID.Pipe      => new Pipe(pos),
+                BuildingID.Barrel    => new Barrel(pos, friendly),
+                BuildingID.Pipe      => new Pipe(pos, friendly),
 
                 _ => null
             }; // Add new buildings here ^^^^^^
