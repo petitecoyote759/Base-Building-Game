@@ -111,7 +111,7 @@ namespace Base_Building_Game.WorldGen.LandGen
                         data[x, y] > 1.2f // not water init
                         )
                     {
-                        sector[x, y] = new Base_Building_Game.General.Tile(Base_Building_Game.General.TileID.Error);
+                        sector[x, y] = new Base_Building_Game.General.Tile(Base_Building_Game.General.TileID.Cliff);
                     }
 
 

@@ -25,6 +25,7 @@ namespace Base_Building_Game
             Stone,
             Wood,
             Diamond,
+            Cliff,
 
 
             Error = short.MaxValue

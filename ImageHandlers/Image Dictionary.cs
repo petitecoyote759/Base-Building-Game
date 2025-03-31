@@ -30,6 +30,7 @@ namespace Base_Building_Game
             { "Stone", "Tiles\\stone.png" },
             { "Ocean", "Tiles\\water.png" },
             { "Wood", "Tiles\\wood.png" },
+            { "Cliff", "Tiles\\Cliff.png" },
             #endregion Tiles
 
             

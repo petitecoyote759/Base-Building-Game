@@ -36,6 +36,7 @@ namespace Base_Building_Game
                 { (short)TileID.Stone,     renderer.images["Stone"] },
                 { (short)TileID.Wood,      renderer.images["Wood"] },
                 { (short)TileID.Diamond,   renderer.images["Diamond"] },
+                { (short)TileID.Cliff,     renderer.images["Cliff"] },
 
                 { (short)TileID.Error, renderer.images["Error"] }
             };

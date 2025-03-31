@@ -108,6 +108,9 @@ namespace Base_Building_Game
                 case (short)TileID.Wood:
                     colour = 0x704000FF; break;
 
+                case (short)TileID.Cliff:
+                    colour = 0x404040FF; break;
+         
 
                 default:
                     colour = 0xFFFFFFFF; break;

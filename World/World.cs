@@ -97,6 +97,7 @@ namespace Base_Building_Game
 
                 if (settings.Cheats && player) { return true; }
 
+                if (tile.ID == (short)TileID.Cliff) { return false; }
 
                 if (tile.ID == (short)TileID.DeepOcean) { return false; }
 
