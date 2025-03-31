@@ -21,100 +21,110 @@ namespace Base_Building_Game
 {
     public static partial class General
     {
-        static Dictionary<string, bool> ActiveKeys = new Dictionary<string, bool>()
+        internal static Dictionary<SDL_Keycode, bool> ActiveKeys = new Dictionary<SDL_Keycode, bool>()
         {
-            { "w", false },
-            { "a", false },
-            { "s", false },
-            { "d", false },
-            { "Mouse", false },
-            { "BACKSPACE", false },
-            { "LSHIFT", false }
+            { SDL_Keycode.SDLK_w, false },
+            { SDL_Keycode.SDLK_a, false },
+            { SDL_Keycode.SDLK_s, false },
+            { SDL_Keycode.SDLK_d, false },
+            { SDL_Keycode.SDLK_BACKSPACE, false },
+            { SDL_Keycode.SDLK_LSHIFT, false }
         }; // the keys currently being pressed
 
+        static bool mouseDown = false;
 
 
 
 
-        public class Handler : ShortHandler
+
+        public class Handler : XXShortHandler
         {
 
             public Handler() : base() { } // stick in base(Flag.Debug) to see what buttons are pressed 
 
 
-            //public void HandleInputs(ref bool Running)
-            //{
-            //    SDL_Event e;
-            //    while (SDL_PollEvent(out e) != 0)
-            //    {
-            //        switch (e.type)
-            //        {
-            //            case SDL_EventType.SDL_QUIT:
-            //
-            //                Running = false;
-            //
-            //                break;
-            //
-            //            case SDL_EventType.SDL_KEYDOWN:
-            //
-            //                string key = e.key.keysym.sym.ToString();
-            //
-            //                Handle(key.Substring(5, key.Length - 5), true); //SDLK_w
-            //
-            //                break;
-            //
-            //            case SDL_EventType.SDL_KEYUP:
-            //
-            //                key = e.key.keysym.sym.ToString();
-            //
-            //                Handle(key.Substring(5, key.Length - 5), false); //SDLK_w
-            //
-            //                break;
-            //
-            //            case SDL_EventType.SDL_MOUSEBUTTONDOWN:
-            //
-            //                Handle("Mouse", true);
-            //
-            //                break;
-            //
-            //
-            //            case SDL_EventType.SDL_MOUSEBUTTONUP:
-            //
-            //                Handle("Mouse", false);
-            //
-            //                break;
-            //
-            //
-            //                
-            //        }
-            //    }
-            //}
 
 
+
+
+            internal override void HandleMousePress(bool down, bool mouseWheel = false)
+            {
+                if (mouseWheel)
+                {
+                    if (HotbarSelected == -1)
+                    {
+                        if (down)
+                        {
+                            renderer.zoom = renderer.zoom * 11 / 10;
+                            if (renderer.zoom > 200) { renderer.zoom = 200; }
+                        }
+                        else
+                        {
+                            renderer.zoom = renderer.zoom * 9 / 10;
+                            if (renderer.zoom < 10) { renderer.zoom = 10; }
+                        }
+                    }
+                    else
+                    {
+                        player.CurrrentRotation = (player.CurrrentRotation + (down ? 1 : -1)) % 4;
+                    }
+                }
+                else
+                {
+                    mouseDown = down;
+                    HandleMenus("Mouse");
+                }
+            }
+
+
+
+            static readonly Dictionary<SDL_Keycode, int> SDLKeyNumbers = new Dictionary<SDL_Keycode, int>
+            {
+                { SDL_Keycode.SDLK_0, 0},
+                { SDL_Keycode.SDLK_1, 1},
+                { SDL_Keycode.SDLK_2, 2},
+                { SDL_Keycode.SDLK_3, 3},
+                { SDL_Keycode.SDLK_4, 4},
+                { SDL_Keycode.SDLK_5, 5},
+                { SDL_Keycode.SDLK_6, 6},
+                { SDL_Keycode.SDLK_7, 7},
+                { SDL_Keycode.SDLK_8, 8},
+                { SDL_Keycode.SDLK_9, 9},
+            };
 
 
 
             // TODO: Fix this abomination
-            public override void Handle(string inp, bool down)
+            public override void Handle(SDL_Keycode inp, bool down)
             {
+                if (inp == SDL_Keycode.SDLK_LSHIFT) { ActiveKeys[SDL_Keycode.SDLK_LSHIFT] = down; }
+
+                if (MenuState.IsInGame() && TextBarOpen && down && inp != SDL_Keycode.SDLK_ESCAPE)
+                {
+                    Handlers.CommandHandler.HandleCommands(inp);
+                    return;
+                }
+
+
                 if (ActiveKeys.ContainsKey(inp)) { ActiveKeys[inp] = down; }
 
-                if (MenuState == MenuStates.StartScreen && down && inp == "F9")
+                if (MenuState == MenuStates.StartScreen && down && inp == SDL_Keycode.SDLK_F9)
                 {
                     debugger.AddLog("Activating dev create world", ShortDebugger.Priority.INFO);
                     WorldGen.General.ReqCreateWorld();
                 }
 
-
                 if (!MenuState.IsInGame() && down)
                 {
-                    HandleMenus(inp);
+                    HandleMenus(inp.ToString().Substring(5)); // would like to fix this but for now it works
                     return;
                 }
 
 
-                if (int.TryParse(inp, out int result)) // if it is a number
+
+                if (SDLKeyNumbers.ContainsKey(inp) && down) // if it is a number
                 {
+                    int result = SDLKeyNumbers[inp];
                     HotbarSelected = result - 1;
                     if (result == 0)
                     {
@@ -124,7 +134,7 @@ namespace Base_Building_Game
 
                 switch (inp)
                 {
-                    case "w":
+                    case SDL_Keycode.SDLK_w:
 
                         if (down && MenuState.IsInGame() && player.boat is not null)
                         {
@@ -132,7 +142,7 @@ namespace Base_Building_Game
                         }
                         break;
 
-                    case "s":
+                    case SDL_Keycode.SDLK_s:
 
                         if (down && MenuState.IsInGame() && player.boat is not null)
                         {
@@ -140,7 +150,7 @@ namespace Base_Building_Game
                         }
                         break;
 
-                    case "m":
+                    case SDL_Keycode.SDLK_m:
 
                         if (down)
                         {
@@ -149,18 +159,20 @@ namespace Base_Building_Game
 
                         break;
 
-                    case "SLASH":
+                    case SDL_Keycode.SDLK_SLASH:
 
                         if (down && !TextBarOpen)
                         {
                             TextBarOpen = true;
+                            Handlers.CommandHandler.commandLine = "/";
+                            Handlers.CommandHandler.commandLinePosition = 1;
                         }
 
                         break;
 
 
 
-                    case "ESCAPE":
+                    case SDL_Keycode.SDLK_ESCAPE:
 
                         if (down)
                         {
@@ -171,32 +183,7 @@ namespace Base_Building_Game
 
                         break;
 
-
-
-
-                    case "MouseWheel":
-
-                        if (HotbarSelected == -1)
-                        {
-                            if (down)
-                            {
-                                renderer.zoom = renderer.zoom * 11 / 10;
-                                if (renderer.zoom > 200) { renderer.zoom = 200; }
-                            }
-                            else
-                            {
-                                renderer.zoom = renderer.zoom * 9 / 10;
-                                if (renderer.zoom < 10) { renderer.zoom = 10; }
-                            }
-                        }
-                        else
-                        {
-                            player.CurrrentRotation = (player.CurrrentRotation + (down ? 1 : -1)) % 4;
-                        }
-
-                        break;
-
-                    case "F1":
+                    case SDL_Keycode.SDLK_F1:
 
                         if (down)
                         {
@@ -209,7 +196,7 @@ namespace Base_Building_Game
 
 
 
-                    case "b":
+                    case SDL_Keycode.SDLK_b:
 
                         if (!down) { break; }
 
@@ -305,7 +292,7 @@ namespace Base_Building_Game
                 }
 
 
-                DoBoatHandles(inp, down);
+                DoBoatHandles(inp.ToString().Substring(5), down);
             }
         }
     }

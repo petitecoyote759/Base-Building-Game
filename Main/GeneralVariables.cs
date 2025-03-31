@@ -19,7 +19,7 @@ namespace Base_Building_Game
         public static Random randy = new Random(RandSeed);
 
         public static Renderer renderer = new Renderer();
-        static Settings settings = new Settings();
+        internal static Settings settings = new Settings();
 
 #if DEBUG
         public static Debugger debugger = new Debugger("General", "Logs\\", Debugger.Flags.DISPLAY_ON_ADD_LOG);
@@ -33,7 +33,7 @@ namespace Base_Building_Game
         public static Hotbar hotbar = new Hotbar();
 
 #pragma warning disable CS8618
-        static World world; // it gets created when you load in the game, no way its gonna be null
+        internal static World world; // it gets created when you load in the game, no way its gonna be null
 #pragma warning restore CS8618
 
         static Sector ActiveSector = new Sector(false);

@@ -43,6 +43,11 @@ namespace Base_Building_Game
 
 
             #region Buildings
+            { "Enemy Shader", "Buildings\\Enemy Shader.png" },
+
+
+
+
             { "BridgeNode0", "Buildings\\bridge node0.png" },
 
 

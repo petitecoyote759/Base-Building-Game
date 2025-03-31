@@ -24,7 +24,7 @@ namespace Base_Building_Game
 
 
 
-            if (ActiveKeys["Mouse"])
+            if (mouseDown)
             {
                 if (MenuState.IsInGame())
                 {
@@ -46,7 +46,7 @@ namespace Base_Building_Game
 
 #pragma warning disable CS8602 // dereference of a possibly null reference -> active sector aint gonna be null
 #pragma warning disable CS8600 // same thing
-            if (ActiveKeys["BACKSPACE"])
+            if (ActiveKeys[SDL2.SDL.SDL_Keycode.SDLK_BACKSPACE])
             {
                 if (MenuState.IsInGame())
                 {

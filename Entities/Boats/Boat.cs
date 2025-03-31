@@ -270,11 +270,11 @@ namespace Base_Building_Game
             if (boat.Pilot == player)
             {
 
-                if (ActiveKeys["a"])
+                if (ActiveKeys[SDL2.SDL.SDL_Keycode.SDLK_a])
                 {
                     boat.angle -= boat.TurnSpeed * Math.Min(boat.velocity.Length() * 2, 0.01f) * dt;
                 }
-                if (ActiveKeys["d"])
+                if (ActiveKeys[SDL2.SDL.SDL_Keycode.SDLK_d])
                 {
                     boat.angle += boat.TurnSpeed * Math.Min(boat.velocity.Length() * 2, 0.01f) * dt;
                 }

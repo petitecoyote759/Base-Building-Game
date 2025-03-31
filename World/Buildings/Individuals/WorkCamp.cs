@@ -37,9 +37,14 @@ namespace Base_Building_Game
 
 #pragma warning disable CS8618 // non nullable man should be defined wah wah, it doesnt matter if they are at int.MinValue
                                // or maybe that will cause an issue, we will see
-            public WorkCamp(IVect pos)
+            
+            public bool friendly { get; set; }
+
+
+            public WorkCamp(IVect pos, bool friendly = true)
             {
                 this.pos = pos;
+                this.friendly = friendly;
                 if (pos.X != int.MinValue)
                 {
                     Men man = new Men(this.pos, this);

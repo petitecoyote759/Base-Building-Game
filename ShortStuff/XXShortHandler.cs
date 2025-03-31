@@ -102,25 +102,25 @@ namespace Base_Building_Game
 
                     case SDL_EventType.SDL_MOUSEBUTTONDOWN:
                         UpdateButtons();
-                        Handle("Mouse", true);
+                        HandleMousePress(true);
                         break;
 
                     case SDL_EventType.SDL_MOUSEBUTTONUP:
-                        Handle("Mouse", false);
+                        HandleMousePress(false);
                         break;
 
                     case SDL_EventType.SDL_MOUSEWHEEL:
-                        Handle("MouseWheel", e.wheel.y > 0);
+                        HandleMousePress(e.wheel.y > 0, true);
                         break;
 
                     case SDL_EventType.SDL_KEYDOWN:
                         if (debugging) { Console.WriteLine(e.key.keysym.sym.ToString().Substring(5)); } // cuts out the starting SDLK_
-                        Handle(e.key.keysym.sym.ToString().Substring(5), true);
+                        Handle(e.key.keysym.sym, true);
                         break;
 
                     case SDL_EventType.SDL_KEYUP:
                         if (debugging) { Console.WriteLine(e.key.keysym.sym.ToString().Substring(5)); } // cuts out the starting SDLK_
-                        Handle(e.key.keysym.sym.ToString().Substring(5), false);
+                        Handle(e.key.keysym.sym, false);
                         break;
                 }
             }
@@ -132,7 +132,15 @@ namespace Base_Building_Game
         /// </summary>
         /// <param name="inp"> Input key. </param>
         /// <param name="down"> If the key is being pressed down. </param>
-        public virtual void Handle(string inp, bool down) { }
+        public virtual void Handle(SDL_Keycode inp, bool down) { }
+
+
+
+
+        internal virtual void HandleMousePress(bool down, bool mouseWheel = false)
+        {
+
+        }
 
 
 

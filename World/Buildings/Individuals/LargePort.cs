@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Numerics;
+using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 using Short_Tools;
@@ -43,9 +44,12 @@ namespace Base_Building_Game
             public int rotation { get; set; } = 0;
             public bool rotatable { get; } = true;
 
-            public LargePort(IVect pos, int rotation)
+            public bool friendly { get; set; }
+
+            public LargePort(IVect pos, int rotation, bool friendly = true)
             {
                 this.pos = pos;
+                this.friendly = friendly;
                 this.rotation = rotation;
             }
         }

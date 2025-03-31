@@ -31,7 +31,7 @@ namespace Base_Building_Game
         static int InitFunctionsProgress = 0;
 
 
-        static Dictionary<string, LoaderFunction> InitFunctions = new Dictionary<string, LoaderFunction>
+        static Dictionary<string, LoaderFunction> InitFunctions = new Dictionary<string, LoaderFunction> // Add init functions here <---
         {
             { "Loading Settings", new LoaderFunction(LoadSettings) }, 
             { "Loading Texture Packs", new LoaderFunction(LoadTexturePacks) },

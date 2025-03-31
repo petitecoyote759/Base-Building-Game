@@ -434,7 +434,7 @@ namespace Base_Building_Game.WorldGen.VillageGen
                 (short)BuildingEnum.Wall => BuildingID.Wall,
 
                 _ => BuildingID.None,
-            }, x, y);
+            }, x, y, false);
         }
 #pragma warning restore
 

@@ -34,9 +34,12 @@ namespace Base_Building_Game
             public int rotation { get; set; } = 0;
             public bool rotatable { get; } = false;
 
-            public DropPod(IVect pos)
+            public bool friendly { get; set; }
+
+            public DropPod(IVect pos, bool friendly = true)
             {
                 this.pos = pos;
+                this.friendly = friendly;
             }
         }
     }

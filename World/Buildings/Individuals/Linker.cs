@@ -58,11 +58,13 @@ namespace Base_Building_Game
             public bool rotatable { get; } = false;
 
             public Building connectedBuilding;
+            public bool friendly { get; set; }
 
-            public Linker(IVect pos, Building connectedBuilding)
+            public Linker(IVect pos, Building connectedBuilding, bool friendly = true)
             {
                 this.pos = pos;
                 this.connectedBuilding = connectedBuilding;
+                this.friendly = friendly;
             }
 
 

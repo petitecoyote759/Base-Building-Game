@@ -138,6 +138,7 @@ namespace Base_Building_Game
         static void SetSeed(int seed)
         {
             randy = new Random(seed);
+            world.seed = seed;
         }
         static void SetSeed() { }
 
