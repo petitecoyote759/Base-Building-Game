@@ -48,6 +48,20 @@ namespace Base_Building_Game
             [MethodImpl(MethodImplOptions.AggressiveOptimization)]
             public void Action(int dt)
             {
+                // TODO list
+                /*
+                  
+               Add item storage to the hub
+               Add saving of that storage to the game file
+               Add UI to show those resources
+               Add costs to buildings if cheats off
+               Add resources UI to the barrels
+               Add ability to make men target areas for pickup / deploy
+               Add ability to copy paste settings for men
+                                 
+               */
+
+
                 if (RoughDist(pos, player.pos) > MenTeleportDistance) 
                 {
                     HighDistanceAction(dt);
