@@ -77,7 +77,8 @@ namespace Base_Building_Game
                                         by <= mPos.y && mPos.y <= by + zoom)
                                     {
                                         string text =
-                                            $"Friendly: {building.friendly}";
+                                            $"Friendly: {building.friendly}\r" +
+                                            $"Type: {Enum.GetName(typeof(BuildingID), building.ID)}";
 
                                         renderer.Write(bx, by, (int)(zoom / (float)text.Length) * 4, zoom / 4, text);
                                     }

@@ -4,6 +4,7 @@ using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
+using Newtonsoft.Json.Linq;
 using Short_Tools;
 using static Short_Tools.General;
 using IVect = Short_Tools.General.ShortIntVector2;
@@ -33,6 +34,8 @@ namespace Base_Building_Game.WorldGen.LandGen
 
             Perlin.PerlinMap subMap2 = new Perlin.PerlinMap(8);
 
+            float[,] data = new float[Base_Building_Game.General.SectorSize, Base_Building_Game.General.SectorSize];
+
             for (int x = 0; x < Base_Building_Game.General.SectorSize; x++)
             {
                 for (int y = 0; y < Base_Building_Game.General.SectorSize; y++)
@@ -60,7 +63,7 @@ namespace Base_Building_Game.WorldGen.LandGen
                     #region Falloff
                     if (x < OuterWidth)
                     {
-                        value -= (x - OuterWidth) * (x - OuterWidth) / (FallOff * FallOff); 
+                        value -= (x - OuterWidth) * (x - OuterWidth) / (FallOff * FallOff);
                     }
                     else if (x > Base_Building_Game.General.SectorSize - OuterWidth)
                     {
@@ -77,9 +80,43 @@ namespace Base_Building_Game.WorldGen.LandGen
                     }
                     #endregion Falloff
 
+
+                    data[x, y] = value;
+                }
+            }
+
+
+
+
+            for (int x = 0; x < Base_Building_Game.General.SectorSize; x++)
+            {
+                for (int y = 0; y < Base_Building_Game.General.SectorSize; y++)
+                {
+                    float value = data[x, y];
                     // TODO: try doing some dy/dx stuff to get the uhhhh the uhhhhhhhhhhh cliffs and stuff
                     #region SelectTileType
-                    if (value < -0.2f)
+
+                    const float cliffGrad = 0.11f;
+
+
+                    if (0 < x && x < Base_Building_Game.General.SectorSize - 1 &&
+                        0 < y && y < Base_Building_Game.General.SectorSize - 1 &&
+
+                        ( // grad detection
+                        (Math.Abs(data[x - 1, y]) - Math.Abs(value) > cliffGrad) ||
+                        (Math.Abs(data[x + 1, y]) - Math.Abs(value) > cliffGrad) ||
+                        (Math.Abs(data[x, y + 1]) - Math.Abs(value) > cliffGrad) ||
+                        (Math.Abs(data[x, y - 1]) - Math.Abs(value) > cliffGrad)
+                        ) &&
+                        data[x, y] > 1.2f // not water init
+                        )
+                    {
+                        sector[x, y] = new Base_Building_Game.General.Tile(Base_Building_Game.General.TileID.Error);
+                    }
+
+
+
+                    else if (value < -0.2f)
                     {
                         sector[x, y] = new Base_Building_Game.General.Tile(Base_Building_Game.General.TileID.DeepOcean);
                     }
@@ -102,10 +139,6 @@ namespace Base_Building_Game.WorldGen.LandGen
             GenResources(sector);
             Base_Building_Game.General.AddLog("Resources Generated", ShortDebugger.Priority.DEBUG);
         }
-
-
-
-
 
 
 

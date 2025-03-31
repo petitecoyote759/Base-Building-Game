@@ -75,6 +75,7 @@ namespace Base_Building_Game.WorldGen
             player.pos = new IVect(SectorSize / 2, SectorSize / 2);
             player.camPos = new IVect(SectorSize / 2, SectorSize / 2);
             hotbar.BuildBuilding(BuildingID.DropPod, SectorSize / 2, SectorSize / 2);
+            player.hub = world[player.SectorPos.x, player.SectorPos.y][SectorSize / 2, SectorSize / 2].building as DropPod;
 
             MenuState = MenuStates.InGame;
         }
