@@ -24,7 +24,7 @@ namespace Base_Building_Game
         /// THe class representing the men.
         /// </summary>
         public class Men : IActiveEntity
-        {
+        { 
             public Vector2 pos { get; set; }
             public Item? heldItem {get; set; } = null;
             public Item? targetedItem { get; set; } = null;
