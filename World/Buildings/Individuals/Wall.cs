@@ -21,7 +21,7 @@ namespace Base_Building_Game
             };
 
 
-            public Func<Tile, bool> Connections { get; } = (Tile tile) => tile.building is not null && tile.building.ID == (short)BuildingID.Wall;
+            public Func<Tile, bool> Connections { get; } = (Tile tile) => (tile.building is not null && tile.building.ID == (short)BuildingID.Wall) || (tile.ID == (short)TileID.Cliff);
 
 
             public IntPtr connectionImage 
