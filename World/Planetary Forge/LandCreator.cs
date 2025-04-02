@@ -42,7 +42,6 @@ namespace Base_Building_Game.WorldGen.LandGen
                 {
 
 
-
                     float value = 2 * map.GetValue(x, y) / map.PerlinWidth;
 
                     value += 0.5f * subMap1.GetValue(x, y) / subMap1.PerlinWidth;
@@ -93,6 +92,13 @@ namespace Base_Building_Game.WorldGen.LandGen
                 for (int y = 0; y < Base_Building_Game.General.SectorSize; y++)
                 {
                     float value = data[x, y];
+
+                    if (RoughSum(new IVect(Base_Building_Game.General.SectorSize / 2, Base_Building_Game.General.SectorSize / 2), new IVect(x, y)) < 8)
+                    {
+                        sector[x, y] = new Base_Building_Game.General.Tile(Base_Building_Game.General.TileID.Grass);
+                        continue;
+                    }
+
                     // TODO: try doing some dy/dx stuff to get the uhhhh the uhhhhhhhhhhh cliffs and stuff
                     #region SelectTileType
 
