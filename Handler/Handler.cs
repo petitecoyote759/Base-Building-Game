@@ -192,6 +192,15 @@ namespace Base_Building_Game
 
                         break;
 
+                    case SDL_Keycode.SDLK_F3:
+
+                        if (down)
+                        {
+                            settings.Profiling = !settings.Profiling;
+                        }
+
+                        break;
+
 
 
 

@@ -59,6 +59,7 @@ namespace Base_Building_Game
                     return;
                 }
 
+                profiler.StartProfile("Draw UI");
                 if (Initialising)
                 {
                     DrawInitMenu();
@@ -93,6 +94,7 @@ namespace Base_Building_Game
                         }
                     }
                 }
+                profiler.EndProfile("Draw UI");
 
                 RenderDraw();
             }

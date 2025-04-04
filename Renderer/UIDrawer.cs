@@ -104,11 +104,59 @@ namespace Base_Building_Game
 
                 if (settings.Debugging)
                 {
-                    Write(0, 0, 50, 50, $"({(int)player.pos.X}, {(int)player.pos.Y})");
-                    Write(0, 60, 50, 50, (player.SectorPos).ToString());
+                    Write(20, 20, 30, 30, $"({(int)player.pos.X}, {(int)player.pos.Y})");
+                    Write(20, 55, 30, 30, (player.SectorPos).ToString());
                 }
                 #endregion Hotbar
 
+
+
+                #region Profiler
+                if (settings.Profiling)
+                {
+                    int pixelsPerFrameX = screenwidth / profiler.maxFrames;
+                    int frameHeight = 100;
+                    double largestFrameLength = 0;
+                    foreach (Frame frame in profiler.frames) { 
+                        if (frame.frameEnd - frame.frameStart > largestFrameLength) { largestFrameLength = frame.frameEnd - frame.frameStart; } 
+                    }
+                    double maxFrameDuration = Math.Max(500000, largestFrameLength);
+                    int pixelsPerMS = (int)(frameHeight / (maxFrameDuration / 10000));
+
+                    for (int f = 0; f < profiler.frames.Count; f++) {
+                        Frame frame = profiler.frames[f];
+                        int previousPx = 0;
+                        for (int p = 0; p < frame.profiles.Count; p++) {
+                            Profile profile = frame.profiles.Values.ToList()[p];
+                            if (profile.end != 0)
+                            {
+                                int height = (int)(pixelsPerMS * ((profile.end - profile.start)/10000));
+                                DrawRect(f * pixelsPerFrameX, previousPx, pixelsPerFrameX, height, profiler.colors[profile.name]);
+                                previousPx += height;
+                            }
+                        }
+                        int remainingHeight = (int)((maxFrameDuration/10000) * pixelsPerMS) - previousPx;
+                        if (remainingHeight != 0)
+                        {
+                            DrawRect(f * pixelsPerFrameX, previousPx, pixelsPerFrameX, remainingHeight, new SDL.SDL_Color() { r = 200, g = 200, b = 200, a = 150 });
+                        }
+                    }
+
+                    int startHeight = (int)((maxFrameDuration / 10000) * pixelsPerMS) + 20;
+
+                    Frame? currentFrame = profiler.frames.Last();
+                    if (currentFrame is not null)
+                    {
+                        for (int p = 0; p < currentFrame.profiles.Count; p++)
+                        {
+                            Profile thisProfile = currentFrame.profiles.Values.ToList()[p];
+                            DrawRect(20, startHeight, 15, 15, profiler.colors[thisProfile.name]);
+                            Write(50, startHeight, 20, 20, $"{thisProfile.name}: {(thisProfile.end - thisProfile.start)/10000}ms");
+                            startHeight += 30;
+                        }
+                    }
+                }
+                #endregion Profiler
 
 
 
