@@ -76,7 +76,7 @@ namespace Base_Building_Game
                             inventory (16 bits per item)
                             */
                             ThisExtraInfo.Append(extraData);
-                            debugger.AddLog($"Just saved some tile data, {extraData}, the actual inventory is {inventory.ToString()} and its come out as {Inventory.FromString(extraData.Substring(4))}");
+                            debugger.AddLog($"Just saved some tile data, {extraData}, the actual inventory is [{inventory.ToString()}] and its come out as [{Inventory.FromString(extraData.Substring(3))}]");
                         }
                     }
                 }

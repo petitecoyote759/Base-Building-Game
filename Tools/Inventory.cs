@@ -67,7 +67,7 @@ namespace Base_Building_Game
                 for (int i = 0; i < data.Length; i++)
                 {
                     char value = data[i];
-                    inventory.Items[(short)(enums.GetValue(i / 2) ?? ItemID.Error)] = (short)(((short)value) & 0b01111111_11111111);
+                    inventory.Items[(short)(enums.GetValue(i) ?? ItemID.Error)] = (short)(((short)value) & 0b01111111_11111111);
                 }
                 return inventory;
             }
@@ -81,7 +81,8 @@ namespace Base_Building_Game
 
                 foreach (KeyValuePair<short, short> pair in Items)
                 {
-                    builder.Append($"{Enum.GetName(typeof(ItemID), pair.Key)}: {pair.Value}\r");
+                    builder.Append($"{Enum.GetName(typeof(ItemID), pair.Key)}: {(int)pair.Value}");
+                    if (pair.Key != Items.Last().Key) { builder.Append(", "); }
                 }
 
                 return builder.ToString();
@@ -95,7 +96,7 @@ namespace Base_Building_Game
 
                 foreach (KeyValuePair<short, short> pair in Items)
                 {
-                    char value = (char)(((pair.Value & 0b01111111_11111111_00000000_00000000) | 0b10000000_00000000_00000000_00000000) >> 16); 
+                    char value = (char)(((pair.Value & 0b01111111_11111111) | 0b10000000_00000000)); 
                     // needs to have some value unfortuanely, so ima have to have the biggest bit gone.
                     builder.Append(value);
                 }
