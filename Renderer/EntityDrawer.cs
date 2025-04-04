@@ -21,6 +21,8 @@ namespace Base_Building_Game
         {
             public void DrawEntities()
             {
+                profiler.StartProfile("Draw Entities");
+
                 int zoom = renderer.zoom;
                 float px = player.camPos.X;
                 float py = player.camPos.Y;
@@ -135,6 +137,8 @@ namespace Base_Building_Game
                         DrawBP(activeEntity.pos.X - 0.1f, activeEntity.pos.Y - 0.25f, "Projectile2", zoom / 4, zoom / 4, bullet.angle);
                     }
                 }
+
+                profiler.EndProfile("Draw Entities");
             }
         }
     }

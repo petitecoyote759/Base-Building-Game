@@ -385,6 +385,7 @@ namespace Base_Building_Game
 
             IntPtr surfaceMessage = SDL_ttf.TTF_RenderText_Solid(Font, text, colour);
             IntPtr Message = SDL_CreateTextureFromSurface(SDLrenderer, surfaceMessage);
+            _ = SDL_ttf.TTF_SizeText(Font, text, out int w, out int h);
             Draw(posx, posy, (int)(width * text.Length * 0.75f), height, Message);
             SDL_DestroyTexture(Message);
             SDL_FreeSurface(surfaceMessage);

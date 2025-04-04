@@ -16,6 +16,8 @@ namespace Base_Building_Game
         {
             public void DrawPlayer()
             {
+                profiler.StartProfile("Draw Player");
+
                 foreach (Vector2 leg in player.Legs)
                 {
 
@@ -59,6 +61,7 @@ namespace Base_Building_Game
                 //    "Circle",
                 //    (int)(player.LegDist * zoom * 2), (int)(player.LegDist * zoom * 2));
 
+                profiler.EndProfile("Draw Player");
             }
         }
     }

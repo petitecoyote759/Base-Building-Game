@@ -27,6 +27,8 @@ namespace Base_Building_Game
         public static Debugger debugger = new Debugger("General", "Logs\\");
 #endif
 
+        public static Profiler.Profiler profiler = new Profiler.Profiler();
+
 
         public static Handler handler = new Handler();
         public static Player player = new Player();

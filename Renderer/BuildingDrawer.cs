@@ -32,7 +32,7 @@ namespace Base_Building_Game
                 int Top = (int)((py) - (halfscreenheight / zoom) - 4);
 
 
-
+                profiler.StartProfile("Draw Buildings");
 
                 for (int x = Left; x < Left + screenwidth / zoom + 8; x++)
                 {
@@ -87,6 +87,8 @@ namespace Base_Building_Game
 
                     }
                 }
+
+                profiler.EndProfile("Draw Buildings");
             }
 
 

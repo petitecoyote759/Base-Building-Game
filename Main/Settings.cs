@@ -12,7 +12,6 @@ namespace Base_Building_Game
         public class Settings : ShortSettings
         {
             public bool Debugging { get; set; } = false;
-            public bool Profiling { get; set; } = false;
             public bool Cheats { get; set; } = false;
             public float PlayerSpeed { get; set; } = 1f;
 

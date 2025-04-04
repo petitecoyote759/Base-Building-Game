@@ -6,11 +6,11 @@ using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Base_Building_Game
+namespace Base_Building_Game.Profiler
 {
     public class Profiler
     {
-        internal int maxFrames = 240;
+        internal int maxFrames = 120;
 
         internal List<Frame> frames = new();
         internal Frame? currentFrame;
@@ -20,7 +20,11 @@ namespace Base_Building_Game
         {
             new() { r = 255, g = 50, b = 50, a = 150 },
             new() { r = 50, g = 50, b = 255, a = 150 },
-            new() { r = 50, g = 255, b = 50, a = 150 }
+            new() { r = 50, g = 255, b = 50, a = 150 },
+            new() { r = 255, g = 255, b = 50, a = 150 },
+            new() { r = 50, g = 255, b = 255, a = 150 },
+            new() { r = 255, g = 50, b = 255, a = 150 },
+            new() { r = 255, g = 255, b = 255, a = 150 }
         };
 
         internal Profiler()
@@ -69,7 +73,16 @@ namespace Base_Building_Game
         {
             if (currentFrame is null) { return null; }
 
-            if (!colors.ContainsKey(name)) colors.Add(name, color ?? available_colors[colors.Count % available_colors.Count]);
+            if (!colors.ContainsKey(name)) {
+                SDL.SDL_Color col = color ?? available_colors[colors.Count % available_colors.Count];
+                if (color is null) {
+                    float multiplier = 1 - (0.2f * (colors.Count / available_colors.Count));
+                    col.r = (byte)(col.r * multiplier);
+                    col.g = (byte)(col.g * multiplier);
+                    col.b = (byte)(col.b * multiplier);
+                }
+                colors.Add(name, col);
+            } 
 
             Frame thisFrame = currentFrame;
 
@@ -90,7 +103,7 @@ namespace Base_Building_Game
             if (currentFrame is null) { return null; }
             Frame thisFrame = currentFrame;
 
-            if (thisFrame.profiles.TryGetValue(name, out Profile thisProfile))
+            if (thisFrame.profiles.TryGetValue(name, out Profile? thisProfile))
             {
                 thisProfile.end = DateTimeOffset.UtcNow.UtcTicks;
                 return thisProfile;
@@ -111,10 +124,5 @@ namespace Base_Building_Game
         internal string name;
         internal double start;
         internal double end;
-    }
-
-    public static partial class General
-    {
-        public static readonly Profiler profiler = new();
     }
 }
