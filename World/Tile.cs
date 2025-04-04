@@ -44,7 +44,7 @@ namespace Base_Building_Game
 
 
 
-            internal float altitude = 0f;
+            internal float altitude = 0f; // TODO: make this get loaded.
             internal Tile SetAlt(float altitude) { this.altitude = altitude; return this; }
 
 

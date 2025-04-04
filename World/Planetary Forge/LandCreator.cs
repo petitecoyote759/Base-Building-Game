@@ -95,7 +95,7 @@ namespace Base_Building_Game.WorldGen.LandGen
 
                     if (RoughSum(new IVect(Base_Building_Game.General.SectorSize / 2, Base_Building_Game.General.SectorSize / 2), new IVect(x, y)) < 8)
                     {
-                        sector[x, y] = new Base_Building_Game.General.Tile(Base_Building_Game.General.TileID.Grass);
+                        sector[x, y] = new Base_Building_Game.General.Tile(Base_Building_Game.General.TileID.Grass).SetAlt(value);
                         continue;
                     }
 
@@ -186,7 +186,9 @@ namespace Base_Building_Game.WorldGen.LandGen
                         if (new IVect(x - Base_Building_Game.General.SectorSize / 2, 
                             y - Base_Building_Game.General.SectorSize / 2).Mag() > mindistance)
                         {
+                            float alt = sector[x, y].altitude;
                             sector[x, y] = new Base_Building_Game.General.Tile(target);
+                            sector[x, y].altitude = alt;
                         }
                     }
                 }
