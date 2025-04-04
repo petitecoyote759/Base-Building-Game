@@ -46,6 +46,16 @@ namespace Base_Building_Game
                         {
                             DrawBP(x, px, y, py, TileImages[tile.ID], zoom, zoom);
                         }
+
+                        //  "Night Filter"
+                        const float altitudeRenderingMultiplier = 10f;
+
+                        float deltaAltitude = tile.altitude - world.GetTile(player.pos.X, player.pos.Y).altitude;
+                        float alphaStart = Math.Max(((5 - (deltaAltitude * altitudeRenderingMultiplier)) * 255f / 20f), 0);
+                        byte alpha = (byte)Math.Min(alphaStart, 255f);
+                        SDL2.SDL.SDL_SetTextureAlphaMod(images["Night Filter"], alpha);
+                        // 0 - 255, i want lower altitudes to be higher alpha. altitude goes from -10 -> 10, so to get to 0 -> 255 i need (10 - A) * 255 / 20
+                        DrawBP(x, px, y, py, images["Night Filter"], zoom, zoom);
                     }
                 }
             }

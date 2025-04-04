@@ -117,26 +117,26 @@ namespace Base_Building_Game.WorldGen.LandGen
                         data[x, y] > 1.2f // not water init
                         )
                     {
-                        sector[x, y] = new Base_Building_Game.General.Tile(Base_Building_Game.General.TileID.Cliff);
+                        sector[x, y] = new Base_Building_Game.General.Tile(Base_Building_Game.General.TileID.Cliff).SetAlt(value);
                     }
 
 
 
                     else if (value < -0.2f)
                     {
-                        sector[x, y] = new Base_Building_Game.General.Tile(Base_Building_Game.General.TileID.DeepOcean);
+                        sector[x, y] = new Base_Building_Game.General.Tile(Base_Building_Game.General.TileID.DeepOcean).SetAlt(value);
                     }
                     else if (value < 1.2f)
                     {
-                        sector[x, y] = new Base_Building_Game.General.Tile(Base_Building_Game.General.TileID.Ocean);
+                        sector[x, y] = new Base_Building_Game.General.Tile(Base_Building_Game.General.TileID.Ocean).SetAlt(value);
                     }
                     else if (value < 1.4f)
                     {
-                        sector[x, y] = new Base_Building_Game.General.Tile(Base_Building_Game.General.TileID.Sand);
+                        sector[x, y] = new Base_Building_Game.General.Tile(Base_Building_Game.General.TileID.Sand).SetAlt(value);
                     }
                     else
                     {
-                        sector[x, y] = new Base_Building_Game.General.Tile(Base_Building_Game.General.TileID.Grass);
+                        sector[x, y] = new Base_Building_Game.General.Tile(Base_Building_Game.General.TileID.Grass).SetAlt(value);
                     }
                     #endregion SelectTileType
                 }

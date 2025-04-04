@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Short_Tools;
+using static Base_Building_Game.General;
 using static Short_Tools.General;
 using IVect = Short_Tools.General.ShortIntVector2;
 
@@ -40,6 +41,12 @@ namespace Base_Building_Game
 
             public short ID;
             public Building? building;
+
+
+
+            internal float altitude = 0f;
+            internal Tile SetAlt(float altitude) { this.altitude = altitude; return this; }
+
 
             public Tile(bool random = false)
             {
@@ -161,7 +168,7 @@ namespace Base_Building_Game
             ushort Data = 0;
             Data += (ushort)((tile.building is null or Linker) ? 0 : tile.building.ID);
             Data += (ushort)(0 << 8); // Change to tile.floating at later point
-            Data += (ushort)(0 << 9); // Change to tile.friendly at later point
+            Data += (ushort)((tile.building?.friendly is true ? 1 : 0) << 9); // Change to tile.friendly at later point
             Data += (ushort)(tile.ID << 10);
             return (char)Data;
         }
