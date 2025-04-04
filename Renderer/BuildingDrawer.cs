@@ -78,9 +78,10 @@ namespace Base_Building_Game
                                     {
                                         string text =
                                             $"Friendly: {building.friendly}\r" +
-                                            $"Type: {Enum.GetName(typeof(BuildingID), building.ID)}";
+                                            $"Type: {Enum.GetName(typeof(BuildingID), building.ID)}\r" +
+                                            $"{(building.inventory is not null ? $"Inventory: {building.inventory.ToString()}" : "")}";
 
-                                        renderer.Write(bx, by, (int)(zoom / (float)text.Length) * 4, zoom / 4, text);
+                                        renderer.Write(bx, by, (int)(zoom / (float)text.Length) * 8, zoom / 4, text);
                                     }
                                 }
                             }

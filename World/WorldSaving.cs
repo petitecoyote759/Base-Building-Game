@@ -16,13 +16,17 @@ namespace Base_Building_Game
         {
             while (WaitingForWorldSave) { Thread.Sleep(5); }
 
+            debugger.AddLog($"World has been saved successfully");
             tempWorldName = worldname;
             WaitingForWorldSave = true;
         }
 
 
 
-
+        internal enum ExtraInfoType : short
+        {
+            Inventory = 1,
+        }
 
 
 
@@ -49,21 +53,38 @@ namespace Base_Building_Game
                 }
 
                 StringBuilder ThisMapData = new StringBuilder(); // String builder is faster than adding strings, learnt that after 30 minutes of debugging
-                string ThisExtraInfo = "";
+                StringBuilder ThisExtraInfo = new StringBuilder();
                 
                 for (int x = 0; x < S.map.GetLength(0); x++)
                 {
                     for (int y = 0; y < S.map.GetLength(1); y++)
                     {
                         ThisMapData.Append(ConvertTileToCharacter(S.map[x,y]));
-                       
+
+                        if (S.map[x, y]?.building?.inventory is not null)
+                        {
+                            Inventory inventory = S.map[x, y].building.inventory;
+                            string extraData =
+                                $"{(char)((short)ExtraInfoType.Inventory)}" +
+                                $"{(char)((short)x)}" + // 16 bits so 1 char
+                                $"{(char)((short)y)}" + // 16 bits so 1 char
+                                $"{inventory.ToDataString()}";
+                            /*
+                            type (16 bits)
+                            x (16 bits)
+                            y (16 bits)
+                            inventory (16 bits per item)
+                            */
+                            ThisExtraInfo.Append(extraData);
+                            debugger.AddLog($"Just saved some tile data, {extraData}, the actual inventory is {inventory.ToString()} and its come out as {Inventory.FromString(extraData.Substring(4))}");
+                        }
                     }
                 }
 
-                 SectorData[i / World.size, i % World.size] = new SectorJson() // Not an empty tile 👏
+                SectorData[i / World.size, i % World.size] = new SectorJson() // Not an empty tile 👏
                 {
                     MapData = ThisMapData.ToString(),
-                    ExtraInfo = ThisExtraInfo
+                    ExtraInfo = ThisExtraInfo.ToString()
                 };
             }
 

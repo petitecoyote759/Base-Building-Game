@@ -40,6 +40,7 @@ namespace Base_Building_Game
             {
                 this.pos = pos;
                 this.friendly = friendly;
+                inventory = new Inventory();
             }
         }
     }

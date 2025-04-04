@@ -16,7 +16,8 @@ namespace Base_Building_Game
             Wood = 1,
             Stone,
             Iron,
-            Diamond
+            Diamond,
+            Error = short.MaxValue
         }
 
 

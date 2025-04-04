@@ -51,7 +51,7 @@ namespace Base_Building_Game
                 // TODO list
                 /*
                   
-               Add item storage to the hub
+               Add item storage to the hub ✔️
                Add saving of that storage to the game file
                Add UI to show those resources
                Add costs to buildings if cheats off
@@ -176,6 +176,12 @@ namespace Base_Building_Game
                 if ((IVect)camp.pos == (IVect)this.pos)
                 {
                     LoadedEntities.Remove(heldItem);
+                    // TODO: add the whole adding this to the damn thingie.
+                    if (camp.friendly && General.player.hub is not null)
+                    {
+                        General.player.hub.inventory.AddItem(heldItem.ID);
+                    }
+
                     heldItem = null;
 
                     return true;

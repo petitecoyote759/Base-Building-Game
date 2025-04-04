@@ -17,7 +17,7 @@ namespace Base_Building_Game
         {
             public Vector2 pos { get; set; } = new Vector2();
             public Vector2 camPos = new Vector2();
-            public DropPod hub;
+            public DropPod hub { get; set; }
             public IVect SectorPos = new IVect((World.size + 1) / 2, (World.size + 1) / 2);
 
             public IVect? selectedTile = null;

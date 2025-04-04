@@ -63,6 +63,8 @@ namespace Base_Building_Game.Handlers
             { SDL_Keycode.SDLK_RIGHTBRACKET, "]" },
             { SDL_Keycode.SDLK_HASH, "#" },
             { SDL_Keycode.SDLK_SEMICOLON, ";" },
+            { SDL_Keycode.SDLK_PERIOD, "." },
+            { SDL_Keycode.SDLK_COMMA, "," },
         };
 
 
@@ -83,6 +85,9 @@ namespace Base_Building_Game.Handlers
             { "7", "&" },
             { "8", "*" },
             { "9", "(" },
+
+            { ",", "<" },
+            { ".", ">" },
         };
 
 
@@ -197,10 +202,52 @@ namespace Base_Building_Game.Handlers
 
         private static void RunCommand(string commandLine)
         {
-            if (commandLine == "/seed") { General.debugger.AddLog($"Seed: {General.world.seed}"); }
+            Action Command = commandLine.ToUpperInvariant() switch
+            {
+                "/SEED" => () => { General.debugger.AddLog($"Seed: {General.world.seed}"); },
 
-            if (commandLine == "/creative off") { General.settings.Cheats = false; }
-            if (commandLine == "/creative on") { General.settings.Cheats = true; }
+                "/CREATIVE OFF" => () => { General.settings.Cheats = false; },
+                "/CREATIVE ON" => () => { General.settings.Cheats = true; },
+
+                "/SAVE" => () => { General.ReqSaveWorld(General.renderer.worldName); },
+
+                _ => () => { }
+            };
+            Command();
+
+
+
+            if (commandLine.ToUpperInvariant().StartsWith("/SPEED ", StringComparison.InvariantCulture))
+            {
+                string[] sections = commandLine.Split(' ');
+
+                if (float.TryParse(sections[1], out float speed))
+                {
+                    General.settings.PlayerSpeed = speed;
+                    return;
+                }
+            }
+
+
+            if (commandLine.ToUpperInvariant().StartsWith("/TP ", StringComparison.InvariantCulture))
+            {
+                string[] sections = commandLine.Split(' ');
+
+                int x = 0;
+                int y = 0;
+
+                if (sections[1].StartsWith('~')) { x = (int)General.player.x; sections[1] = sections[1].Substring(1); }
+                if (sections[2].StartsWith('~')) { y = (int)General.player.y; sections[2] = sections[2].Substring(1); }
+
+                if (int.TryParse(sections[1], out int inX))
+                {
+                    if (int.TryParse(sections[2], out int inY))
+                    {
+                        General.player.pos = new System.Numerics.Vector2(inX + x, inY + y);
+                        return;
+                    }
+                }
+            }
         }
 
 

@@ -15,6 +15,8 @@ namespace Base_Building_Game
             public bool Cheats { get; set; } = false;
             public float PlayerSpeed { get; set; } = 1f;
 
+            public bool GenBuildings { get; set; } = false;
+
 
 
 

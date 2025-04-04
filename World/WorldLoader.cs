@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Drawing.Printing;
 using System.Linq;
 using System.Net;
 using System.Runtime.InteropServices;
@@ -101,7 +102,46 @@ namespace Base_Building_Game
                     hotbar.BuildBuilding(buildingID, i / SectorSize, i % SectorSize);
                 }
             }
+            player.hub = world[player.SectorPos.x, player.SectorPos.y][SectorSize / 2, SectorSize / 2].building as DropPod;
             AddLog("Loaded Buildings in active sector", Priority.DEBUG);
+
+
+            string extraInfo = sectorData.ExtraInfo;
+            for (int i = 0; i < extraInfo.Length;)
+            {
+                if (extraInfo[i] == (char)((short)ExtraInfoType.Inventory))
+                {
+                    /*
+                    type (16 bits)
+                    x (16 bits)
+                    y (16 bits)
+                    inventory (16 bits per item)
+                    */
+                    i++;
+                    int x = (short)extraInfo[i];
+                    i++;
+                    int y = (short)extraInfo[i];
+                    i++;
+                    string items = extraInfo.Substring(i, Enum.GetNames(typeof(ItemID)).Length);
+
+                    i += Enum.GetNames(typeof(ItemID)).Length;
+
+                    if (loadedSector[x, y]?.building is null) 
+                    { 
+                        debugger.AddLog($"Attempted to apply an inventory to a non-building at pos ({x}, {y}), breaking out of extra info application", Priority.ERROR);
+                        break;
+                    }
+
+                    if (loadedSector[x, y]?.building is DropPod)
+                    {
+                        Console.WriteLine();
+                    }
+
+                    loadedSector[x, y].building.inventory = Inventory.FromString(items);
+                }
+            }
+
+            AddLog("Added extra data to the tiles", Priority.DEBUG);
 
             world.sectors[activeSectorX, activeSectorY] = loadedSector;
             ActiveSector = loadedSector;
