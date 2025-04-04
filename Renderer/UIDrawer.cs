@@ -16,7 +16,7 @@ using System.Numerics;
 namespace Base_Building_Game
 {
     public static partial class General
-    {
+    {   
         public partial class Renderer
         {
             public void DrawUI()
@@ -90,6 +90,7 @@ namespace Base_Building_Game
 
                 #region Hotbar
                 // 356 x 38 def size, scaled upp to 712 x 76
+                profiler.StartProfile("Draw Hotbar");
                 Draw((screenwidth / 2) - (712 / 2), screenheight - 76, 712, 76, "Hotbar");
                 for (int i = 0; i < 10; i++)
                 {
@@ -100,15 +101,75 @@ namespace Base_Building_Game
 
                     Draw(halfscreenwidth - (712 / 2) + 70 * i + 4, screenheight - 70, 64, 64, BuildingImages[ID][Research[ID]]);
                 }
-
-
-                if (settings.Debugging)
-                {
-                    Write(0, 0, 50, 50, $"({(int)player.pos.X}, {(int)player.pos.Y})");
-                    Write(0, 60, 50, 50, (player.SectorPos).ToString());
-                }
+                profiler.EndProfile("Draw Hotbar");
                 #endregion Hotbar
 
+
+
+                #region Profiler
+                if (settings.Debugging)
+                {
+                    profiler.StartProfile("Draw Profiler");
+
+                    Write(20, 20, 30, 30, $"({(int)player.pos.X}, {(int)player.pos.Y})");
+                    Write(20, 55, 30, 30, (player.SectorPos).ToString());
+
+                    int pad = 20;
+
+                    int pixelsPerFrameX = screenwidth / profiler.maxFrames;
+                    int frameHeight = 100;
+                    double maxFrameDuration = 250000;
+                    int pixelsPerMS = (int)(frameHeight / (maxFrameDuration / 10000));
+
+                    for (int f = 0; f < profiler.frames.Count; f++) {
+                        Profiler.Frame frame = profiler.frames[f];
+                        int previousPx = 0;
+                        for (int p = 0; p < frame.profiles.Count; p++) {
+                            Profiler.Profile profile = frame.profiles.Values.ToList()[p];
+                            if (profile.end != 0)
+                            {
+                                int height = (int)(pixelsPerMS * ((profile.end - profile.start)/10000));
+                                if (height <= 0) continue;
+                                DrawRect(f * pixelsPerFrameX, screenheight-height-previousPx, pixelsPerFrameX, height, profiler.colors[profile.name]);
+                                previousPx += height;
+                            }
+                        }
+                    }
+
+                    int startHeight = screenheight - (int)((maxFrameDuration / 10000) * pixelsPerMS) - 20;
+
+                    Profiler.Frame? currentFrame = profiler.frames.Last();
+                    if (currentFrame is not null)
+                    {
+                        int framePad = 5;
+                        int frameCurrentX = 0;
+                        DrawRect(20, startHeight - 30, 300, 30, White);
+
+                        int maxProfileNameWidth = 0;
+                        foreach (string profileName in currentFrame.profiles.Keys) {
+                            int w = (int)(profileName.Length * 20 * 0.75f);
+                            if (w > maxProfileNameWidth) { maxProfileNameWidth = w; }
+                        }
+
+                        for (int p = 0; p < currentFrame.profiles.Count; p++)
+                        {
+                            Profiler.Profile thisProfile = currentFrame.profiles.Values.ToList()[currentFrame.profiles.Count - p - 1];
+
+                            int frameX = (int)(((300-framePad) / (currentFrame.frameEnd - currentFrame.frameStart)) * (thisProfile.end - thisProfile.start));
+                            DrawRect(pad + framePad + frameCurrentX, startHeight - 30 + framePad/2, frameX, 30 - framePad, profiler.colors[thisProfile.name]);
+                            frameCurrentX += frameX;
+
+                            int thisHeight = startHeight - 80 - (30 * p);
+                            DrawRect(pad, thisHeight + 2, 16, 16, profiler.colors[thisProfile.name]);
+                            DrawRect(pad, thisHeight + 2, frameX, 16, profiler.colors[thisProfile.name]);
+                            Write(pad + 30, thisHeight, 20, 20, $"{thisProfile.name}");
+                            Write(pad + 50 + maxProfileNameWidth, thisHeight, 20, 20, $"{Math.Round((thisProfile.end - thisProfile.start)/10000, 2)}ms");
+                        }
+                    }
+
+                    profiler.EndProfile("Draw Profiler");
+                }
+                #endregion Profiler
 
 
 

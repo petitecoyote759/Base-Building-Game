@@ -30,6 +30,8 @@ namespace Base_Building_Game
                 int Top = (int)((py) - (halfscreenheight / zoom) - 2);
                 // OPTIMISE: make it so it doesnt recalc every time 
 
+                profiler.StartProfile("Draw Map");
+
                 for (int x = Left; x < Left + screenwidth / zoom + 4; x++)
                 {
                     for (int y = Top; y < Top + screenheight / zoom + 4; y++)
@@ -61,6 +63,8 @@ namespace Base_Building_Game
                         DrawBP(x, px, y, py, images["Night Filter"], zoom, zoom);
                     }
                 }
+
+                profiler.EndProfile("Draw Map");
             }
         }
     }

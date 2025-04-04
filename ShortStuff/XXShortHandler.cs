@@ -92,6 +92,7 @@ namespace Base_Building_Game
         /// <param name="Running"> The running state of the app running the handler. </param>
         public void HandleInputs(ref bool Running)
         {
+            General.profiler.StartProfile("Handle Inputs");
             while (SDL_PollEvent(out SDL_Event e) == 1)
             {
                 switch (e.type)
@@ -124,6 +125,7 @@ namespace Base_Building_Game
                         break;
                 }
             }
+            General.profiler.EndProfile("Handle Inputs");
         }
 
 

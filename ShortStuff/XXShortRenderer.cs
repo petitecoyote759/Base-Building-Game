@@ -354,6 +354,16 @@ namespace Base_Building_Game
         }
 
 
+        public void DrawRect(int xPos, int yPos, int width, int height, SDL_Color color)
+        {
+            tRect.x = xPos; tRect.y = yPos;
+            tRect.w = width; tRect.h = height;
+            SDL_SetRenderDrawColor(SDLrenderer, color.r, color.g, color.b, color.a);
+            SDL_RenderFillRect(SDLrenderer, ref tRect);
+            
+        }
+
+
 
 
 
@@ -375,6 +385,7 @@ namespace Base_Building_Game
 
             IntPtr surfaceMessage = SDL_ttf.TTF_RenderText_Solid(Font, text, colour);
             IntPtr Message = SDL_CreateTextureFromSurface(SDLrenderer, surfaceMessage);
+            _ = SDL_ttf.TTF_SizeText(Font, text, out int w, out int h);
             Draw(posx, posy, (int)(width * text.Length * 0.75f), height, Message);
             SDL_DestroyTexture(Message);
             SDL_FreeSurface(surfaceMessage);
@@ -430,6 +441,8 @@ namespace Base_Building_Game
 
         private void Animate()
         {
+            General.profiler.StartProfile("Animate");
+
             List<General.Animation> ToRemove = new List<General.Animation>();
 
             General.Animation[] CurrentAnimations = animations.ToArray();
@@ -444,6 +457,8 @@ namespace Base_Building_Game
             {
                 animations.Remove(animation);
             }
+
+            General.profiler.EndProfile("Animate");
         }
 
 
@@ -631,6 +646,10 @@ namespace Base_Building_Game
             {
                 while (renderer.Running)
                 {
+                    profiler.EndProfile("Empty");
+                    profiler.EndFrame();
+                    profiler.StartFrame();
+
                     if (renderer.MainThreadIsWaiting)
                     {
                         renderer.CurrentLoadedImage = renderer.L(renderer.CurrentPath);
@@ -658,6 +677,8 @@ namespace Base_Building_Game
                     renderer.Animate();
                     renderer.Render();
                     renderer.dt = (int)GetDt(ref renderer.LFT);
+
+                    profiler.StartProfile("Empty");
                 }
             }
         }
