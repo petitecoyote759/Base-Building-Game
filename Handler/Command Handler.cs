@@ -201,6 +201,12 @@ namespace Base_Building_Game.Handlers
 
             if (commandLine == "/creative off") { General.settings.Cheats = false; }
             if (commandLine == "/creative on") { General.settings.Cheats = true; }
+
+            if (commandLine.StartsWith("/speed ", StringComparison.InvariantCultureIgnoreCase) &&
+                float.TryParse(commandLine.Split(' ').Last(), out float result))
+            {
+                General.settings.PlayerSpeed = result;
+            }
         }
 
 
