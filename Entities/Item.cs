@@ -35,7 +35,10 @@ namespace Base_Building_Game
             {
                 ID = id;
                 this.pos = pos;
-                LoadedEntities.Add(this);
+                lock (LoadedEntities)
+                {
+                    LoadedEntities.Add(this);
+                }
             }
         }
 

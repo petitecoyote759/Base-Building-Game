@@ -42,7 +42,10 @@ namespace Base_Building_Game
             {
                 this.pos = pos;
                 this.camp = camp;
-                LoadedActiveEntities.Add(this);
+                lock (LoadedActiveEntities)
+                {
+                    LoadedActiveEntities.Add(this);
+                }
             }
 
             [MethodImpl(MethodImplOptions.AggressiveOptimization)]
@@ -116,7 +119,11 @@ namespace Base_Building_Game
             {
                 //Returns all of the items in the loaded entities that are not currently being targeted, ordered by distance from the entity.
                 //This should be fixed soon, I dont like the issue that I brought up with M.
-                IEntity[] entities = LoadedEntities.ToArray();
+                IEntity[] entities;
+                lock (LoadedEntities)
+                {
+                    entities = LoadedEntities.ToArray();
+                }
                 Item[] items =  (from item in entities
                                 where item is not null
                                 where RoughDist(item.pos, pos) < MaxItemDist
@@ -161,7 +168,10 @@ namespace Base_Building_Game
             {
                 if ((IVect)camp.pos == (IVect)this.pos)
                 {
-                    LoadedEntities.Remove(heldItem);
+                    lock (LoadedEntities)
+                    {
+                        LoadedEntities.Remove(heldItem);
+                    }
                     heldItem = null;
 
                     return true;
@@ -233,7 +243,10 @@ namespace Base_Building_Game
                 pos = camp.pos;
                 if (heldItem is not null)
                 {
-                    LoadedEntities.Remove(heldItem);
+                    lock (LoadedEntities)
+                    {
+                        LoadedEntities.Remove(heldItem);
+                    }
                     heldItem.InExtractor = false;
                     targetedItem = null;
                     heldItem = null;
@@ -246,7 +259,10 @@ namespace Base_Building_Game
                     chargedMovement += speed * dt;
                     if (requiredDistance <= chargedMovement)
                     {
-                        LoadedEntities.Remove(targetedItem);
+                        lock (LoadedEntities)
+                        {
+                            LoadedEntities.Remove(targetedItem);
+                        }
                         targetedItem.InExtractor = false;
                         targetedItem = null;
                         // TODO: add the whole adding this to the damn thingie.

@@ -13,10 +13,15 @@ namespace Base_Building_Game
             public void Action(int dt);
         }
 
-        static List<IActiveEntity> LoadedActiveEntities = new List<IActiveEntity>();
+        static readonly List<IActiveEntity> LoadedActiveEntities = new List<IActiveEntity>();
         public static void RunActiveEntities(int dt)
         {
-            IActiveEntity[] tempActiveEntities = LoadedActiveEntities.ToArray();
+            IActiveEntity[] tempActiveEntities;
+
+            lock (LoadedActiveEntities)
+            {
+                tempActiveEntities = LoadedActiveEntities.ToArray();
+            }
             foreach (IActiveEntity entity in tempActiveEntities)
             {
                 if (entity is null) { continue; } // TODO: fix this, why on earth is it null???

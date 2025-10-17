@@ -25,9 +25,11 @@ namespace Base_Building_Game
                 float px = player.camPos.X;
                 float py = player.camPos.Y;
 
-
-
-                IEntity[] entities = LoadedEntities.ToArray();
+                IEntity[] entities;
+                lock (LoadedEntities)
+                {
+                    entities = LoadedEntities.ToArray();
+                }
                 //This returns all of the entities which are on the screen using LINQ. It orders them by distance from the player in order to give them rendering priority if there are too many entities.
                 IEntity[] entitiesToRender =
                     (from entity in entities

@@ -305,13 +305,16 @@ namespace Base_Building_Game
 
         public static bool IsOnBoat(float x, float y)
         {
-            foreach (Boat boat in (from entity in LoadedActiveEntities where entity is Boat select (Boat)entity).ToArray())
+            lock (LoadedActiveEntities)
             {
-                //if ((General.player.pos - boat.pos).MagSquared() > 200) { continue; }
-
-                if (IsPlayerWithinHitbox(boat, x, y))
+                foreach (Boat boat in (from entity in LoadedActiveEntities where entity is Boat select (Boat)entity).ToArray())
                 {
-                    return true;
+                    //if ((General.player.pos - boat.pos).MagSquared() > 200) { continue; }
+
+                    if (IsPlayerWithinHitbox(boat, x, y))
+                    {
+                        return true;
+                    }
                 }
             }
 

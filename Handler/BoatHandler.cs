@@ -50,33 +50,38 @@ namespace Base_Building_Game
 
                     IVect MPos = getMousePos();
 
-                    foreach (Boat boat in (from entity in LoadedActiveEntities where entity is Boat select (Boat)entity).ToArray())
+                    lock (LoadedActiveEntities)
                     {
-                        Vector2 blockMousePos = new Vector2(renderer.GetFBlockx(MPos.x), renderer.GetFBlocky(MPos.y));
-
-                        if (MathF.Abs(boat.pos.X - blockMousePos.X) < 0.5f &&
-                            MathF.Abs(boat.pos.Y - blockMousePos.Y) < 0.5f)
+                        foreach (Boat boat in (from entity in LoadedActiveEntities where entity is Boat select (Boat)entity).ToArray())
                         {
-                            boat.Pilot = player;
-                            player.boat = boat;
-                            player.turret = null;
-                            break;
+                            Vector2 blockMousePos = new Vector2(renderer.GetFBlockx(MPos.x), renderer.GetFBlocky(MPos.y));
+
+                            if (MathF.Abs(boat.pos.X - blockMousePos.X) < 0.5f &&
+                                MathF.Abs(boat.pos.Y - blockMousePos.Y) < 0.5f)
+                            {
+                                boat.Pilot = player;
+                                player.boat = boat;
+                                player.turret = null;
+                                break;
+                            }
                         }
                     }
 
 
-
-                    foreach (Turret turret in (from entity in LoadedActiveEntities where entity is Turret select (Turret)entity).ToArray())
+                    lock (LoadedActiveEntities)
                     {
-                        Vector2 blockMousePos = new Vector2(renderer.GetFBlockx(MPos.x), renderer.GetFBlocky(MPos.y));
-
-                        if (MathF.Abs(turret.pos.X - blockMousePos.X + 0.5f) < 0.5f &&
-                            MathF.Abs(turret.pos.Y - blockMousePos.Y + 0.5f) < 0.5f)
+                        foreach (Turret turret in (from entity in LoadedActiveEntities where entity is Turret select (Turret)entity).ToArray())
                         {
-                            turret.Pilot = player;
-                            player.boat = null;
-                            player.turret = turret;
-                            break;
+                            Vector2 blockMousePos = new Vector2(renderer.GetFBlockx(MPos.x), renderer.GetFBlocky(MPos.y));
+
+                            if (MathF.Abs(turret.pos.X - blockMousePos.X + 0.5f) < 0.5f &&
+                                MathF.Abs(turret.pos.Y - blockMousePos.Y + 0.5f) < 0.5f)
+                            {
+                                turret.Pilot = player;
+                                player.boat = null;
+                                player.turret = turret;
+                                break;
+                            }
                         }
                     }
 
@@ -95,7 +100,10 @@ namespace Base_Building_Game
                         {
                             Mturret.LastFireTime = DateTimeOffset.Now.ToUnixTimeMilliseconds();
                             Projectile bullet = new Projectile(Mturret.pos, Mturret.angle);
-                            LoadedActiveEntities.Add(bullet);
+                            lock (LoadedActiveEntities)
+                            {
+                                LoadedActiveEntities.Add(bullet);
+                            }
                         }
                     }
 
