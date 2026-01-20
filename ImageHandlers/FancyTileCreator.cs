@@ -55,13 +55,11 @@ namespace Base_Building_Game
         {
             IntPtr[] NewTImages = new IntPtr[256];
 
-
-#pragma warning disable CA1416 // getting upset that this only works on windows later than 6.1.
-            Bitmap bitmap = new Bitmap(path);
-
-            width = bitmap.Width;
-            height = bitmap.Height;
-#pragma warning restore CA1416
+            int hresult = SDL.SDL_QueryTexture(spriteSheet, out _, out _, out width, out height);
+            if (hresult != 0)
+            {
+                Console.WriteLine("SDL_QueryTexture Error: " + SDL.SDL_GetError());
+            }
 
             if (path == General.images["GrassSS"])
             {

@@ -161,7 +161,7 @@ namespace Base_Building_Game
 
                             int thisHeight = startHeight - 80 - (30 * p);
                             DrawRect(pad, thisHeight + 2, 16, 16, profiler.colors[thisProfile.name]);
-                            DrawRect(pad, thisHeight + 2, frameX, 16, profiler.colors[thisProfile.name]);
+                            DrawRect(pad + 16, thisHeight + 2, frameX, 16, profiler.colors[thisProfile.name]);
                             Write(pad + 30, thisHeight, 20, 20, $"{thisProfile.name}");
                             Write(pad + 50 + maxProfileNameWidth, thisHeight, 20, 20, $"{Math.Round((thisProfile.end - thisProfile.start)/10000, 2)}ms");
                         }
